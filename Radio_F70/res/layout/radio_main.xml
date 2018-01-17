@@ -11,7 +11,7 @@
     <RelativeLayout
         android:id="@+id/frequency_layout"
         android:layout_width="match_parent"
-        android:layout_height="237px"
+        android:layout_height="237dp"
         android:background="@drawable/bg_radio_shading" >
 
         <!-- 频段，频率，单位文字 -->
@@ -19,7 +19,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20px"
+            android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true" >
 
             <TextView
@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/white"
-                android:textSize="39px" />
+                android:textSize="34sp" />
 
             <TextView
                 android:id="@+id/text_curfreq"
@@ -37,7 +37,7 @@
                 android:layout_below="@id/text_fmam"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/white"
-                android:textSize="65px" />
+                android:textSize="57sp" />
 
             <TextView
                 android:id="@+id/text_mhz"
@@ -45,11 +45,11 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/text_curfreq"
                 android:layout_alignBottom="@id/text_curfreq"
-                android:layout_marginLeft="21px"
-                android:layout_marginBottom="12px"
+                android:layout_marginLeft="21dp"
+                android:layout_marginBottom="12dp"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/white"
-                android:textSize="29px" />
+                android:textSize="25sp" />
         </RelativeLayout>
 
         <!-- 左按钮 -->
@@ -79,22 +79,22 @@
         android:id="@+id/seekbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="230px"
+        android:layout_marginTop="230dp"
         android:background="@drawable/seekbar_bg" >
 
         <View
             android:id="@+id/sb_bg"
-            android:layout_width="625px"
-            android:layout_height="50px"
+            android:layout_width="625dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:background="@drawable/bg_seekbarbg_radio_fm2" />
 
         <SeekBar
             android:id="@+id/seekbar_fm"
-            android:layout_width="499px"
+            android:layout_width="499dp"
             android:layout_height="65dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="182px"
+            android:layout_marginLeft="182dp"
             android:progress="0"
             android:progressDrawable="@null"
             android:thumb="@drawable/thumb_radio"
@@ -102,9 +102,9 @@
 
         <SeekBar
             android:id="@+id/seekbar_am"
-            android:layout_width="512px"
+            android:layout_width="512dp"
             android:layout_height="65dp"
-            android:layout_marginLeft="183px"
+            android:layout_marginLeft="183dp"
             android:progress="0"
             android:progressDrawable="@null"
             android:thumb="@drawable/thumb_radio"
@@ -217,7 +217,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60px"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:gravity="bottom"
         android:background="@drawable/img_radio_bottom"
@@ -227,7 +227,7 @@
 
         <ImageButton
             android:id="@+id/btn_back"
-            android:layout_width="104px"
+            android:layout_width="102dp"
             android:layout_height="@dimen/bottom_bar_height"
             android:background="@drawable/btn_selector"
             android:contentDescription="@null"
@@ -257,7 +257,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="@string/band_switch"
                 android:textColor="@color/white"
-                android:textSize="22px" />
+                android:textSize="19sp" />
         </LinearLayout>
 
         <!-- 电台更新 -->
@@ -284,7 +284,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="@string/radio_update"
                 android:textColor="@color/white"
-                android:textSize="22px" />
+                android:textSize="19sp" />
         </LinearLayout>
 
         <!-- 电台预览 -->
@@ -294,7 +294,6 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/bottom_bar_height"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@drawable/btn_selector"
             android:gravity="center" >
@@ -311,7 +310,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="@string/radio_preview"
                 android:textColor="@color/white"
-                android:textSize="22px" />
+                android:textSize="19sp" />
         </LinearLayout>
     </LinearLayout>
 

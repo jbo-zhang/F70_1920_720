@@ -2,7 +2,7 @@
 <resources>
     
     <dimen name="btn_collection_height">85dp</dimen>
-    <dimen name="btn_collection_text_size">26px</dimen>
+    <dimen name="btn_collection_text_size">23sp</dimen>
     
     <dimen name="radio_list_height">570dp</dimen>
     <dimen name="text_size_normal">32sp</dimen>

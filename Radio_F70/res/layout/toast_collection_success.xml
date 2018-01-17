@@ -6,7 +6,7 @@
     <LinearLayout
         android:id="@+id/collection_success"
         android:layout_width="wrap_content"
-        android:layout_height="432px"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_collection_success"
         android:gravity="center" >
 

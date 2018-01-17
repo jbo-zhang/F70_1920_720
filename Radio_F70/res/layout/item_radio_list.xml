@@ -23,7 +23,7 @@
         android:layout_marginLeft="50dp"
         android:text="@string/initfreq"
         android:textColor="@color/blue"
-        android:textSize="22px" />
+        android:textSize="19sp" />
 
     <ImageView
         android:id="@+id/iv_collect_star"
