@@ -46,13 +46,12 @@ public class TempThumbDrable extends Drawable{
     @Override  
     public void setBounds(int left, int top, int right, int bottom) {  
     	Log.d(TAG, "left="+left +"top="+top +"right="+right +"bottom="+bottom);
-    	rectF = new RectF(left, top, right, bottom);
+    	rectF = new RectF(left, top, right + 5, bottom);
     	this.left = left ; 
     	this.top = top ;
     	this.right = right ;
     	this.bottom = bottom ;
-        super.setBounds(left, top, right, bottom);
-        
+        super.setBounds(left, top, right + 5 , bottom);
     }  
   
     @Override  
@@ -60,18 +59,18 @@ public class TempThumbDrable extends Drawable{
         canvas.drawBitmap(mBitmap, null, rectF, mPaint);
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
-        paint.setTextSize(25.0f);
-        canvas.drawText(temp, getBounds().centerX()-35, getBounds().centerY()+10, paint);
+        paint.setTextSize(60.0f);
+        canvas.drawText(temp, getBounds().centerX()- 90, getBounds().centerY()+20, paint);
     }  
   
     @Override  
     public int getIntrinsicWidth() {  
-        return mBitmap.getWidth();  
+        return mBitmap.getWidth() + 20 + 20 + 10 + 10 + 6;  
     }  
   
     @Override  
     public int getIntrinsicHeight() {  
-        return mBitmap.getHeight();  
+        return mBitmap.getHeight() + 20;  
     }  
   
     @Override  

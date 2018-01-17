@@ -475,7 +475,9 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 	private void sendACKeyEvent(int code, int status) {
 		try {
 			Log.d(TAG, "before write code = " + code + " status = " + status);
-			mCanbusService.writeACControl(code, status);
+			if(mCanbusService != null) {
+				mCanbusService.writeACControl(code, status);
+			}
 			Log.d(TAG, "after write code = " + code + " status = " + status);
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -495,7 +497,6 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 		}
 	};
 	
-	
 	private ACStatus mACStatus;
 
 	/**
@@ -505,7 +506,9 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 
 		ACStatus status = null;
 		try {
-			status = mCanbusService.getLastACStatus(getPackageName());
+			if(mCanbusService != null) {
+				status = mCanbusService.getLastACStatus(getPackageName());
+			}
 			Log.e(TAG, "status : " + status);
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -833,7 +836,9 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 	@Override
 	protected void onDestroy() {
 		try {
-			mCanbusService.removeACStatusListener(mACStatusListener);
+			if(mCanbusService != null) {
+				mCanbusService.removeACStatusListener(mACStatusListener);
+			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
