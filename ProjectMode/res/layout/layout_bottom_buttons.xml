@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:orientation="horizontal" >
+
+    <include layout="@layout/layout_back_button" />
+
+    <RadioGroup
+        android:id="@+id/program_navi"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+
+        <!-- 版本信息 -->
+
+        <RadioButton
+            android:id="@+id/version_info"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/soundcurrent_selector"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="@string/version_info"
+            android:textColor="@drawable/f70_radiotext_selector"
+            android:textSize="22px" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/setting_main_seperate" />
+
+        <!-- 升级 -->
+
+        <RadioButton
+            android:id="@+id/update"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/soundequalizer_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/update"
+            android:textColor="@drawable/f70_radiotext_selector"
+            android:textSize="22px" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/setting_main_seperate" />
+
+        <!-- 调试模式 -->
+
+        <RadioButton
+            android:id="@+id/debug_mode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/soundconpent_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/debug_mode"
+            android:textColor="@drawable/f70_radiotext_selector"
+            android:textSize="22px" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/setting_main_seperate" />
+
+        <!-- 系统参数 -->
+
+        <RadioButton
+            android:id="@+id/sys_param"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/soundconpent_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/system_profile"
+            android:textColor="@drawable/f70_radiotext_selector"
+            android:textSize="22px" />
+    </RadioGroup>
+
+</LinearLayout>

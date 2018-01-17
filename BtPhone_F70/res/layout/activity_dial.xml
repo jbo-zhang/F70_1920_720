@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hwatong="http://schemas.android.com/apk/res/com.hwatong.btphone.ui"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/ll_botton_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_btn_height"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/botton_bar_bg"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/iv_return"
+                style="@style/style_botton_return"
+                android:layout_weight="0.3" />
+
+            <RelativeLayout
+                android:id="@+id/btn_goto_call_log"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/botton_btn_selector" >
+
+                <com.hwatong.btphone.ui.DrawableTextView
+                    android:id="@+id/dtv_goto_call_log"
+                    style="@style/style_bottom_tab"
+                    android:drawableLeft="@drawable/icon_button_calllog_selector"
+                    android:text="@string/tab_call_log"
+                    hwatong:drawableHeight="@dimen/bottom_btn_drawableheight"
+                    hwatong:drawableWidth="@dimen/bottom_btn_drawablewidth" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/btn_goto_contacts"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/botton_btn_selector" >
+
+                <com.hwatong.btphone.ui.DrawableTextView
+                    android:id="@+id/dtv_goto_contacts"
+                    style="@style/style_bottom_tab"
+                    android:drawableLeft="@drawable/icon_button_contacts_selector"
+                    android:text="@string/tab_contacts"
+                    hwatong:drawableHeight="@dimen/bottom_btn_drawableheight"
+                    hwatong:drawableWidth="@dimen/bottom_btn_drawablewidth" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/ll_botton_bar"
+            android:layout_marginBottom="13dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="13dp"
+            android:baselineAligned="true"
+            android:orientation="horizontal" >
+
+            <include
+                android:id="@+id/layout_dial_panel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                layout="@layout/dial_panel" />
+
+            <include
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                layout="@layout/bt_phone_dial_keyboard" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="@dimen/divide_line_width"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_divide_line" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+        
+            <!-- android:fastScrollEnabled="true" -->
+
+        <ListView
+            android:id="@+id/lv_call_log_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="#33333333"
+            android:dividerHeight="1px"
+            android:listSelector="@drawable/item_click_selector"
+            android:scrollbarTrackVertical="@drawable/listview_thumb_frame"
+            android:scrollbarThumbVertical="@drawable/listview_thumb"
+            android:scrollbarSize="8px"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:id="@+id/tv_nodata"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/no_data"
+            android:textSize="32sp"
+            android:visibility="gone" />
+    </FrameLayout>
+
+</LinearLayout>

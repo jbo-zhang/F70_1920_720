@@ -1,0 +1,92 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="MyTheme" parent="android:Theme.NoTitleBar">
+        <item name="android:windowAnimationStyle">@style/activity_anim_style</item>
+    </style>
+
+    <!-- 用于activity切换的动画 -->
+    <style name="activity_anim_style" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
+    </style>
+
+    <!-- 主界面的tab风格 -->
+    <style name="style_btphone_tab">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">142px</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">@dimen/bt_phone_tab_drawable_padding</item>
+        <item name="android:paddingBottom">@dimen/bt_phone_tab_padding</item>
+        <item name="android:layout_marginLeft">@dimen/bt_phone_tab_margin</item>
+        <item name="android:background">@drawable/activity_btphone_btn_selector</item>
+        <item name="android:textSize">@dimen/bt_phone_tab_textsize</item>
+        <item name="android:textColor">@color/activity_tab_textcolor</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <!-- 拨号、通讯录底部按钮的风格 -->
+    <style name="style_bottom_tab">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">@dimen/bottom_btn_textsize</item>
+      <!--   <item name="android:textColor">@color/bottom_text_color</item> -->
+        <item name="android:textColor">@color/text_color_selector</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:drawablePadding">@dimen/bottom_btn_drawablepadding</item>
+        <!-- <item name="android:background">@drawable/botton_btn_selector</item> -->
+    </style>
+
+    <style name="style_dial_keyboard_key">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/dial_key_textsize</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/dial_key_selector</item>
+    </style>
+
+    <!-- 通话记录界面底部按钮风格 -->
+    <style name="style_calllog_bottom_tab">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/bottom_text_color</item>
+        <item name="android:layout_marginLeft">1dp</item>
+        <item name="android:textSize">@dimen/bottom_btn_textsize</item>
+        <item name="android:background">@drawable/botton_btn_selector</item>
+    </style>
+
+    <!-- 底部返回键的风格 -->
+    <style name="style_botton_return">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/botton_btn_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:src">@drawable/btn_return</item>
+    </style>
+
+    <!-- 通讯录界面，键盘弹框的动画 -->
+    <style name="style_anim_keyboard_popup_windows" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/anim_windows_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_windows_out</item>
+    </style>
+
+    <style name="style_mydialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+       <!--  <item name="android:background">@drawable/dialog_bg</item> -->
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+</resources>

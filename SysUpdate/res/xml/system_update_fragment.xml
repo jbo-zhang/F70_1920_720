@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+
+        <ImageView
+            android:layout_width="542dp"
+            android:layout_height="267dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/uudata_bg"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/message_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/check_for_upgrade"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/version_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_below="@+id/message_text_view"
+            android:layout_marginTop="45dp"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/progress_bg"
+            android:contentDescription="@null" />
+
+        <ProgressBar
+            android:id="@+id/download_progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="502dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="105dp"
+            android:maxHeight="18dip"
+            android:minHeight="18dip"
+            android:progressDrawable="@drawable/media_seekbar_time"
+            android:thumb="@drawable/seekbar_p"
+            android:thumbOffset="0dip" />
+
+        <Button
+            android:id="@+id/upgrade_button"
+            android:layout_width="186dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="210dp"
+            android:background="#313134"
+            android:text="@string/upgrade" />
+        
+        <Button
+            android:id="@+id/bt_quit"
+            android:layout_width="186dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="210dp"
+            android:layout_marginTop="210dp"
+            android:background="#313134"
+            android:text="@string/quit" />
+        
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,203 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#080808"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" >
+
+        <ImageButton
+            android:id="@+id/btn_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/btn_back_selector"
+            android:src="@drawable/btn_return" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="60dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <include
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            layout="@layout/vertical_seekbar" />
+        <!--
+        <TextView
+            android:id="@+id/tv_show_left_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/mintemp"
+            android:textColor="@color/temp_text_color"
+            android:textSize="26sp" />
+        -->
+
+        <LinearLayout
+            android:layout_width="500dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="80dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/layout_blower_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="11"
+                android:gravity="center" >
+
+                <com.hwatong.aircondition.IrregularImageView
+                    android:id="@+id/iv_blower_front"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/blower_front"
+                    android:visibility="visible" />
+
+                <com.hwatong.aircondition.IrregularImageView
+                    android:id="@+id/iv_blower_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/iv_blower_front"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="-90dp"
+                    android:background="@drawable/blower_up"
+                    android:visibility="visible" />
+
+                <com.hwatong.aircondition.IrregularImageView
+                    android:id="@+id/iv_blower_down"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_blower_front"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="-85dp"
+                    android:background="@drawable/blower_down"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/iv_people"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="-100dp"
+                    android:layout_toRightOf="@id/iv_blower_front"
+                    android:background="@drawable/icon_people" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_wind_big" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/btn_wind_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bt_switch_selector"
+                    android:clickable="true"
+                    android:drawableTop="@drawable/icon_wind"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:drawablePadding="-2dp"
+                    android:textSize="16px"
+                    android:text="@string/text_wind_off"
+                    android:textColor="@android:color/white" 
+                    android:tag="0"/>
+
+                <ImageView
+                    android:id="@+id/btn_wind_level_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1px"
+                    android:background="@drawable/wind_switch_selector"
+                    android:src="@drawable/wind_level_1"
+                    android:tag="1" />
+
+                <ImageView
+                    android:id="@+id/btn_wind_level_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1px"
+                    android:background="@drawable/wind_switch_selector"
+                    android:src="@drawable/wind_level_2"
+                    android:tag="2" />
+
+                <ImageView
+                    android:id="@+id/btn_wind_level_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1px"
+                    android:background="@drawable/wind_switch_selector"
+                    android:src="@drawable/wind_level_3"
+                    android:tag="3" />
+
+                <ImageView
+                    android:id="@+id/btn_wind_level_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1px"
+                    android:background="@drawable/wind_switch_selector"
+                    android:src="@drawable/wind_level_4"
+                    android:tag="4" />
+
+                <ImageView
+                    android:id="@+id/btn_wind_level_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1px"
+                    android:background="@drawable/wind_switch_selector"
+                    android:src="@drawable/wind_level_5"
+                    android:tag="5" />
+
+                <ImageView
+                    android:id="@+id/btn_wind_level_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1px"
+                    android:background="@drawable/wind_switch_selector"
+                    android:src="@drawable/wind_level_6"
+                    android:tag="6" />
+
+                <ImageView
+                    android:id="@+id/btn_wind_level_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1px"
+                    android:background="@drawable/wind_switch_selector"
+                    android:src="@drawable/wind_level_7"
+                    android:tag="7" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="128dp"
+            android:layout_marginTop="30dp"
+            layout="@layout/layout_right_button" />
+    </LinearLayout>
+
+</LinearLayout>

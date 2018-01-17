@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:id="@+id/collection_success"
+        android:layout_width="wrap_content"
+        android:layout_height="432px"
+        android:background="@drawable/bg_collection_success"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/collection_channel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/img_collection_success"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            android:text="@string/collection_success"
+            android:textColor="@color/white"
+            android:textSize="@dimen/btn_collection_text_size" />
+    </LinearLayout>
+
+</FrameLayout>

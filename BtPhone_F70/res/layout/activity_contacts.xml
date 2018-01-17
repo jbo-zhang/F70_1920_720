@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hwatong="http://schemas.android.com/apk/res/com.hwatong.btphone.ui"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:weightSum="3" >
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/ll_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_btn_height"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/botton_bar_bg" >
+
+            <ImageButton
+                android:id="@+id/iv_return"
+                style="@style/style_botton_return"
+                android:layout_weight="0.25" />
+
+            <RelativeLayout
+                android:id="@+id/btn_update_contacts"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/botton_btn_selector" >
+
+                <com.hwatong.btphone.ui.DrawableTextView
+                    android:id="@+id/dtv_update_contacts"
+                    style="@style/style_bottom_tab"
+                    android:drawableLeft="@drawable/update"
+                    android:text="@string/update"
+                    hwatong:drawableHeight="@dimen/bottom_btn_drawableheight"
+                    hwatong:drawableWidth="@dimen/bottom_btn_drawablewidth" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/btn_letter_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/botton_btn_selector" >
+
+                <com.hwatong.btphone.ui.DrawableTextView
+                    android:id="@+id/dtv_letter_search"
+                    style="@style/style_bottom_tab"
+                    android:drawableLeft="@drawable/letter_search"
+                    android:text="@string/letter_search"
+                    hwatong:drawableHeight="@dimen/bottom_btn_drawableheight"
+                    hwatong:drawableWidth="@dimen/bottom_btn_drawablewidth" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/ll_bottom_bar" >
+
+            <com.hwatong.btphone.ui.IndexableListView
+                android:id="@+id/ilv_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/background_dark"
+                android:cacheColorHint="@android:color/transparent"
+                android:divider="#33333333"
+                android:dividerHeight="1px"
+                android:scrollbars="none"
+                android:listSelector="@android:color/transparent"
+                android:paddingRight="50dp" >
+            </com.hwatong.btphone.ui.IndexableListView>
+
+            <TextView
+                android:id="@+id/tv_nodata"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/no_data"
+                android:textSize="32sp"
+                android:visibility="gone" />
+        </FrameLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="@dimen/divide_line_width"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_divide_line" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/activity_contacts_right_bg" />
+
+</LinearLayout>

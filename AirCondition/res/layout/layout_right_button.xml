@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/btn_front_defrost"
+        style="@style/style_right_btn"
+        android:drawableTop="@drawable/icon_front_defrost"
+        android:paddingTop="5dp"
+        android:text="@string/text_front_defrost" />
+
+    <TextView
+        android:id="@+id/btn_rear_defrost"
+        style="@style/style_right_btn"
+        android:layout_marginTop="@dimen/btn_margin"
+        android:drawableTop="@drawable/icon_rear_defrost"
+        android:paddingTop="5dp"
+        android:text="@string/text_rear_defrost" />
+
+    <TextView
+        android:id="@+id/btn_ac"
+        style="@style/style_right_btn"
+        android:layout_marginTop="@dimen/btn_margin"
+        android:drawableTop="@drawable/icon_air_condition"
+        android:text="@string/text_air_condition" />
+
+    <TextView
+        android:id="@+id/btn_loop"
+        style="@style/style_right_btn"
+        android:layout_marginTop="@dimen/btn_margin"
+        android:drawableTop="@drawable/icon_loop_in"
+        android:drawablePadding="0dp"
+        android:text="@string/text_loop_in" />
+
+    <TextView
+        android:id="@+id/btn_rear"
+        style="@style/style_right_btn"
+        android:layout_marginTop="@dimen/btn_margin"
+        android:drawableTop="@drawable/icon_rear"
+        android:paddingTop="15dp"
+        android:text="@string/text_rear_condition" />
+
+</LinearLayout>

@@ -1,0 +1,96 @@
+<resources>
+
+
+        <style name="MyTheme" parent="android:Theme.NoTitleBar">
+    	</style>
+    
+        
+        <!-- 底部返回键的风格 -->
+    <style name="style_botton_return">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/bottom_btn_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:src">@drawable/btn_return</item>
+    </style>
+    
+       <!-- 通话记录界面底部按钮风格 -->
+    <style name="style_calllog_bottom_tab">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_marginLeft">1dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:background">@drawable/bottom_btn_selector</item>
+    </style>
+    
+    <style name="version_info_item">
+        <item name="android:layout_marginTop">19px</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">19px</item>
+    </style>
+    
+    
+    <style name="update_item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">74px</item>
+        <item name="android:textSize">22px</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:paddingLeft">39px</item>
+    </style>
+    
+    <style name="debug_mode_layout_item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">74px</item>
+        <item name="android:paddingLeft">38px</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+
+    </style>
+    
+    <style name="debug_mode_tv_item">
+        <item name="android:layout_height">match_parent</item>	        
+        <item name="android:gravity">center_vertical</item>	        
+        <item name="android:textColor">@color/white</item>	        
+        <item name="android:layout_width">620px</item>	        
+        <item name="android:textSize">22px</item>	        
+    </style>
+    
+    
+    <!--自定义dialog背景全透明无边框theme -->  
+    <style name="my_dialog" parent="android:style/Theme.Dialog">  
+        <!--背景颜色及和透明程度-->  
+        <item name="android:windowBackground">@android:color/transparent</item>  
+        <!--是否去除标题 -->  
+        <item name="android:windowNoTitle">true</item>  
+        <!--是否去除边框-->  
+        <item name="android:windowFrame">@null</item>  
+        <!--是否浮现在activity之上-->  
+        <item name="android:windowIsFloating">true</item>  
+        <!--是否模糊-->  
+        <item name="android:backgroundDimEnabled">false</item>  
+    </style>  
+    
+    
+    <!-- f70开关样式 -->
+    <style name="SwitchButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+    
+    
+    
+        
+</resources>

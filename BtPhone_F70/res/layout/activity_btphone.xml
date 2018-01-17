@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:weightSum="3" >
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:background="@drawable/activity_btphone_bg"
+        android:paddingRight="@dimen/bt_phone_tab_margin_right"
+        android:paddingTop="@dimen/bt_phone_tab_margin_top" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="@dimen/bt_phone_tab_margin_left" >
+
+            <com.hwatong.btphone.ui.DrawableTextView
+                android:id="@+id/dtv_dial"
+                style="@style/style_btphone_tab"
+                android:drawableTop="@drawable/icon_dial"
+                android:text="@string/tab_dail" />
+
+            <com.hwatong.btphone.ui.DrawableTextView
+                android:id="@+id/dtv_contacts"
+                style="@style/style_btphone_tab"
+                android:drawableTop="@drawable/icon_contacts"
+                android:text="@string/tab_contacts" />
+
+            <com.hwatong.btphone.ui.DrawableTextView
+                android:id="@+id/dtv_call_log"
+                style="@style/style_btphone_tab"
+                android:drawableTop="@drawable/icon_calllog"
+                android:text="@string/tab_call_log" />
+        </LinearLayout>
+        
+        <ImageButton
+            android:id="@+id/btn_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/btn_back_selector"
+            android:src="@drawable/btn_return" />
+        
+    </RelativeLayout>
+
+    <View
+        android:layout_width="@dimen/divide_line_width"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_divide_line" />
+
+    <TextView 
+        android:id="@+id/tv_tip"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:paddingTop="280dp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/activity_btphone_right_bg" 
+        />
+
+</LinearLayout>

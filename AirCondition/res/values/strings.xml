@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">空调</string>
+    <string name="kongtiao">空调</string>
+    <string name="mintemp"> LO</string>
+    <string name="maxtemp">HI</string>
+    <string name="temp"><xliff:g id="t">%.1f</xliff:g> ℃</string>
+    <string name="tempf"><xliff:g id="f">%.1f</xliff:g>℉</string>
+    <string name="showtemp_c"> ℃</string>
+    <string name="showtemp_f"> ℉</string>
+    <string name="min_temp">16℃</string>
+    <string name="max_temp">32℃</string>
+    
+
+    <string name="text_front_defrost">前</string>
+    <string name="text_rear_defrost">后</string>
+    <string name="text_air_condition">空调</string>
+    <string name="text_loop_in">内循环</string>
+    <string name="text_loop_out">外循环</string>
+    <string name="text_loop_auto">自动循环</string>
+    <string name="text_rear_condition">后空调</string>
+    <string name="text_wind_off">OFF</string>
+    <string name="text_wind_on">ON</string>
+    
+
+  
+</resources>

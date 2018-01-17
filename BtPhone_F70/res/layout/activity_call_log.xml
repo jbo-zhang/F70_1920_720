@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="true"
+    android:orientation="horizontal"
+    android:weightSum="3" >
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/ll_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_btn_height"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/botton_bar_bg"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/iv_return"
+                style="@style/style_botton_return"
+                android:layout_weight="0.5" />
+
+            <TextView
+                android:id="@+id/tv_update_log"
+                style="@style/style_calllog_bottom_tab"
+                android:text="@string/update" />
+
+            <TextView
+                android:id="@+id/tv_log_miss"
+                style="@style/style_calllog_bottom_tab"
+                android:text="@string/log_miss" />
+
+            <TextView
+                android:id="@+id/tv_log_out"
+                style="@style/style_calllog_bottom_tab"
+                android:text="@string/log_out" />
+            
+             <TextView
+                android:id="@+id/tv_log_in"
+                style="@style/style_calllog_bottom_tab"
+                android:text="@string/log_in" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/ll_bottom_bar" >
+
+            <com.hwatong.btphone.ui.PopItemButtonListView
+                android:id="@+id/lv_call_log"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/background_dark"
+                android:cacheColorHint="@android:color/transparent"
+                android:divider="#33333333"
+                android:dividerHeight="1px"
+                android:listSelector="@android:color/transparent"
+                android:scrollbarTrackVertical="@drawable/listview_thumb_frame"
+                android:scrollbarSize="8px"
+            	android:scrollbarThumbVertical="@drawable/listview_thumb" >
+            </com.hwatong.btphone.ui.PopItemButtonListView>
+
+            <TextView
+                android:id="@+id/tv_nodata"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/no_data"
+                android:textSize="32sp"
+                android:visibility="gone" />
+        </FrameLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="@dimen/divide_line_width"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_divide_line" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/activity_calllog_right_bg" />
+
+</LinearLayout>

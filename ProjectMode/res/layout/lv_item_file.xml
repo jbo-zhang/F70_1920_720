@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+ <LinearLayout style="@style/debug_mode_layout_item" >
+
+        <TextView
+            android:id="@+id/tv_item_name"
+            style="@style/debug_mode_tv_item"
+            android:singleLine="true"
+            android:text="@string/tbox_logs" />
+
+        <Button
+                android:id="@+id/bt_item_update"
+                style="@style/SwitchButtonStyle"
+                android:layout_marginRight="56dp"
+                android:layout_marginLeft="25dp"
+                android:textSize="22px"
+                android:background="@drawable/button_selector"
+                android:text="@string/choose" />
+    </LinearLayout>
+    
+    
+</LinearLayout>
+
+

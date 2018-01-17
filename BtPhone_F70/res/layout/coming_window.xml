@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+   >
+
+    <ImageView
+        android:id="@+id/iv_talking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_dial_people"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
+    
+    <FrameLayout
+        android:id="@+id/fl_coming"
+        android:layout_width="599px"
+        android:layout_height="216px"
+        android:background="#dd3c3c3c"
+        >
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="38px"
+            android:textSize="25px" />
+
+        <TextView
+            android:id="@+id/tv_calling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="68px"
+            android:text="@string/coming_now"
+            android:textSize="25px" />
+
+        <FrameLayout
+            android:id="@+id/fl_accept"
+            android:layout_width="190px"
+            android:layout_height="63px"
+            android:layout_marginLeft="108px"
+            android:layout_marginTop="131px"
+            android:background="@drawable/call_selector"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="28px"
+                android:layout_height="28px"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="3px"
+                android:src="@drawable/icon_call" />
+
+            <TextView
+                android:id="@+id/tv_accept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="33px"
+                android:text="@string/accept"
+                android:textColor="#ffffff"
+                android:textSize="19px" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_reject"
+            android:layout_width="190px"
+            android:layout_height="63px"
+            android:layout_marginLeft="301px"
+            android:layout_marginTop="131px"
+            android:background="@drawable/hand_up_selector"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="28px"
+                android:layout_height="28px"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="3px"
+                android:src="@drawable/icon_hand_up" />
+
+            <TextView
+                android:id="@+id/tv_reject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="33px"
+                android:text="@string/reject"
+                android:textColor="#ffffff"
+                android:textSize="19px" />
+        </FrameLayout>
+    </FrameLayout>
+   </FrameLayout>

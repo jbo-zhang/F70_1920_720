@@ -1,0 +1,60 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Holo">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:listViewStyle">@style/Widget.ListView.Custom</item>
+        <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="android:windowBackground">@drawable/background</item>
+    </style>
+
+    <style name="MyTheme" parent="android:style/Theme.Holo.Wallpaper.NoTitleBar"></style>
+
+    <style name="MyNoTitle" parent="android:style/Theme.Black.NoTitleBar"></style>
+
+    <style name="Widget.ListView.Custom" parent="android:style/Widget.Holo.ListView">
+        <item name="android:divider">@drawable/preference_divider</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:drawSelectorOnTop">false</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:listPreferredItemHeight">48dp</item>
+        <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
+    </style>
+
+    <style name="ActionBar" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:titleTextStyle">@style/titleTextAppearance</item>
+        <item name="android:background">@drawable/ab_transparent_dark_holo</item>
+    </style>
+
+    <style name="titleTextAppearance" parent="android:TextAppearance">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/title_color</item>
+    </style>
+
+    <style name="dialogWindowTitle">
+        <item name="android:maxLines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textAppearance">@style/dialogTitleTextAppearance</item>
+    </style>
+
+    <style name="dialogTitleTextAppearance" parent="android:TextAppearance">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/dialog_title_color</item>
+    </style>
+
+</resources>

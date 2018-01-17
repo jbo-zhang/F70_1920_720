@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/radio_search_layout"
+    android:layout_width="424px"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_radio_update"
+    android:orientation="vertical" >
+
+    <ProgressBar
+        android:id="@+id/loading_img"
+        android:layout_width="60px"
+        android:layout_height="60px"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:indeterminateDrawable="@drawable/progress_medium" />
+
+    <TextView
+        android:id="@+id/txt_radio_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="10px"
+        android:text="@string/search_radio"
+        android:textColor="@android:color/white"
+        android:textSize="30px" />
+
+</LinearLayout>

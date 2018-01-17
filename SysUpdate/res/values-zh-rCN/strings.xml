@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">系统升级</string>
+
+    <string name="upgrade">升级</string>
+    <string name="check_for_upgrade">正在检查</string>
+    <string name="error_package_verify_failed">升级包校验失败</string>
+    <string name="error_package_install_failed">升级包安装失败</string>
+    <string name="download_upgrade_package">正在拷贝升级包</string>
+    <string name="copy_upgrade_package">正在拷贝升级包</string>
+    <string name="error_server_no_package">服务器未发现升级包</string>
+    <string name="error_write_file">写入文件失败</string>
+    <string name="error_image_file">Error: 错误的升级包</string>
+    <string name="verify_package">正在校验升级包</string>
+    <string name="have_new">发现升级包</string>
+    <string name="length_unknown">Unknown</string>
+    <string name="size">Size </string>
+    <string name="version">Version</string>
+    <string name="full_version">Description</string>
+    <string name="error_needs_wifi">Error: 需要连接wifi</string>
+    <string name="error_cannot_connect_server">Error: 无法连接到服务器</string>
+    <string name="already_up_to_date">\n已经是最新的版本</string>
+
+    <string name="system_upgrade_title">"System update"</string>
+    <string name="cpu_info_title">"Processor"</string>
+    <string name="cpu_info">"i.MX6&#8211;4 ARM Cortex&#8211;A9 CPU"</string>
+    <string name="software_coding">"Software coding"</string>
+    <string name="software_version">"Software version"</string>
+    <string name="hardware_version">"CANBUS version"</string> 
+    <string name="select_file">"选择一个升级包"</string>
+    <string name="notfound">"没有发现可使用的升级包."</string> 
+    <string name="quit">"退出"</string> 
+    
+    <string name="error_mmc_size_not_match">Error: MMC 大小不匹配！</string>
+    
+</resources>

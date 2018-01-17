@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/radiomain_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Radio" >
+
+    <!-- 频率文字与左右按钮 -->
+
+    <RelativeLayout
+        android:id="@+id/frequency_layout"
+        android:layout_width="match_parent"
+        android:layout_height="237px"
+        android:background="@drawable/bg_radio_shading" >
+
+        <!-- 频段，频率，单位文字 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_centerHorizontal="true" >
+
+            <TextView
+                android:id="@+id/text_fmam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:textSize="39px" />
+
+            <TextView
+                android:id="@+id/text_curfreq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_fmam"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:textSize="65px" />
+
+            <TextView
+                android:id="@+id/text_mhz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/text_curfreq"
+                android:layout_alignBottom="@id/text_curfreq"
+                android:layout_marginLeft="21px"
+                android:layout_marginBottom="12px"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:textSize="29px" />
+        </RelativeLayout>
+
+        <!-- 左按钮 -->
+
+        <Button
+            android:id="@+id/btn_pre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:background="@drawable/btn_pre_selector" />
+        <!-- 右按钮 -->
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/btn_next_selector" />
+    </RelativeLayout>
+
+    <!-- seekbar 与 左右按钮 -->
+
+    <FrameLayout
+        android:id="@+id/seekbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="230px"
+        android:background="@drawable/seekbar_bg" >
+
+        <View
+            android:id="@+id/sb_bg"
+            android:layout_width="625px"
+            android:layout_height="50px"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_seekbarbg_radio_fm2" />
+
+        <SeekBar
+            android:id="@+id/seekbar_fm"
+            android:layout_width="499px"
+            android:layout_height="65dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="182px"
+            android:progress="0"
+            android:progressDrawable="@null"
+            android:thumb="@drawable/thumb_radio"
+            android:thumbOffset="0dp" />
+
+        <SeekBar
+            android:id="@+id/seekbar_am"
+            android:layout_width="512px"
+            android:layout_height="65dp"
+            android:layout_marginLeft="183px"
+            android:progress="0"
+            android:progressDrawable="@null"
+            android:thumb="@drawable/thumb_radio"
+            android:thumbOffset="0dp" />
+
+        <Button
+            android:id="@+id/btn_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/btn_freq_down_selector" />
+
+        <Button
+            android:id="@+id/btn_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/btn_freq_up_selector" />
+    </FrameLayout>
+
+    <!-- 6个收藏按钮 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seekbar_layout"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+
+        <TextView
+            android:id="@+id/btn_collect1"
+            style="@style/collection_button"
+            android:text="@string/collection1" />
+
+        <TextView
+            android:id="@+id/btn_collect2"
+            style="@style/collection_button"
+            android:text="@string/collection2" />
+
+        <TextView
+            android:id="@+id/btn_collect3"
+            style="@style/collection_button"
+            android:text="@string/collection3" />
+
+        <TextView
+            android:id="@+id/btn_collect4"
+            style="@style/collection_button"
+            android:text="@string/collection4" />
+
+        <TextView
+            android:id="@+id/btn_collect5"
+            style="@style/collection_button"
+            android:text="@string/collection5" />
+
+        <TextView
+            android:id="@+id/btn_collect6"
+            style="@style/collection_button"
+            android:tag="6"
+            android:text="@string/collection6" />
+    </LinearLayout>
+
+    <!-- 6个预设按钮 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seekbar_layout"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/btn_collect01"
+            style="@style/collection_button_copy"
+            android:text="@string/collection1" />
+
+        <TextView
+            android:id="@+id/btn_collect02"
+            style="@style/collection_button_copy"
+            android:text="@string/collection2" />
+
+        <TextView
+            android:id="@+id/btn_collect03"
+            style="@style/collection_button_copy"
+            android:text="@string/collection3" />
+
+        <TextView
+            android:id="@+id/btn_collect04"
+            style="@style/collection_button_copy"
+            android:text="@string/collection4" />
+
+        <TextView
+            android:id="@+id/btn_collect05"
+            style="@style/collection_button_copy"
+            android:text="@string/collection5" />
+
+        <TextView
+            android:id="@+id/btn_collect06"
+            style="@style/collection_button_copy"
+            android:text="@string/collection6" />
+    </LinearLayout>
+
+    <!-- 底部功能按钮 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60px"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:background="@drawable/img_radio_bottom"
+        android:orientation="horizontal" >
+
+        <!-- 返回 -->
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="104px"
+            android:layout_height="@dimen/bottom_bar_height"
+            android:background="@drawable/btn_selector"
+            android:contentDescription="@null"
+            android:src="@drawable/system_main_back" />
+
+        <!-- 波段切换 -->
+
+        <LinearLayout
+            android:id="@+id/btn_band_switch"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bottom_bar_height"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_selector"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:src="@drawable/img_band_switch" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="@string/band_switch"
+                android:textColor="@color/white"
+                android:textSize="22px" />
+        </LinearLayout>
+
+        <!-- 电台更新 -->
+
+        <LinearLayout
+            android:id="@+id/btn_radio_update"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bottom_bar_height"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_selector"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:src="@drawable/img_radio_update" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="@string/radio_update"
+                android:textColor="@color/white"
+                android:textSize="22px" />
+        </LinearLayout>
+
+        <!-- 电台预览 -->
+
+        <LinearLayout
+            android:id="@+id/btn_radio_preview"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bottom_bar_height"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_selector"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:src="@drawable/img_radio_preview" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="@string/radio_preview"
+                android:textColor="@color/white"
+                android:textSize="22px" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

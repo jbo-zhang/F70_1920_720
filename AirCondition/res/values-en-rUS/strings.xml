@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Air Condition</string>
+    <string name="kongtiao">Air Condition</string>
+    <string name="mintemp"> LO</string>
+    <string name="maxtemp">HI</string>
+    <string name="temp"><xliff:g id="t">%.1f</xliff:g> ℃</string>
+    <string name="tempf"><xliff:g id="f">%.1f</xliff:g>℉</string>
+    <string name="showtemp_c"> ℃</string>
+    <string name="showtemp_f"> ℉</string>
+    <string name="min_temp">16℃</string>
+    <string name="max_temp">32℃</string>
+    
+
+    <string name="text_front_defrost">Front</string>
+    <string name="text_rear_defrost">Rear</string>
+    <string name="text_air_condition">AC</string>
+    <string name="text_loop_in">Recirc</string>
+    <string name="text_loop_out">OutRecirc</string>
+    <string name="text_loop_auto">AutoRecirc</string>
+    <string name="text_rear_condition">RearClima</string>
+    <string name="text_wind_off">OFF</string>
+    <string name="text_wind_on">ON</string>
+    
+
+  
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="tab_txt_hl">#21cecf</color>
+    <color name="tab_txt_gray">#80807d</color>
+    <color name="txt_hl">#00fffd</color>
+    <color name="log_txt_gray">#234b5d</color>
+    <color name="log_txt_red">#e60311</color>
+    <color name="call_txt_hl">#01fffc</color>
+    
+    <color name="activity_tab_textcolor_gray">#808080</color>
+    <color name="activity_tab_textcolor">#FFFFFF</color>
+    
+    <color name="dark_gray_alpha50">#7D696969</color>
+    <color name="light_gray_alpha50">#7DCFCFCF</color>
+    
+    <color name="call_green_press">#50F391</color>
+    <color name="call_green_normal">#000000</color>
+    
+    <color name="hand_up_press">#F8532A</color>
+    
+    <color name="btn_no_pressed">#303030</color>
+    <color name="btn_pressed">#A80018</color>
+    
+    <!-- 通讯录一通话记录列表字体颜色 -->
+    <color name="item_text_color">#717171</color>
+    
+    <color name="bottom_text_color">#FFFFFF</color>
+    
+    <color name="white">#FFFFFF</color>
+    
+    <color name="gray">#7a7a7a</color>
+    
+
+</resources>

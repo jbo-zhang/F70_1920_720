@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:id="@+id/tv_system_update"
+        style="@style/update_item"
+        android:text="@string/system_update"
+        />
+     <View 
+        android:layout_height="1px"
+        android:layout_width="807px"
+        android:background="@drawable/line"
+        />
+    
+    <TextView
+        android:id="@+id/tv_tbox_update"
+        style="@style/update_item"
+        android:text="@string/tbox_update"
+        />
+    
+    <View 
+        android:layout_height="1px"
+        android:layout_width="807px"
+        android:background="@drawable/line"
+        />
+    
+    <TextView
+        android:id="@+id/mx_update"
+        style="@style/update_item"
+        android:text="@string/mx_update"
+        />
+    
+    <View 
+        android:layout_height="1px"
+        android:layout_width="807px"
+        android:background="@drawable/line"
+        />   
+
+</LinearLayout>

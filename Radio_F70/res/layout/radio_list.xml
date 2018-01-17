@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/radio_list_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="right"
+    android:clickable="true"
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@+id/lv_radio_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:listSelector="@drawable/radio_list_item_selector"
+        android:scrollbarThumbVertical="@drawable/scrollbar_thumb"
+        android:scrollbarTrackVertical="@drawable/scrollbar_bg"
+        android:divider="#111111"
+        android:dividerHeight="2px"
+        android:scrollbars="vertical"
+        android:scrollingCache="false" >
+    </ListView>
+    
+      <TextView
+        android:id="@+id/tv_nochannel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="#999999"
+        android:text="@string/listdialognone"
+        android:background="@drawable/bg_radio_update"
+        android:visibility="gone"
+        android:textSize="24sp" />
+    
+
+</RelativeLayout>

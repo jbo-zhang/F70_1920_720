@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:paddingLeft="48px"
+    android:orientation="vertical" >
+    
+	<TextView
+        android:id="@+id/tv_cpu_temperature"
+        android:layout_marginTop="20px"
+        style="@style/version_info_item"
+        android:text="@string/cpu_temperature"
+        />
+    
+    <TextView
+        android:id="@+id/tv_ram"
+        style="@style/version_info_item"
+        android:text="@string/ram"
+        />
+    
+    <TextView
+        android:id="@+id/tv_rom"
+        style="@style/version_info_item"
+        android:text="@string/rom"
+        />
+    
+    <TextView
+        android:id="@+id/tv_bluetooth_address"
+        style="@style/version_info_item"
+        android:text="@string/bluetooth_address"
+        />
+    
+    <TextView
+        android:id="@+id/tv_wlan_address"
+        style="@style/version_info_item"
+        android:text="@string/wlan_address"
+        />
+    
+    <TextView
+        android:id="@+id/tv_device_series"
+        style="@style/version_info_item"
+        android:text="@string/device_series"
+        />
+    
+    <TextView
+        android:id="@+id/tv_net_signal"
+        style="@style/version_info_item"
+        android:text="@string/net_signal"
+        />
+    
+     <TextView
+        android:id="@+id/tv_tbox_iccid"
+        style="@style/version_info_item"
+        android:text="@string/tbox_iccid"
+        />
+    
+</LinearLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hwatong="http://schemas.android.com/apk/res/com.hwatong.btphone.ui"
+    android:layout_width="match_parent"
+    android:layout_height="62px"
+    android:gravity="center"
+    >
+
+    <com.hwatong.btphone.ui.DrawableTextView
+        android:id="@+id/dtv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="62px"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="30dp"
+        android:drawablePadding="20dp"
+        android:gravity="center_vertical"
+        android:textColor="#FFFFFF"
+        android:singleLine="true"
+        android:textSize="@dimen/item_contacts_textsize"
+        hwatong:drawableHeight="@dimen/item_contacts_drawable_height"
+        hwatong:drawableWidth="@dimen/item_contacts_drawable_width" />
+
+    <TextView
+        android:id="@+id/tv_phone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="62px"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:textSize="@dimen/item_contacts_textsize" />
+
+    <ImageButton
+        android:id="@+id/btn_dial"
+        android:layout_width="wrap_content"
+        android:layout_height="62px"
+        android:layout_alignRight="@id/tv_phone_number"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/btn_contact_call_selector"
+        android:gravity="@drawable/icon_call"
+        android:src="@drawable/icon_call"
+        android:visibility="invisible" />
+
+</RelativeLayout>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 主界面 -->
+    <dimen name="bt_phone_tab_margin_top">15dp</dimen>
+    <dimen name="bt_phone_tab_margin_left">15dp</dimen>
+    <dimen name="bt_phone_tab_margin_right">23dp</dimen>
+    <dimen name="bt_phone_tab_drawablewidth">30dp</dimen>
+    <dimen name="bt_phone_tab_drawableheight">30dp</dimen>
+    <dimen name="bt_phone_tab_margin">8dp</dimen>
+    <dimen name="bt_phone_tab_drawable_padding">-40dp</dimen>
+    <dimen name="bt_phone_tab_padding">20dp</dimen>
+    <dimen name="bt_phone_tab_textsize">18sp</dimen>
+    
+    <!-- 拨号界面 -->
+    <dimen name="dial_panel_margin">16dp</dimen>
+    <dimen name="dial_panel_btn_drawable_width">30dp</dimen>
+    <dimen name="dial_panel_btn_drawable_height">15dp</dimen>
+    <dimen name="dial_panel_textsize">22px</dimen>
+    <dimen name="tv_number_textsize">30sp</dimen>
+    
+    <dimen name="item_contacts_drawable_width">23dp</dimen>
+    <dimen name="item_contacts_drawable_height">25dp</dimen>
+    <dimen name="item_contacts_textsize">18sp</dimen>
+    
+    <dimen name="dial_key_textsize">35dp</dimen>
+    <dimen name="dial_key_margin">2dp</dimen>
+    <dimen name="dial_key_row_margin">10dp</dimen>
+    
+    <!-- 底部按钮 -->
+    <dimen name="bottom_padding">10dp</dimen>
+    <dimen name="bottom_btn_textsize">22px</dimen>
+    <dimen name="bottom_btn_drawablepadding">10dp</dimen>
+    <dimen name="bottom_btn_drawablewidth">26px</dimen>
+    <dimen name="bottom_btn_drawableheight">26px</dimen>
+    <dimen name="bottom_btn_height">52dp</dimen>
+   
+    <dimen name="dialog_text_size">26px</dimen>
+    
+    <dimen name="keyboard_btn_margin">6dp</dimen>
+    <dimen name="keyboard_height">280dp</dimen>
+    <dimen name="keyboard_edittext_height">50dp</dimen>
+    <dimen name="keyboard_padding">8dp</dimen>
+    <dimen name="keyboard_key_textsize">25dp</dimen>
+    
+    <dimen name="divide_line_width">2px</dimen>
+    
+    
+    
+</resources>

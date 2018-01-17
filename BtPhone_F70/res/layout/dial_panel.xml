@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:hwatong="http://schemas.android.com/apk/res/com.hwatong.btphone"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- 通话信息 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:gravity="center"
+        android:orientation="vertical" >
+		
+        <!-- 通话信息 -->
+        <LinearLayout
+            android:id="@+id/ll_dial_people_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone" >
+			<!-- 头像 -->
+            <ImageView
+                android:id="@+id/iv_people_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_dial_people" />
+			<!-- 人名 -->
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_marginTop="20dp"
+                android:textSize="@dimen/dial_panel_textsize" />
+			<!-- 号码 -->
+            <TextView
+                android:id="@+id/tv_talking_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:marqueeRepeatLimit="marquee_forever"
+				android:ellipsize="marquee" 
+				android:scrollHorizontally="true"
+				android:focusableInTouchMode="true"
+				android:focusable="true"
+                android:layout_marginTop="@dimen/dial_panel_margin"
+                android:textSize="@dimen/dial_panel_textsize" />
+			<!-- 事件或者状态 -->
+            <TextView
+                android:id="@+id/tv_call_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dial_panel_margin"
+                android:textSize="@dimen/dial_panel_textsize" />
+        </LinearLayout>
+			
+        <!-- 拨号时输入的号码 -->
+        <EditText
+            android:id="@+id/tv_input_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:cursorVisible="false"
+            android:textSize="@dimen/tv_number_textsize" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1" >
+		<!-- 功能按钮 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+			<!-- 通话 -->
+            <com.hwatong.btphone.ui.DrawableTextView
+                android:id="@+id/dtv_call"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/call_selector"
+                android:drawableTop="@drawable/icon_call"
+                android:gravity="center_horizontal"
+                android:paddingTop="4dp"
+                android:text="@string/call"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                android:textSize="18dp" />
+			<!-- 挂断 -->
+            <com.hwatong.btphone.ui.DrawableTextView
+                android:id="@+id/dtv_hand_up"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/hand_up_selector"
+                android:drawableTop="@drawable/icon_hand_up"
+                android:gravity="center"
+                android:paddingTop="4dp"
+                android:text="@string/hand_up"
+                android:textColor="@android:color/white"
+                android:textSize="18dp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- 通话结束显示 -->
+        
+        <TextView
+            android:id="@+id/tv_call_over"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/btn_call_end_bg"
+            android:gravity="center"
+            android:text="@string/call_over"
+            android:textSize="@dimen/dial_panel_textsize"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>

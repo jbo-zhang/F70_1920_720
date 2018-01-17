@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:paddingLeft="48px"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:id="@+id/tv_product_model"
+        style="@style/version_info_item"
+        android:layout_marginTop="20px"
+        android:text="@string/product_model"
+        />
+    
+    <TextView
+        android:id="@+id/tv_android_version"
+        style="@style/version_info_item"
+        android:text="@string/android_version"
+        />
+    
+    <TextView
+        android:id="@+id/tv_mcu_version"
+        style="@style/version_info_item"
+        android:text="@string/mcu_version"
+        />
+    
+    <TextView
+        android:id="@+id/tv_arm_version"
+        style="@style/version_info_item"
+        android:text="@string/arm_version"
+        />
+    
+    <TextView
+        android:id="@+id/tv_map_version"
+        style="@style/version_info_item"
+        android:text="@string/map_version"
+        />
+    
+    <TextView
+        android:id="@+id/tv_bluetooth_version"
+        style="@style/version_info_item"
+        android:text="@string/bluetooth_version"
+        />
+    
+    <TextView
+        android:id="@+id/tv_sound_version"
+        style="@style/version_info_item"
+        android:text="@string/sound_version"
+        />
+    
+</LinearLayout>
