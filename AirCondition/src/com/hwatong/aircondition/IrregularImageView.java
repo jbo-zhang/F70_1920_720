@@ -156,14 +156,16 @@ public class IrregularImageView extends ImageView {
 	private boolean isPressed = false;
 	private synchronized void pressed() {
 		if(getVisibility() != View.VISIBLE && !isPressed && isEnabled()) {
-			setVisibility(View.VISIBLE);
+			//取消按下的反应色，因为它会导致闪一下
+			//setVisibility(View.VISIBLE);
 			isPressed = true;
 		}
 	}
 	
 	private synchronized void unPressed() {
 		if(isPressed && isEnabled()) {
-			setVisibility(View.INVISIBLE);
+			//取消按下的反应色，因为它会导致闪一下
+			//setVisibility(View.INVISIBLE);
 			isPressed = false;
 		}
 	}
