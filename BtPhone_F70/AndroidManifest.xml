@@ -45,12 +45,13 @@
         </activity>
         <activity
             android:name="com.hwatong.btphone.activity.DialActivity"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTask" >
         </activity>
         <activity android:name="com.hwatong.btphone.activity.CallLogActivity" 
-            android:launchMode="singleTop" >
+            android:launchMode="singleTask" >
         </activity>
-        <activity android:name="com.hwatong.btphone.activity.ContactsListActivity" >
+        <activity android:name="com.hwatong.btphone.activity.ContactsListActivity" 
+            android:launchMode="singleTask">
         </activity>
         
         <activity android:name="com.hwatong.btphone.activity.TboxUpdateActivity" >

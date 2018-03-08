@@ -184,7 +184,7 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 		mLeftTempSeekBar.setMax(32);
 
 		tempThumbDrable = new TempThumbDrable(BitmapFactory.decodeResource(
-				getResources(), R.drawable.seekbar_pointer));
+				getResources(), R.drawable.seekbar_pointer), getApplicationContext());
 		tempThumbDrable
 				.setTemp(mLeftTempSeekBar.getProgress() / 2.0 + 16 + "℃");
 		mLeftTempSeekBar.setThumb(new BitmapDrawable(
@@ -220,7 +220,7 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 						
 						tempThumbDrable = new TempThumbDrable(BitmapFactory
 								.decodeResource(getResources(),
-										R.drawable.seekbar_pointer));
+										R.drawable.seekbar_pointer), getApplicationContext());
 						tempThumbDrable.setTemp(progress / 2.0 + 16 + "℃");
 						mLeftTempSeekBar.setThumb(new BitmapDrawable(
 								toturn(drawableToBitmap(tempThumbDrable))));
@@ -556,6 +556,11 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 					// 后除霜
 					int rearDefrost = status.getStatus12() & 0x03;
 					setRearDefrost(rearDefrost == 0x01);
+					
+					// 前除霜		前除霜关闭时也可以调控
+					int frontDefrost = status.getStatus6() & 0x03;
+					setFrontDefrost(frontDefrost == 0x01);
+					
 					return;
 				//空调开
 				} else {
@@ -946,14 +951,14 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
      */
     private int getCarType() {
     	int carType = 0;
-    	if(mCanbusService != null) {
-    		try {
-				carType = mCanbusService.getCarConfigType();
-				Log.d(TAG, "get carType : " + carType);
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
-    	}
+//    	if(mCanbusService != null) {
+//    		try {
+//				carType = mCanbusService.getCarConfigType();
+//				Log.d(TAG, "get carType : " + carType);
+//			} catch (RemoteException e) {
+//				e.printStackTrace();
+//			}
+//    	}
     	
     	return carType;
     }

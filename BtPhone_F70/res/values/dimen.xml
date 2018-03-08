@@ -16,7 +16,7 @@
     <dimen name="dial_panel_margin">16dp</dimen>
     <dimen name="dial_panel_btn_drawable_width">30dp</dimen>
     <dimen name="dial_panel_btn_drawable_height">15dp</dimen>
-    <dimen name="dial_panel_textsize">22px</dimen>
+    <dimen name="dial_panel_textsize">19sp</dimen>
     <dimen name="tv_number_textsize">30sp</dimen>
     
     <dimen name="item_contacts_drawable_width">23dp</dimen>
@@ -29,13 +29,13 @@
     
     <!-- 底部按钮 -->
     <dimen name="bottom_padding">10dp</dimen>
-    <dimen name="bottom_btn_textsize">22px</dimen>
+    <dimen name="bottom_btn_textsize">19sp</dimen>
     <dimen name="bottom_btn_drawablepadding">10dp</dimen>
-    <dimen name="bottom_btn_drawablewidth">26px</dimen>
-    <dimen name="bottom_btn_drawableheight">26px</dimen>
+    <dimen name="bottom_btn_drawablewidth">26dp</dimen>
+    <dimen name="bottom_btn_drawableheight">26dp</dimen>
     <dimen name="bottom_btn_height">52dp</dimen>
    
-    <dimen name="dialog_text_size">26px</dimen>
+    <dimen name="dialog_text_size">22sp</dimen>
     
     <dimen name="keyboard_btn_margin">6dp</dimen>
     <dimen name="keyboard_height">280dp</dimen>
@@ -43,7 +43,7 @@
     <dimen name="keyboard_padding">8dp</dimen>
     <dimen name="keyboard_key_textsize">25dp</dimen>
     
-    <dimen name="divide_line_width">2px</dimen>
+    <dimen name="divide_line_width">2dp</dimen>
     
     
     

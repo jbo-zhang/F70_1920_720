@@ -1,5 +1,6 @@
 package com.hwatong.aircondition;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -7,7 +8,6 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.RectF;
-import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -33,11 +33,14 @@ public class TempThumbDrable extends Drawable{
 		invalidateSelf() ;
 	}
    
+    private Context context;
+    
 	private Paint mPaint;  
     private Bitmap mBitmap;  
  
   
-    public TempThumbDrable(Bitmap bitmap) {  
+    public TempThumbDrable(Bitmap bitmap, Context context) {  
+    	this.context = context;
         mBitmap = bitmap;    
         mPaint = new Paint();  
         mPaint.setAntiAlias(true);   
@@ -46,12 +49,12 @@ public class TempThumbDrable extends Drawable{
     @Override  
     public void setBounds(int left, int top, int right, int bottom) {  
     	Log.d(TAG, "left="+left +"top="+top +"right="+right +"bottom="+bottom);
-    	rectF = new RectF(left, top, right + 5, bottom);
+    	rectF = new RectF(left, top, right, bottom);
     	this.left = left ; 
     	this.top = top ;
     	this.right = right ;
     	this.bottom = bottom ;
-        super.setBounds(left, top, right + 5 , bottom);
+        super.setBounds(left, top, right , bottom);
     }  
   
     @Override  
@@ -59,18 +62,18 @@ public class TempThumbDrable extends Drawable{
         canvas.drawBitmap(mBitmap, null, rectF, mPaint);
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
-        paint.setTextSize(60.0f);
-        canvas.drawText(temp, getBounds().centerX()- 90, getBounds().centerY()+20, paint);
+        paint.setTextSize(65.0f);
+        canvas.drawText(temp, getBounds().centerX() - 95, getBounds().centerY() + 25, paint);
     }  
   
     @Override  
     public int getIntrinsicWidth() {  
-        return mBitmap.getWidth() + 20 + 20 + 10 + 10 + 6;  
+    	return DensityUtils.dp2px(context, mBitmap.getWidth()); // + 20 + 20 + 10 + 10 + 10;  
     }  
   
     @Override  
     public int getIntrinsicHeight() {  
-        return mBitmap.getHeight() + 20;  
+        return DensityUtils.dp2px(context, mBitmap.getHeight()); // + 20;  
     }  
   
     @Override  

@@ -2,11 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:splitMotionEvents="false"
     android:baselineAligned="false" >
 
     <TableLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:splitMotionEvents="false"
         android:layout_weight="3" >
 
         <TableRow
@@ -14,6 +16,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:divider="@drawable/key_divide"
+            android:splitMotionEvents="false"
             android:showDividers="middle" >
 
             <TextView
@@ -37,6 +40,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/dial_key_row_margin"
             android:layout_weight="1"
+            android:splitMotionEvents="false"
             android:divider="@drawable/key_divide"
             android:showDividers="middle" >
 
@@ -61,6 +65,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/dial_key_row_margin"
             android:layout_weight="1"
+            android:splitMotionEvents="false"
             android:divider="@drawable/key_divide"
             android:showDividers="middle" >
 
@@ -85,6 +90,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/dial_key_row_margin"
             android:layout_weight="1"
+            android:splitMotionEvents="false"
             android:divider="@drawable/key_divide"
             android:showDividers="middle" >
 
@@ -110,6 +116,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/keyboard_btn_margin"
         android:layout_weight="1"
+        android:splitMotionEvents="false"
         android:orientation="vertical" >
 
         <ImageButton

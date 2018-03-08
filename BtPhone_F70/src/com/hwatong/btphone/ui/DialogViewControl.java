@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.hwatong.btphone.util.DensityUtils;
 import com.hwatong.btphone.util.L;
 
 /**
@@ -89,11 +90,11 @@ public class DialogViewControl {
 			// 一定得在show完dialog后来set属性
 			WindowManager.LayoutParams lp = mDialog.getWindow().getAttributes();
 //			lp.width = (int) (800 * mContext.getResources().getDisplayMetrics().density);
-			lp.width = 740;
-			lp.height = 120;
+			lp.width = DensityUtils.dp2px(mContext, 740);
+			lp.height = DensityUtils.dp2px(mContext, 120);
 			// lp.height = (int) (300 * mContext.getResources().getDisplayMetrics().density);
 			lp.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
-			lp.x = 55;
+			lp.x = DensityUtils.dp2px(mContext, 55);
 			mDialog.getWindow().setAttributes(lp);
 		}
 	}

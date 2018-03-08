@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:hwatong="http://schemas.android.com/apk/res/com.hwatong.btphone.ui"
     android:layout_width="match_parent"
-    android:layout_height="62px"
+    android:layout_height="62dp"
     android:gravity="center"
     >
 
     <com.hwatong.btphone.ui.DrawableTextView
         android:id="@+id/dtv_name"
         android:layout_width="wrap_content"
-        android:layout_height="62px"
+        android:layout_height="62dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="30dp"
         android:drawablePadding="20dp"
@@ -23,7 +23,7 @@
     <TextView
         android:id="@+id/tv_phone_number"
         android:layout_width="wrap_content"
-        android:layout_height="62px"
+        android:layout_height="62dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
         android:layout_centerVertical="true"
@@ -34,7 +34,7 @@
     <ImageButton
         android:id="@+id/btn_dial"
         android:layout_width="wrap_content"
-        android:layout_height="62px"
+        android:layout_height="62dp"
         android:layout_alignRight="@id/tv_phone_number"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"

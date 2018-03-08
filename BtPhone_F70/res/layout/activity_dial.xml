@@ -3,6 +3,7 @@
     xmlns:hwatong="http://schemas.android.com/apk/res/com.hwatong.btphone.ui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:splitMotionEvents="false"
     android:baselineAligned="false"
     android:orientation="horizontal" >
 
@@ -10,6 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
+        android:splitMotionEvents="false"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -17,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_btn_height"
             android:layout_alignParentBottom="true"
+            android:splitMotionEvents="false"
             android:background="@drawable/botton_bar_bg"
             android:orientation="horizontal" >
 
@@ -69,6 +72,7 @@
             android:layout_marginRight="14dp"
             android:layout_marginTop="13dp"
             android:baselineAligned="true"
+            android:splitMotionEvents="false"
             android:orientation="horizontal" >
 
             <include
@@ -109,7 +113,7 @@
             android:listSelector="@drawable/item_click_selector"
             android:scrollbarTrackVertical="@drawable/listview_thumb_frame"
             android:scrollbarThumbVertical="@drawable/listview_thumb"
-            android:scrollbarSize="8px"
+            android:scrollbarSize="8dp"
             android:scrollbars="vertical" />
 
         <TextView

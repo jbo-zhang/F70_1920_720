@@ -12,6 +12,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.SparseArray;
 
+import com.hwatong.btphone.activity.CallLogActivity;
+import com.hwatong.btphone.bean.UICallLog;
 import com.hwatong.btphone.service.BtPhoneService;
 import com.hwatong.btphone.util.L;
 
@@ -71,17 +73,30 @@ public class BtPhoneApplication extends Application {
 	
 	public void putActivity(Activity activity) {
 		activityList.add(activity);
+		L.d(thiz, "putActivity, activityList size : " + activityList.size());
 	}
 	
 	public void removeActivity(Activity activity) {
 		activityList.remove(activity);
+		
+		L.d(thiz, "removeActivity, activityList size : " + activityList.size());
+		
+		if(activityList.size() == 0) {
+			CallLogActivity.mCurCallLogType = UICallLog.TYPE_CALL_MISS;
+		}
 	}
+	
+	public int getActivitySize() {
+		return activityList.size();
+	}
+	
 	
 	public void exit() {
 		L.d(thiz, "exit, activityList size : " + activityList.size());
 		for (Activity activity : activityList) {
 			activity.finish();
 		}
+		
 	}
 	
 	

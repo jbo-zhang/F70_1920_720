@@ -35,6 +35,7 @@ import com.hwatong.btphone.iview.IServiceView;
 import com.hwatong.btphone.presenter.BroadcastPresenter;
 import com.hwatong.btphone.presenter.ServicePresenter;
 import com.hwatong.btphone.ui.R;
+import com.hwatong.btphone.util.DensityUtils;
 import com.hwatong.btphone.util.L;
 import com.hwatong.btphone.util.Utils;
 
@@ -247,7 +248,7 @@ public class BtPhoneService extends Service implements IReceiverView, IServiceVi
 		tvReject.setText(getString(R.string.reject));
 		
 		params.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
-		params.y = 130;
+		params.y = DensityUtils.dp2px(getApplicationContext(), 130);
 
 		wmManager.addView(comingWindow, params);
 		viewAdded = true;
@@ -397,10 +398,23 @@ public class BtPhoneService extends Service implements IReceiverView, IServiceVi
 		if(isCallLogForground()) {
 			BtPhoneApplication.getInstance().notifyMsg(Constant.MSG_OPEN_MISSED_CALLS);
 		} else {
-			Utils.gotoCallLogActivityInService(this);
+			Utils.gotoCallLogActivityInService(this, 0);
 			BtPhoneApplication.getInstance().notifyMsg(Constant.MSG_OPEN_MISSED_CALLS);
 		}
 	}
+	
+	@Override
+	public void toAllCalls() {
+		L.d(thiz, "toAllCalls");
+		if(!servicePresenter.isBtConnected()) {
+			return ;
+		}
+		L.d(thiz, "toAllCalls 1");
+		Utils.gotoDialActivityInService(this, null);
+		L.d(thiz, "toAllCalls 2");
+	}
+	
+	
 
 	@Override
 	public void showWindow(UICallLog callLog) {

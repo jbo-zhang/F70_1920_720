@@ -10,6 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
+        android:splitMotionEvents="false"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -17,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_btn_height"
             android:layout_alignParentBottom="true"
+            android:splitMotionEvents="false"
             android:background="@drawable/botton_bar_bg"
             android:orientation="horizontal" >
 
@@ -61,7 +63,7 @@
                 android:dividerHeight="1px"
                 android:listSelector="@android:color/transparent"
                 android:scrollbarTrackVertical="@drawable/listview_thumb_frame"
-                android:scrollbarSize="8px"
+                android:scrollbarSize="8dp"
             	android:scrollbarThumbVertical="@drawable/listview_thumb" >
             </com.hwatong.btphone.ui.PopItemButtonListView>
 

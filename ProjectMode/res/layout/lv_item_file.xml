@@ -16,7 +16,7 @@
                 style="@style/SwitchButtonStyle"
                 android:layout_marginRight="56dp"
                 android:layout_marginLeft="25dp"
-                android:textSize="22px"
+                android:textSize="19sp"
                 android:background="@drawable/button_selector"
                 android:text="@string/choose" />
     </LinearLayout>

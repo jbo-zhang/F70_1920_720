@@ -14,4 +14,7 @@ public interface IRadioView {
 	void showFirstScan();
 	void showPreview();
 	void hidePreview();
+	
+	void showSeekbarThumb();
+	
 }

@@ -15,8 +15,8 @@
     
     <FrameLayout
         android:id="@+id/fl_coming"
-        android:layout_width="599px"
-        android:layout_height="216px"
+        android:layout_width="599dp"
+        android:layout_height="216dp"
         android:background="#dd3c3c3c"
         >
 
@@ -26,32 +26,32 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="38px"
-            android:textSize="25px" />
+            android:layout_marginTop="38dp"
+            android:textSize="21sp" />
 
         <TextView
             android:id="@+id/tv_calling"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="68px"
+            android:layout_marginTop="68dp"
             android:text="@string/coming_now"
-            android:textSize="25px" />
+            android:textSize="21sp" />
 
         <FrameLayout
             android:id="@+id/fl_accept"
-            android:layout_width="190px"
-            android:layout_height="63px"
-            android:layout_marginLeft="108px"
-            android:layout_marginTop="131px"
+            android:layout_width="190dp"
+            android:layout_height="63dp"
+            android:layout_marginLeft="108dp"
+            android:layout_marginTop="131dp"
             android:background="@drawable/call_selector"
             android:orientation="vertical" >
 
             <ImageView
-                android:layout_width="28px"
-                android:layout_height="28px"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="3px"
+                android:layout_marginTop="3dp"
                 android:src="@drawable/icon_call" />
 
             <TextView
@@ -59,26 +59,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="33px"
+                android:layout_marginTop="33dp"
                 android:text="@string/accept"
                 android:textColor="#ffffff"
-                android:textSize="19px" />
+                android:textSize="17sp" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/fl_reject"
-            android:layout_width="190px"
-            android:layout_height="63px"
-            android:layout_marginLeft="301px"
-            android:layout_marginTop="131px"
+            android:layout_width="190dp"
+            android:layout_height="63dp"
+            android:layout_marginLeft="301dp"
+            android:layout_marginTop="131dp"
             android:background="@drawable/hand_up_selector"
             android:orientation="vertical" >
 
             <ImageView
-                android:layout_width="28px"
-                android:layout_height="28px"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="3px"
+                android:layout_marginTop="3dp"
                 android:src="@drawable/icon_hand_up" />
 
             <TextView
@@ -86,10 +86,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="33px"
+                android:layout_marginTop="33dp"
                 android:text="@string/reject"
                 android:textColor="#ffffff"
-                android:textSize="19px" />
+                android:textSize="17sp" />
         </FrameLayout>
     </FrameLayout>
    </FrameLayout>

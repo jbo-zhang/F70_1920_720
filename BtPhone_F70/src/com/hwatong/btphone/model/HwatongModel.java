@@ -218,6 +218,7 @@ public class HwatongModel implements IBTPhoneModel {
 	}
 	
 	private void syncLogsStatus() {
+		
 		//同步通话记录下载状态
 		if(logsInLoading) {
 			iView.showLogsLoading(UICallLog.TYPE_CALL_IN);
@@ -236,6 +237,15 @@ public class HwatongModel implements IBTPhoneModel {
 		} else {
 			iView.syncLogsAlreadyLoad(UICallLog.TYPE_CALL_MISS);
 		}
+		
+		/**
+		 * 表示全部加载完成，没有正在加载的通话记录
+		 */
+		if(!logsInLoading && !logsOutLoading && !logsMissLoading) {
+			iView.syncLogsAlreadyLoad(10);
+		}
+		
+		
 	}
 	
 
@@ -406,6 +416,9 @@ public class HwatongModel implements IBTPhoneModel {
 			public void run() {
 				SystemClock.sleep(1000);
 				iView.syncLogsAlreadyLoad(type);
+				if(!logsInLoading && !logsOutLoading && !logsMissLoading) {
+					iView.syncLogsAlreadyLoad(10);
+				}
 			}
 		}).start();
 	}
@@ -744,19 +757,19 @@ public class HwatongModel implements IBTPhoneModel {
 					getAllLogsList();
 					
 					if(CallLog.TYPE_CALL_IN.equals(type)) {
+						logsInLoading = false;
 						iView.updateReceivedLogs(mCallLogMap.get(UICallLog.TYPE_CALL_IN));	
 						showLogsLoadedAndSync(UICallLog.TYPE_CALL_IN, error);
-						logsInLoading = false;
 						
 					} else if(CallLog.TYPE_CALL_OUT.equals(type)) {
+						logsOutLoading = false;
 						showLogsLoadedAndSync(UICallLog.TYPE_CALL_OUT, error);
 						iView.updateDialedLogs(mCallLogMap.get(UICallLog.TYPE_CALL_OUT));
-						logsOutLoading = false;
 						
 					} else if(CallLog.TYPE_CALL_MISS.equals(type)) {
+						logsMissLoading = false;
 						showLogsLoadedAndSync(UICallLog.TYPE_CALL_MISS, error);
 						iView.updateMissedLogs(mCallLogMap.get(UICallLog.TYPE_CALL_MISS));
-						logsMissLoading = false;
 					}
 					
 					iView.updateAllLogs(mAllCallLogList);
@@ -1082,6 +1095,11 @@ public class HwatongModel implements IBTPhoneModel {
 			}
 			break;
 		}
+		
+		if(!logsInLoading && !logsOutLoading && !logsMissLoading) {
+			iView.syncLogsAlreadyLoad(10);
+		}
+		
 	}
 	
 }

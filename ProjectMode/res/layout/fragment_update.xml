@@ -11,8 +11,8 @@
         android:text="@string/system_update"
         />
      <View 
-        android:layout_height="1px"
-        android:layout_width="807px"
+        android:layout_height="1dp"
+        android:layout_width="807dp"
         android:background="@drawable/line"
         />
     
@@ -23,8 +23,8 @@
         />
     
     <View 
-        android:layout_height="1px"
-        android:layout_width="807px"
+        android:layout_height="1dp"
+        android:layout_width="807dp"
         android:background="@drawable/line"
         />
     
@@ -35,8 +35,8 @@
         />
     
     <View 
-        android:layout_height="1px"
-        android:layout_width="807px"
+        android:layout_height="1dp"
+        android:layout_width="807dp"
         android:background="@drawable/line"
         />   
 

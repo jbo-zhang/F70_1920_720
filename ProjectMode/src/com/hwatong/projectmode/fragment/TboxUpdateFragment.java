@@ -28,6 +28,7 @@ import com.hwatong.projectmode.ui.ConfirmDialog.OnYesOnclickListener;
 import com.hwatong.projectmode.ui.UpdateDialog;
 import com.hwatong.projectmode.utils.FileUtil;
 import com.hwatong.projectmode.utils.L;
+import com.hwatong.projectmode.utils.Util;
 
 public class TboxUpdateFragment extends BaseFragment implements ITboxUpdateView {
 
@@ -234,8 +235,8 @@ public class TboxUpdateFragment extends BaseFragment implements ITboxUpdateView 
 		Window window = confirmDialog.getWindow();
 		window.setGravity(Gravity.LEFT | Gravity.TOP);
 		LayoutParams attributes = window.getAttributes();
-		attributes.x = 1280/3 - 190;
-		attributes.y = 80;
+		attributes.x = Util.dip2px(getActivity(), 1280/3 - 190);
+		attributes.y = Util.dip2px(getActivity(), 80);
 		window.setAttributes(attributes);
 		
 		confirmDialog.show();
@@ -258,10 +259,10 @@ public class TboxUpdateFragment extends BaseFragment implements ITboxUpdateView 
 						copyDialog = new UpdateDialog(getActivity(), UpdateDialog.STYLE_COPY);
 						Window window = copyDialog.getWindow();
 						window.setGravity(Gravity.LEFT|Gravity.TOP);
-						window.setLayout(571, 250);
+						window.setLayout(Util.dip2px(getActivity(), 571), Util.dip2px(getActivity(), 250));
 						LayoutParams attributes = window.getAttributes();
-						attributes.x = 145;
-						attributes.y = 60;
+						attributes.x = Util.dip2px(getActivity(), 145);
+						attributes.y = Util.dip2px(getActivity(), 60);
 						window.setAttributes(attributes);
 						copyDialog.show();
 					} else {
@@ -295,9 +296,7 @@ public class TboxUpdateFragment extends BaseFragment implements ITboxUpdateView 
 					}
 				}
 				
-				Toast makeText = Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT);
-				makeText.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP, -220, 250);
-				makeText.show();
+				showToast(info);
 			}
 		});
 	}
@@ -329,10 +328,6 @@ public class TboxUpdateFragment extends BaseFragment implements ITboxUpdateView 
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-//				Toast makeText = Toast.makeText(getActivity(), "没有找到TBOX升级文件", Toast.LENGTH_SHORT);
-//				makeText.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP, -220, 250);
-//				makeText.show();
-				
 				tvNoFile.setVisibility(View.VISIBLE);
 				lvList.setVisibility(View.INVISIBLE);
 			}
@@ -355,9 +350,7 @@ public class TboxUpdateFragment extends BaseFragment implements ITboxUpdateView 
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast makeText = Toast.makeText(getActivity(), getText(R.string.tbox_dev_not_connected), Toast.LENGTH_SHORT);
-				makeText.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP, -220, 250);
-				makeText.show();
+				showToast(getText(R.string.tbox_dev_not_connected));
 			}
 		});
 	}
@@ -379,10 +372,10 @@ public class TboxUpdateFragment extends BaseFragment implements ITboxUpdateView 
 						updateDialog = new UpdateDialog(getActivity(), UpdateDialog.STYLE_UPDATE);
 						Window window = updateDialog.getWindow();
 						window.setGravity(Gravity.LEFT|Gravity.TOP);
-						window.setLayout(571, 250);
+						window.setLayout(Util.dip2px(getActivity(), 571), Util.dip2px(getActivity(), 250));
 						LayoutParams attributes = window.getAttributes();
-						attributes.x = 145;
-						attributes.y = 60;
+						attributes.x = Util.dip2px(getActivity(), 145);
+						attributes.y = Util.dip2px(getActivity(), 60);
 						window.setAttributes(attributes);
 						updateDialog.show();
 						updateDialog.setTitle(fileName);
@@ -400,9 +393,15 @@ public class TboxUpdateFragment extends BaseFragment implements ITboxUpdateView 
 
 	@Override
 	public void ftpCreatFailed() {
-		Toast makeText = Toast.makeText(getActivity(), getText(R.string.ftp_dir_create_failed), Toast.LENGTH_SHORT);
-		makeText.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP, -220, 250);
+		showToast(getText(R.string.ftp_dir_create_failed));
+	}
+	
+	
+	private void showToast(CharSequence msg) {
+		Toast makeText = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
+		makeText.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP, Util.dip2px(getActivity(), -220), Util.dip2px(getActivity(), 250));
 		makeText.show();
 	}
+	
 
 }

@@ -22,14 +22,14 @@
                 app:kswBackDrawable="@drawable/track"
                 app:kswTextOff="@string/off"
                 app:kswTextOn="@string/on"
-                android:textSize="22px"
+                android:textSize="19sp"
                 app:kswThumbDrawable="@drawable/setting_switch_thumb" />
 
     </LinearLayout>
 
     <View
-        android:layout_width="807px"
-        android:layout_height="1px"
+        android:layout_width="807dp"
+        android:layout_height="1dp"
         android:background="@drawable/line" />
 
     <LinearLayout style="@style/debug_mode_layout_item" >
@@ -48,13 +48,13 @@
                 app:kswBackDrawable="@drawable/track"
                 app:kswTextOff="@string/off"
                 app:kswTextOn="@string/on"
-                android:textSize="22px"
+                android:textSize="19sp"
                 app:kswThumbDrawable="@drawable/setting_switch_thumb" />
     </LinearLayout>
 
     <View
-        android:layout_width="807px"
-        android:layout_height="1px"
+        android:layout_width="807dp"
+        android:layout_height="1dp"
         android:background="@drawable/line" />
 
     <LinearLayout style="@style/debug_mode_layout_item" >
@@ -71,14 +71,14 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="56dp"
                 android:layout_marginLeft="25dp"
-                android:textSize="22px"
+                android:textSize="19sp"
                 android:background="@drawable/button_selector"
                 android:text="@string/save" />
     </LinearLayout>
 
     <View
-        android:layout_width="807px"
-        android:layout_height="1px"
+        android:layout_width="807dp"
+        android:layout_height="1dp"
         android:background="@drawable/line" />
 
     <LinearLayout style="@style/debug_mode_layout_item" >
@@ -97,13 +97,13 @@
                 app:kswBackDrawable="@drawable/track"
                 app:kswTextOff="@string/off"
                 app:kswTextOn="@string/on"
-                android:textSize="22px"
+                android:textSize="19sp"
                 app:kswThumbDrawable="@drawable/setting_switch_thumb" />
     </LinearLayout>
 
     <View
-        android:layout_width="807px"
-        android:layout_height="1px"
+        android:layout_width="807dp"
+        android:layout_height="1dp"
         android:background="@drawable/line" />
 
 </LinearLayout>

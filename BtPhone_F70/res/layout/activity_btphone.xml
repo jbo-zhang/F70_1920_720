@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:splitMotionEvents="false"
             android:orientation="horizontal"
             android:layout_marginTop="5dp"
             android:paddingLeft="@dimen/bt_phone_tab_margin_left" >

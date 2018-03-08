@@ -15,7 +15,7 @@
     <!-- 主界面的tab风格 -->
     <style name="style_btphone_tab">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">142px</item>
+        <item name="android:layout_height">142dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
         <item name="android:drawablePadding">@dimen/bt_phone_tab_drawable_padding</item>

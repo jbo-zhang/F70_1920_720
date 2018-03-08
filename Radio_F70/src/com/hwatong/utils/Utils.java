@@ -2,6 +2,8 @@ package com.hwatong.utils;
 
 import java.text.DecimalFormat;
 
+import android.content.Context;
+
 import com.hwatong.radio.ui.Radio;
 
 public class Utils {
@@ -38,4 +40,17 @@ public class Utils {
 		}
 		return bandText;
 	}
+	
+	
+	 public static int px2dip(Context context, float pxValue) {    
+	        final float scale = context.getResources().getDisplayMetrics().density;    
+	        return (int) (pxValue / scale + 0.5f);    
+	   }    
+	         
+	   public static int dip2px(Context context, float dipValue) {    
+	        final float scale = context.getResources().getDisplayMetrics().density;    
+	        return (int) (dipValue * scale + 0.5f);    
+	   }  
+	    
+	
 }

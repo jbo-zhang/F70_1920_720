@@ -42,6 +42,20 @@ public class Utils {
 		context.startActivity(intent);
 	}
 	
+	/**
+	 * 增加一个方法，如果在拨号界面进入通话记录和通讯录，通话挂断后再跳回对应界面
+	 * @param context
+	 * @param callLog
+	 * @param from	1表示通话记录， 2表示通讯录
+	 */
+	public static void gotoDialActivity(Context context, UICallLog callLog, int from) {
+		Intent intent = new Intent(context, DialActivity.class);
+		intent.putExtra("call_log", callLog);
+		intent.putExtra("from", from);
+		context.startActivity(intent);
+	}
+	
+	
 	public static void gotoDialActivityInService(Context context, UICallLog callLog) {
 		Intent intent = new Intent(context, DialActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -49,10 +63,10 @@ public class Utils {
 		context.startActivity(intent);
 	}
 	
-	public static void gotoCallLogActivityInService(Context context) {
+	public static void gotoCallLogActivityInService(Context context, int type) {
 		Intent intent = new Intent(context, CallLogActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.putExtra("type", 0);
+		intent.putExtra("type", type);
 		context.startActivity(intent);
 	}
 	

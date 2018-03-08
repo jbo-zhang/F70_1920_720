@@ -32,9 +32,9 @@
             android:id="@+id/seekbar_left_temp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:paddingLeft="17dp"
-            android:paddingRight="17dp"
+            android:layout_marginLeft="0dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:progressDrawable="@drawable/jindutiao" />
     </FrameLayout>
 

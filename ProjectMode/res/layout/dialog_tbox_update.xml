@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="571px"
-    android:layout_height="250px"
+    android:layout_width="571dp"
+    android:layout_height="250dp"
     android:background="@drawable/progress_dialog_bg"
     android:orientation="vertical" >
     
@@ -14,17 +14,17 @@
         android:singleLine="true"
         android:text="@string/version_no"
         android:textColor="@color/white"
-        android:layout_marginTop="45px"
-        android:textSize="24px"
+        android:layout_marginTop="45dp"
+        android:textSize="20sp"
         />
     
    <ProgressBar
        android:id="@+id/pb_update_progress"
        style="@android:style/Widget.ProgressBar.Horizontal"
        android:progressDrawable="@drawable/update_progress"
-       android:layout_width="510px"
-       android:layout_height="18px"
-       android:layout_marginTop="45px"
+       android:layout_width="510dp"
+       android:layout_height="18dp"
+       android:layout_marginTop="45dp"
        android:layout_gravity="center_horizontal"
        android:max="100" />
    
@@ -36,33 +36,33 @@
        
         <TextView 
 	       android:id="@+id/tv_progress_left"
-	       android:layout_width="50px"
+	       android:layout_width="50dp"
 	       android:layout_height="wrap_content"
 	       android:textColor="@color/white"
-	       android:layout_marginLeft="35px"
-	       android:layout_marginTop="5px"
-	       android:textSize="18px"
+	       android:layout_marginLeft="35dp"
+	       android:layout_marginTop="5dp"
+	       android:textSize="15sp"
 	       />
        
        <TextView 
 	       android:id="@+id/tv_progress_right"
-	       android:layout_width="450px"
+	       android:layout_width="450dp"
 	       android:gravity="right"
 	       android:layout_height="wrap_content"
 	       android:textColor="@color/white"
-	       android:layout_marginTop="5px"
-	       android:textSize="18px"
+	       android:layout_marginTop="5dp"
+	       android:textSize="15sp"
 	       />
    </LinearLayout>
    
    
    <Button 
        android:id="@+id/bt_update"
-       android:layout_height="50px"
-       android:layout_width="131px"
+       android:layout_height="50dp"
+       android:layout_width="131dp"
        android:layout_gravity="center_horizontal"
-       android:layout_marginTop="40px"
-       android:textSize="24px"
+       android:layout_marginTop="40dp"
+       android:textSize="20sp"
        android:visibility="invisible"
        android:textColor="@color/white"
        android:background="@drawable/bt_update"

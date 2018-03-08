@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import com.hwatong.btphone.CallLog;
 import com.hwatong.btphone.Contact;
+import com.hwatong.btphone.util.DensityUtils;
 import com.hwatong.btphone.util.L;
 
 /**
@@ -128,11 +129,11 @@ public class PopItemButtonListView extends ListView {
 			return;
 		holder.mBtnDial.setVisibility(View.VISIBLE);
 		float orignalX = holder.mTvNumber.getX();
-		float endX = orignalX - holder.mBtnDial.getMeasuredWidth() + 10;
+		float endX = orignalX - holder.mBtnDial.getMeasuredWidth() + DensityUtils.dp2px(getContext(), 10);
 		
 		holder.mTvNumber.setX(endX);
 		
-		holder.mBtnDial.setX(endX + holder.mTvNumber.getWidth() + 10);
+		holder.mBtnDial.setX(endX + holder.mTvNumber.getWidth() + DensityUtils.dp2px(getContext(), 10));
 		
 		mItemView = view;
 	}
@@ -143,11 +144,11 @@ public class PopItemButtonListView extends ListView {
 				|| holder.mBtnDial == null || mItemView == null)
 			return;
 		float orignalX = holder.mTvNumber.getX();
-		float endX = orignalX + holder.mBtnDial.getMeasuredWidth() - 10;
+		float endX = orignalX + holder.mBtnDial.getMeasuredWidth() - DensityUtils.dp2px(getContext(), 10);
 		
 		holder.mTvNumber.setX(endX);
 		
-		holder.mBtnDial.setX(endX + holder.mTvNumber.getWidth() + 30);
+		holder.mBtnDial.setX(endX + holder.mTvNumber.getWidth() + DensityUtils.dp2px(getContext(), 30));
 		
 		mItemView = null;
 	}

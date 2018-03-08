@@ -124,6 +124,8 @@ public class DialActivity extends BaseActivity {
 	private static final String TIME_FORMAT = "%02d:%02d";
 
 	private DailDTMF dtmf;
+	
+	private int from = 0;
 
 	@Override
 	protected void initView() {
@@ -229,12 +231,14 @@ public class DialActivity extends BaseActivity {
 	
 	@Override
 	protected void onNewIntent(Intent intent) {
+		L.d(thiz, "onNewIntent!");
 		checkIntent(intent);
 	}
 	
 	private void checkIntent(final Intent intent) {
 		if (intent != null) {
 			UICallLog log = intent.getParcelableExtra("call_log");
+			from = intent.getIntExtra("from", 0);
 			if(log != null) {
 				mCallOverExit = true;
 				switch (log.type) {
@@ -525,6 +529,8 @@ public class DialActivity extends BaseActivity {
 		onStateChange(PhoneState.OUTGOING);
 		mTvName.setText(callLog.name);
 		mTvtalkNumber.setText(callLog.number);
+		//拨打后就删掉输入文字
+		mKeyBoardCb.deleteAll();
 	}
 
 	@Override
@@ -555,11 +561,19 @@ public class DialActivity extends BaseActivity {
 			public void run() {
 				if (mCallOverExit) {
 					mCallOverExit = false;
-					finish();
-				} else {
-					mTvCallOver.setVisibility(View.GONE);
-					onStateChange(PhoneState.IDEL);
+					if(from == 1) {
+						Utils.gotoActivity(DialActivity.this, CallLogActivity.class);
+						from = 0;
+					} else if(from == 2) {
+						Utils.gotoActivity(DialActivity.this, ContactsListActivity.class);
+						from = 0;
+					} else {
+						finish();
+					}
 				}
+				mTvCallOver.setVisibility(View.GONE);
+				onStateChange(PhoneState.IDEL);
+				
 			}
 		}, 500);
 	}
@@ -579,11 +593,18 @@ public class DialActivity extends BaseActivity {
 			public void run() {
 				if (mCallOverExit) {
 					mCallOverExit = false;
-					finish();
-				} else {
-					mTvCallOver.setVisibility(View.GONE);
-					onStateChange(PhoneState.IDEL);
-				}
+					if(from == 1) {
+						Utils.gotoActivity(DialActivity.this, CallLogActivity.class);
+						from = 0;
+					} else if(from == 2) {
+						Utils.gotoActivity(DialActivity.this, ContactsListActivity.class);
+						from = 0;
+					} else {
+						finish();
+					}
+				} 
+				mTvCallOver.setVisibility(View.GONE);
+				onStateChange(PhoneState.IDEL);
 			}
 		}, 500);
 	}
@@ -600,11 +621,14 @@ public class DialActivity extends BaseActivity {
 	
 	@Override
 	public void syncLogsAlreadyLoad(int type) {
-		mBtnGotoContacts.setEnabled(true);
-		mBtnGotoCallLog.setEnabled(true);
-		
-		mDtvGotoContacts.setEnabled(true);
-		mDtvGotoCallLog.setEnabled(true);
+		// 表示全部类型都下载完成 
+		if(type == 10) {
+			mBtnGotoContacts.setEnabled(true);
+			mBtnGotoCallLog.setEnabled(true);
+			
+			mDtvGotoContacts.setEnabled(true);
+			mDtvGotoCallLog.setEnabled(true);
+		}
 	}
 	
 	@Override

@@ -5,14 +5,12 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -135,8 +133,9 @@ public class Radio extends Activity implements OnClickListener,
 
 	private RadioListAdapter mRadioAdapter;
 
-	private Rect imgBounds = new Rect(15, 0, 40, 20);
+	private Rect imgBounds;
 
+	
 	private Toast mCollectToast;
 	private CustomDialog dialog;
 	
@@ -220,6 +219,9 @@ public class Radio extends Activity implements OnClickListener,
 
 		radioPresenter = new RadioPresenter(this);
 		broadcastPresenter = new BroadcastPresenter(this);
+		
+		
+		imgBounds = new Rect(Utils.dip2px(this, 15), 0, Utils.dip2px(this, 40), Utils.dip2px(this, 20));
 		
 		initView();
 
@@ -393,6 +395,23 @@ public class Radio extends Activity implements OnClickListener,
 		seekBarFm.setOnSeekBarChangeListener(onSeekBarChangeListener);
 
 		seekBarAm.setOnSeekBarChangeListener(onSeekBarChangeListener);
+		
+		seekBarFm.setThumb(null);
+		seekBarAm.setThumb(null);
+		
+		
+	}
+	
+	@Override
+	public void showSeekbarThumb() {
+		L.d(thiz, "showSeekbarThumb!");
+		
+		seekBarFm.setThumb(getResources().getDrawable(R.drawable.thumb_radio));
+		seekBarAm.setThumb(getResources().getDrawable(R.drawable.thumb_radio));
+		seekBarFm.setThumbOffset(0);
+		seekBarAm.setThumbOffset(0);
+	
+		
 	}
 
 	/**
@@ -419,9 +438,6 @@ public class Radio extends Activity implements OnClickListener,
 							.obtainMessage(MSG_UPDATE_CHANNEL, progress * 10
 									+ MIN_FREQUENCE_FM, 0), 100);
 				}
-				
-				refreshView(radioPresenter.getCurrentBand(), progress * 10 + MIN_FREQUENCE_FM);
-				
 				break;
 			case R.id.seekbar_am:
 				if (fromUser) {
@@ -430,7 +446,6 @@ public class Radio extends Activity implements OnClickListener,
 							.obtainMessage(MSG_UPDATE_CHANNEL, progress * 9
 									+ MIN_FREQUENCE_AM, 0), 100);
 				}
-				
 				break;
 			default:
 				break;
@@ -554,8 +569,7 @@ public class Radio extends Activity implements OnClickListener,
 			Drawable drawable = getResources().getDrawable(
 					R.drawable.select_icon);
 			// / 这一步必须要做,否则不会显示.
-			//drawable.setBounds(imgBounds);
-			drawable.setBounds(dpToPx(this, 20), 0, drawable.getIntrinsicWidth() + dpToPx(this, 20), drawable.getIntrinsicHeight());
+			drawable.setBounds(imgBounds);
 			textView.setCompoundDrawables(drawable, null, null, null);
 			textView.setSelected(true);
 		} else {
@@ -565,8 +579,7 @@ public class Radio extends Activity implements OnClickListener,
 			Drawable drawable = getResources().getDrawable(
 					R.drawable.select_icon);
 			// 这一步必须要做,否则不会显示.
-			//drawable.setBounds(imgBounds);
-			drawable.setBounds(dpToPx(this, 20), 0, drawable.getIntrinsicWidth() + dpToPx(this, 20), drawable.getIntrinsicHeight());
+			drawable.setBounds(imgBounds);
 			textView.setCompoundDrawables(drawable, null, null, null);
 			textView.setSelected(true);
 		}
@@ -819,8 +832,7 @@ public class Radio extends Activity implements OnClickListener,
 					if (radioPresenter.getFmPosFreq(posInSp) == currentFreq) {
 						Drawable drawable = getResources().getDrawable(
 								R.drawable.select_icon);
-						//drawable.setBounds(imgBounds);
-						drawable.setBounds(dpToPx(this, 20), 0, drawable.getIntrinsicWidth() + dpToPx(this, 20), drawable.getIntrinsicHeight());
+						drawable.setBounds(imgBounds);
 						bottomTvs[i].setCompoundDrawables(drawable, null, null,
 								null);
 						bottomTvs[i].setSelected(true);
@@ -851,8 +863,7 @@ public class Radio extends Activity implements OnClickListener,
 					if (radioPresenter.isCurrentAmFreq(posInSp)) {
 						Drawable drawable = getResources().getDrawable(
 								R.drawable.select_icon);
-						//drawable.setBounds(imgBounds);
-						drawable.setBounds(dpToPx(this, 20), 0, drawable.getIntrinsicWidth() + dpToPx(this, 20), drawable.getIntrinsicHeight());
+						drawable.setBounds(imgBounds);
 						bottomTvs[i].setCompoundDrawables(drawable, null, null,
 								null);
 						bottomTvs[i].setSelected(true);
@@ -875,6 +886,15 @@ public class Radio extends Activity implements OnClickListener,
 
 	@Override
 	public void refreshChannelList(int freq, List<Frequence> list) {
+		
+		//为了防止首次进入闪一下无可用电台，但是没有效果
+//		if(mLvChannelList.getEmptyView() == null) {
+//			if(radioPresenter.getStatus() == -1) {
+//				showLoading();
+//			}
+//			mLvChannelList.setEmptyView(mTvNoChannel);
+//		}
+		
 		// 更新频道列表
 		if (list != null) {
 			mFreqList.clear();
@@ -972,12 +992,5 @@ public class Radio extends Activity implements OnClickListener,
 		}
 		radioPresenter.playPosition(pos);
 	}
-	
-    public static int dpToPx(Context context, float dipValue) {    
-        final float scale = context.getResources().getDisplayMetrics().density;    
-        return (int) (dipValue * scale + 0.5f);    
-   }  
-	
-	
 
 }

@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    android:paddingLeft="48px"
+    android:paddingLeft="48dp"
     android:orientation="vertical" >
     
     <TextView
         android:id="@+id/tv_product_model"
         style="@style/version_info_item"
-        android:layout_marginTop="20px"
+        android:layout_marginTop="20dp"
         android:text="@string/product_model"
         />
     

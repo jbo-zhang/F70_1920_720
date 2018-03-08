@@ -61,8 +61,8 @@ public class IndexScroller {
 		mIndexbarWidth = 40 * mDensity;
 		mIndexbarMargin = 5 * mDensity;
 		mPreviewPadding = 5 * mDensity;
-		mBigTextSize = 50 * mScaledDensity;
-		mTextSize = 12 * mScaledDensity;
+		mBigTextSize = 50;
+		mTextSize = 12;
 
 		mColorTxtHl = context.getResources().getColor(R.color.txt_hl);
 	}

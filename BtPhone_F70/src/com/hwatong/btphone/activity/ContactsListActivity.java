@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.hwatong.btphone.Contact;
 import com.hwatong.btphone.activity.base.BaseActivity;
+import com.hwatong.btphone.app.BtPhoneApplication;
 import com.hwatong.btphone.bean.UICallLog;
 import com.hwatong.btphone.constants.Constant;
 import com.hwatong.btphone.ui.DialogViewControl;
@@ -147,7 +148,8 @@ public class ContactsListActivity extends BaseActivity {
 	private void onHangUp() {
 		mLvContacts.setItemClickEnable(true);
 		setResult(Constant.RESULT_FINISH_ACTIVITY);
-		finish();
+		//电话在这个界面挂断，不结束
+		//finish();
 	}
 
 	/**
@@ -425,21 +427,33 @@ public class ContactsListActivity extends BaseActivity {
 	@Override
 	public void showComing(UICallLog callLog) {
 		if(callLog.shouldJump == 1) {
-			Utils.gotoDialActivity(this, callLog);
+			if(((BtPhoneApplication) getApplication()).getActivitySize() == 3) {
+				Utils.gotoDialActivity(this, callLog, 2);
+			} else {
+				Utils.gotoDialActivity(this, callLog);
+			}
 		}
 	}
 
 	@Override
 	public void showCalling(UICallLog callLog) {
 		if(callLog.shouldJump == 1) {
-			Utils.gotoDialActivity(this, callLog);
+			if(((BtPhoneApplication) getApplication()).getActivitySize() == 3) {
+				Utils.gotoDialActivity(this, callLog, 2);
+			} else {
+				Utils.gotoDialActivity(this, callLog);
+			}
 		}
 	}
 	
 	@Override
 	public void showTalking(UICallLog callLog) {
 		if(callLog.shouldJump == 1) {
-			Utils.gotoDialActivity(this, callLog);
+			if(((BtPhoneApplication) getApplication()).getActivitySize() == 3) {
+				Utils.gotoDialActivity(this, callLog, 2);
+			} else {
+				Utils.gotoDialActivity(this, callLog);
+			}
 		}
 	}
 

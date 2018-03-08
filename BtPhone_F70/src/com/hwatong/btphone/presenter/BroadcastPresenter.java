@@ -12,6 +12,12 @@ public class BroadcastPresenter {
 	private VoiceBroadcast voiceBroadcast;
 	private static final String CLOSE_ACTION = "com.hwatong.voice.CLOSE_BTPHONE";
 	private static final String OPEN_MISSED_CALLS = "com.hwatong.bt.TELEPHONE_MISSED";
+	
+	/**
+	 * 全部来电，即打开拨号界面
+	 */
+	private static final String OPEN_ALL_CALLS = "com.hwatong.bt.TELEPHONE_RECORDS";
+	
 	private static final String thiz = BroadcastPresenter.class.getSimpleName();
 	
 	private IReceiverView iView;
@@ -25,6 +31,9 @@ public class BroadcastPresenter {
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(CLOSE_ACTION);
 		filter.addAction(OPEN_MISSED_CALLS);
+		
+		filter.addAction(OPEN_ALL_CALLS);
+		
 		context.registerReceiver(voiceBroadcast, filter);
 	}
 	
@@ -41,6 +50,8 @@ public class BroadcastPresenter {
 				iView.close();
 			} else if(OPEN_MISSED_CALLS.equals(action)) {
 				iView.toMissedCalls();
+			} else if(OPEN_ALL_CALLS.equals(action)) {
+				iView.toAllCalls();
 			}
 		}
 		

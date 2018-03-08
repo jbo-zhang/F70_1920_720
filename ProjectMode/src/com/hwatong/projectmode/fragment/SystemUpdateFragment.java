@@ -35,6 +35,7 @@ import com.hwatong.projectmode.ui.UpdateDialog;
 import com.hwatong.projectmode.ui.ConfirmDialog.OnYesOnclickListener;
 import com.hwatong.projectmode.utils.FileUtil;
 import com.hwatong.projectmode.utils.L;
+import com.hwatong.projectmode.utils.Util;
 
 public class SystemUpdateFragment extends BaseFragment implements UpdateService.OTAUIStateChangeListener, ISystemUpdateView {
 
@@ -412,10 +413,10 @@ public class SystemUpdateFragment extends BaseFragment implements UpdateService.
 				copyDialog = new UpdateDialog(getActivity(), UpdateDialog.STYLE_COPY);
 				Window window = copyDialog.getWindow();
 				window.setGravity(Gravity.LEFT|Gravity.TOP);
-				window.setLayout(571, 250);
+				window.setLayout(Util.dip2px(getActivity(), 571), Util.dip2px(getActivity(), 250));
 				LayoutParams attributes = window.getAttributes();
-				attributes.x = 145;
-				attributes.y = 60;
+				attributes.x = Util.dip2px(getActivity(), 145);
+				attributes.y = Util.dip2px(getActivity(), 60);
 				window.setAttributes(attributes);
 				copyDialog.show();
 				copyDialog.setTitle(title);
@@ -450,8 +451,8 @@ public class SystemUpdateFragment extends BaseFragment implements UpdateService.
 		Window window = confirmDialog.getWindow();
 		window.setGravity(Gravity.LEFT | Gravity.TOP);
 		LayoutParams attributes = window.getAttributes();
-		attributes.x = 1280/3 - 190;
-		attributes.y = 80;
+		attributes.x = Util.dip2px(getActivity(), 1280/3 - 190);
+		attributes.y = Util.dip2px(getActivity(), 80);
 		window.setAttributes(attributes);
 		
 		confirmDialog.show();
@@ -470,8 +471,8 @@ public class SystemUpdateFragment extends BaseFragment implements UpdateService.
 		Window window = confirmDialog.getWindow();
 		window.setGravity(Gravity.LEFT | Gravity.TOP);
 		LayoutParams attributes = window.getAttributes();
-		attributes.x = 1280/3 - 190;
-		attributes.y = 80;
+		attributes.x = Util.dip2px(getActivity(), 1280/3 - 190);
+		attributes.y = Util.dip2px(getActivity(), 80);
 		window.setAttributes(attributes);
 		
 		confirmDialog.show();

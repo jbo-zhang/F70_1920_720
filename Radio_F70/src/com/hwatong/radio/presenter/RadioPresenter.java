@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
+import android.os.SystemClock;
 import android.widget.TextView;
 
 import com.hwatong.radio.Channel;
@@ -111,6 +112,7 @@ public class RadioPresenter {
 
 				if (status[0] == -1) {
 					L.d(thiz, "-1状态！");
+					iRadioView.showLoading();			//初始状态，可以认为正在扫描
 				} else if (status[0] == 0) {
 					// OP_IDLE
 					L.d(thiz, "空闲状态！");
@@ -250,6 +252,13 @@ public class RadioPresenter {
 				} else {
 					iRadioView.refreshView(mBand, mFreq, mList);
 				}
+				
+				//只调用一次没有效果，不知道原因
+				iRadioView.showSeekbarThumb();
+				SystemClock.sleep(50);
+				iRadioView.showSeekbarThumb();
+				SystemClock.sleep(50);
+				iRadioView.showSeekbarThumb();
 				
 //				mHandler.removeMessages(MSG_STATUS_CHANGED);
 //				mHandler.sendEmptyMessageDelayed(MSG_STATUS_CHANGED, 150);
@@ -792,5 +801,20 @@ public class RadioPresenter {
 		return 0;
 		
 	}
+	
+	public int getStatus() {
+		try {
+			if(mService != null) {
+				return mService.getStatus()[0];
+			}
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	
+	
 
 }
