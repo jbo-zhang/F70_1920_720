@@ -10,6 +10,7 @@ import android.graphics.PixelFormat;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.util.TypedValue;
 
 public class TempThumbDrable extends Drawable{
 	
@@ -36,7 +37,16 @@ public class TempThumbDrable extends Drawable{
     private Context context;
     
 	private Paint mPaint;  
-    private Bitmap mBitmap;  
+    private Bitmap mBitmap;
+
+
+	private float textSize;
+
+
+	private float textLeft;
+
+
+	private float textTop;  
  
   
     public TempThumbDrable(Bitmap bitmap, Context context) {  
@@ -44,6 +54,21 @@ public class TempThumbDrable extends Drawable{
         mBitmap = bitmap;    
         mPaint = new Paint();  
         mPaint.setAntiAlias(true);   
+        
+        TypedValue typeSize = new TypedValue();
+        context.getResources().getValue(R.dimen.thumb_text_size, typeSize, true);
+        textSize = typeSize.getFloat();
+        
+        TypedValue typeLeft = new TypedValue();
+        context.getResources().getValue(R.dimen.thumb_text_left, typeLeft, true);
+        textLeft = typeLeft.getFloat();
+        
+        TypedValue typeTop = new TypedValue();
+        context.getResources().getValue(R.dimen.thumb_text_top, typeTop, true);
+        textTop = typeTop.getFloat();
+        
+        Log.d("kongtiao", "size : " + textSize + " left : " + textLeft + " top : " + textTop);
+        
     }  
   
     @Override  
@@ -62,8 +87,10 @@ public class TempThumbDrable extends Drawable{
         canvas.drawBitmap(mBitmap, null, rectF, mPaint);
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
-        paint.setTextSize(65.0f);
-        canvas.drawText(temp, getBounds().centerX() - 95, getBounds().centerY() + 25, paint);
+        
+        
+        paint.setTextSize(textSize);
+        canvas.drawText(temp, getBounds().centerX() - textLeft, getBounds().centerY() + textTop, paint);
     }  
   
     @Override  

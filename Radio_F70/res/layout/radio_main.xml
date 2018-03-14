@@ -91,10 +91,10 @@
 
         <SeekBar
             android:id="@+id/seekbar_fm"
-            android:layout_width="502dp"
+            android:layout_width="@dimen/fm_seekbar_width"
             android:layout_height="65dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="188dp"
+            android:layout_marginLeft="@dimen/fm_seekbar_left"
             android:progress="0"
             android:progressDrawable="@null"
             android:thumb="@drawable/thumb_radio"

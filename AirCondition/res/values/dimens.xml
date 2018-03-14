@@ -5,5 +5,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     
     <dimen name="btn_margin">10dp</dimen>
-
+    
+    <item name="thumb_text_size" type="dimen" format="float">65</item>
+	<item name="thumb_text_left" type="dimen" format="float">95</item>
+	<item name="thumb_text_top" type="dimen" format="float">25</item>
+    
 </resources>

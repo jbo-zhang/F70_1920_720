@@ -11,7 +11,7 @@
     <dimen name="collection_button_margin_right">5dp</dimen>
     
     
-    <dimen name="fm_seekbar_left">188dp</dimen>
-    <dimen name="fm_seekbar_width">502dp</dimen>
+    <dimen name="fm_seekbar_left">182dp</dimen>
+    <dimen name="fm_seekbar_width">499dp</dimen>
     
 </resources>
