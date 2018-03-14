@@ -163,19 +163,15 @@ public class Radio extends Activity implements OnClickListener,
 				}
 				switch (msg.arg1) {
 				case R.id.btn_pre:
-					hideLoading();
 					radioPresenter.seek(false);
 					break;
 				case R.id.btn_next:
-					hideLoading();
 					radioPresenter.seek(true);
 					break;
 				case R.id.btn_down:
-					hideLoading();
 					radioPresenter.tune(false);
 					break;
 				case R.id.btn_up:
-					hideLoading();
 					radioPresenter.tune(true);
 					break;
 				case R.id.btn_back:
@@ -187,11 +183,9 @@ public class Radio extends Activity implements OnClickListener,
 					radioPresenter.band();
 					break;
 				case R.id.btn_radio_update:
-					hideLoading();
 					radioPresenter.scan();
 					break;
 				case R.id.btn_radio_preview:
-					hideLoading();
 					radioPresenter.previewChannels();
 					break;
 				case R.id.btn_collect1:
@@ -200,7 +194,6 @@ public class Radio extends Activity implements OnClickListener,
 				case R.id.btn_collect4:
 				case R.id.btn_collect5:
 				case R.id.btn_collect6:
-					hideLoading();
 					L.d(thiz, "" + (Integer) ((View) msg.obj).getTag());
 					radioPresenter.play((Integer) ((View) msg.obj).getTag());
 					break;
@@ -503,7 +496,6 @@ public class Radio extends Activity implements OnClickListener,
 	}
 	
 	public void doLongClick(View v) {
-		hideLoading();
 		int band = radioPresenter.getCurrentBand();
 		switch (v.getId()) {
 		case R.id.btn_collect1:
@@ -782,7 +774,7 @@ public class Radio extends Activity implements OnClickListener,
 		
 		// 收藏按钮数据更新
 		refreshFavorList(band, -1);
-		// 更新频道列表
+		// 更新频道列表		之所以不直接删掉调用是因为要将原来的高亮擦除
 		refreshChannelList(-1, null);
 	}
 	
@@ -887,19 +879,27 @@ public class Radio extends Activity implements OnClickListener,
 	@Override
 	public void refreshChannelList(int freq, List<Frequence> list) {
 		
-		//为了防止首次进入闪一下无可用电台，但是没有效果
-//		if(mLvChannelList.getEmptyView() == null) {
-//			if(radioPresenter.getStatus() == -1) {
-//				showLoading();
-//			}
-//			mLvChannelList.setEmptyView(mTvNoChannel);
-//		}
-		
 		// 更新频道列表
 		if (list != null) {
 			mFreqList.clear();
 			mFreqList.addAll(list);
 		}
+		
+		//为了防止首次进入闪一下无可用电台
+		if(mFreqList.size()==0) {
+			if(radioPresenter.isFm() && radioPresenter.isFmInit()) {
+				showNoChannel(false);
+			} else if(!radioPresenter.isFm() && radioPresenter.isAmInit()) {
+				showNoChannel(false);
+			} else {
+				showNoChannel(true);
+			}
+			
+		} else {
+			showNoChannel(false);
+		}
+
+		
 		int indexOf = mFreqList.indexOf(new Frequence(freq));
 		if (indexOf >= 0) {
 			mRadioAdapter.setPlayingChannel(indexOf);
@@ -992,5 +992,17 @@ public class Radio extends Activity implements OnClickListener,
 		}
 		radioPresenter.playPosition(pos);
 	}
+	
+	
+	void showNoChannel(boolean show) {
+		L.d(thiz, "showNoChannel show : " + show);
+		if(show) {
+			mTvNoChannel.setText(getString(R.string.listdialognone));
+		} else {
+			mTvNoChannel.setText("");
+		}
+		
+	}
+	
 
 }

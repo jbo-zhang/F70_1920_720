@@ -19,6 +19,7 @@ import com.hwatong.btphone.CallLog;
 import com.hwatong.btphone.ui.DrawableTextView;
 import com.hwatong.btphone.ui.R;
 import com.hwatong.btphone.ui.ViewHolder;
+import com.hwatong.btphone.util.DensityUtils;
 import com.hwatong.btphone.util.L;
 
 
@@ -84,11 +85,11 @@ public class CallLogListAdapter extends BaseAdapter {
 			holder.mTvNumber = (TextView) convertView.findViewById(R.id.tv_phone_number);
 			if (mLayoutResId == R.layout.item_contacts_btn) {
 				holder.mBtnDial = (ImageButton) convertView.findViewById(R.id.btn_dial);
-				width1= 310;
-				width2= 260;
+				width1= DensityUtils.dp2px(mContext, 310);
+				width2= DensityUtils.dp2px(mContext, 260);
 			} else {
-				width1= 150;
-				width2= 170;
+				width1= DensityUtils.dp2px(mContext, 150);
+				width2= DensityUtils.dp2px(mContext, 170);
 			}
 
 			convertView.setTag(holder);

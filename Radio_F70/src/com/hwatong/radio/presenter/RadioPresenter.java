@@ -42,7 +42,7 @@ public class RadioPresenter {
 	private static final int MSG_DISPLAY_CHANGED = 1005;
 	private static final int MSG_PREVIEW_CHANNEL = 1006;
 
-	private int mBand = 1;	// 1~5
+	private static int mBand = 1;	// 1~5
 
 	private int mFreq = 8750;
 	private int mFmFreq, mAmFreq;
@@ -59,6 +59,9 @@ public class RadioPresenter {
 	protected IStatusBarInfo iStatusBarInfo;
 	
 	private int initType = -1;
+	
+	private boolean isFmInit, isAmInit; // 恢复出厂首次进入时为true
+	
 
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -67,7 +70,6 @@ public class RadioPresenter {
 			 */
 			switch (msg.what) {
 			case MSG_DISPLAY_CHANGED:
-				L.d(thiz, "MSG_DISPLAY_CHANGED : " + msg.arg1 + " " + msg.arg2);
 				iRadioView.refreshView(msg.arg1, msg.arg2);
 				break;
 			case MSG_CHANNEL_CHANGED:
@@ -113,9 +115,13 @@ public class RadioPresenter {
 				if (status[0] == -1) {
 					L.d(thiz, "-1状态！");
 					iRadioView.showLoading();			//初始状态，可以认为正在扫描
+					
+					setInitFalse(1000);
+					
 				} else if (status[0] == 0) {
 					// OP_IDLE
 					L.d(thiz, "空闲状态！");
+					
 					// 空闲状态判断一下是不是电台预览，如果是的话，停留10s后需要继续扫描，直到回到初始频率
 					if (previewMode) {
 						mHandler.sendEmptyMessageDelayed(MSG_PREVIEW_CHANNEL,
@@ -123,10 +129,14 @@ public class RadioPresenter {
 					} else {
 						iRadioView.hideLoading();
 					}
+					
+					setInitFalse(0);
+					
 				} else if (status[0] == 1) {
 					// OP_SCAN
 					L.d(thiz, "扫描状态！");
 					iRadioView.showLoading();
+					setInitFalse(1000);
 				}
 
 				break;
@@ -138,6 +148,23 @@ public class RadioPresenter {
 		}
 
 	};
+	
+	private void setInitFalse(final long delay) {
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				SystemClock.sleep(delay);
+				if(isFm()) {
+					isFmInit = false;
+				} else {
+					isAmInit = false;
+				}
+			}
+		}).start();
+	}
+	
+	
 
 	public RadioPresenter(IRadioView iRadioView) {
 		this.iRadioView = iRadioView;
@@ -205,6 +232,17 @@ public class RadioPresenter {
 				return;
 			}
 			
+			int[] status = new int[2];
+
+			try {
+				status = mService.getStatus();
+				if (status != null && status.length >= 2) {
+					isFmInit = isAmInit = status[0] == -1;
+				}
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+			
 			try {
 				L.d(thiz, "mService.registerCallback(mRadioCallback)");
 				mService.registerCallback(mRadioCallback);
@@ -231,19 +269,17 @@ public class RadioPresenter {
 					mFreq = mFmFreq = mService.getCurrentChannel(0);
 					
 					// 首次进入-->扫描
-					firstScan(mRadioPref.isFMInit());
-					
-					
+					//firstScan(mRadioPref.isFMInit());
 				} else {
 					refreshAmList();
 					mList = mAmList;
 					mFreq = mAmFreq = mService.getCurrentChannel(1);
 					
 					// 首次进入-->扫描
-					firstScan(mRadioPref.isAMInit());
+					//firstScan(mRadioPref.isAMInit());
 				}
 				
-				L.d(thiz, "onServiceConnected initType : " + initType + " isFm : " + isFm() + " mFreq:" + mFreq);
+				L.d(thiz, "onServiceConnected initType : " + initType + " isFm : " + isFm() + " mFreq:" + mFreq + " mlist.size: " + mList.size());
 				
 				if(initType == 0 && !isFm()){
 					realBand();
@@ -283,7 +319,6 @@ public class RadioPresenter {
 //			L.d(thiz, "First fm start false !" );
 //		}
 	}
-	
 	
 
 	protected ServiceConnection mConn2 = new ServiceConnection() {
@@ -382,7 +417,7 @@ public class RadioPresenter {
 							MSG_CHANNELLIST_CHANGED, 0, 0));
 					
 					// 首次进入-->扫描
-					firstScan(mRadioPref.isFMInit());
+					//firstScan(mRadioPref.isFMInit());
 					
 				} else {
 					mFreq = mAmFreq = mService.getCurrentChannel(1);
@@ -394,7 +429,7 @@ public class RadioPresenter {
 							MSG_CHANNELLIST_CHANGED, 1, 0));
 					
 					// 首次进入-->扫描
-					firstScan(mRadioPref.isAMInit());
+					//firstScan(mRadioPref.isAMInit());
 					
 					
 				}
@@ -407,6 +442,8 @@ public class RadioPresenter {
 		// 获取对应频段列表
 		try {
 			List<Channel> list = mService.getChannelList(1);
+			L.d(thiz, "getChannelList 1 size : " + list.size());
+			
 			// 判断是否已收藏
 			for (int i = 0; i < list.size(); i++) {
 				Frequence v = new Frequence();
@@ -432,6 +469,8 @@ public class RadioPresenter {
 		// 获取对应频段列表
 		try {
 			List<Channel> list = mService.getChannelList(0);
+			L.d(thiz, "getChannelList 0 size : " + list.size());
+			
 			// 判断是否已收藏
 			for (int i = 0; i < list.size(); i++) {
 				L.d(thiz,i + " " + list.get(i).frequence);
@@ -813,6 +852,15 @@ public class RadioPresenter {
 		}
 		return 0;
 	}
+	
+	public boolean isFmInit() {
+		return isFmInit;
+	}
+	
+	public boolean isAmInit() {
+		return isAmInit;
+	}
+	
 	
 	
 	

@@ -27,7 +27,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="#999999"
-        android:text="@string/listdialognone"
         android:background="@drawable/bg_radio_update"
         android:visibility="gone"
         android:textSize="24sp" />

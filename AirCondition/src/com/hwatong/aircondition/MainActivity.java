@@ -538,6 +538,8 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 		if (status != null) {
 			if (mACStatus == null || !mACStatus.equals(status)) { // 如果按钮状态为空,切按钮状态改变
 
+				refreshTimer();
+				
 				if (mACStatus == null)
 					mACStatus = new ACStatus();
 				mACStatus.set(status);
