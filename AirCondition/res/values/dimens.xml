@@ -9,5 +9,10 @@
     <item name="thumb_text_size" type="dimen" format="float">65</item>
 	<item name="thumb_text_left" type="dimen" format="float">95</item>
 	<item name="thumb_text_top" type="dimen" format="float">25</item>
-    
+	
+	
+	<!-- <item name="thumb_text_size" type="dimen" format="float">25</item>
+	<item name="thumb_text_left" type="dimen" format="float">35</item>
+	<item name="thumb_text_top" type="dimen" format="float">10</item>
+     -->
 </resources>
