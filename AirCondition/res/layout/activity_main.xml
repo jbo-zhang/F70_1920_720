@@ -62,26 +62,26 @@
 
                 <com.hwatong.aircondition.IrregularImageView
                     android:id="@+id/iv_blower_front"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="315dp"
+                    android:layout_height="179dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/blower_front"
                     android:visibility="visible" />
 
                 <com.hwatong.aircondition.IrregularImageView
                     android:id="@+id/iv_blower_up"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="315dp"
+                    android:layout_height="192dp"
                     android:layout_above="@id/iv_blower_front"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="-90dp"
                     android:background="@drawable/blower_up"
-                    android:visibility="visible" />
+                    android:visibility="invisible" />
 
                 <com.hwatong.aircondition.IrregularImageView
                     android:id="@+id/iv_blower_down"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="315dp"
+                    android:layout_height="179dp"
                     android:layout_below="@id/iv_blower_front"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="-85dp"

@@ -55,6 +55,9 @@ public class IrregularImageView extends ImageView {
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
+		
+		Log.d("kongtiao", "getMeasuredWidth() : " + getMeasuredWidth() + " getMeasuredHeight()" + getMeasuredHeight());
+		
 		transparentBmp = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ARGB_8888);
 		transparentDrawable = new BitmapDrawable(transparentBmp);
 		
@@ -79,6 +82,9 @@ public class IrregularImageView extends ImageView {
 
         int w = drawable.getIntrinsicWidth();
         int h = drawable.getIntrinsicHeight();
+        
+        Log.d("kongtiao", "getIntrinsicWidth() : " + w + " getIntrinsicHeight()" + h);
+        
         Bitmap.Config config =
                 drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
                         : Bitmap.Config.RGB_565;
