@@ -299,11 +299,11 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 //		}
 		
 		//中配豪华和高配旗舰有后空调，其他没有
-//		if(getCarType() == 3 || getCarType() == 4) {	
-//			mTvRearSwitch.setVisibility(View.VISIBLE);
-//		} else if(getCarType() == 1 || getCarType() == 2){
-//			mTvRearSwitch.setVisibility(View.GONE);
-//		}
+		if(getCarType() == 3 || getCarType() == 4) {	
+			mTvRearSwitch.setVisibility(View.VISIBLE);
+		} else if(getCarType() == 1 || getCarType() == 2){
+			mTvRearSwitch.setVisibility(View.GONE);
+		}
 		
 	}
 
@@ -953,14 +953,14 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
      */
     private int getCarType() {
     	int carType = 0;
-//    	if(mCanbusService != null) {
-//    		try {
-//				carType = mCanbusService.getCarConfigType();
-//				Log.d(TAG, "get carType : " + carType);
-//			} catch (RemoteException e) {
-//				e.printStackTrace();
-//			}
-//    	}
+    	if(mCanbusService != null) {
+    		try {
+				carType = mCanbusService.getCarConfigType();
+				Log.d(TAG, "get carType : " + carType);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+    	}
     	
     	return carType;
     }
