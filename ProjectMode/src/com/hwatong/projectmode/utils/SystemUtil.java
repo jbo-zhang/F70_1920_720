@@ -107,28 +107,30 @@ public class SystemUtil {
 	 * @return
 	 */
 	public static String getMcuVersionInfo() {
-        try {
-            FileReader fr = new FileReader(VERSION_URI);
-            BufferedReader br = new BufferedReader(fr);
-            String tmp = br.readLine();
-            L.d(thiz, "version: " + tmp);
-            br.close();
-            fr.close();
-            return tmp;
-//            while (tmp != null) {
-//                String[] strs = tmp.split(",");
-//                Log.i("ljwtest:", strs[0] + "," + strs[1] + "," + str);
-//                if (strs.length == 2 && strs[0].equals(str))
-//                    return strs[1];
-//                tmp = br.readLine();
-//            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Log.i("TAG", "file not found");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-		return "";
+		return  SystemProperties.get("sys.hwatong.mcu_version", "MCU_VERSION");
+		
+//        try {
+//            FileReader fr = new FileReader(VERSION_URI);
+//            BufferedReader br = new BufferedReader(fr);
+//            String tmp = br.readLine();
+//            L.d(thiz, "version: " + tmp);
+//            br.close();
+//            fr.close();
+//            return tmp;
+////            while (tmp != null) {
+////                String[] strs = tmp.split(",");
+////                Log.i("ljwtest:", strs[0] + "," + strs[1] + "," + str);
+////                if (strs.length == 2 && strs[0].equals(str))
+////                    return strs[1];
+////                tmp = br.readLine();
+////            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//            Log.i("TAG", "file not found");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//		return "";
 	}
     
     
