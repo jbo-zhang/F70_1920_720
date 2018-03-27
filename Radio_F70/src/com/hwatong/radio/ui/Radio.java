@@ -205,7 +205,7 @@ public class Radio extends Activity implements OnClickListener,
 		}
 	};
 
-	@Override
+	@SuppressLint("NewApi") @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -225,27 +225,46 @@ public class Radio extends Activity implements OnClickListener,
 		broadcastPresenter.regVoiceBroadcast(this);
 		
 		if(getIntent() != null) {
+			
+			Bundle b = getIntent().getExtras();
+			if(b != null && "mode_key".equals(b.getString("from", ""))) {
+				int band = b.getInt("band");
+				if(band == 1) {
+					radioPresenter.setInitType(0);
+				}
+				L.d(thiz, "onCreate bundle band : " + band);
+			}
+			
 			int type = getIntent().getIntExtra("type", -1);
-			radioPresenter.setInitType(type);
-			L.d(thiz, "onResume type : " + type + " isFm : " + radioPresenter.isFm());
+			if(type != -1) {
+				radioPresenter.setInitType(type);
+			}
+			L.d(thiz, "onCreate type : " + type + " isFm : " + radioPresenter.isFm());
 		}
-		
 	}
 	
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		L.d(thiz, "onResume!!!");
 		radioPresenter.bindService(this);
 	}
 	
-	@Override
+	@SuppressLint("NewApi") @Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		
 		int type = intent.getIntExtra("type", -1);
-		radioPresenter.setInitType(type);
+		if(type != -1) {
+			radioPresenter.setInitType(type);
+		}
 		L.d(thiz, "onNewIntent type : "+ type + " isFm : " + radioPresenter.isFm());
+		
+		Bundle b = intent.getExtras();
+		if(b != null && "mode_key".equals(b.getString("from", ""))) {
+			radioPresenter.setBandFromMode(b.getInt("band"), true);
+		}
 	}
 
 	@Override

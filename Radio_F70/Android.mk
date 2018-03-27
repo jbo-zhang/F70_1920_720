@@ -28,6 +28,8 @@ LOCAL_STATIC_JAVA_LIBRARIES := \
 
 LOCAL_PACKAGE_NAME := Radio_F70
 
+LOCAL_CERTIFICATE := platform
+
 include $(BUILD_PACKAGE)
 
 include $(call all-makefiles-under,$(LOCAL_PATH))

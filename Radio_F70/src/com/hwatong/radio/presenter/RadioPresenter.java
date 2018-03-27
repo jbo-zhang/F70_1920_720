@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
 import android.os.SystemClock;
+import android.os.SystemProperties;
 import android.widget.TextView;
 
 import com.hwatong.radio.Channel;
@@ -58,7 +59,7 @@ public class RadioPresenter {
 
 	protected IStatusBarInfo iStatusBarInfo;
 	
-	private int initType = -1;
+	private int initType = -1;			//0表示刚进入是fm，1表示刚进入是am
 	
 	private boolean isFmInit, isAmInit; // 恢复出厂首次进入时为true
 	
@@ -168,6 +169,12 @@ public class RadioPresenter {
 
 	public RadioPresenter(IRadioView iRadioView) {
 		this.iRadioView = iRadioView;
+		initBand();
+	}
+	
+	private void initBand() {
+		mBand = SystemProperties.getInt("persist.sys.radio_mode", 1);
+		L.d(thiz, "initBand : " + mBand);
 	}
 
 	public void initSharedPreferences(Context context) {
@@ -513,7 +520,15 @@ public class RadioPresenter {
 			mHandler.removeMessages(MSG_CHANNEL_CHANGED);
 			mHandler.sendEmptyMessage(MSG_CHANNEL_CHANGED);
 		}
+		
+		storeBand();
 	}
+	
+	private void storeBand() {
+		L.d(thiz, "storeBand mBand = " + mBand);
+		SystemProperties.set("persist.sys.radio_mode", String.valueOf(mBand));
+	}
+	
 	
 	public void realBand() {
 		L.d(thiz, "realBand");
@@ -684,7 +699,7 @@ public class RadioPresenter {
 	}
 
 	/**
-	 * 判断APP的band与服务的band是不是统一
+	 * 判断APP的band与服务的band是不是统一,不统一，APP同步成服务的band。
 	 */
 	private void checkBand() {
 		if (mService != null) {
@@ -705,6 +720,8 @@ public class RadioPresenter {
 		if (band == 0 && mBand > 3) {
 			mBand = 1;
 		}
+		
+		storeBand();
 	}
 	
 	/**
@@ -727,6 +744,8 @@ public class RadioPresenter {
 				mHandler.sendEmptyMessage(MSG_CHANNEL_CHANGED);
 			}
 		}
+		
+		storeBand();
 	}
 	
 
@@ -862,7 +881,17 @@ public class RadioPresenter {
 	}
 	
 	
-	
-	
+	public void setBandFromMode(int band, boolean isNewIntent) {
+		L.d(thiz, "setBandFromMode band= " + band + " mBand: " + mBand + " isNewIntent= " + isNewIntent);
+		if(band == mBand + 1 || (band == 1 && mBand == 5)) {
+			if(band == 4) {
+				initType = 1;
+			} else if(band == 1) {
+				initType = 0;
+			} else {
+				band();
+			}
+		}
+	}
 
 }
