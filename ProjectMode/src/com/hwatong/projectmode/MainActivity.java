@@ -172,12 +172,15 @@ public class MainActivity extends FragmentActivity implements IActivity, OnClick
 	}
     
 	
-	private void toFragment(Fragment fragment) {
+	private synchronized void toFragment(Fragment fragment) {
+		L.d(thiz, "to fragment: " + fragment + " isAdded: " + fragment.isAdded() + " isVisisble: " + fragment.isVisible());
+		
 		currentFragment = fragment;
 		
-		if(fragment.isAdded()) {
+		if(fragment.isVisible()) {
 			return;
 		}
+		
 		getSupportFragmentManager().beginTransaction().replace(R.id.fl_content, fragment).commit();
 	}
 
