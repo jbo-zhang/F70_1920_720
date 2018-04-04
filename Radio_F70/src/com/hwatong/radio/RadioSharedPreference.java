@@ -155,26 +155,40 @@ public class RadioSharedPreference {
 		return false;
 	}
 	
-	public boolean isFMInit() {
-		if(mSp.getBoolean("is_init_fm", true)) {
-			mSp.edit().putBoolean("is_init_fm", false).commit();
-			L.d(thiz, "isFMInit return true");
-			return true;
-		} 
-		L.d(thiz, "isFMInit return false");
-		return false;
+	public synchronized boolean isFMInit() {
+		
+		return mSp.getBoolean("is_init_fm", true);
+		
+//		if(mSp.getBoolean("is_init_fm", true)) {
+//			mSp.edit().putBoolean("is_init_fm", false).commit();
+//			L.d(thiz, "isFMInit return true");
+//			return true;
+//		} 
+//		L.d(thiz, "isFMInit return false");
+//		return false;
 	}
 	
-	public boolean isAMInit() {
-		if(mSp.getBoolean("is_init_am", true)) {
-			mSp.edit().putBoolean("is_init_am", false).commit();
-			L.d(thiz, "isAMInit return true;");
-			return true;
-		} 
-		L.d(thiz, "isAMInit return false;");
-		return false;
+	public synchronized void setFMInit(boolean isInit) {
+		mSp.edit().putBoolean("is_init_fm", isInit).commit();
 	}
 	
+	
+	public synchronized boolean isAMInit() {
+		
+		return mSp.getBoolean("is_init_am", true);
+		
+//		if(mSp.getBoolean("is_init_am", true)) {
+//			mSp.edit().putBoolean("is_init_am", false).commit();
+//			L.d(thiz, "isAMInit return true;");
+//			return true;
+//		} 
+//		L.d(thiz, "isAMInit return false;");
+//		return false;
+	}
+	
+	public synchronized void setAMInit(boolean isInit) {
+		mSp.edit().putBoolean("is_init_am", isInit).commit();
+	}	
 	
 	
 }

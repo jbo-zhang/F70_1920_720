@@ -14,4 +14,16 @@
     <dimen name="fm_seekbar_left">182dp</dimen>
     <dimen name="fm_seekbar_width">499dp</dimen>
     
+    <dimen name="progress_width">60dp</dimen>
+    <dimen name="progress_height">60dp</dimen>
+    
+    <dimen name="progress_margin_top">100dp</dimen>
+    
+    <dimen name="progress_text_margin_top">25dp</dimen>
+    
+    <dimen name="progress_text_margin_left">10dp</dimen>
+    
+    <dimen name="progress_text_size">26sp</dimen>
+    
+    <dimen name="no_channel_text_size">24sp</dimen>
 </resources>

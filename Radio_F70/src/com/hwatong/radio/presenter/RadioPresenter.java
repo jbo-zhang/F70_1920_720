@@ -61,7 +61,7 @@ public class RadioPresenter {
 	
 	private int initType = -1;			//0表示刚进入是fm，1表示刚进入是am
 	
-	private boolean isFmInit, isAmInit; // 恢复出厂首次进入时为true
+	private boolean isFmInit = true, isAmInit = true; // 恢复出厂首次进入时为true
 	
 
 	private Handler mHandler = new Handler() {
@@ -117,8 +117,6 @@ public class RadioPresenter {
 					L.d(thiz, "-1状态！");
 					iRadioView.showLoading();			//初始状态，可以认为正在扫描
 					
-					setInitFalse(1000);
-					
 				} else if (status[0] == 0) {
 					// OP_IDLE
 					L.d(thiz, "空闲状态！");
@@ -131,13 +129,11 @@ public class RadioPresenter {
 						iRadioView.hideLoading();
 					}
 					
-					setInitFalse(0);
 					
 				} else if (status[0] == 1) {
 					// OP_SCAN
 					L.d(thiz, "扫描状态！");
 					iRadioView.showLoading();
-					setInitFalse(1000);
 				}
 
 				break;
@@ -150,17 +146,26 @@ public class RadioPresenter {
 
 	};
 	
-	private void setInitFalse(final long delay) {
+	private void setFMInitFalse() {
+		L.d(thiz, "setFMInitFalse!");
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				SystemClock.sleep(1000);
+				mRadioPref.setFMInit(false);
+			}
+		}).start();
+	}
+	
+	
+	private void setAMInitFalse() {
+		L.d(thiz, "setAMInitFalse!");
 		new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-				SystemClock.sleep(delay);
-				if(isFm()) {
-					isFmInit = false;
-				} else {
-					isAmInit = false;
-				}
+				SystemClock.sleep(1000);
+				mRadioPref.setAMInit(false);
 			}
 		}).start();
 	}
@@ -239,16 +244,20 @@ public class RadioPresenter {
 				return;
 			}
 			
-			int[] status = new int[2];
+			//int[] status = new int[2];
 
-			try {
-				status = mService.getStatus();
-				if (status != null && status.length >= 2) {
-					isFmInit = isAmInit = status[0] == -1;
-				}
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				status = mService.getStatus();
+//				if (status != null && status.length >= 2) {
+//					isFmInit = isAmInit = status[0] == -1;
+//				}
+//			} catch (RemoteException e) {
+//				e.printStackTrace();
+//			}
+			
+			isFmInit();
+			isAmInit();
+			
 			
 			try {
 				L.d(thiz, "mService.registerCallback(mRadioCallback)");
@@ -276,6 +285,7 @@ public class RadioPresenter {
 					mFreq = mFmFreq = mService.getCurrentChannel(0);
 					
 					// 首次进入-->扫描
+					setFMInitFalse();
 					//firstScan(mRadioPref.isFMInit());
 				} else {
 					refreshAmList();
@@ -283,6 +293,7 @@ public class RadioPresenter {
 					mFreq = mAmFreq = mService.getCurrentChannel(1);
 					
 					// 首次进入-->扫描
+					setAMInitFalse();
 					//firstScan(mRadioPref.isAMInit());
 				}
 				
@@ -402,6 +413,14 @@ public class RadioPresenter {
 			Message m = Message.obtain(mHandler, MSG_CHANNELLIST_CHANGED, band,
 					0);
 			mHandler.sendMessage(m);
+			
+			
+			if (band == 0) {
+				setFMInitFalse();					
+			} else {
+				setAMInitFalse();	
+			}
+			
 		}
 
 		@Override
@@ -425,6 +444,7 @@ public class RadioPresenter {
 					
 					// 首次进入-->扫描
 					//firstScan(mRadioPref.isFMInit());
+					setFMInitFalse();					
 					
 				} else {
 					mFreq = mAmFreq = mService.getCurrentChannel(1);
@@ -437,8 +457,8 @@ public class RadioPresenter {
 					
 					// 首次进入-->扫描
 					//firstScan(mRadioPref.isAMInit());
-					
-					
+					//mRadioPref.setAMInit(false);
+					setAMInitFalse();	
 				}
 			}
 		}
@@ -872,11 +892,25 @@ public class RadioPresenter {
 		return 0;
 	}
 	
+	
+	
 	public boolean isFmInit() {
+		if(isFmInit) {
+			isFmInit = mRadioPref.isFMInit();
+		}
+		
+		L.d(thiz, "isFmInit: " + isFmInit);
+		
 		return isFmInit;
 	}
 	
 	public boolean isAmInit() {
+		if(isAmInit) {
+			isAmInit = mRadioPref.isAMInit();
+		} 
+		
+		L.d(thiz, "isAmInit: " + isAmInit);
+		
 		return isAmInit;
 	}
 	

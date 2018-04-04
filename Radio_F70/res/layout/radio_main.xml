@@ -262,12 +262,12 @@
 
         <!-- 电台更新 -->
 
+<!--             android:layout_marginLeft="1dp" -->
         <LinearLayout
             android:id="@+id/btn_radio_update"
             android:layout_width="0dp"
             android:layout_height="@dimen/bottom_bar_height"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@drawable/btn_selector"
             android:gravity="center" >

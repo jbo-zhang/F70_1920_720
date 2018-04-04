@@ -27,9 +27,9 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="#999999"
-        android:background="@drawable/bg_radio_update"
+        android:background="@drawable/bg_radio_update_no"
         android:visibility="gone"
-        android:textSize="24sp" />
+        android:textSize="@dimen/no_channel_text_size" />
     
 
 </RelativeLayout>
