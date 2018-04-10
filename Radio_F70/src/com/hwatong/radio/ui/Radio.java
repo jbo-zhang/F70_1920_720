@@ -1043,6 +1043,7 @@ public class Radio extends Activity implements OnClickListener,
 		intent.addCategory(Intent.CATEGORY_DEFAULT);
 		ComponentName cn = new ComponentName(pkgName, clsName);
 		intent.setComponent(cn);
+		intent.putExtra("isJumpUsb", false);
 		startActivity(intent);
 		finish();
 	}
