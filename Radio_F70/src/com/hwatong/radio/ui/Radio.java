@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -177,7 +178,7 @@ public class Radio extends Activity implements OnClickListener,
 				case R.id.btn_back:
 					hideLoading();
 					radioPresenter.stopScan();
-					finish();
+					doBack();
 					break;
 				case R.id.btn_band_switch:
 					radioPresenter.band();
@@ -1023,5 +1024,27 @@ public class Radio extends Activity implements OnClickListener,
 		
 	}
 	
+	
+	@Override
+	public void onBackPressed() {
+		L.d(thiz, "onBackPressed!");
+		doBack();
+		//super.onBackPressed();
+	}
+	
+	
+	private void doBack() {
+		backTo("com.hwatong.media.common", "com.hwatong.media.common.MainActivity");
+	}
+	
+	
+	private void backTo(String pkgName, String clsName) {
+		Intent intent = new Intent(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_DEFAULT);
+		ComponentName cn = new ComponentName(pkgName, clsName);
+		intent.setComponent(cn);
+		startActivity(intent);
+		finish();
+	}
 
 }

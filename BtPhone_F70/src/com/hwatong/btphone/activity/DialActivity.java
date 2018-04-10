@@ -389,23 +389,35 @@ public class DialActivity extends BaseActivity {
 			clickHangUp();
 			break;
 		case R.id.iv_return:
-			finish();
+			toHomeActivity();
 			break;
 		case R.id.btn_goto_contacts:
 			L.d(thiz, "onclick goto contacts!");
 			if (mCurPhoneState == PhoneState.IDEL) {
-				Utils.gotoActivity(this, ContactsListActivity.class);
+				//Utils.gotoActivity(this, ContactsListActivity.class);
+				
+				Intent intent = new Intent(this, ContactsListActivity.class);
+				intent.putExtra("from_dial", true);
+				startActivity(intent);
+				
 			} else {
 				Intent intent = new Intent(this, ContactsListActivity.class);
+				intent.putExtra("from_dial", true);
 				startActivityForResult(intent, 0);
 			}
 			break;
 		case R.id.btn_goto_call_log:
 			L.d(thiz, "onclick goto calllog!");
 			if (mCurPhoneState == PhoneState.IDEL) {
-				Utils.gotoActivity(this, CallLogActivity.class);
+				//Utils.gotoActivity(this, CallLogActivity.class);
+				
+				Intent intent = new Intent(this, CallLogActivity.class);
+				intent.putExtra("from_dial", true);
+				startActivity(intent);
+				
 			} else {
 				Intent intent = new Intent(this, CallLogActivity.class);
+				intent.putExtra("from_dial", true);
 				startActivityForResult(intent, 0);
 			}
 			break;

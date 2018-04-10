@@ -87,6 +87,12 @@ public class ContactsListActivity extends BaseActivity {
 
 		initListView();
 		initKeyBoard();
+		
+		if(getIntent() != null) {
+			fromDial = getIntent().getBooleanExtra("from_dial", false);
+			L.d(thiz, "from dial : " + fromDial);
+		}
+		
 	}
 	
 	private void initListView() {
@@ -228,7 +234,11 @@ public class ContactsListActivity extends BaseActivity {
 		mLvContacts.hideCurrentItemBtn();
 		switch (v.getId()) {
 		case R.id.iv_return:
-			finish();
+			if(fromDial) {
+				finish();
+			} else {
+				toHomeActivity();
+			}
 			break;
 		case R.id.btn_update_contacts:
 			if(mService != null) {

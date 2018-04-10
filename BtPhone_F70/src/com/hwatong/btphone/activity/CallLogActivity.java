@@ -93,6 +93,12 @@ public class CallLogActivity extends BaseActivity {
 		mTvCallOut.setSelected(UICallLog.TYPE_CALL_OUT == mCurCallLogType);
 		
 		initListView();
+		
+		if(getIntent() != null) {
+			fromDial = getIntent().getBooleanExtra("from_dial", false);
+			L.d(thiz, "from dial : " + fromDial);
+		}
+		
 	}
 
 	private void initListView() {
@@ -200,7 +206,11 @@ public class CallLogActivity extends BaseActivity {
 		mLvCallLog.hideCurrentItemBtn();
 		switch (v.getId()) {
 		case R.id.iv_return:
-			finish();
+			if(fromDial) {
+				finish();
+			} else {
+				toHomeActivity();
+			}
 			break;
 		case R.id.tv_update_log:
 			clickUpdateCallLog();

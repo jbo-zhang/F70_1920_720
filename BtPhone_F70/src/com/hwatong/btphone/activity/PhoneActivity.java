@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.hwatong.btphone.activity.base.BaseActivity;
+import com.hwatong.btphone.app.BtPhoneApplication;
 import com.hwatong.btphone.bean.UICallLog;
 import com.hwatong.btphone.ui.DrawableTextView;
 import com.hwatong.btphone.ui.R;
@@ -177,7 +178,7 @@ public class PhoneActivity extends BaseActivity{
 		case R.id.btn_return:
 			L.d(thiz, "onclick finish!");
 			toHome();
-			finish();
+			BtPhoneApplication.getInstance().exit();
 			break;
 
 		default:
@@ -242,5 +243,13 @@ public class PhoneActivity extends BaseActivity{
 	public void showHangUp(UICallLog callLog) {
 		L.d(thiz, "showHangUp");
 	}
+	
+	@Override
+	public void onBackPressed() {
+		toHome();
+		BtPhoneApplication.getInstance().exit();
+	}
+	
+	
 
 }

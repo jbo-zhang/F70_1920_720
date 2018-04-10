@@ -20,6 +20,7 @@ import android.view.View.OnTouchListener;
 
 import com.hwatong.btphone.CallLog;
 import com.hwatong.btphone.Contact;
+import com.hwatong.btphone.activity.PhoneActivity;
 import com.hwatong.btphone.app.BtPhoneApplication;
 import com.hwatong.btphone.bean.UICallLog;
 import com.hwatong.btphone.constants.Constant;
@@ -43,6 +44,8 @@ public abstract class BaseActivity extends Activity implements OnClickListener,
 
 	protected IStatusBarInfo iStatusBarInfo;
 
+	protected boolean fromDial = false;		//增加一个判断是否从拨号界面打开通话记录界面的标记，如果是，则返回时只需要finish，如果不是则返回需要回到蓝牙主界面
+	
 	private int[] types = { Constant.MSG_SHOW_CONNECTED, Constant.MSG_SHOW_DISCONNECTED,
 			Constant.MSG_SHOW_COMING, Constant.MSG_SHOW_CALLING,
 			Constant.MSG_SHOW_TALKING, Constant.MSG_SHOW_HANG_UP,
@@ -514,6 +517,22 @@ public abstract class BaseActivity extends Activity implements OnClickListener,
 	@Override
 	public void toMissedCalls() {
 		
+	}
+	
+	public void toHomeActivity() {
+		Intent intent = new Intent(this, PhoneActivity.class);
+		startActivity(intent);
+		finish();
+	}
+	
+	@Override
+	public void onBackPressed() {
+//		super.onBackPressed();
+		if(fromDial) {
+			finish();
+		} else {
+			toHomeActivity();
+		}
 	}
 	
 
