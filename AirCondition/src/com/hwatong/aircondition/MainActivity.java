@@ -637,14 +637,14 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 		setRear(false);
 		
 		//使能
-		setSeekBarEnabled(false);
-		setBlowerUpEnabled(false);
-		setBlowerMiddleEnabled(false);
-		setBlowerDownEnabled(false);
-		//setWindLevelEnabled(false);
-		//setFrontDefrostEnabled(false);
-		setACEnabled(false);
-		setLoopEnabled(false);
+//		setSeekBarEnabled(false);
+//		setBlowerUpEnabled(false);
+//		setBlowerMiddleEnabled(false);
+//		setBlowerDownEnabled(false);
+//		//setWindLevelEnabled(false);
+//		//setFrontDefrostEnabled(false);
+//		setACEnabled(false);
+//		setLoopEnabled(false);
 	}
 	
 	/**
@@ -653,15 +653,15 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 	private void turnOnViews() {
 		setSwitch(true);
 		
-		setSeekBarEnabled(true);
-		setSeekBarEnabled(true);
-		setBlowerUpEnabled(true);
-		setBlowerMiddleEnabled(true);
-		setBlowerDownEnabled(true);
-		//setWindLevelEnabled(true);
-		//setFrontDefrostEnabled(true);
-		setACEnabled(true);
-		setLoopEnabled(true);
+//		setSeekBarEnabled(true);
+//		setSeekBarEnabled(true);
+//		setBlowerUpEnabled(true);
+//		setBlowerMiddleEnabled(true);
+//		setBlowerDownEnabled(true);
+//		//setWindLevelEnabled(true);
+//		//setFrontDefrostEnabled(true);
+//		setACEnabled(true);
+//		setLoopEnabled(true);
 		
 	}
 	
