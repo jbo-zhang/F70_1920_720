@@ -12,7 +12,8 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
 import android.os.SystemClock;
-import android.os.SystemProperties;
+import android.provider.Settings;
+import android.provider.Settings.SettingNotFoundException;
 import android.widget.TextView;
 
 import com.hwatong.radio.Channel;
@@ -64,6 +65,8 @@ public class RadioPresenter {
 	private boolean isFmInit = true, isAmInit = true; // 恢复出厂首次进入时为true
 	
 
+	private Context mContext;
+	
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			/**
@@ -172,13 +175,15 @@ public class RadioPresenter {
 	
 	
 
-	public RadioPresenter(IRadioView iRadioView) {
+	public RadioPresenter(IRadioView iRadioView, Context context) {
 		this.iRadioView = iRadioView;
+		this.mContext = context;
 		initBand();
 	}
 	
 	private void initBand() {
-		mBand = SystemProperties.getInt("persist.sys.radio_mode", 1);
+		mBand = restoreBand();
+		
 		L.d(thiz, "initBand : " + mBand);
 	}
 
@@ -546,8 +551,20 @@ public class RadioPresenter {
 	
 	private void storeBand() {
 		L.d(thiz, "storeBand mBand = " + mBand);
-		SystemProperties.set("persist.sys.radio_mode", String.valueOf(mBand));
+		if(mContext != null) {
+			Settings.System.putInt(mContext.getContentResolver(), "radio_band", mBand);
+		}
 	}
+	
+	private int restoreBand() {
+		try {
+			return Settings.System.getInt(mContext.getContentResolver(), "radio_band");
+		} catch (SettingNotFoundException e) {
+			e.printStackTrace();
+		}
+		return 1;
+	}
+	
 	
 	
 	public void realBand() {

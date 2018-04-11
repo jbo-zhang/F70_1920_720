@@ -211,7 +211,7 @@ public class Radio extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		radioPresenter = new RadioPresenter(this);
+		radioPresenter = new RadioPresenter(this, this);
 		broadcastPresenter = new BroadcastPresenter(this);
 		
 		
