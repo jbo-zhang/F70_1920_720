@@ -551,19 +551,21 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 				//空调关
 				if(windOnOff == 0x01) {		
 					turnOffViews();
-					// 后空调开关
-					int rear = status.getStatus3() & 0x03;
-					setRear(rear == 0x00);
 					
-					// 后除霜
-					int rearDefrost = status.getStatus12() & 0x03;
-					setRearDefrost(rearDefrost == 0x01);
+//					// 后空调开关
+//					int rear = status.getStatus3() & 0x03;
+//					setRear(rear == 0x00);
+//					
+//					// 后除霜
+//					int rearDefrost = status.getStatus12() & 0x03;
+//					setRearDefrost(rearDefrost == 0x01);
+//					
+//					// 前除霜		前除霜关闭时也可以调控
+//					int frontDefrost = status.getStatus6() & 0x03;
+//					setFrontDefrost(frontDefrost == 0x01);
+//					
+//					return;
 					
-					// 前除霜		前除霜关闭时也可以调控
-					int frontDefrost = status.getStatus6() & 0x03;
-					setFrontDefrost(frontDefrost == 0x01);
-					
-					return;
 				//空调开
 				} else {
 					turnOnViews();
@@ -608,6 +610,7 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 				int loop = status.getStatus4() & 0x03;
 				setLoop(loop);
 				
+				// 后空调开关
 				int rear = status.getStatus3() & 0x03;
 				setRear(rear == 0x00);
 				
@@ -625,19 +628,19 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 		setSwitch(false);
 		
 		//置灰
-		setTemperature(32);
-		setBlowerUp(false);
-		setBlowerMiddle(false);
-		setBlowerDown(false);
-		setWindLevel(0);
-		setFrontDefrost(false);
-		setRearDefrost(false);
-		setAC(false);
-		setLoop(-1);
-		setRear(false);
+//		setTemperature(32);
+//		setBlowerUp(false);
+//		setBlowerMiddle(false);
+//		setBlowerDown(false);
+//		setWindLevel(0);
+//		setFrontDefrost(false);
+//		setRearDefrost(false);
+//		setAC(false);
+//		setLoop(-1);
+//		setRear(false);
 		
 		//使能
-//		setSeekBarEnabled(false);
+		setSeekBarEnabled(false);
 //		setBlowerUpEnabled(false);
 //		setBlowerMiddleEnabled(false);
 //		setBlowerDownEnabled(false);
@@ -653,7 +656,7 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 	private void turnOnViews() {
 		setSwitch(true);
 		
-//		setSeekBarEnabled(true);
+		setSeekBarEnabled(true);
 //		setSeekBarEnabled(true);
 //		setBlowerUpEnabled(true);
 //		setBlowerMiddleEnabled(true);
@@ -806,14 +809,15 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 			setLoopView(R.drawable.icon_loop_in, R.string.text_loop_in);
 		} else if(loop == 0x02) {
 			//自动循环
+			setLoopView(R.drawable.icon_loop_auto, R.string.text_loop_auto);
 			
-			if(getCarType() == 4) {	
-				setLoopView(R.drawable.icon_loop_auto, R.string.text_loop_auto);
-			} else if(getCarType() == 1 || getCarType() == 2 || getCarType() == 3){
-				mTvLoop.setSelected(false);
-			} else {
-				mTvLoop.setSelected(false);
-			}
+//			if(getCarType() == 4) {	
+//				setLoopView(R.drawable.icon_loop_auto, R.string.text_loop_auto);
+//			} else if(getCarType() == 1 || getCarType() == 2 || getCarType() == 3){
+//				mTvLoop.setSelected(false);
+//			} else {
+//				mTvLoop.setSelected(false);
+//			}
 			
 			//去掉之前根据版本号判断高低配
 //			if(getSoftwareVersion().contains(H_V_STR)) {
