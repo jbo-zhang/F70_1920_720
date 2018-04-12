@@ -692,7 +692,7 @@ public class HwatongModel implements IBTPhoneModel {
 						iView.updateBooks(mContacts);
 					}
 					
-					L.d(thiz, "onPhoneBook cost : " + (System.currentTimeMillis() - start));
+					L.dRoll(thiz, "onPhoneBook cost : " + (System.currentTimeMillis() - start));
 				}
 			});
 			

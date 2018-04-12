@@ -126,6 +126,9 @@ public class DialActivity extends BaseActivity {
 	private DailDTMF dtmf;
 	
 	private int from = 0;
+	
+	private long startTime = 0;			//增加一个变量，使得拨打按钮不能使劲狂按，解决这次拨打显示的是上次的号码问题
+	
 
 	@Override
 	protected void initView() {
@@ -295,6 +298,9 @@ public class DialActivity extends BaseActivity {
 	 * 根据{@link PhoneState} 状态变化，对view进行显示、隐藏、禁用
 	 */
 	private void updateDialPanel() {
+		
+		L.d(thiz, "updateDialPanel state : " + mCurPhoneState);
+		
 		// 若是未通话，或者通话过程中输入了按键，则头像需要去掉，显示输入数字
 		boolean isIdel = mCurPhoneState == PhoneState.IDEL;
 		// 头像，人名，号码，时间
@@ -347,21 +353,26 @@ public class DialActivity extends BaseActivity {
 		}
 	}
 
+	
+	
 	/**
 	 * 点击通话按键
 	 */
 	private void clickCall() {
-		if (mCurPhoneState == PhoneState.IDEL) {
-			// 拨号操作
-			mCallOverExit = false;
-			String number = mTvInputNumber.getText().toString();
-			dial(number);
-		} else {
-			// 接听操作
-			if (mService != null) {
-				mService.pickUp();
+		if(System.currentTimeMillis() - startTime > 1000) {
+			if (mCurPhoneState == PhoneState.IDEL) {
+					// 拨号操作
+					mCallOverExit = false;
+					String number = mTvInputNumber.getText().toString();
+					dial(number);
+			} else {
+				// 接听操作
+				if (mService != null) {
+					mService.pickUp();
+				}
 			}
 		}
+		startTime = System.currentTimeMillis();
 	}
 
 	/**
@@ -532,15 +543,13 @@ public class DialActivity extends BaseActivity {
 	@Override
 	public void showComing(UICallLog callLog) {
 		onStateChange(PhoneState.INCOMING);
-		mTvName.setText(callLog.name);
-		mTvtalkNumber.setText(callLog.number);
+		setNameAndNumber(callLog.name, callLog.number);
 	}
 
 	@Override
 	public void showCalling(UICallLog callLog) {
 		onStateChange(PhoneState.OUTGOING);
-		mTvName.setText(callLog.name);
-		mTvtalkNumber.setText(callLog.number);
+		setNameAndNumber(callLog.name, callLog.number);
 		//拨打后就删掉输入文字
 		mKeyBoardCb.deleteAll();
 	}
@@ -549,12 +558,14 @@ public class DialActivity extends BaseActivity {
 	public void showTalking(UICallLog callLog) {
 		L.d(thiz, "showTalking");
 		onStateChange(PhoneState.TALKING);
+		setNameAndNumber(callLog.name, callLog.number);
 		showTalkingTime(callLog.duration);
 	}
 	
 	@Override
 	public void showIdel() {
 		L.d(thiz, "showIdel");
+		setNameAndNumber("", "");
 		onStateChange(PhoneState.IDEL);
 	}
 
@@ -585,6 +596,8 @@ public class DialActivity extends BaseActivity {
 				}
 				mTvCallOver.setVisibility(View.GONE);
 				onStateChange(PhoneState.IDEL);
+				
+				setNameAndNumber("", "");
 				
 			}
 		}, 500);
@@ -617,6 +630,8 @@ public class DialActivity extends BaseActivity {
 				} 
 				mTvCallOver.setVisibility(View.GONE);
 				onStateChange(PhoneState.IDEL);
+				
+				setNameAndNumber("", "");
 			}
 		}, 500);
 	}
@@ -665,4 +680,13 @@ public class DialActivity extends BaseActivity {
 		mTvName.setText(callLog.dtmfStr);
 		showTalkingTime(callLog.duration);
 	}
+	
+	
+	private void setNameAndNumber(String name, String number) {
+		mTvName.setText(name);
+		mTvtalkNumber.setText(number);
+	}
+	
+	
+	
 }

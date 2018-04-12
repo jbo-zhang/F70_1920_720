@@ -74,27 +74,27 @@ public abstract class BaseActivity extends Activity implements OnClickListener,
 				break;
 				
 			case Constant.MSG_SHOW_COMING:				//来电
-				L.d(thiz, "onHfpCallChanged Constant.MSG_SHOW_COMING");
+				L.d(thiz, "onHfpCallChanged Constant.MSG_SHOW_COMING " + (UICallLog)msg.obj);
 				showComing((UICallLog)msg.obj);
 				break;
 				
 			case Constant.MSG_SHOW_CALLING:				//来电
-				L.d(thiz, "onHfpCallChanged Constant.MSG_SHOW_CALLING");
+				L.d(thiz, "onHfpCallChanged Constant.MSG_SHOW_CALLING " + (UICallLog)msg.obj);
 				showCalling((UICallLog)msg.obj);
 				break;
 				
 			case Constant.MSG_SHOW_TALKING:				//通话中
-				L.d(thiz, "onHfpCallChanged Constant.MSG_SHOW_TALKING");
+				L.d(thiz, "onHfpCallChanged Constant.MSG_SHOW_TALKING " + (UICallLog)msg.obj);
 				showTalking((UICallLog)msg.obj);
 				break;
 				
 			case Constant.MSG_SHOW_HANG_UP:				//挂断
-				L.d(thiz, "onHfpCallChanged Constant.MSG_SHOW_HANG_UP");
+				L.d(thiz, "onHfpCallChanged Constant.MSG_SHOW_HANG_UP" + (UICallLog)msg.obj);
 				showHangUp((UICallLog)msg.obj);
 				break;
 				
 			case Constant.MSG_SHOW_REJECT:				//拒接
-				L.d(thiz, "onHfpCallChanged Constant.MSG_SHOW_REJECT");
+				L.d(thiz, "onHfpCallChanged Constant.MSG_SHOW_REJECT " + (UICallLog)msg.obj);
 				showReject((UICallLog)msg.obj);
 				break;
 				

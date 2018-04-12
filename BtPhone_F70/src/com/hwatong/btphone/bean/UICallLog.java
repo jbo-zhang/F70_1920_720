@@ -88,6 +88,12 @@ public class UICallLog implements Parcelable {
 		readFromParcel(in);
 	}
 
+	@Override
+	public String toString() {
+		return "UICallLog [type=" + type + ", name=" + name + ", number=" + number + ", date=" + date + ", duration="
+				+ duration + ", dtmfStr=" + dtmfStr + ", shouldJump=" + shouldJump + "]";
+	}
+
 	public void readFromParcel(Parcel in) {
 		type = in.readInt();
 		name = in.readString();
