@@ -566,8 +566,8 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 	public void band() {
 		if (DBG) Log.d(TAG, "band");
 		if (mRadioThread != null) {
-			if (mRadioThread.getStatus() == OP_INIT)
-				return;
+//			if (mRadioThread.getStatus() == OP_INIT)
+//				return;
 			mRadioThread.requestExitAndWait();
 			mRadioThread = null;
 		}
@@ -591,8 +591,8 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 		if (DBG) Log.d(TAG, "tuneTo " + frequence + ", add " + add);
 
 		if (mRadioThread != null) {
-			if (mRadioThread.getStatus() == OP_INIT)
-				return;
+//			if (mRadioThread.getStatus() == OP_INIT)
+//				return;
 			mRadioThread.requestExitAndWait();
 			mRadioThread = null;
 		}
@@ -610,8 +610,8 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 		if (DBG) Log.d(TAG, "tuneDown");
 
 		if (mRadioThread != null) {
-			if (mRadioThread.getStatus() == OP_INIT)
-				return;
+//			if (mRadioThread.getStatus() == OP_INIT)
+//				return;
 			mRadioThread.requestExitAndWait();
 			mRadioThread = null;
 		}
@@ -639,8 +639,8 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 		if (DBG) Log.d(TAG, "tuneUp");
 
 		if (mRadioThread != null) {
-			if (mRadioThread.getStatus() == OP_INIT)
-				return;
+//			if (mRadioThread.getStatus() == OP_INIT)
+//				return;
 			mRadioThread.requestExitAndWait();
 			mRadioThread = null;
 		}
@@ -668,8 +668,9 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 		if (DBG) Log.d(TAG, "seekDown");
 
 		if (mRadioThread != null) {
-			if (mRadioThread.getStatus() == OP_INIT)
-				return;
+			if (DBG) Log.d(TAG, "seekDown 2");
+//			if (mRadioThread.getStatus() == OP_INIT)
+//				return;
 			int status = mRadioThread.getStatus();
 			mRadioThread.requestExitAndWait();
 			mRadioThread = null;
@@ -687,8 +688,8 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 		if (DBG) Log.d(TAG, "seekUp");
 
 		if (mRadioThread != null) {
-			if (mRadioThread.getStatus() == OP_INIT)
-				return;
+//			if (mRadioThread.getStatus() == OP_INIT)
+//				return;
 			int status = mRadioThread.getStatus();
 			mRadioThread.requestExitAndWait();
 			mRadioThread = null;
@@ -706,8 +707,8 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 		if (DBG) Log.d(TAG, "scan");
 
 		if (mRadioThread != null) {
-			if (mRadioThread.getStatus() == OP_INIT)
-				return;
+//			if (mRadioThread.getStatus() == OP_INIT)
+//				return;
 			int status = mRadioThread.getStatus();
 			mRadioThread.requestExitAndWait();
 			mRadioThread = null;
@@ -1778,6 +1779,9 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 		return true;
 	}
 
+	/**
+	 * 获得当前FM与AM频率
+	 */
 	private void doInit2() {
 		int band;
 		final int[] freqInBand = new int[2];
@@ -1993,7 +1997,7 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 					}
 
 					synchronized (this) {
-						if (op != OP_INIT && exit) {
+						if (/*op != OP_INIT && */ exit) {
 							if (DBG) Log.d(TAG, "scanInBand Is break ");
 							break;
 						}
@@ -2011,7 +2015,37 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 				}
 
 				synchronized (this) {
-					if (op != OP_INIT && exit) {
+					if (/*op != OP_INIT && */exit) {
+						
+						if(band == 0) {
+							int i = 0;
+							SharedPreferences mSharedPreferencesFM = getSharedPreferences(
+									SharedPreferences_Radio_FM, MODE_PRIVATE);
+							if(mSharedPreferencesFM.contains(FM_Data + 0)) {
+								
+							} else {
+								Editor mEditorFM = mSharedPreferencesFM.edit();
+								mEditorFM.putInt(FM_Data + 0, 0);
+								mEditorFM.commit();
+								mEditorFM = null;
+							}
+							
+							mSharedPreferencesFM = null;
+							
+						} else {
+							SharedPreferences mSharedPreferencesAM = getSharedPreferences(
+									SharedPreferences_Radio_AM, MODE_PRIVATE);
+							if(mSharedPreferencesAM.contains(AM_Data + 0)) {
+								
+							} else {
+								Editor mEditorAM = mSharedPreferencesAM.edit();
+								mEditorAM.putInt(AM_Data + 0, 0);
+								mEditorAM.commit();
+								mEditorAM = null;
+							}
+							mSharedPreferencesAM = null;
+						}
+						
 						return false;
 					}
 				}
