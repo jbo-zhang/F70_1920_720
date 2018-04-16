@@ -640,7 +640,7 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 //		setRear(false);
 		
 		//使能
-		setSeekBarEnabled(false);
+		//setSeekBarEnabled(false);
 //		setBlowerUpEnabled(false);
 //		setBlowerMiddleEnabled(false);
 //		setBlowerDownEnabled(false);
@@ -656,7 +656,7 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 	private void turnOnViews() {
 		setSwitch(true);
 		
-		setSeekBarEnabled(true);
+		//setSeekBarEnabled(true);
 //		setSeekBarEnabled(true);
 //		setBlowerUpEnabled(true);
 //		setBlowerMiddleEnabled(true);
