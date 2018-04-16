@@ -83,7 +83,7 @@ public class RadioPresenter {
 
 				break;
 			case MSG_CHANNELLIST_CHANGED:
-				iRadioView.hideLoading();
+				//iRadioView.hideLoading();
 				if (msg.arg1 == 0) { // FM
 					refreshFmList();
 				} else { // AM
@@ -141,6 +141,7 @@ public class RadioPresenter {
 
 				break;
 			case MSG_PREVIEW_CHANNEL:
+				play(mFreq);
 				seek(true);
 				break;
 			}
@@ -313,10 +314,7 @@ public class RadioPresenter {
 				}
 				
 				//只调用一次没有效果，不知道原因
-				iRadioView.showSeekbarThumb();
-				SystemClock.sleep(50);
-				iRadioView.showSeekbarThumb();
-				SystemClock.sleep(50);
+				
 				iRadioView.showSeekbarThumb();
 				
 //				mHandler.removeMessages(MSG_STATUS_CHANGED);
@@ -419,6 +417,7 @@ public class RadioPresenter {
 					0);
 			mHandler.sendMessage(m);
 			
+			iRadioView.hideLoading();
 			
 			if (band == 0) {
 				setFMInitFalse();					
@@ -535,7 +534,7 @@ public class RadioPresenter {
 				try {
 					L.d(thiz, "mService.band()");
 					mService.band();
-					iRadioView.hideLoading();
+					//iRadioView.hideLoading();
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}
@@ -573,7 +572,7 @@ public class RadioPresenter {
 			try {
 				L.d(thiz, "mService.realBand()");
 				mService.band();
-				iRadioView.hideLoading();
+				//iRadioView.hideLoading();
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

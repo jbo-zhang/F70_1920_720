@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -164,9 +165,11 @@ public class Radio extends Activity implements OnClickListener,
 				}
 				switch (msg.arg1) {
 				case R.id.btn_pre:
+					hideLoading();
 					radioPresenter.seek(false);
 					break;
 				case R.id.btn_next:
+					hideLoading();
 					radioPresenter.seek(true);
 					break;
 				case R.id.btn_down:
@@ -187,6 +190,7 @@ public class Radio extends Activity implements OnClickListener,
 					radioPresenter.scan();
 					break;
 				case R.id.btn_radio_preview:
+					hideLoading();
 					radioPresenter.previewChannels();
 					break;
 				case R.id.btn_collect1:
@@ -394,13 +398,17 @@ public class Radio extends Activity implements OnClickListener,
 	};
 
 	private void initSeekBar() {
+		L.d(thiz, "initSeekBar");
 		seekBarFm.setMax((MAX_FREQUENCE_FM - MIN_FREQUENCE_FM) / 10);
 		seekBarAm.setMax((MAX_FREQUENCE_AM - MIN_FREQUENCE_AM) / 9);
 
-		seekBarAm.setVisibility(radioPresenter.isFm() ? View.INVISIBLE
-				: View.VISIBLE);
-		seekBarFm.setVisibility(radioPresenter.isFm() ? View.VISIBLE
-				: View.INVISIBLE);
+//		seekBarAm.setVisibility(radioPresenter.isFm() ? View.INVISIBLE
+//				: View.VISIBLE);
+//		seekBarFm.setVisibility(radioPresenter.isFm() ? View.VISIBLE
+//				: View.INVISIBLE);
+		
+		seekBarAm.setVisibility(View.INVISIBLE);
+		seekBarFm.setVisibility(View.INVISIBLE);
 
 		sbBg.setBackgroundResource(radioPresenter.isFm() ? R.drawable.bg_seekbarbg_radio_fm2
 				: R.drawable.bg_seekbarbg_radio_am2);
@@ -409,21 +417,19 @@ public class Radio extends Activity implements OnClickListener,
 
 		seekBarAm.setOnSeekBarChangeListener(onSeekBarChangeListener);
 		
-		seekBarFm.setThumb(null);
-		seekBarAm.setThumb(null);
+//		seekBarFm.setThumb(null);
+//		
+//		seekBarAm.setThumb(null);
 		
 		
 	}
 	
-	@Override
+	@SuppressLint("NewApi") @Override
 	public void showSeekbarThumb() {
-		L.d(thiz, "showSeekbarThumb!");
-		
-		seekBarFm.setThumb(getResources().getDrawable(R.drawable.thumb_radio));
-		seekBarAm.setThumb(getResources().getDrawable(R.drawable.thumb_radio));
-		seekBarFm.setThumbOffset(0);
-		seekBarAm.setThumbOffset(0);
-	
+		seekBarAm.setVisibility(radioPresenter.isFm() ? View.INVISIBLE
+				: View.VISIBLE);
+		seekBarFm.setVisibility(radioPresenter.isFm() ? View.VISIBLE
+				: View.INVISIBLE);
 		
 	}
 
@@ -812,6 +818,7 @@ public class Radio extends Activity implements OnClickListener,
 	}
 
 	private void refreshSeekbar(boolean isFm, int freq) {
+		L.d(thiz, "refreshSeekBar isFm : " + isFm + " freq : " + freq);
 		// 更新seekBar显示
 		seekBarFm.setVisibility(isFm ? View.VISIBLE : View.INVISIBLE);
 		seekBarAm.setVisibility(isFm ? View.INVISIBLE : View.VISIBLE);
