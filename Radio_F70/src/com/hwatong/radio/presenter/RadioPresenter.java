@@ -275,7 +275,9 @@ public class RadioPresenter {
 					public void run() {
 						try {
 							L.d(thiz, "before mService.play()");
-							mService.play();
+							if(mService != null) {
+								mService.play();
+							}
 							L.d(thiz, "after mService.play()");
 						} catch (RemoteException e) {
 							e.printStackTrace();
@@ -288,7 +290,9 @@ public class RadioPresenter {
 				if (isFm()) {
 					refreshFmList();
 					mList = mFmList;
-					mFreq = mFmFreq = mService.getCurrentChannel(0);
+					if(mService != null) {
+						mFreq = mFmFreq = mService.getCurrentChannel(0);
+					}
 					
 					// 首次进入-->扫描
 					setFMInitFalse();
@@ -296,7 +300,9 @@ public class RadioPresenter {
 				} else {
 					refreshAmList();
 					mList = mAmList;
-					mFreq = mAmFreq = mService.getCurrentChannel(1);
+					if(mService != null) {
+						mFreq = mAmFreq = mService.getCurrentChannel(1);
+					}
 					
 					// 首次进入-->扫描
 					setAMInitFalse();
@@ -468,55 +474,59 @@ public class RadioPresenter {
 		}
 	};
 
-	private void refreshAmList() {
-		mAmList.clear();
+	private synchronized void refreshAmList() {
 		// 获取对应频段列表
 		try {
-			List<Channel> list = mService.getChannelList(1);
-			L.d(thiz, "getChannelList 1 size : " + list.size());
-			
-			// 判断是否已收藏
-			for (int i = 0; i < list.size(); i++) {
-				Frequence v = new Frequence();
-				v.frequence = list.get(i).frequence;
-				v.isCollected = false;
-				for (int j = 0; j < 12; j++) {
-					if (v.frequence == getAmPosFreq(j)) {
-						v.isCollected = true;
+			if(mService != null) {
+				List<Channel> list = mService.getChannelList(1);
+				L.d(thiz, "getChannelList 1 size : " + list.size());
+				
+				mAmList.clear();
+				// 判断是否已收藏
+				for (int i = 0; i < list.size(); i++) {
+					Frequence v = new Frequence();
+					v.frequence = list.get(i).frequence;
+					v.isCollected = false;
+					for (int j = 0; j < 12; j++) {
+						if (v.frequence == getAmPosFreq(j)) {
+							v.isCollected = true;
+						}
 					}
+					if (list.get(i).frequence == mFreq) {
+						mAmPlaying = i;
+					}
+					mAmList.add(v);
 				}
-				if (list.get(i).frequence == mFreq) {
-					mAmPlaying = i;
-				}
-				mAmList.add(v);
 			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void refreshFmList() {
-		mFmList.clear();
+	private synchronized void refreshFmList() {
 		// 获取对应频段列表
 		try {
-			List<Channel> list = mService.getChannelList(0);
-			L.d(thiz, "getChannelList 0 size : " + list.size());
-			
-			// 判断是否已收藏
-			for (int i = 0; i < list.size(); i++) {
-				L.d(thiz,i + " " + list.get(i).frequence);
-				Frequence v = new Frequence();
-				v.frequence = list.get(i).frequence;
-				v.isCollected = false;
-				for (int j = 0; j < 18; j++) {
-					if (v.frequence == getFmPosFreq(j)) {
-						v.isCollected = true;
+			if(mService != null){
+				List<Channel> list = mService.getChannelList(0);
+				L.d(thiz, "getChannelList 0 size : " + list.size());
+				
+				mFmList.clear();
+				// 判断是否已收藏
+				for (int i = 0; i < list.size(); i++) {
+					L.d(thiz,i + " " + list.get(i).frequence);
+					Frequence v = new Frequence();
+					v.frequence = list.get(i).frequence;
+					v.isCollected = false;
+					for (int j = 0; j < 18; j++) {
+						if (v.frequence == getFmPosFreq(j)) {
+							v.isCollected = true;
+						}
 					}
+					if (list.get(i).frequence == mFreq) {
+						mFmPlaying = i;
+					}
+					mFmList.add(v);
 				}
-				if (list.get(i).frequence == mFreq) {
-					mFmPlaying = i;
-				}
-				mFmList.add(v);
 			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
