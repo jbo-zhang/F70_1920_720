@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources >
+    <string-array name="open_aircondition_tips">
+        <item >"双区"</item>
+    </string-array>
+</resources>
