@@ -58,6 +58,9 @@ public class ServiceList {
             mContext.bindService(new Intent("com.hwatong.btphone.service"), mBtPhoneConnect, Context.BIND_AUTO_CREATE);
             mContext.bindService(new Intent("com.hwatong.bt.service"), mBtConnect, Context.BIND_AUTO_CREATE);
             mContext.bindService(new Intent("com.hwatong.media.MediaScannerService"), mMediaConnection, Context.BIND_AUTO_CREATE);
+            
+            //add++ 添加绑定ipod服务
+            mContext.bindService(new Intent("com.hwatong.ipod.service"), mIPodServiceConnection, Context.BIND_AUTO_CREATE);
         }
     }
     

@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.hwatong.ipod.IService;
 import com.hwatong.platformadapter.ServiceList;
 import com.hwatong.platformadapter.Tips;
 import com.hwatong.platformadapter.Utils;
+
 import android.canbus.ICanbusService;
 import android.content.ComponentName;
 import android.content.Context;
@@ -57,13 +60,32 @@ public class HandleAppControl {
             raw = result.getString("rawText");
         } catch (JSONException e) {
         }
+        
         com.hwatong.media.IService mediaService = mServiceList.getMediaService();
         com.hwatong.bt.IService btService = mServiceList.getBtService();
-        if ("LAUNCH".equals(operation) && name.equalsIgnoreCase("ipod")) {
-            Intent intent = new Intent("com.hwatong.ipod.DEVICE_ATTACHED") ;
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(intent);
-            return true ;                    
+        //add++ 增加ipod服务判断ipod有没有连接上
+        com.hwatong.ipod.IService iPodService = mServiceList.getIPodService();
+        if ("LAUNCH".equals(operation) && "ipod".equalsIgnoreCase(name)) {
+        	
+        	try {
+        		Log.d(TAG, "ipod is attached");
+				boolean attached = iPodService.isAttached();
+				Log.d(TAG, "ipod is attached : " + attached);
+				if(attached) {
+					Intent intent = new Intent("com.hwatong.ipod.DEVICE_ATTACHED") ;
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					mContext.startActivity(intent);
+					return true;
+				} else {
+					Tips.setCustomTipUse(true);
+                    Tips.setCustomTip("ipod未连接");
+					return false;                    
+				}
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+        	
+        	
         }
         /**
          * 手机互联操作
@@ -102,7 +124,8 @@ public class HandleAppControl {
             }
         }
         
-        if ("LAUNCH".equals(operation) && name.contains("音乐")) {
+        //add++ 添加处理{"name":"音乐","operation":"","focus":"app","rawText":"音乐"}情况
+        if ("LAUNCH".equals(operation) && name.contains("音乐") || ("".equals(operation) && name.equals("音乐"))) {
             if(mediaService!=null){
                 try {
                     List list = mediaService.getMusicList();
@@ -116,7 +139,9 @@ public class HandleAppControl {
                 }
             }
         }
-        if ("LAUNCH".equals(operation) && name.contains("视频")) {
+        
+        //add ++ 添加处理 {"name":"视频","operation":"","focus":"app","rawText":"视频"} 情况
+        if ("LAUNCH".equals(operation) && name.contains("视频") || ("".equals(operation) && name.equals("视频"))) {
             if(mediaService!=null){
                 try {
                     List list = mediaService.getVideoList();
@@ -130,7 +155,9 @@ public class HandleAppControl {
                 }
             }
         }
-        if ("LAUNCH".equals(operation) && name.contains("图片")) {
+        
+        //add++ 添加处理 {"name":"图片","operation":"","focus":"app","rawText":"图片"} 情况
+        if ("LAUNCH".equals(operation) && name.contains("图片") || ("".equals(operation) && name.equals("图片"))) {
             if(mediaService!=null){
                 try {
                     List list = mediaService.getPictureList();
@@ -169,9 +196,12 @@ public class HandleAppControl {
             }
             return false ;
         }
-        if("LAUNCH".equals(operation) && "ipod".equalsIgnoreCase(name)){
-            return true ;
-        }
+        
+        //delete--
+//        if("LAUNCH".equals(operation) && "ipod".equalsIgnoreCase(name)){
+//        	Log.d(TAG," LAUNCH ipod !!!!!!!!!!!!!!");
+//            return true ;
+//        }
         
         if (operation != null && !name.isEmpty()) {
             PackageManager pManager = mContext.getPackageManager();

@@ -156,6 +156,12 @@ public class PlatformAdapterClient implements PlatformClientListener {
             wakeLock.acquire();
         }
         nDuration = AudioManager.AUDIOFOCUS_GAIN_TRANSIENT;
+        
+        
+        //add++ 
+        mResultListener.syncStatusBar(true);
+        
+        
         return mRequestAudioFocusRunnable.requestAudioFocus(streamType,
                 nDuration);
     }
@@ -627,6 +633,9 @@ public class PlatformAdapterClient implements PlatformClientListener {
      * @return
      */
     private boolean parseResult(final String arg0) {
+    	
+    	Log.d(TAG, "zhangjinbo: " + arg0);
+    	
         int acc = -1;
         if (mCanbusService != null) {
             try {
