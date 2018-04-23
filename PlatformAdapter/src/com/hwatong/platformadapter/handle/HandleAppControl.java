@@ -1,15 +1,10 @@
 package com.hwatong.platformadapter.handle;
-
 import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.hwatong.ipod.IService;
 import com.hwatong.platformadapter.ServiceList;
 import com.hwatong.platformadapter.Tips;
 import com.hwatong.platformadapter.Utils;
-
 import android.canbus.ICanbusService;
 import android.content.ComponentName;
 import android.content.Context;
@@ -60,32 +55,23 @@ public class HandleAppControl {
             raw = result.getString("rawText");
         } catch (JSONException e) {
         }
-        
         com.hwatong.media.IService mediaService = mServiceList.getMediaService();
         com.hwatong.bt.IService btService = mServiceList.getBtService();
-        //add++ 增加ipod服务判断ipod有没有连接上
-        com.hwatong.ipod.IService iPodService = mServiceList.getIPodService();
-        if ("LAUNCH".equals(operation) && "ipod".equalsIgnoreCase(name)) {
-        	
-        	try {
-        		Log.d(TAG, "ipod is attached");
-				boolean attached = iPodService.isAttached();
-				Log.d(TAG, "ipod is attached : " + attached);
-				if(attached) {
-					Intent intent = new Intent("com.hwatong.ipod.DEVICE_ATTACHED") ;
-					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					mContext.startActivity(intent);
-					return true;
-				} else {
-					Tips.setCustomTipUse(true);
-                    Tips.setCustomTip("ipod未连接");
-					return false;                    
-				}
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
-        	
-        	
+        com.hwatong.ipod.IService ipodService = mServiceList.getIPodService();
+        if ("LAUNCH".equals(operation) && name.equalsIgnoreCase("ipod")) {
+            try {
+                if( ipodService !=null && !ipodService.isAttached() ){
+                    Tips.setCustomTipUse(true);
+                    Tips.setCustomTip("设备未连接");
+                    return false ;
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            Intent intent = new Intent("com.hwatong.ipod.DEVICE_ATTACHED") ;
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+            return true ;                    
         }
         /**
          * 手机互联操作

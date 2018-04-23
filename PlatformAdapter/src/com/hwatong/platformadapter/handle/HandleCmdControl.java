@@ -149,7 +149,11 @@ public class HandleCmdControl {
                     mContext.sendBroadcast(intent);
                     return true;
                 }
-            } else if ("曲目控制".equals(category)) {
+            } else if("切换播放模式".equals(name)){
+                Intent intent = new Intent("com.hwatong.voice.PLAY_MODE");
+                mContext.sendBroadcast(intent);
+                return true;            
+            }else if ("曲目控制".equals(category)) {
                 if ("上一首".equals(name) || "上一频道".equals(name) || "上一台".equals(name)) {
                     sendMediaKeyEvent(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
                     return true;

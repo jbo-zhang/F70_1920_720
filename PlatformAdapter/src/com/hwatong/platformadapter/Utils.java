@@ -1,7 +1,6 @@
 package com.hwatong.platformadapter;
 
 import java.lang.reflect.Method;
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;

@@ -2,23 +2,23 @@ package com.hwatong.platformadapter.thirdparty;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import android.app.ActivityManager;
+import com.hwatong.platformadapter.PlatformAdapterApp;
+import com.iflytek.platform.type.PlatformCode;
+import com.iflytek.platformservice.PlatformService;
 import android.app.Service;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.Intent;
+import android.content.Context;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.hwatong.platformadapter.PlatformAdapterApp;
 import com.hwatong.statusbarinfo.aidl.IStatusBarInfo;
-import com.iflytek.platform.type.PlatformCode;
-import com.iflytek.platformservice.PlatformService;
+import android.app.ActivityManager;
+
 /**
  * @date 2017-11-22
  * @author caochao
@@ -138,6 +138,7 @@ public class ThirdSpeechService extends Service implements ResultListener{
 		}
 		@Override
 		public void binderDied() {
+		    state = false;
 			synchronized(callbacks){
 				callbacks.remove(this);
 			}
@@ -168,6 +169,13 @@ public class ThirdSpeechService extends Service implements ResultListener{
 	public IBinder onBind(Intent intent) {
 		return iservice;
 	}
+	
+	@Override
+	public boolean onUnbind(Intent intent) {
+	    
+	    return super.onUnbind(intent);
+	}
+	
 
 	@Override
 	public String onResult(String result) {
@@ -178,11 +186,11 @@ public class ThirdSpeechService extends Service implements ResultListener{
 	@Override
 	public void onState(int state) {
         for(int i = 0 ; i<callbacks.size() ; i++ ){
-        try {
-	            callbacks.get(i).mCallback.onStatus(state);
-	        } catch (RemoteException e) {
-	            e.printStackTrace();
-	        }
+            try {
+                callbacks.get(i).mCallback.onStatus(state);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }		
 	}
 	

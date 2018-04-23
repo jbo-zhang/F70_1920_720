@@ -45,13 +45,6 @@ public class HandleCarControl {
 	public boolean handleCarControlScence(JSONObject result) {
 		Log.d(TAG, result.toString());
 
-		// try {
-		// mSkylightStatus =
-		// mCanbusService.getLastCarConfig(mContext.getPackageName()).getStatus12();
-		// } catch (RemoteException e1) {
-		// e1.printStackTrace();
-		// }
-
 		String operation = null;
 		String device = null;
 		String mode = null;

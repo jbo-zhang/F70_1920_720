@@ -1,8 +1,5 @@
 package com.hwatong.platformadapter;
-
-import android.content.Intent;
 import android.util.Log;
-
 /**
  * 定制提示
  * @date 2017-11-28

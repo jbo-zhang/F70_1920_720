@@ -35,7 +35,6 @@ public class HandlerRadioControl {
             mHandlerRadioControl = new HandlerRadioControl(context);
         }
         mCanbusService = canbusService;
-
         return mHandlerRadioControl;
     }
     
@@ -60,7 +59,6 @@ public class HandlerRadioControl {
         } catch (JSONException e) {
         
         }
-        
         try {
             rawText = result.getString("rawText");
         } catch (JSONException e) {
@@ -74,7 +72,6 @@ public class HandlerRadioControl {
             	return true;
             }       	
         }
-        
         if ("收藏电台".equals(rawText) || "保存电台".equals(rawText)) {
             Log.d(TAG, "rawText: " + rawText);
             Intent intent = new Intent("com.hwatong.voice.FM_COLLECTION");

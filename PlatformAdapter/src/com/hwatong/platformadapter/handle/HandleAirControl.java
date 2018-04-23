@@ -2,10 +2,8 @@ package com.hwatong.platformadapter.handle;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.canbus.ACStatus;
 import android.canbus.IACStatusListener;
 import android.canbus.ICanbusService;
@@ -14,17 +12,13 @@ import android.content.Intent;
 import android.os.RemoteException;
 import android.util.Log;
 /**
- * 
  * @author caochao
- *
  */
 public class HandleAirControl {
 
 	private static final String TAG = "Voice";
 	
 	public static boolean isOpenAirControlView = false ;
-	
-	
 	/**
 	 * 单例,空调控制把柄
 	 */
@@ -45,7 +39,6 @@ public class HandleAirControl {
 			mHandAirControl = new HandleAirControl(context);
 		}
 		mCanbusService = canbusService;
-
 		return mHandAirControl;
 	}
 
@@ -62,7 +55,6 @@ public class HandleAirControl {
 		return false;
 
 	}
-
 	public boolean handleAirControlScence(JSONObject result) {
 		try {
 			acStatus = mCanbusService.getLastACStatus(mContext.getPackageName());

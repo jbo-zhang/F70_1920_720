@@ -2,7 +2,6 @@ package com.hwatong.platformadapter.handle;
 import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.hwatong.ipod.IService;
 import com.hwatong.media.MusicEntry;
 import com.hwatong.platformadapter.ServiceList;
@@ -28,6 +27,7 @@ public class HandleMusicControl {
     private static ServiceList mServiceList ;
     
     private Context mContext;
+    
     private static ICanbusService mCanbusService;
     
     public HandleMusicControl(Context mContext) {
@@ -90,7 +90,6 @@ public class HandleMusicControl {
         if("PLAY".equals(operation) && source.equalsIgnoreCase("ipod")){
             Log.d("caochao", "play ipod , mServiceList =" +mServiceList );
             IService service = null; 
-            
             if(mServiceList!=null){
                 service = mServiceList.getIPodService();
                 try {
@@ -137,7 +136,7 @@ public class HandleMusicControl {
          * 播放音乐
          */
         Log.d(TAG, "source=" +source.isEmpty() );
-        if("PLAY".equals(operation) && source.isEmpty()){
+        if("PLAY".equals(operation) && (source.isEmpty() || "usb".equalsIgnoreCase(source))){
             if(mServiceList!= null){
                 com.hwatong.media.IService mediaService = mServiceList.getMediaService() ;
                 if(mediaService!=null){
@@ -258,8 +257,6 @@ public class HandleMusicControl {
             Log.d(TAG, "handleMusicScence openApplication: " + pkg);
             return true;
         }
-        
-
         return false;
     }
     
