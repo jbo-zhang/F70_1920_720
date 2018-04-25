@@ -18,6 +18,11 @@ public class BroadcastPresenter {
 	 */
 	private static final String OPEN_ALL_CALLS = "com.hwatong.bt.TELEPHONE_RECORDS";
 	
+	/**
+	 * 增加对方控电话键的监听，如果蓝牙已连接，则自动跳转到蓝牙通话界面
+	 */
+	private static final String KEY_ACTION = "com.hwatong.intent.action.TALK_BUTTON";
+	
 	private static final String thiz = BroadcastPresenter.class.getSimpleName();
 	
 	private IReceiverView iView;
@@ -33,6 +38,9 @@ public class BroadcastPresenter {
 		filter.addAction(OPEN_MISSED_CALLS);
 		
 		filter.addAction(OPEN_ALL_CALLS);
+		
+		filter.addAction(KEY_ACTION);
+		
 		
 		context.registerReceiver(voiceBroadcast, filter);
 	}
@@ -52,6 +60,8 @@ public class BroadcastPresenter {
 				iView.toMissedCalls();
 			} else if(OPEN_ALL_CALLS.equals(action)) {
 				iView.toAllCalls();
+			} else if(KEY_ACTION.equals(action)) {
+				iView.handlePhoneKey();
 			}
 		}
 		

@@ -130,6 +130,11 @@ public class HwatongModel implements IBTPhoneModel {
 	 */
 	private int totalCount = 0;
 	
+	/**
+	 * 增加一个变量，防止多次快速点击拨打按钮造成卡顿
+	 */
+	private long dialStartTime = 0;
+	
 	public HwatongModel(IUIView iView) {
 		this.iView = iView;
 		mCallLogMap.put(UICallLog.TYPE_CALL_IN, Collections.synchronizedList((new ArrayList<CallLog>())));
@@ -248,10 +253,10 @@ public class HwatongModel implements IBTPhoneModel {
 		
 	}
 	
-
+	
 	@Override
 	public void dial(String number) {
-		if(iService != null) {
+		if(iService != null && System.currentTimeMillis() - dialStartTime > 1000) {
 			try {
 				L.d(thiz, "dial() number = " + number + " " + (iService != null));
 				iService.phoneDial(number.trim());
@@ -259,6 +264,7 @@ public class HwatongModel implements IBTPhoneModel {
 				e.printStackTrace();
 			}
 		}
+		dialStartTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -1100,6 +1106,11 @@ public class HwatongModel implements IBTPhoneModel {
 			iView.syncLogsAlreadyLoad(10);
 		}
 		
+	}
+
+	@Override
+	public PhoneState getPhoneStatus() {
+		return phoneState;
 	}
 	
 }

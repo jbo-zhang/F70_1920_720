@@ -1,16 +1,19 @@
 package com.hwatong.btphone.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
+import android.media.AudioManager;
 import android.text.Editable;
-import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.hwatong.btphone.ui.R;
-import com.hwatong.btphone.ui.R.drawable;
 
 public class KeyboardBuildFactory {
 	private static final String TAG = KeyboardBuildFactory.class.getSimpleName();
@@ -21,8 +24,15 @@ public class KeyboardBuildFactory {
 
 	private Key mKeyConfirm;
 
+	/**
+	 * 解决没有搜索键盘没有按键音问题
+	 */
+	private static AudioManager audioManager;
+
 	public static KeyboardBuildFactory bindKeyboard(Activity activity, KeyboardView keyboardView, int xmlLayoutResId,
 			EditText editText) {
+		
+		audioManager = (AudioManager)activity.getSystemService(Context.AUDIO_SERVICE);
 		return new KeyboardBuildFactory(activity, keyboardView, xmlLayoutResId, editText);
 	}
 
@@ -82,11 +92,13 @@ public class KeyboardBuildFactory {
 
 			@Override
 			public void onKey(int primaryCode, int[] keyCodes) {
-				 Log.d(TAG, "key:" + primaryCode);
+				L.d(TAG, "key:" + primaryCode);
 
 				if (mOnKeyEventCallBack != null) {
 					mOnKeyEventCallBack.onKeyAction(primaryCode);
 				}
+				
+				audioManager.playSoundEffect(AudioManager.FX_KEY_CLICK); 
 
 				if (mEditText == null) {
 					return;

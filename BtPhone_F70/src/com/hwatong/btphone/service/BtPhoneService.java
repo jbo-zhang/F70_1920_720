@@ -13,6 +13,7 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -30,6 +31,7 @@ import com.hwatong.btphone.Contact;
 import com.hwatong.btphone.app.BtPhoneApplication;
 import com.hwatong.btphone.bean.UICallLog;
 import com.hwatong.btphone.constants.Constant;
+import com.hwatong.btphone.constants.PhoneState;
 import com.hwatong.btphone.iview.IReceiverView;
 import com.hwatong.btphone.iview.IServiceView;
 import com.hwatong.btphone.presenter.BroadcastPresenter;
@@ -69,6 +71,11 @@ public class BtPhoneService extends Service implements IReceiverView, IServiceVi
 	private ServicePresenter servicePresenter;
 	
 	private UICallLog currentCall;
+	
+	/**
+	 * 增加一个变量，消抖phone键
+	 */
+	private long handleKeyStart = 0;
 	
 	@Override
 	public void onCreate() {
@@ -441,14 +448,68 @@ public class BtPhoneService extends Service implements IReceiverView, IServiceVi
 	}
 	
 	protected boolean isCallLogForground() {
+		return isActivityForground("com.hwatong.btphone.activity.CallLogActivity");
+	}
+	
+	protected boolean isDialForground() {
+		return isActivityForground("com.hwatong.btphone.activity.DialActivity");
+	}
+	
+	protected boolean isActivityForground(String activityName) {
+		if(TextUtils.isEmpty(activityName)) {
+			return false;
+		}
 		ActivityManager am = (ActivityManager) BtPhoneApplication.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
 		List<RunningTaskInfo> cn = am.getRunningTasks(1);
 		RunningTaskInfo taskInfo = cn.get(0);
 		ComponentName name = taskInfo.topActivity;
-		if ("com.hwatong.btphone.activity.CallLogActivity".equals(name.getClassName())) {
+		if (activityName.equals(name.getClassName())) {
 			return true;
 		}
 		return false;
 	}
+	
+
+	@Override
+	public void handlePhoneKey() {
+		if(!servicePresenter.isBtConnected()) {
+			L.d(thiz, "handlePhoneKey bt not connect");
+			return;
+		}
+		
+		PhoneState phoneState = servicePresenter.getPhoneStatus();
+		L.d(thiz, "handlePhoneKey phoneState: " + phoneState);
+		switch (phoneState) {
+			case IDEL:
+				boolean isForground = isDialForground();
+				boolean isDelayTimeOut = System.currentTimeMillis() - handleKeyStart > 1000;
+				L.d(thiz, "handlePhoneKey isForground: " + isForground + " isDelayTimeOut: " + isDelayTimeOut);
+				if(!isForground && isDelayTimeOut) {
+					Utils.gotoDialActivityInService(this, null);
+				}
+				break;
+	
+			case OUTGOING:
+				
+				break;
+			case TALKING:
+				
+				break;
+				
+			case INPUT:
+				
+				break;
+				
+			default:
+				break;
+		}
+		
+		handleKeyStart = System.currentTimeMillis();
+		
+	}
+	
+	
+	
+	
 
 }

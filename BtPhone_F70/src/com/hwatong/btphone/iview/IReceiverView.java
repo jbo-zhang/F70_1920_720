@@ -4,4 +4,5 @@ public interface IReceiverView {
 	void close();
 	void toMissedCalls();
 	void toAllCalls();
+	void handlePhoneKey();
 }

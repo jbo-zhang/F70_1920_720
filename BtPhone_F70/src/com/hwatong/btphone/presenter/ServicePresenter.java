@@ -12,6 +12,7 @@ import com.hwatong.btphone.Contact;
 import com.hwatong.btphone.app.BtPhoneApplication;
 import com.hwatong.btphone.bean.UICallLog;
 import com.hwatong.btphone.constants.Constant;
+import com.hwatong.btphone.constants.PhoneState;
 import com.hwatong.btphone.imodel.IBTPhoneModel;
 import com.hwatong.btphone.iview.IServiceView;
 import com.hwatong.btphone.iview.IUIView;
@@ -346,6 +347,11 @@ public class ServicePresenter implements IUIView, IBTPhoneModel{
 		iModel.syncLogsStatus(type);
 	}
 	
+	@Override
+	public PhoneState getPhoneStatus() {
+		return iModel.getPhoneStatus();
+	}
+	
 	//---------------------------------华丽的分割线----------------------------------------
 	
 	//---------------------------------方法----------------------------------------
@@ -363,6 +369,5 @@ public class ServicePresenter implements IUIView, IBTPhoneModel{
 		}
 		return false;
 	}
-
 	
 }

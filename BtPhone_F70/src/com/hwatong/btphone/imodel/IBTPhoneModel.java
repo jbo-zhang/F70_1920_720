@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.hwatong.btphone.CallLog;
 import com.hwatong.btphone.Contact;
+import com.hwatong.btphone.constants.PhoneState;
 
 public interface IBTPhoneModel {
 	/**
@@ -105,5 +106,6 @@ public interface IBTPhoneModel {
 	
 	void syncLogsStatus(int type);
 	
+	PhoneState getPhoneStatus();
 	
 }
