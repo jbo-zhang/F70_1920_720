@@ -74,9 +74,11 @@ public class RadioPresenter {
 			 */
 			switch (msg.what) {
 			case MSG_DISPLAY_CHANGED:
+				L.d(thiz, "refreshView in MSG_DISPLAY_CHANGED");
 				iRadioView.refreshView(msg.arg1, msg.arg2);
 				break;
 			case MSG_CHANNEL_CHANGED:
+				L.d(thiz, "refreshView in MSG_CHANNEL_CHANGED");
 				iRadioView.refreshView(mBand, mFreq, null);
 				break;
 			case MSG_FAVORCHANNELLIST_CHANGED:
@@ -91,10 +93,12 @@ public class RadioPresenter {
 				}
 				if (isFm() && msg.arg1 == 0) {
 					mList = mFmList;
+					L.d(thiz, "refreshView in MSG_CHANNELLIST_CHANGED 1");
 					iRadioView.refreshView(mBand, mFreq, mList);
 				}
 				if (!isFm() && msg.arg1 == 1) {
 					mList = mAmList;
+					L.d(thiz, "refreshView in MSG_CHANNELLIST_CHANGED 2");
 					iRadioView.refreshView(mBand, mFreq, mList);
 				}
 				break;
@@ -319,6 +323,8 @@ public class RadioPresenter {
 					iRadioView.refreshView(mBand, mFreq, mList);
 				}
 				
+				initType = -1;
+				
 				//只调用一次没有效果，不知道原因
 				
 				iRadioView.showSeekbarThumb();
@@ -444,6 +450,7 @@ public class RadioPresenter {
 			if (mService != null) {
 				if (isFm()) {
 					mFreq = mFmFreq = mService.getCurrentChannel(0);
+					L.d(thiz, "onChannelChanged mFmFreq = " + mFmFreq);
 					mHandler.removeMessages(MSG_CHANNEL_CHANGED);
 					mHandler.sendEmptyMessage(MSG_CHANNEL_CHANGED);
 					
@@ -458,6 +465,7 @@ public class RadioPresenter {
 					
 				} else {
 					mFreq = mAmFreq = mService.getCurrentChannel(1);
+					L.d(thiz, "onChannelChanged mAmFreq = " + mAmFreq);
 					mHandler.removeMessages(MSG_CHANNEL_CHANGED);
 					mHandler.sendEmptyMessage(MSG_CHANNEL_CHANGED);
 					

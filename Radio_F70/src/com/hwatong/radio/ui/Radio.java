@@ -760,6 +760,16 @@ public class Radio extends Activity implements OnClickListener,
 	@Override
 	public void refreshView(final int band, final int freq,
 			ArrayList<Frequence> list) {
+		L.d(thiz, "refreshView 3 isFm : " + radioPresenter.isFm() + " freq : " + freq);
+		//对不合法的数据进行判断，解决从FM切到AM指针闪一下问题
+		if(radioPresenter.isFm() && freq < 8750) {
+			return ;
+		}
+		
+		if(!radioPresenter.isFm() && freq > 1629) {
+			return;
+		}
+		
 		if (radioPresenter.isFm()) { // FM
 			// 更新Channel
 			refreshChannel(Utils.getBandText(band), "MHz",
@@ -785,6 +795,18 @@ public class Radio extends Activity implements OnClickListener,
 	 */
 	@Override
 	public void refreshView(final int band, final int freq) {
+		L.d(thiz, "refreshView 2 isFm : " + radioPresenter.isFm() + " freq : " + freq);
+		
+		//对不合法的数据进行判断，解决从FM切到AM指针闪一下问题
+		if(radioPresenter.isFm() && freq < 8750) {
+			return ;
+		}
+		
+		if(!radioPresenter.isFm() && freq > 1629) {
+			return;
+		}
+		
+		
 		if (radioPresenter.isFm()) { // FM
 			// 更新Channel
 			refreshChannel(Utils.getBandText(band), "MHz",
@@ -819,19 +841,24 @@ public class Radio extends Activity implements OnClickListener,
 
 	private void refreshSeekbar(boolean isFm, int freq) {
 		L.d(thiz, "refreshSeekBar isFm : " + isFm + " freq : " + freq);
-		// 更新seekBar显示
-		seekBarFm.setVisibility(isFm ? View.VISIBLE : View.INVISIBLE);
-		seekBarAm.setVisibility(isFm ? View.INVISIBLE : View.VISIBLE);
-		// 图片
-		sbBg.setBackgroundResource(radioPresenter.isFm() ? R.drawable.bg_seekbarbg_radio_fm2
-				: R.drawable.bg_seekbarbg_radio_am2);
-
+		
 		// 更新seekBar进度
 		if (isFm) {
 			seekBarFm.setProgress((freq - MIN_FREQUENCE_FM) / 10);
 		} else {
 			seekBarAm.setProgress((freq - MIN_FREQUENCE_AM) / 9);
 		}
+		
+		//应该先设进度再显示，不然指针可能会闪一下
+		
+		// 图片
+		sbBg.setBackgroundResource(radioPresenter.isFm() ? R.drawable.bg_seekbarbg_radio_fm2
+				: R.drawable.bg_seekbarbg_radio_am2);
+		
+		// 更新seekBar显示
+		seekBarFm.setVisibility(isFm ? View.VISIBLE : View.INVISIBLE);
+		seekBarAm.setVisibility(isFm ? View.INVISIBLE : View.VISIBLE);
+		
 	}
 
 	// 收藏按钮数据更新
