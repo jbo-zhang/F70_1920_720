@@ -10,6 +10,7 @@ import android.canbus.ICanbusService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.RemoteException;
+import android.os.SystemClock;
 import android.util.Log;
 
 public class HandlerBtPhoneControl {
@@ -58,6 +59,8 @@ public class HandlerBtPhoneControl {
                 return false ;		        
 		    }
 		    mContext.sendBroadcast(new Intent("com.hwatong.bt.TELEPHONE_MISSED"));
+		    //add++ 解决闪主界面
+            SystemClock.sleep(1000);
 		    return true ;
 		}
         /**
@@ -70,6 +73,8 @@ public class HandlerBtPhoneControl {
                 return false ;              
             }
             mContext.sendBroadcast(new Intent("com.hwatong.bt.TELEPHONE_RECORDS"));
+            //add++ 解决闪主界面
+            SystemClock.sleep(1000);
             return true ;
         }		
 		return false ;

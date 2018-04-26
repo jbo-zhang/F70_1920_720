@@ -2,9 +2,12 @@ package com.hwatong.platformadapter.handle;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.canbus.ICanbusService;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.util.Log;
 /**
  * @author caochao
@@ -89,18 +92,25 @@ public class HandlerRadioControl {
                     Intent intent = new Intent("com.hwatong.voice.FM_CMD");
                     intent.putExtra("frequency", code);
                     mContext.sendBroadcast(intent);
-                    
                     Log.d(TAG, "handleRadioScence send intent: " + intent);
+                    
+                    //add++ 解决手动执行语音“FM87.8”跳主界面问题，延时，让界面先跳转语音界面再消失
+                    SystemClock.sleep(1500);
+                    
                     return true;
                 }
             } else if (waveband.equals("am")) {
-                if (frequency > 1605 || frequency < 535) {
+                if (frequency > 1629 || frequency < 531) {
                     mHandleMessage = "对不起，请说正确的AM频段";
                 } else {
                     Intent intent = new Intent("com.hwatong.voice.AM_CMD");
                     intent.putExtra("frequency", code);
                     mContext.sendBroadcast(intent);
                     Log.d(TAG, "handleRadioScence send intent: " + intent);
+                    
+                    //add++解决手动执行语音“AM531”跳主界面问题，延时，让界面先跳转语音界面再消失
+                    SystemClock.sleep(1500);
+                    
                     return true;
                 }
             }

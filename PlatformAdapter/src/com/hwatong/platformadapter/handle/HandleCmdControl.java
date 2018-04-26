@@ -2,19 +2,23 @@ package com.hwatong.platformadapter.handle;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.hwatong.bt.BtDef;
 import com.hwatong.platformadapter.ServiceList;
 import com.hwatong.platformadapter.Tips;
 import com.iflytek.platform.type.PlatformCode;
 import com.iflytek.platformservice.PlatformService;
+
 import android.app.Instrumentation;
 import android.canbus.ICanbusService;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.RemoteException;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
 /**
@@ -194,11 +198,10 @@ public class HandleCmdControl {
                 if ("蓝牙搜索".equals(name) || "蓝牙连接".equals(name)) {
                     Intent intent = new Intent("com.hwatong.voice.SEARCH_BT");
                     mContext.sendBroadcast(intent);
-                    return true;
-                }
-                if ("蓝牙搜索".equals(name) || "蓝牙连接".equals(name)) {
-                    Intent intent = new Intent("com.hwatong.voice.SEARCH_BT");
-                    mContext.sendBroadcast(intent);
+                    
+                    //add++ 解决跳主界面问题
+                    SystemClock.sleep(1500);
+                    
                     return true;
                 }
                 Log.d("caochao", "operation:"+operation+";offset:"+offset);
