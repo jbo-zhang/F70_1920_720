@@ -2,9 +2,13 @@ package com.hwatong.platformadapter.thirdparty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
+
 import com.hwatong.platformadapter.PlatformAdapterApp;
+import com.hwatong.platformadapter.TimerTaskUtil;
 import com.iflytek.platform.type.PlatformCode;
 import com.iflytek.platformservice.PlatformService;
+
 import android.app.Service;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
@@ -17,6 +21,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.hwatong.statusbarinfo.aidl.IStatusBarInfo;
+
 import android.app.ActivityManager;
 
 /**
@@ -80,7 +85,7 @@ public class ThirdSpeechService extends Service implements ResultListener{
 					callBack.asBinder().linkToDeath(l, 0);
 					callbacks.add(new CallBackListener(callBack));
 					state = true ;
-					Log.d(TAG, "a new client regist");					
+					Log.d(TAG, "a new client regist " + callBack);					
 				} catch (Exception e) {
 					e.printStackTrace();
 					Log.d(TAG, "a new client regist error:"+e.toString()+";"+e.getMessage());					
@@ -99,6 +104,7 @@ public class ThirdSpeechService extends Service implements ResultListener{
 						return ;
 					}
 				}*/
+            	Log.d(TAG, "a client unregist !" + callBack);
                 state = false;
                 for(int i =0 ; i<callbacks.size(); i++){
                     //callBack.asBinder().unlinkToDeath(callbacks.get(i), 0);
@@ -197,16 +203,41 @@ public class ThirdSpeechService extends Service implements ResultListener{
 	//add++ 添加一个同步状态栏的代码
 	@Override
 	public void syncStatusBar(boolean show) {
-		if (iStatusBarInfo != null) {
-			try {
-				Log.d(TAG, "syncStatusBar voice");
-				if(isIflytekFroground()) {
-					iStatusBarInfo.setCurrentPageName("voice");
+		
+		if(show) {
+			if (iStatusBarInfo != null) {
+				try {
+					Log.d(TAG, "syncStatusBar voice");
+					if(isIflytekFroground()) {
+						iStatusBarInfo.setCurrentPageName("voice");
+					} else {
+						TimerTaskUtil.startTimer("sync_status_bar", 0, 500, new TimerTask() {
+							
+							@Override
+							public void run() {
+								Log.d(TAG, "timer sync_status_bar");
+								if(isIflytekFroground()) {
+									try {
+										if(iStatusBarInfo != null) {
+											iStatusBarInfo.setCurrentPageName("voice");
+											TimerTaskUtil.cancelTimer("sync_status_bar");
+										}
+									} catch (RemoteException e) {
+										e.printStackTrace();
+									}
+								}
+							}
+						});
+					}
+				} catch (RemoteException e) {
+					e.printStackTrace();
 				}
-			} catch (RemoteException e) {
-				e.printStackTrace();
 			}
+		} else{
+			TimerTaskUtil.cancelTimer("sync_status_bar");
 		}
+		
+		
 	}
 
 	//add++ 添加判断前台activity是不是讯飞的activity

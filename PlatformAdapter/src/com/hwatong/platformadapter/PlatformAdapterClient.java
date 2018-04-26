@@ -158,10 +158,6 @@ public class PlatformAdapterClient implements PlatformClientListener {
         nDuration = AudioManager.AUDIOFOCUS_GAIN_TRANSIENT;
         
         
-        //add++ 
-        mResultListener.syncStatusBar(true);
-        
-        
         return mRequestAudioFocusRunnable.requestAudioFocus(streamType,
                 nDuration);
     }
@@ -178,6 +174,10 @@ public class PlatformAdapterClient implements PlatformClientListener {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+        
+        //add++ 
+        mResultListener.syncStatusBar(true);
+        
 
         if (audioFocusResult == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
         /** 获得音频焦点 通知导航 */
@@ -212,6 +212,10 @@ public class PlatformAdapterClient implements PlatformClientListener {
             mIsMuted = false;
         }
 
+        
+        //add++ 取消同步状态栏定时器
+        mResultListener.syncStatusBar(false);
+        
         try {
             mAudioService.abandonAudioFocus(mAudioFocusDispatcher,
                 new String(this.toString()));

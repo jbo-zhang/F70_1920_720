@@ -131,6 +131,7 @@ public class HandleCarControl {
 				Log.d(TAG, "CanbusService is null");
 				return false;
 			}
+			Log.d(TAG, "writeASRRequest i= " + i + " j= " + j);
 			mCanbusService.writeASRRequest(i, j);
 			return true ;
 		} catch (RemoteException e) {
