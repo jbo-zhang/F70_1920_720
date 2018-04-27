@@ -4,6 +4,7 @@
     android:id="@+id/radiomain_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:splitMotionEvents="false"
     tools:context=".Radio" >
 
     <!-- 频率文字与左右按钮 -->
@@ -12,6 +13,7 @@
         android:id="@+id/frequency_layout"
         android:layout_width="match_parent"
         android:layout_height="237dp"
+        android:splitMotionEvents="false"
         android:background="@drawable/bg_radio_shading" >
 
         <!-- 频段，频率，单位文字 -->
@@ -80,6 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="230dp"
+        android:splitMotionEvents="false"
         android:background="@drawable/seekbar_bg" >
 
         <View
@@ -137,6 +140,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
+        android:splitMotionEvents="false"
         android:visibility="visible" >
 
         <TextView
@@ -180,6 +184,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
+        android:splitMotionEvents="false"
         android:orientation="horizontal" >
 
         <TextView
@@ -219,6 +224,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
+        android:splitMotionEvents="false"
         android:gravity="bottom"
         android:background="@drawable/img_radio_bottom"
         android:orientation="horizontal" >
