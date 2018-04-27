@@ -39,7 +39,7 @@ public class BroadcastPresenter {
 		
 		filter.addAction(OPEN_ALL_CALLS);
 		
-		filter.addAction(KEY_ACTION);
+		//filter.addAction(KEY_ACTION);
 		
 		
 		context.registerReceiver(voiceBroadcast, filter);
