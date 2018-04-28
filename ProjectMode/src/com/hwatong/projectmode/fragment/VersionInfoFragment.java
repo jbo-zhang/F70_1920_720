@@ -153,7 +153,15 @@ public class VersionInfoFragment extends BaseFragment{
 	}
 
 	private void setSoundVersion() {
-		setFormatText(tvSoundVersion, "语音版本号");
+		String versionName = "语音版本号";
+	    try {
+	        versionName = getActivity().getPackageManager().getPackageInfo(
+	                "com.iflytek.cutefly.speechclient", 0).versionName;
+	    } catch (Exception e) {
+	    	
+	    }
+		
+	    setFormatText(tvSoundVersion, versionName);
 	}
 	
 	private void setFormatText(TextView tv, String str) {
