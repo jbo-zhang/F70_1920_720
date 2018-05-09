@@ -1,6 +1,8 @@
 package com.hwatong.btphone.util;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 public class DensityUtils {
 	/**
@@ -45,4 +47,41 @@ public class DensityUtils {
        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
        return (int) (spValue * fontScale + 0.5f);
    }
+   
+   
+   /**
+    * 得到屏幕宽度
+    * @param context
+    * @return
+    */
+   public static int getScreenWidth(Context context) {
+	    return getScreenWidthOrHeight(context, true);
+   }
+   
+   /**
+    * 得到屏幕高度
+    * @param context
+    * @return
+    */
+   public static int getScreenHeight(Context context) {
+	   return getScreenWidthOrHeight(context, false);
+   }
+   
+   private static int getScreenWidthOrHeight(Context context, boolean getWidth) {
+		WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		DisplayMetrics outMetrics = new DisplayMetrics();
+		manager.getDefaultDisplay().getMetrics(outMetrics);
+		int width = outMetrics.widthPixels;
+		int height = outMetrics.heightPixels;
+		
+		if(getWidth) {
+			return width;
+		} else {
+			return height;
+		}
+		
+   }
+   
+   
+   
 }

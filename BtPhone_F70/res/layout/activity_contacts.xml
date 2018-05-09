@@ -96,10 +96,73 @@
         android:layout_height="match_parent"
         android:background="@drawable/bg_divide_line" />
 
-    <View
+    <FrameLayout 
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/activity_contacts_right_bg" />
-
+        android:layout_weight="1">
+        
+	    <View
+	        android:id="@+id/v_right_label"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:background="@drawable/activity_contacts_right_bg" />
+	    
+	    <FrameLayout
+	        android:id="@+id/fl_right_label"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:visibility="invisible"
+	        android:background="@drawable/activity_contacts_right_bg" >
+	        
+	        
+	        <LinearLayout 
+	            android:layout_height="wrap_content"
+	            android:layout_width="wrap_content" 
+	            android:layout_marginLeft="99dp"
+	            android:gravity="center_vertical"
+	            android:layout_marginTop="313dp"
+	            >
+	            
+	            <ImageView 
+	                android:layout_height="wrap_content"
+	                android:layout_width="wrap_content"
+	                android:src="@drawable/right_name"
+	                />
+	            
+	            <TextView android:id="@+id/tv_rl_name"
+		            android:layout_height="wrap_content"
+		            android:layout_width="wrap_content"
+		            android:layout_marginLeft="35dp"
+		            android:textColor="@color/white"
+		            android:singleLine="true"
+		            android:textSize="24sp"
+	            />
+	            
+	        </LinearLayout>
+	        
+	        
+	        <LinearLayout 
+	            android:layout_height="wrap_content"
+	            android:layout_width="wrap_content" 
+	            android:layout_marginLeft="99dp"
+	            android:gravity="center_vertical"
+	            android:layout_marginTop="358dp">
+	            
+	            <ImageView 
+	                android:layout_height="wrap_content"
+	                android:layout_width="wrap_content"
+	                android:src="@drawable/right_phone"
+	                />
+		        <TextView android:id="@+id/tv_rl_number"
+		            android:layout_height="wrap_content"
+		            android:layout_width="wrap_content"
+		            android:layout_marginLeft="35dp"
+		            android:textColor="@color/white"
+		            android:singleLine="true"
+		            android:textSize="24sp"
+		            />
+		            
+	         </LinearLayout>
+	    </FrameLayout>
+  	</FrameLayout>
 </LinearLayout>

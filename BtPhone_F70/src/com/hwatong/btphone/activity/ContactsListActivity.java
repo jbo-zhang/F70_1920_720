@@ -34,6 +34,7 @@ import com.hwatong.btphone.ui.R;
 import com.hwatong.btphone.ui.ViewHolder;
 import com.hwatong.btphone.util.KeyboardBuildFactory;
 import com.hwatong.btphone.util.KeyboardBuildFactory.OnKeyEventCallBack;
+import com.hwatong.btphone.util.DensityUtils;
 import com.hwatong.btphone.util.L;
 import com.hwatong.btphone.util.Utils;
 
@@ -70,6 +71,10 @@ public class ContactsListActivity extends BaseActivity {
 	private boolean keyboardAdded = false;
 
 	private LayoutParams params;
+	
+	
+	private View vRightLabel, flRightLabel;
+	private TextView rlName, rlNumber;
 
 	@Override
 	protected void initView() {
@@ -84,7 +89,16 @@ public class ContactsListActivity extends BaseActivity {
 
 		mBtnLetterSearch = findViewById(R.id.btn_letter_search);
 		mBtnLetterSearch.setOnClickListener(this);
-
+		
+		L.d(thiz, DensityUtils.getScreenWidth(this) + " width! " + DensityUtils.getScreenHeight(this) + " height!");
+		if(DensityUtils.getScreenWidth(this) == 1920) {
+			vRightLabel = findViewById(R.id.v_right_label);
+			flRightLabel = findViewById(R.id.fl_right_label);
+			rlName = (TextView) flRightLabel.findViewById(R.id.tv_rl_name);
+			rlNumber = (TextView) flRightLabel.findViewById(R.id.tv_rl_number);
+			mLvContacts.attachLabel(vRightLabel, flRightLabel,  rlName, rlNumber);
+		}
+		
 		initListView();
 		initKeyBoard();
 		
@@ -411,6 +425,7 @@ public class ContactsListActivity extends BaseActivity {
 		mContactsList.clear();
 		mContactsList.addAll(list);
 		searchContactsByLetter(mEtShowInputText.getText().toString().trim());
+		mLvContacts.hideCurrentItemBtn();
 		//mAdapter.refresh(list);
 	}
 
