@@ -531,11 +531,13 @@ public class UpdateService extends Service {
         	 																			//之前调用一下RecoverySystem.verifyPackage()这个函数
         	 																			//百分比
         } catch (IOException e1) {
-			reportStateChanged(OTAUIStateChangeListener.STATE_IN_UPGRADING, OTAUIStateChangeListener.ERROR_PACKAGE_VERIFY_FALIED, null);
+			reportStateChanged(OTAUIStateChangeListener.STATE_IN_UPGRADING, OTAUIStateChangeListener.ERROR_PACKAGE_VERIFY_FAILED, null);
+			L.d(thiz, e1.toString());
         	e1.printStackTrace();
         	return;
         } catch (GeneralSecurityException e1) {
-			reportStateChanged(OTAUIStateChangeListener.STATE_IN_UPGRADING, OTAUIStateChangeListener.ERROR_PACKAGE_VERIFY_FALIED, null);
+			reportStateChanged(OTAUIStateChangeListener.STATE_IN_UPGRADING, OTAUIStateChangeListener.ERROR_PACKAGE_VERIFY_FAILED, null);
+			L.d(thiz, e1.toString());
         	e1.printStackTrace();
         	return;
         } finally {
@@ -616,7 +618,7 @@ public class UpdateService extends Service {
 		final int NO_ERROR = 0;
 		final int ERROR_WIFI_NOT_AVALIBLE = 1;  // require wifi network, for OTA app.升级应用请求无线网络
 		final int ERROR_CANNOT_FIND_SERVER = 2;//错误找不到服务器
-		final int ERROR_PACKAGE_VERIFY_FALIED = 3;//错误包验证失败
+		//final int ERROR_PACKAGE_VERIFY_FALIED = 3;//错误包验证失败
 		final int ERROR_WRITE_FILE_ERROR = 4;//错误写文件错误
 		final int ERROR_NETWORK_ERROR = 5;//错误的网络错误
 		final int ERROR_PACKAGE_INSTALL_FAILED = 6;//错误包安装失败

@@ -41,7 +41,7 @@
     
     <string name="upgrade">升级</string>
     <string name="check_for_upgrade">正在检查</string>
-    <string name="error_package_verify_failed">升级包校验失败</string>
+    <string name="error_package_verify_failed">升级包校验失败，请确保升级包正确！</string>
     <string name="error_package_install_failed">升级包安装失败</string>
     <string name="download_upgrade_package">正在拷贝升级包</string>
     <string name="copy_upgrade_package">正在拷贝升级包</string>
