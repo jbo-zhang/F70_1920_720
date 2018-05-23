@@ -82,13 +82,13 @@ public class SystemProfileFragment extends BaseFragment{
                 break;
             case TBOX_RSSI:
                 if(tboxService!=null){
-                    
                     try {
-                        String rssi = Integer.toString(tboxService.getNetworkStatus().RSSI) ;
-                        if(rssi!=null){
-                            setFormatText(tvNetSignal, rssi); 
-                        }
-                        
+                    	if(tboxService.getNetworkStatus() != null) {
+                    		String rssi = Integer.toString(tboxService.getNetworkStatus().RSSI) ;
+                            if(rssi!=null){
+                                setFormatText(tvNetSignal, rssi); 
+                            }
+                    	}
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }                
@@ -127,13 +127,7 @@ public class SystemProfileFragment extends BaseFragment{
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder binder) {
             tboxService = com.tbox.service.ITboxService.Stub.asInterface(binder);
-            try {
-		       if(tboxService!=null && tboxService.getTboxStatus() == 1){
-					tboxService.getIccid();
-				}
-			} catch (RemoteException e1) {
-				e1.printStackTrace();
-			}
+            
             if(tboxService!=null){
                 try {
                     tboxService.registerTboxCallback(new ITboxCallback.Stub() {
@@ -200,6 +194,18 @@ public class SystemProfileFragment extends BaseFragment{
                     e.printStackTrace();
                 }
             }
+            
+            try {
+ 		       if(tboxService!=null && tboxService.getTboxStatus() == 1){
+ 					tboxService.getIccid();
+ 				}
+ 			} catch (RemoteException e1) {
+ 				e1.printStackTrace();
+ 			}
+            
+            //添加第一次获取，保证及时有值
+            handler.sendEmptyMessage(TBOX_RSSI);
+            
         }
     };    
 	
