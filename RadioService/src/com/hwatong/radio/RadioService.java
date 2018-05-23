@@ -180,6 +180,19 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 					pause();
 
 				} else if ("previous".equals(cmd)) {
+					
+					//为了停止预览，因为预览状态服务是不知道的。
+					sendButtonBroadcast(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+					
+					//点击seek键后暂停搜索
+					if (mRadioThread != null) {
+						mRadioThread.requestExitAndWait();
+						mRadioThread = null;
+						notifyStatusChanged();
+						return START_STICKY;
+					}
+					
+					
 					if (mRadioThread == null && mCurrentBand != -1) {
 						if ((mCurrentBand == 0 && mFMRadioList.size() == 0)
 								|| (mCurrentBand == 1 && mAMRadioList.size() == 0)) {
@@ -197,6 +210,18 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 						}
 					}
 				} else if ("next".equals(cmd)) {
+
+					//为了停止预览，因为预览状态服务是不知道的。
+					sendButtonBroadcast(KeyEvent.KEYCODE_MEDIA_NEXT);
+					//点击seek键后暂停搜索
+					if (mRadioThread != null) {
+						mRadioThread.requestExitAndWait();
+						mRadioThread = null;
+						notifyStatusChanged();
+						return START_STICKY;
+					}
+					
+					
 					if (mRadioThread == null && mCurrentBand != -1) {
 						if ((mCurrentBand == 0 && mFMRadioList.size() == 0)
 								|| (mCurrentBand == 1 && mAMRadioList.size() == 0)) {
@@ -239,6 +264,13 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 
 			return START_STICKY;
 		}
+	
+	private void sendButtonBroadcast(int key) {
+		Intent intent = new Intent("android.intent.action.MEDIA_BUTTON_F70");
+		intent.putExtra("key", key);
+		sendBroadcast(intent);
+	}
+	
 
 	private final List<Callback> mCallbacks = new ArrayList<Callback>();
 
@@ -588,7 +620,7 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 	}
 
 	public void tuneTo(int frequence, boolean add) {
-		if (DBG) Log.d(TAG, "tuneTo " + frequence + ", add " + add);
+		if (DBG) Log.d(TAG, "tuneTo " + frequence + ", add " + add + ", current" + mCurrentChannel[0] + "/" + mCurrentChannel[1]);
 
 		if (mRadioThread != null) {
 //			if (mRadioThread.getStatus() == OP_INIT)
@@ -597,6 +629,11 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 			mRadioThread = null;
 		}
 
+		if(frequence == -1) {
+			return;
+		}
+		
+		
 		int band = MIN_FREQUENCE_FM <= frequence && frequence <= MAX_FREQUENCE_FM ? 0 : 1;
 		if (add)
 			addChannelInListSingle(band, frequence, 2);
@@ -1541,30 +1578,38 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 		} else if ("AM".equals(what)) {
 			synchronized (mAMRadioList) {
 				if (mCurrentBand == 1 && mAMRadioList.size() > 0) {
-					int i = 0;
-					for (; i < mAMRadioList.size(); i++) {
-						if (mAMRadioList.get(i).frequence == mCurrentChannel[1])
-							break;
+//					int i = 0;
+//					for (; i < mAMRadioList.size(); i++) {
+//						if (mAMRadioList.get(i).frequence == mCurrentChannel[1])
+//							break;
+//					}
+//					if (i == mAMRadioList.size()) {
+//						synchronized (mOpLock) {
+//							tuneTo(mCurrentBand, mAMRadioList.get(0).frequence);
+//						}
+//					}
+					
+					synchronized (mOpLock) {
+						tuneTo(mCurrentBand, mAMRadioList.get(0).frequence);
 					}
-					if (i == mAMRadioList.size()) {
-						synchronized (mOpLock) {
-							tuneTo(mCurrentBand, mAMRadioList.get(0).frequence);
-						}
-					}
+					
 				}
 			}
 		} else if ("FM".equals(what)) {
 			synchronized (mFMRadioList) {
 				if (mCurrentBand == 0 && mFMRadioList.size() > 0) {
-					int i = 0;
-					for (; i < mFMRadioList.size(); i++) {
-						if (mFMRadioList.get(i).frequence == mCurrentChannel[0])
-							break;
-					}
-					if (i == mFMRadioList.size()) {
-						synchronized (mOpLock) {
-							tuneTo(mCurrentBand, mFMRadioList.get(0).frequence);
-						}
+//					int i = 0;
+//					for (; i < mFMRadioList.size(); i++) {
+//						if (mFMRadioList.get(i).frequence == mCurrentChannel[0])
+//							break;
+//					}
+//					if (i == mFMRadioList.size()) {
+//						synchronized (mOpLock) {
+//							tuneTo(mCurrentBand, mFMRadioList.get(0).frequence);
+//						}
+//					}
+					synchronized (mOpLock) {
+						tuneTo(mCurrentBand, mFMRadioList.get(0).frequence);
 					}
 				}
 			}
@@ -1977,6 +2022,8 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 			final short[] radioList = new short[300];
 			int count = 0;
 
+			int resumeFreq = mCurrentChannel[band];
+			
 			synchronized (mOpLock) {
 				radioOpen();
 				radioStartSeek(band == 0, band == 0 ? MIN_FREQUENCE_FM : MIN_FREQUENCE_AM);
@@ -1984,6 +2031,11 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 				short freq = (short) (band == 0 ? MIN_FREQUENCE_FM : MIN_FREQUENCE_AM);
 				for (; freq < (band == 0 ? MAX_FREQUENCE_FM : MAX_FREQUENCE_AM); freq += (band == 0 ? 10 : 9)) {
 
+					
+					//add，保证停止时候停在当前频率
+					mCurrentChannel[band] = freq;
+					Log.d("RadioService", "mCurrentChannel " + mCurrentChannel[band]);
+					
 					notifyDisplayChanged(band, freq);
 					sendInfoUpdate(band, freq, mRequestPlay);
 
@@ -1998,13 +2050,19 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 
 					synchronized (this) {
 						if (/*op != OP_INIT && */ exit) {
-							if (DBG) Log.d(TAG, "scanInBand Is break ");
+							if (DBG) Log.d(TAG, "scanInBand Is break " + ", current" + mCurrentChannel[0] + "/" + mCurrentChannel[1]);
 							break;
 						}
 					}
 
 				}
-
+				
+				if(exit) {
+					mCurrentChannel[band] = freq;
+				} else {
+					mCurrentChannel[band] = resumeFreq;
+				}
+				
 				radioEndSeek(band == 0, mCurrentChannel[band]);
 				radioClose();
 
@@ -2124,7 +2182,7 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 
 				synchronized (this) {
 					if (exit) {
-						if (DBG) Log.d(TAG, "SEEK_UP is break ");
+						if (DBG) Log.d(TAG, "SEEK_UP is break " + ", current" + mCurrentChannel[0] + "/" + mCurrentChannel[1]);
 						ret = freq;
 						break;
 					}
@@ -2192,7 +2250,7 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 
 				synchronized (this) {
 					if (exit) {
-						if (DBG) Log.d(TAG, "SEEK_DOWN is break ");
+						if (DBG) Log.d(TAG, "SEEK_DOWN is break " + ", current" + mCurrentChannel[0] + "/" + mCurrentChannel[1]);
 						ret = freq;
 						break;
 					}
