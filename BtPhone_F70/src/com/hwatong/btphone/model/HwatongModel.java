@@ -283,7 +283,7 @@ public class HwatongModel implements IBTPhoneModel {
 	public void hangUp() {
 		if(iService != null) {
 			try {
-				L.d(thiz,"pickUp()");
+				L.d(thiz,"hangUp()");
 				iService.phoneFinish();
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -383,7 +383,7 @@ public class HwatongModel implements IBTPhoneModel {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				SystemClock.sleep(1000);
+				SystemClock.sleep(3000);
 				if(booksLoading) {
 					iView.showBooksLoading();
 				}
@@ -396,7 +396,7 @@ public class HwatongModel implements IBTPhoneModel {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				SystemClock.sleep(1000);
+				SystemClock.sleep(3000);
 				iView.syncBooksAlreadyLoad();
 			}
 		}).start();
@@ -407,7 +407,7 @@ public class HwatongModel implements IBTPhoneModel {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				SystemClock.sleep(1000);
+				SystemClock.sleep(3000);
 				if(logsIsLoading(type)) {
 					iView.showLogsLoading(type);
 				}
@@ -420,7 +420,7 @@ public class HwatongModel implements IBTPhoneModel {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				SystemClock.sleep(1000);
+				SystemClock.sleep(3000);
 				iView.syncLogsAlreadyLoad(type);
 				if(!logsInLoading && !logsOutLoading && !logsMissLoading) {
 					iView.syncLogsAlreadyLoad(10);
@@ -857,7 +857,7 @@ public class HwatongModel implements IBTPhoneModel {
 			if (iService != null /* && isConnected */) {
 				
 				L.d(thiz, "onHfpCallChanged onCallStatusChanged 333 before getCallStatus");
-				CallStatus callStatus = iService.getCallStatus();
+				final CallStatus callStatus = iService.getCallStatus();
 				L.d(thiz, "onHfpCallChanged onCallStatusChanged 444 status : " + callStatus.status);
 				L.d(thiz, "onHfpCallChanged onCallStatusChanged 555 status :" + callStatus);
 				//闲置状态
@@ -920,6 +920,18 @@ public class HwatongModel implements IBTPhoneModel {
 							
 							@Override
 							public void run() {
+								L.d(thiz, "roll in task!");
+								try {
+									if(iService != null && !CallStatus.PHONE_TALKING.equals(iService.getCallStatus().status)) {
+										L.d(thiz, "roll not in talking!");
+										TimerTaskUtil.cancelTimer("update_duration");
+										iView.showHangUp(currentCall);
+										return;
+									}
+								} catch (RemoteException e) {
+									e.printStackTrace();
+								}
+								
 								if(currentCall != null) {
 									synchronized (currentCallLock) {
 										if(currentCall != null) {
