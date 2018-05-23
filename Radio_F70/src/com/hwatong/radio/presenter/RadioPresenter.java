@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
 import android.os.SystemClock;
+import android.os.SystemVibrator;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.widget.TextView;
@@ -396,7 +397,7 @@ public class RadioPresenter {
 		@Override
 		public void onDisplayChanged(int band, int freq) throws RemoteException {
 			// 频率切换
-
+			
 			L.d(thiz, "onDisplayChanged! " + band + " " + freq
 					+ " previewMode : " + previewMode + " preview start at : " + previewStartFreq);
 
@@ -671,28 +672,24 @@ public class RadioPresenter {
 	}
 	
 	/**
-	 * 停止扫描
+	 * 如果正在预览，停止预览，如果正在seek，停止seek，如果正在更新，停止更新
 	 */
-	public void stopScan() {
-		if(mService != null) {
-			try {
-				int[] status = mService.getStatus();
-				if (status != null && status.length >= 2 && status[0] == 1) {
-					// 正在扫描
-					L.d(thiz, "stopScan()");
-					play(mFreq);
-					return;
-				}
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
+	public void doBack() {
+		L.d(thiz, "doBack");
+		if(stopPreview()) {
+			return;
 		}
-		
+		if(stopSeeking()) {
+			return;
+		}
+		stopScaning();
 	}
 	
 
 	/**
 	 * 请求播放频率
+	 * 
+	 * 频率为-1表示停止当前搜索状态
 	 * 
 	 * @param frequence
 	 */
@@ -701,7 +698,7 @@ public class RadioPresenter {
 			try {
 				L.d(thiz, "mService.tuneTo(" + freq + ", false)");
 				mService.tuneTo(freq, false);
-				
+				L.d(thiz, " after mService.tuneTo(" + freq + ", false)");
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -883,13 +880,98 @@ public class RadioPresenter {
 		iRadioView.showPreview();
 	}
 
-	public void stopPreview() {
+	public synchronized boolean stopPreview() {
+		L.d(thiz, "doBack previewMode " + previewMode);
 		if(previewMode) {
+			L.d(thiz, "stopPreview()");
+			//开线程是因为服务端的wait会暂停主线程，然后停止后主线程才响应，导致频率又向下跳动了一次
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					play(mFreq);
+				}
+			}).start();
 			mHandler.removeMessages(MSG_PREVIEW_CHANNEL);
 			previewMode = false;
 			iRadioView.hidePreview();
+			return true;
 		}
+		return false;
 	}
+	
+	
+	public boolean stopSeeking() {
+		if(mService != null) {
+			try {
+				int[] status = mService.getStatus();
+				L.d(thiz, "doBack stopSeeking status " + status[0]);
+				//OP_SEEK_UP = 2  OP_SEEK_DOWN = 3
+				if (status != null && status.length >= 2 && (status[0] == 2 || status[0] == 3)) {
+					// 正在扫描
+					L.d(thiz, "stopSeeking()");
+					//开线程是因为服务端的wait会暂停主线程，然后停止后主线程才响应，导致频率又向下跳动了一次
+					new Thread(new Runnable() {
+						
+						@Override
+						public void run() {
+							play(mFreq);
+						}
+					}).start();
+					return true;
+				}
+				
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	public boolean stopScaning() {
+		if(mService != null) {
+			try {
+				int[] status = mService.getStatus();
+				L.d(thiz, "doBack stopSeeking status " + status[0]);
+				//OP_SCAN = 1
+				if (status != null && status.length >= 2 && (status[0] == 1 || status[0] == -1)) {
+					// 正在扫描
+					L.d(thiz, "stopScaning()");
+					//开线程是因为服务端的wait会暂停主线程，然后停止后主线程才响应，导致频率又向下跳动了一次
+					new Thread(new Runnable() {
+						
+						@Override
+						public void run() {
+							play(mFreq);
+							L.d(thiz, "doBack stopSeeking play after sleep");
+						}
+					}).start();
+					return true;
+				}
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
+	
+//	private void syncMFreq() {
+//		if(mService != null) {
+//			try {
+//				mFreq = mService.getCurrentChannel(isFm() ? 0 : 1) ;
+//			} catch (RemoteException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//	}
+	
+	
+	
+	
 
 	/**
 	 * 得到空的预存位置

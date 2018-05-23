@@ -160,8 +160,11 @@ public class Radio extends Activity implements OnClickListener,
 			 */
 			case MSG_DELAYCLICK:
 				
-				if (msg.arg1 != R.id.btn_radio_preview) {
-					radioPresenter.stopPreview();
+				if (msg.arg1 != R.id.btn_radio_preview && msg.arg1 != R.id.btn_back) {
+					//若在预览状态，停止预览，播放当前频率
+					if(radioPresenter.stopPreview()) {
+						return;
+					}
 				}
 				switch (msg.arg1) {
 				case R.id.btn_pre:
@@ -180,7 +183,7 @@ public class Radio extends Activity implements OnClickListener,
 					break;
 				case R.id.btn_back:
 					hideLoading();
-					radioPresenter.stopScan();
+					radioPresenter.doBack();
 					doBack();
 					break;
 				case R.id.btn_band_switch:
@@ -275,7 +278,12 @@ public class Radio extends Activity implements OnClickListener,
 	@Override
 	protected void onPause() {
 		super.onPause();
-		radioPresenter.unbindService(this);
+		if (radioPresenter != null) {
+			radioPresenter.doBack();
+			//切换界面是在搜索，延时是为了准确停止，防止服务变空。
+			SystemClock.sleep(100);
+			radioPresenter.unbindService(this);
+		}
 	}
 	
 	@Override
@@ -749,11 +757,12 @@ public class Radio extends Activity implements OnClickListener,
 		L.d(thiz, "first : " + mLvChannelList.getFirstVisiblePosition() + " last : " + mLvChannelList.getLastVisiblePosition());
 		
 		if(position < mLvChannelList.getFirstVisiblePosition() || position > mLvChannelList.getLastVisiblePosition()) {
-			if(position > 3) {
-				mLvChannelList.setSelection(position - 3);
-			} else if(position >= 0) {
-				mLvChannelList.setSelection(0);
-			}
+//			if(position > 3) {
+//				mLvChannelList.setSelection(position - 3);
+//			} else if(position >= 0) {
+//				mLvChannelList.setSelection(0);
+//			}
+			mLvChannelList.setSelection(position);
 		}
 	}
 	
@@ -1082,4 +1091,10 @@ public class Radio extends Activity implements OnClickListener,
 		finish();
 	}
 
+
+	@Override
+	public void stopPreviewFromBroadcast() {
+		L.d(thiz, "stopPreviewFromBroadcast");
+		radioPresenter.stopPreview();
+	}
 }

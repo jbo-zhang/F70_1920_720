@@ -8,4 +8,6 @@ public interface IReceiverView {
 	void collect();
 
 	void playPosition(int pos);
+	
+	void stopPreviewFromBroadcast();
 }

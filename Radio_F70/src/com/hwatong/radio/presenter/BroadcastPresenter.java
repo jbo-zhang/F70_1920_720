@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.view.KeyEvent;
 
 import com.hwatong.radio.ui.Radio;
 import com.hwatong.radio.ui.iview.IReceiverView;
@@ -16,6 +17,9 @@ public class BroadcastPresenter {
 	private static final String AM_CMD_ACITON = "com.hwatong.voice.AM_CMD";
 	private static final String FM_COLLECTION = "com.hwatong.voice.FM_COLLECTION";
 	private static final String SELECT_CHANNEL = "com.hwatong.voice.SELECT_CHANNEL";
+	
+	private static final String MEDIA_BUTTON = "android.intent.action.MEDIA_BUTTON_F70";
+	
 	
 	private static final String thiz = BroadcastPresenter.class.getSimpleName();
 	
@@ -33,6 +37,7 @@ public class BroadcastPresenter {
 		filter.addAction(AM_CMD_ACITON);
 		filter.addAction(FM_COLLECTION);
 		filter.addAction(SELECT_CHANNEL);
+		filter.addAction(MEDIA_BUTTON);
 		context.registerReceiver(voiceBroadcast, filter);
 	}
 	
@@ -64,6 +69,8 @@ public class BroadcastPresenter {
 			} else if(SELECT_CHANNEL.equals(intent.getAction())) {
 				playPosition(intent);
 				
+			} else if (MEDIA_BUTTON.equals(intent.getAction())) {
+				iView.stopPreviewFromBroadcast();
 			}
 		}
 		
