@@ -1033,6 +1033,10 @@ public class RadioPresenter {
 	
 	public void setBandFromMode(int band, boolean isNewIntent) {
 		L.d(thiz, "setBandFromMode band= " + band + " mBand: " + mBand + " isNewIntent= " + isNewIntent);
+		
+		//若在预览，则停止预览
+		stopPreview();
+		
 		if(band == mBand + 1 || (band == 1 && mBand == 5)) {
 			if(band == 4) {
 				initType = 1;
