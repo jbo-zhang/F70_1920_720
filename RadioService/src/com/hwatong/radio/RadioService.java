@@ -265,6 +265,10 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 			return START_STICKY;
 		}
 	
+	/**
+	 * 用于通知客户端停止电台预览
+	 * @param key
+	 */
 	private void sendButtonBroadcast(int key) {
 		Intent intent = new Intent("android.intent.action.MEDIA_BUTTON_F70");
 		intent.putExtra("key", key);
@@ -2444,12 +2448,19 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 					}
 					int f = (int) (Double.parseDouble(freq) * (double) 100);
 					if (f <= MAX_FREQUENCE_FM && f >= MIN_FREQUENCE_FM) {
-						synchronized (mOpLock) {
+						//去掉sync是因为不去掉的话需要等到搜索状态停止才能获取到锁
+						//synchronized (mOpLock) {
 							if (mCurrentBand != -1) {
 								addChannelInListSingle(0, f, 2);
-								tuneTo(0, f);
+								
+								//采用这个tuneto可以停止搜索状态并跳转到指定频率，解决搜台过程语音打开指定频率无用问题
+								tuneTo(f, false);
+								//停止预览电台用
+								sendButtonBroadcast(133);
+								
+								//tuneTo(0, f);
 							}
-						}
+						//}
 					}
 				} else if (action.equals("com.hwatong.voice.AM_CMD")) {
 					String freq = intent.getStringExtra("frequency");
@@ -2458,19 +2469,28 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 					}
 					int f = ((int) (Double.parseDouble(freq)));
 					if (f <= MAX_FREQUENCE_AM && f >= MIN_FREQUENCE_AM) {
-						synchronized (mOpLock) {
+						//synchronized (mOpLock) {
 							if (mCurrentBand != -1) {
 								addChannelInListSingle(1, f, 2);
-								tuneTo(1, f);
+								tuneTo(f, false);
+								
+								//停止预览电台用
+								sendButtonBroadcast(133);
+								
+								//tuneTo(1, f);
 							}
-						}
+						//}
 					}
 				} else if (action.equals("com.hwatong.voice.BACK_Radio")) {
 					readCurrentChannel();
-					synchronized (mOpLock) {
+					//synchronized (mOpLock) {
 						if (mCurrentBand != -1)
-							tuneTo(mCurrentBand, mCurrentChannel[mCurrentBand]);
-					}
+							tuneTo(mCurrentChannel[mCurrentBand], false);
+						
+							//停止预览电台用
+							sendButtonBroadcast(133);
+							//tuneTo(mCurrentBand, mCurrentChannel[mCurrentBand]);
+					//}
 				} else if (action.equals("com.hwatong.voice.search_Radio")) {
 
 				} else if (action.equals(AudioManager.MASTER_MUTE_CHANGED_ACTION)) {
