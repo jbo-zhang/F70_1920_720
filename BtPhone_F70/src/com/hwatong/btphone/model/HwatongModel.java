@@ -11,6 +11,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.os.SystemClock;
@@ -134,6 +135,11 @@ public class HwatongModel implements IBTPhoneModel {
 	 * 增加一个变量，防止多次快速点击拨打按钮造成卡顿
 	 */
 	private long dialStartTime = 0;
+	
+	/**
+	 * 用于post一个延时加载通讯录的runnable。
+	 */
+	private Handler loadHandler = new Handler();
 	
 	public HwatongModel(IUIView iView) {
 		this.iView = iView;
@@ -721,6 +727,7 @@ public class HwatongModel implements IBTPhoneModel {
 		@Override
 		public void onHfpDisconnected() throws RemoteException {
 			L.d(thiz, "onHfpDisconnected");
+			loadHandler.removeCallbacksAndMessages(null);
 			refreshStatus();			
 			iView.showDisconnected();
 		}
@@ -728,7 +735,15 @@ public class HwatongModel implements IBTPhoneModel {
 		@Override
 		public void onHfpConnected() throws RemoteException {
 			L.d(thiz, "onHfpConnected");
-			loadBooks();
+			loadHandler.postDelayed(new Runnable() {
+				
+				@Override
+				public void run() {
+					L.d(thiz,"load in post delayed!");
+					loadBooks();
+				}
+			}, 5000);
+			
 			iView.showConnected();
 		}
 		
