@@ -595,7 +595,15 @@ public class HwatongModel implements IBTPhoneModel {
 						if(mContacts.size() > 0) {
 							iView.updateBooks(mContacts);
 						} else {
-							loadBooks();
+							loadHandler.removeCallbacksAndMessages(null);
+							loadHandler.postDelayed(new Runnable() {
+								
+								@Override
+								public void run() {
+									L.d(thiz,"load in post delayed!");
+									loadBooks();
+								}
+							}, 5000);
 						}
 						
 						getAllLogsList();
@@ -735,6 +743,7 @@ public class HwatongModel implements IBTPhoneModel {
 		@Override
 		public void onHfpConnected() throws RemoteException {
 			L.d(thiz, "onHfpConnected");
+			loadHandler.removeCallbacksAndMessages(null);
 			loadHandler.postDelayed(new Runnable() {
 				
 				@Override
