@@ -736,6 +736,7 @@ public class HwatongModel implements IBTPhoneModel {
 		public void onHfpDisconnected() throws RemoteException {
 			L.d(thiz, "onHfpDisconnected");
 			loadHandler.removeCallbacksAndMessages(null);
+			TimerTaskUtil.cancelTimer("update_duration");
 			refreshStatus();			
 			iView.showDisconnected();
 		}
@@ -946,7 +947,7 @@ public class HwatongModel implements IBTPhoneModel {
 							public void run() {
 								L.d(thiz, "roll in task!");
 								try {
-									if(iService != null && !CallStatus.PHONE_TALKING.equals(iService.getCallStatus().status)) {
+									if(iService != null && iService.getCallStatus() != null && !CallStatus.PHONE_TALKING.equals(iService.getCallStatus().status)) {
 										L.d(thiz, "roll not in talking!");
 										TimerTaskUtil.cancelTimer("update_duration");
 										iView.showHangUp(currentCall);
