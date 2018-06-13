@@ -30,6 +30,7 @@ import android.media.AudioTrack;
 import android.media.IAudioFocusDispatcher;
 import android.media.IAudioService;
 import android.media.MediaRecorder;
+import android.media.AudioSystem;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
@@ -115,7 +116,7 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 			filter.addAction("com.hwatong.voice.FM_CMD");
 			filter.addAction("com.hwatong.voice.AM_CMD");
 			filter.addAction("com.hwatong.voice.BACK_Radio");
-			filter.addAction(AudioManager.MASTER_MUTE_CHANGED_ACTION);
+			//filter.addAction(AudioManager.MASTER_MUTE_CHANGED_ACTION);
 			registerReceiver(mVoiceCmdListener, filter);
 		}
 
@@ -1088,8 +1089,8 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 	private boolean mRequestPauseByAF;
 	private AudioThread mAudioThread;
 
-	private void setRadioVolume() {
-		int vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+	private void setRadioVolume() {//zhangzhitong20180426
+		int vol = AudioSystem.getStreamVolumeIndex(AudioSystem.STREAM_MUSIC, AudioSystem.DEVICE_OUT_SPEAKER);//mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 		int v = 16;
 		switch(vol) {
 			case 0:
@@ -1205,7 +1206,7 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 		} else {
 
 			audioOpen();
-			setRadioVolume();
+			//setRadioVolume();
 
 			tinymix(32, 0);
 			tinymix(33, 0);
@@ -1471,7 +1472,7 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 
 		return true;
 	}
-	
+		
 	private boolean tuneTo(int band, int freq) {
 		if (DBG) Log.d(TAG, "tuneTo band " + band + ", freq " + freq);
 
@@ -2513,11 +2514,11 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 					//}
 				} else if (action.equals("com.hwatong.voice.search_Radio")) {
 
-				} else if (action.equals(AudioManager.MASTER_MUTE_CHANGED_ACTION)) {
+				}/* else if (action.equals(AudioManager.MASTER_MUTE_CHANGED_ACTION)) {
 					if(mRequestPlay) {
 						setRadioVolume();
 					}
-				}
+				}*/
 			}
 	};
 

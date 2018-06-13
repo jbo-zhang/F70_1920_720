@@ -199,8 +199,9 @@ Java_com_hwatong_radio_RadioService_radioScanFreq(JNIEnv *env, jobject thiz, jbo
 				return -1;
 
 				offset = (char)buf[4];
-				if(offset < 0)
-				offset = -offset;
+				
+				if(offset & 0x80)
+					offset &= 0x7f;
 
 			#if 0
 			offset = (short)(unsigned short)(0x7f & buf[4]);
@@ -489,7 +490,7 @@ static void audioClose(JNIEnv *env, jobject thiz)
 #else
     audio_opened = false;
     f_write_string("/sys/bus/i2c/devices/0-0063/channel_func", "2");
-	f_write_string("/sys/devices/platform/imx-i2c.0/i2c-0/0-0063/volume_func","26");
+	//f_write_string("/sys/devices/platform/imx-i2c.0/i2c-0/0-0063/volume_func","26");
 #endif
 }
 
