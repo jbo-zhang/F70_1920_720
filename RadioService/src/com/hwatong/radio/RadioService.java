@@ -753,7 +753,7 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 			int status = mRadioThread.getStatus();
 			mRadioThread.requestExitAndWait();
 			mRadioThread = null;
-			if (status == OP_SCAN)
+			if (status == OP_SCAN || status == OP_INIT)
 				return;
 		}
 
@@ -1457,6 +1457,21 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 		return 0;
 	}
 
+	private boolean tuneToAndSave(int band, int freq) {
+		if (DBG) Log.d(TAG, "tuneToAndSave band " + band + ", freq " + freq);
+
+		radioTurnToFreq(band == 0, freq);
+
+		mCurrentBand = band;
+		mCurrentChannel[band] = freq;
+
+		saveCurrentChannel();
+
+		notifyChannelChanged();
+
+		return true;
+	}
+	
 	private boolean tuneTo(int band, int freq) {
 		if (DBG) Log.d(TAG, "tuneTo band " + band + ", freq " + freq);
 
@@ -2061,8 +2076,10 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 
 				}
 				
+				//退出停在当前频率，不是退出则回到之前频率
 				if(exit) {
 					mCurrentChannel[band] = freq;
+					mCurrentBand = band;
 				} else {
 					mCurrentChannel[band] = resumeFreq;
 				}
@@ -2071,7 +2088,8 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 				radioClose();
 
 				if (mCurrentBand != -1 && mCurrentChannel[mCurrentBand] != -1) {
-					radioTurnToFreq(mCurrentBand == 0, mCurrentChannel[mCurrentBand]);
+					tuneToAndSave(mCurrentBand, mCurrentChannel[mCurrentBand]);
+					//radioTurnToFreq(mCurrentBand == 0, mCurrentChannel[mCurrentBand]);
 					notifyDisplayChanged(mCurrentBand, mCurrentChannel[mCurrentBand]);
 					sendInfoUpdate(mCurrentBand, mCurrentChannel[mCurrentBand], mRequestPlay);
 				}
@@ -2208,7 +2226,8 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 
 			if (ret == -1) {
 				if (mCurrentBand != -1 && mCurrentChannel[mCurrentBand] != -1) {
-					radioTurnToFreq(mCurrentBand == 0, mCurrentChannel[mCurrentBand]);
+					tuneToAndSave(mCurrentBand, mCurrentChannel[mCurrentBand]);
+					//radioTurnToFreq(mCurrentBand == 0, mCurrentChannel[mCurrentBand]);
 					notifyDisplayChanged(mCurrentBand, mCurrentChannel[mCurrentBand]);
 					sendInfoUpdate(mCurrentBand, mCurrentChannel[mCurrentBand], mRequestPlay);
 				}
@@ -2277,7 +2296,8 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 
 			if (ret == -1) {
 				if (mCurrentBand != -1 && mCurrentChannel[mCurrentBand] != -1) {
-					radioTurnToFreq(mCurrentBand == 0, mCurrentChannel[mCurrentBand]);
+					tuneToAndSave(mCurrentBand, mCurrentChannel[mCurrentBand]);
+					//radioTurnToFreq(mCurrentBand == 0, mCurrentChannel[mCurrentBand]);
 					notifyDisplayChanged(mCurrentBand, mCurrentChannel[mCurrentBand]);
 					sendInfoUpdate(mCurrentBand, mCurrentChannel[mCurrentBand], mRequestPlay);
 				}
