@@ -947,11 +947,15 @@ public class HwatongModel implements IBTPhoneModel {
 							public void run() {
 								L.d(thiz, "roll in task!");
 								try {
-									if(iService != null && iService.getCallStatus() != null && !CallStatus.PHONE_TALKING.equals(iService.getCallStatus().status)) {
+									if(iService != null && iService.getCallStatus() != null && CallStatus.PHONE_CALL_NONE.equals(iService.getCallStatus().status)) {
 										L.d(thiz, "roll not in talking!");
 										TimerTaskUtil.cancelTimer("update_duration");
 										iView.showHangUp(currentCall);
 										return;
+									} else {
+										if(iService != null) {
+											L.d(thiz, "iService.getCallStatus : " + iService.getCallStatus().status);
+										}
 									}
 								} catch (RemoteException e) {
 									e.printStackTrace();

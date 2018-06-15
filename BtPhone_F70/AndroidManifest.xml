@@ -51,6 +51,7 @@
             android:launchMode="singleTask" >
         </activity>
         <activity android:name="com.hwatong.btphone.activity.ContactsListActivity" 
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:launchMode="singleTask">
         </activity>
         

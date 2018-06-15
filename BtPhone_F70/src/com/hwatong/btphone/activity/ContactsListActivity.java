@@ -2,19 +2,32 @@ package com.hwatong.btphone.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.inputmethodservice.KeyboardView;
+import android.os.IBinder;
 import android.os.SystemClock;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.view.WindowManager.LayoutParams;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -32,9 +45,9 @@ import com.hwatong.btphone.ui.DrawableTextView;
 import com.hwatong.btphone.ui.IndexableListView;
 import com.hwatong.btphone.ui.R;
 import com.hwatong.btphone.ui.ViewHolder;
+import com.hwatong.btphone.util.DensityUtils;
 import com.hwatong.btphone.util.KeyboardBuildFactory;
 import com.hwatong.btphone.util.KeyboardBuildFactory.OnKeyEventCallBack;
-import com.hwatong.btphone.util.DensityUtils;
 import com.hwatong.btphone.util.L;
 import com.hwatong.btphone.util.Utils;
 
@@ -76,6 +89,16 @@ public class ContactsListActivity extends BaseActivity {
 	private View vRightLabel, flRightLabel;
 	private TextView rlName, rlNumber;
 
+	/**
+	 * 一个傀儡，不可见，但是弹出虚拟键盘获得输入文字要用到
+	 */
+	private EditText etSearch;
+
+	/**
+	 * 同步上面那个傀儡的显示
+	 */
+	private TextView tvTexting;
+
 	@Override
 	protected void initView() {
 		mLvContacts = (IndexableListView) findViewById(R.id.ilv_contacts);
@@ -107,8 +130,91 @@ public class ContactsListActivity extends BaseActivity {
 			L.d(thiz, "from dial : " + fromDial);
 		}
 		
+		etSearch = (EditText)findViewById(R.id.et_search);
+		
+		tvTexting = (TextView) findViewById(R.id.tv_texting);
+		
+		etSearch.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				tvTexting.setText(s.toString());
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		etSearch.setOnKeyListener(new OnKeyListener() {
+			
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				/*判断是否是“GO”键*/  
+	              if(keyCode == KeyEvent.KEYCODE_ENTER){  
+	                  /*隐藏软键盘*/  
+	            	  hideSoftInput();
+	                  searchContactsByLetter(etSearch.getText().toString().trim());
+	                  return true;  
+	              }  
+	              return false;  
+			}
+		});
+		
 	}
 	
+	@Override
+	 public boolean dispatchTouchEvent(MotionEvent ev) { 
+	 if (ev.getAction() == MotionEvent.ACTION_DOWN) { 
+		 // 获得当前得到焦点的View，一般情况下就是EditText（特殊情况就是轨迹求或者实体案件会移动焦点） 
+		//View v = getCurrentFocus(); 
+		 if (isShouldHideInput(etSearch, ev)) { 
+			 L.d(thiz, "hide Soft Input ");
+			 hideSoftInput();
+		 } 
+	 } 
+	 return super.dispatchTouchEvent(ev); 
+	 } 
+	 /** 
+	 * 根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘，因为当用户点击EditText时没必要隐藏 
+	 * 
+	 * @param v 
+	 * @param event 
+	 * @return 
+	 */
+	 private boolean isShouldHideInput(View v, MotionEvent event) { 
+		 if (v != null && (v instanceof EditText)) { 
+			 int[] l = { 0, 0 }; 
+			 v.getLocationInWindow(l); 
+			 int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left + v.getWidth(); 
+			 if (event.getX() > left && event.getX() < right && event.getY() > top && event.getY() < bottom) { 
+				 // 点击EditText的事件，忽略它。 
+				 return false; 
+			 } else { 
+				 return true; 
+			 } 
+		 } 
+		 // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditView上，和用户用轨迹球选择其他的焦点 
+		 return false; 
+	 } 
+	
+	 
+	 private void hideSoftInput() {
+		 startAnimation(tvTexting, false);
+		 InputMethodManager imm = (InputMethodManager) etSearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);  
+         if (imm.isActive()) {  
+             imm.hideSoftInputFromWindow(etSearch.getApplicationWindowToken(), 0);  
+         }  
+	 }
+	 
 	private void initListView() {
 		mAdapter = new ContactsAdapter(mContactsList);
 		mLvContacts.setAdapter(mAdapter);
@@ -185,43 +291,71 @@ public class ContactsListActivity extends BaseActivity {
 		} else {
 			List<Contact> selectContacts1 = new ArrayList<Contact>();
 			List<Contact> selectContacts2 = new ArrayList<Contact>();
-			for (Contact contact : mContactsList) {
-				if (contact.comFlg.toUpperCase().startsWith(letters.substring(0, 1))) {
-					L.d(thiz, "name first letter: " + contact.name);
-					selectContacts1.add(contact);
-				}
-			}
 			
-			if(letters.length() > 1) {
-				//汉字首字母匹配
-				for (Contact contact : selectContacts1) {
-					if(contact.comFlg.toUpperCase().contains(letters.substring(1, 2))) {
-						L.d(thiz, "name second letter: " + contact.name);
-						if(Utils.getPinyinAndFirstLetter(contact.name)[1].startsWith(letters)) {
-							selectContacts2.add(contact);
-						}
+			if(isChinese(letters)) {
+				L.d(thiz, "isChinese!");
+				for (Contact contact : mContactsList) {
+					if (contact.name.contains(letters)) {
+						L.d(thiz, "name Chinese match: " + contact.name);
+						selectContacts1.add(contact);
 					}
 				}
-				
-				if(selectContacts2.size() > 0) {
-					mAdapter.refresh(selectContacts2);
-				} else {
-					//全拼匹配
-					for (Contact contact : selectContacts1) {
-						if(contact.comFlg.toUpperCase().startsWith(letters)) {
-							selectContacts2.add(contact);
-						}
-					}
-					mAdapter.refresh(selectContacts2);
-				}
+				mAdapter.refresh(selectContacts1);
 				
 			} else {
-				mAdapter.refresh(selectContacts1);
+				L.d(thiz, "is not Chinese!");
+				letters = letters.toUpperCase();
+				for (Contact contact : mContactsList) {
+					if (contact.comFlg.toUpperCase().startsWith(letters.substring(0, 1))) {
+						L.d(thiz, "name first letter: " + contact.name);
+						selectContacts1.add(contact);
+					}
+				}
+				
+				if(letters.length() > 1) {
+					//汉字首字母匹配
+					for (Contact contact : selectContacts1) {
+						if(contact.comFlg.toUpperCase().contains(letters.substring(1, 2))) {
+							L.d(thiz, "name second letter: " + contact.name);
+							if(Utils.getPinyinAndFirstLetter(contact.name)[1].startsWith(letters)) {
+								selectContacts2.add(contact);
+							}
+						}
+					}
+					
+					if(selectContacts2.size() > 0) {
+						mAdapter.refresh(selectContacts2);
+					} else {
+						//全拼匹配
+						for (Contact contact : selectContacts1) {
+							if(contact.comFlg.toUpperCase().startsWith(letters)) {
+								selectContacts2.add(contact);
+							}
+						}
+						mAdapter.refresh(selectContacts2);
+					}
+					
+				} else {
+					mAdapter.refresh(selectContacts1);
+				}
 			}
 		}
 		
 		L.d(thiz,"search cost : " + (SystemClock.currentThreadTimeMillis() - start));
 	}
+	
+	
+	public static boolean isChinese(String str) {
+		String regEx = "[\u4e00-\u9fa5]";
+		Pattern pat = Pattern.compile(regEx);
+		Matcher matcher = pat.matcher(str);
+		boolean flg = false;
+		if (matcher.find())
+			flg = true;
+
+		return flg;
+	}
+	
 
 	/**
 	 * 弹出虚拟键盘
@@ -260,13 +394,34 @@ public class ContactsListActivity extends BaseActivity {
 			}
 			break;
 		case R.id.btn_letter_search:
-			showKeyBoard();
+//			showKeyBoard();
+			
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);  
+			imm.showSoftInput(etSearch,InputMethodManager.SHOW_FORCED); 
+			startAnimation(tvTexting, true);
+			
 			break;
 		default:
 			break;
 		}
 
 	}
+	
+	
+	/**
+	 * 显示与隐藏伪造的输入法文本框的方法
+	 * @param v
+	 * @param show
+	 */
+	private void startAnimation(View v, boolean show) {
+		if(show) {
+			SystemClock.sleep(200);
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.INVISIBLE);
+		}
+	}
+	
 	
 	private void showProgressDialog(int textId) {
 		if (mDialogControl == null) {
@@ -424,7 +579,8 @@ public class ContactsListActivity extends BaseActivity {
 	public void updateBooks(List<Contact> list) {
 		mContactsList.clear();
 		mContactsList.addAll(list);
-		searchContactsByLetter(mEtShowInputText.getText().toString().trim());
+		//searchContactsByLetter(mEtShowInputText.getText().toString().trim());
+		searchContactsByLetter(tvTexting.getText().toString().trim());
 		mLvContacts.hideCurrentItemBtn();
 		//mAdapter.refresh(list);
 	}
@@ -491,5 +647,11 @@ public class ContactsListActivity extends BaseActivity {
 	public void syncBooksAlreadyLoad() {
 		dismissDialog();		
 	}
-
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		hideSoftInput();
+	}
 }
