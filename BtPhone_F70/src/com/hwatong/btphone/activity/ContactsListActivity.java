@@ -8,9 +8,9 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.inputmethodservice.KeyboardView;
-import android.os.IBinder;
 import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -23,10 +23,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager.LayoutParams;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.AnimationSet;
-import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -169,6 +167,8 @@ public class ContactsListActivity extends BaseActivity {
 			}
 		});
 		
+		setupSoftInputListener();
+		
 	}
 	
 	@Override
@@ -208,7 +208,6 @@ public class ContactsListActivity extends BaseActivity {
 	
 	 
 	 private void hideSoftInput() {
-		 startAnimation(tvTexting, false);
 		 InputMethodManager imm = (InputMethodManager) etSearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);  
          if (imm.isActive()) {  
              imm.hideSoftInputFromWindow(etSearch.getApplicationWindowToken(), 0);  
@@ -220,6 +219,56 @@ public class ContactsListActivity extends BaseActivity {
 		mLvContacts.setAdapter(mAdapter);
 		mLvContacts.setEmptyView(tvNoData);
 	}
+	
+	
+	int rootViewVisibleHeight;//纪录根视图的显示高度
+	
+	public void setupSoftInputListener() {
+        //获取activity的根视图
+        final View rootView = getWindow().getDecorView();
+
+        //监听视图树中全局布局发生改变或者视图树中的某个视图的可视状态发生改变
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                //获取当前根视图在屏幕上显示的大小
+                Rect r = new Rect();
+                rootView.getWindowVisibleDisplayFrame(r);
+
+                int visibleHeight = r.height();
+                System.out.println(""+visibleHeight);
+                if (rootViewVisibleHeight == 0) {
+                    rootViewVisibleHeight = visibleHeight;
+                    return;
+                }
+
+                //根视图显示高度没有变化，可以看作软键盘显示／隐藏状态没有改变
+                if (rootViewVisibleHeight == visibleHeight) {
+                    return;
+                }
+
+                //根视图显示高度变小超过200，可以看作软键盘显示了
+                if (rootViewVisibleHeight - visibleHeight > 200) {
+                	L.d(thiz,"软键盘显示了");
+                	startAnimation(tvTexting, true);
+                    rootViewVisibleHeight = visibleHeight;
+                    return;
+                }
+
+                //根视图显示高度变大超过200，可以看作软键盘隐藏了
+                if (visibleHeight - rootViewVisibleHeight > 200) {
+                	L.d(thiz,"软键盘隐藏了");
+                	startAnimation(tvTexting, false);
+                    rootViewVisibleHeight = visibleHeight;
+                    return;
+                }
+
+            }
+        });
+    }
+	
+	
+	
 
 	@Override
 	protected void serviceConnected() {
@@ -398,7 +447,6 @@ public class ContactsListActivity extends BaseActivity {
 			
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);  
 			imm.showSoftInput(etSearch,InputMethodManager.SHOW_FORCED); 
-			startAnimation(tvTexting, true);
 			
 			break;
 		default:
