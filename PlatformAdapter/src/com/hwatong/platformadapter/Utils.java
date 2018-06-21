@@ -1,6 +1,7 @@
 package com.hwatong.platformadapter;
 
 import java.lang.reflect.Method;
+
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
@@ -9,8 +10,10 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class Utils {
@@ -116,7 +119,13 @@ public class Utils {
 			openVideo(context);
 			return true;
 		} else if ("图片".equals(name)) {
-			openPicture(context);
+			if(!TextUtils.isEmpty(rawText) && rawText.contains("播放图片")) {
+				Log.d("Voice", "播放图片");
+				doSendBroadCast(context, "com.hwatong.media.PLAY_PICTURE");
+			} else {
+				openPicture(context);
+			}
+			
 			return true;
 		} else if ("蓝牙音乐".equals(name)) {
 			Intent intent = new Intent();
@@ -346,4 +355,11 @@ public class Utils {
 		return true;
 	}
 
+	
+	private static void doSendBroadCast(Context context, String action) {
+		Intent intent = new Intent(action);
+		context.sendBroadcast(intent);
+	}
+	
+	
 }

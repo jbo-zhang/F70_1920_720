@@ -148,6 +148,7 @@ public class HandleAppControl {
             }
         }
         
+        ////{"name":"图片","operation":"LAUNCH","focus":"app","rawText":"播放图片"}
         //add++ 添加处理 {"name":"图片","operation":"","focus":"app","rawText":"图片"} 情况
         if ("LAUNCH".equals(operation) && name.contains("图片") || ("".equals(operation) && name.equals("图片"))) {
             if(mediaService!=null){
