@@ -82,7 +82,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
                         isCall = true;
                     }
                 }
-                if (carStatus.getStatus1() != 0
+                if (carStatus.getStatus1() != 0 && carStatus.getStatus2() != 1
                         && mCanbusService.isUserConfirmed() && !isCall && carStatus.getStatus4()!=1) {
                     Log.d(TAG, "voice speech on when client init!!");
                     PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
@@ -652,18 +652,43 @@ public class PlatformAdapterClient implements PlatformClientListener {
         try {
             JSONObject resultJson = new JSONObject(arg0);
             final String focus = resultJson.getString("focus");
+            
+            /**
+             * 小马注册后 优先处理
+             */
+            String response ;
+            if (mResultListener != null && ThirdSpeechService.state) {
+                response = mResultListener.onResult(arg0);
+                if(response!=null ){
+                    if(response.length()>0){                   
+                        Tips.setCustomTipUse(true);
+                        Tips.setCustomTip(response);
+                        return false ;
+                    } else {
+                        return true ;
+                    }
+                    
+                }
+            }
+            
             if ("music".equals(focus)) {
-                if(!ThirdSpeechService.state){
+                return HandleMusicControl.getInstance(mContext, mCanbusService,mServiceList).handleMusicScence(resultJson);
+                /**
+                if(response==null){
                     return HandleMusicControl.getInstance(mContext, mCanbusService,mServiceList).handleMusicScence(resultJson);
-                }
+                }*/
             } else if ("radio".equals(focus)) {
-                if(!ThirdSpeechService.state){
+                return HandlerRadioControl.getInstance(mContext, mCanbusService).handleRadioScence(resultJson);
+                /**
+                if(response==null){
                     return HandlerRadioControl.getInstance(mContext, mCanbusService).handleRadioScence(resultJson);
-                }
+                }*/
             } else if ("cmd".equals(focus)) {
-                if(!ThirdSpeechService.state){  
+                return HandleCmdControl.getInstance(mContext, mCanbusService,mAudioManager, mServiceList).handleCmdScence(resultJson);
+                /**
+                if(response==null){  
                     return HandleCmdControl.getInstance(mContext, mCanbusService,mAudioManager, mServiceList).handleCmdScence(resultJson);
-                }
+                }*/
             } else if ("app".equals(focus)) {
                 /**
                  * 过滤空调语义
@@ -686,6 +711,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
                         return flag;
                     }
                 }
+                /**
                 if (mResultListener != null && ThirdSpeechService.state) {
                     String response = mResultListener.onResult(arg0);
                     if(response!=null){
@@ -695,8 +721,8 @@ public class PlatformAdapterClient implements PlatformClientListener {
                     } else {
                         return true ;
                     }
-                }
-                return HandleAppControl.getInstance(mContext, mCanbusService,mServiceList).handleAppScence(resultJson); 
+                }*/
+                return HandleAppControl.getInstance(mContext, mCanbusService,mServiceList).handleAppScence(resultJson);
             } else if ("carControl".equals(focus)) {
                 boolean flag = HandleCarControl.getInstance(mContext, mCanbusService).handleCarControlScence(resultJson);
                 Tips.setCustomTipUse(true);
@@ -725,17 +751,17 @@ public class PlatformAdapterClient implements PlatformClientListener {
             } else if ("telephone".equals(focus)) {
                 boolean flag = HandlerBtPhoneControl.getInstance(mContext,mCanbusService, mServiceList).handleBtPhoneSence(resultJson);
                 return flag;
-            }
+            }/**
             if (mResultListener != null && ThirdSpeechService.state) {
                 String response = mResultListener.onResult(arg0);
                 if(response!=null){
                     Tips.setCustomTipUse(true);
                     Tips.setCustomTip(response);
                     return false ;
-                } else {
+                }   else {
                     return true ;
                 }
-            }
+            }*/
         } catch (JSONException e) {
             Log.e(TAG, "Fail to parserResult:" + e.getMessage());
         }

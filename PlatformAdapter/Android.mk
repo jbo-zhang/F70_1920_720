@@ -10,10 +10,10 @@ LOCAL_PACKAGE_NAME := PlatformAdapter
 LOCAL_CERTIFICATE := platform
 
 LOCAL_STATIC_JAVA_LIBRARIES := platformadapter3.16 \
-	com.hwatong.btphone \
-	com.hwatong.radio \
-	com.hwatong.ipod \
-	com.hwatong.systemui \
+    com.hwatong.btphone \
+    com.hwatong.radio \
+    com.hwatong.ipod \
+    com.hwatong.systemui \
     com.hwatong.bt \
     com.hwatong.platformadapter \
     com.hwatong.music \

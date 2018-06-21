@@ -95,6 +95,7 @@ public class ThirdSpeechService extends Service implements ResultListener{
 		@Override
 		public void unregistCallBack(CallBack callBack) throws RemoteException {
             		synchronized(callbacks){
+                Log.d(TAG, "unregist Client !");	
                 /**
 				for(int i =0 ; i<callbacks.size(); i++){
 					if(callBack.asBinder().equals(callbacks.get(i).mCallback.asBinder())){
@@ -178,7 +179,7 @@ public class ThirdSpeechService extends Service implements ResultListener{
 	
 	@Override
 	public boolean onUnbind(Intent intent) {
-	    
+	    state = false ;
 	    return super.onUnbind(intent);
 	}
 	

@@ -211,6 +211,11 @@ public class HandleCmdControl {
                     mContext.sendBroadcast(intent);
                     return true;
                 }
+            } else if("电台控制".equals(category)){
+                if("后台播放".equals(name)){
+                    Intent intent = new Intent("com.hwatong.voice.CLOSE_MUSIC"); 
+                    mContext.sendBroadcast(intent); 
+                }
             }
         }
         if("黑屏".equals(name)||"关闭车机".equals(name) || "关闭屏幕".equals(name)){

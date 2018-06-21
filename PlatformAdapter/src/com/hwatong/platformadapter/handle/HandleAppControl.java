@@ -73,6 +73,12 @@ public class HandleAppControl {
             mContext.startActivity(intent);
             return true ;                    
         }
+        if ("EXIT".equals(operation) && name.equalsIgnoreCase("ipod")) {
+            Log.d("caochao", "close ipod");
+            Intent intent = new Intent("com.hwatong.voice.CLOSE_IPOD");
+            mContext.sendBroadcast(intent);     
+            return true ;                    
+        }
         /**
          * 手机互联操作
          */
@@ -227,7 +233,7 @@ public class HandleAppControl {
                         } else if ("com.hwatong.usbmusic".equals(packageName)) {
                             Intent intent = new Intent("com.hwatong.voice.CLOSE_MUSIC");
                             mContext.sendBroadcast(intent);
-                        } else if ("com.mxnavi.mxnavi".equals(packageName)) {
+                        } else if (Utils.getMapPackage()/*"com.mxnavi.mxnavi"*/.equals(packageName)) {
                             Utils.closeMap(mContext);
                         } else if ("com.hwatong.usbvideo".equals(packageName)) {
                             Intent intent = new Intent("com.hwatong.voice.CLOSE_VIDEO");
@@ -265,7 +271,7 @@ public class HandleAppControl {
                         } else if ("com.hwatong.usbmusic".equals(pkgName)) {
                             Intent intent = new Intent("com.hwatong.voice.CLOSE_MUSIC");
                             mContext.sendBroadcast(intent);
-                        } else if ("com.mxnavi.mxnavi".equals(pkgName)) {
+                        } else if (Utils.getMapPackage()/*"com.mxnavi.mxnavi"*/.equals(pkgName)) {
                             Utils.closeMap(mContext);
                         } else if ("com.hwatong.usbvideo".equals(pkgName)) {
                             Intent intent = new Intent("com.hwatong.voice.CLOSE_VIDEO");

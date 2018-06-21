@@ -15,6 +15,16 @@ import android.util.Log;
 
 public class Utils {
 
+    private static boolean USE_MAP_MXNAVI = false;//true:mxnavi;false:shx
+
+    public static String getMapPackage(){
+        if(USE_MAP_MXNAVI){
+            return "com.mxnavi.mxnavi";
+        }else{
+            return "com.shx.navi";
+        }
+    }
+
 	public static String getTopPackageName(Context context) {
 		ActivityManager activityManager = (ActivityManager) context.getSystemService(Activity.ACTIVITY_SERVICE);
 		final ComponentName cn = activityManager.getRunningTasks(1).get(0).topActivity;
@@ -61,7 +71,7 @@ public class Utils {
 	public static boolean launchMatchApp(Context context, String name, String rawText) {
 		Log.i("PlatformAdapter", "launchMatchApp-----" + "name:" + name + "rawText:" + rawText);
 		if ("地图".equals(name) || "导航".equals(name)) {
-			openApplication(context, "com.mxnavi.mxnavi");
+			openApplication(context, getMapPackage()/*"com.mxnavi.mxnavi"*/);
 			return true;
 		} else if ("蓝牙".equals(name)) {
 			Intent intent = new Intent();
@@ -226,13 +236,18 @@ public class Utils {
 	}
 
 	public static void closeMap(Context context) {
-		context.sendBroadcast(new Intent("com.mxnavi.mxnavi.CMD_NAVI_CLOSE_MAP"));
+        if(USE_MAP_MXNAVI){
+		    context.sendBroadcast(new Intent("com.mxnavi.mxnavi.CMD_NAVI_CLOSE_MAP"));
+        }else{
+            //close shx
+            context.sendBroadcast(new Intent("com.shx.shx.SHUTDOWN"));
+        }
 	}
 
 	public static String getMatchAppPkgName(String name) {
 		Log.i("PlatformAdapter", "getMatchAppPkgName-----" + "name:" + name);
 		if ("地图".equals(name) || "导航".equals(name)) {
-			return "com.mxnavi.mxnavi";
+			return getMapPackage()/*"com.mxnavi.mxnavi"*/;
 		} else if ("电话".equals(name) || "蓝牙".equals(name) || "蓝牙电话".equals(name)) {
 			return "com.hwatong.btphone.ui";
 		} else if ("收音机".equals(name) || "电台".equals(name) || "广播".equals(name)) {
