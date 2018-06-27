@@ -776,7 +776,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 setMode(1);
             }
             currentMicType = 0;
-            } else {
+       } else {
             // 唤醒模式
             if (currentMicType != 1) {
                 setMode(3);
@@ -785,6 +785,9 @@ public class PlatformAdapterClient implements PlatformClientListener {
         }
     }
     private void setMode(int mode) {
+    	
+    	Log.d(TAG, "setMode  mode : === " + mode);
+    	
         try {
             FileOutputStream os = new FileOutputStream(
                 "/sys/devices/platform/imx-i2c.0/i2c-0/0-0047/mode_func");

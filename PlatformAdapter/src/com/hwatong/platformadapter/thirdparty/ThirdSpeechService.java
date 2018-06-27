@@ -1,5 +1,7 @@
 package com.hwatong.platformadapter.thirdparty;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
@@ -130,9 +132,27 @@ public class ThirdSpeechService extends Service implements ResultListener{
                 PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
             } else if(state == 1){
                 PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
+                //setMode(3);
             }
         }
 	};
+	
+	private void setMode(int mode) {
+    	Log.d(TAG, "setMode  mode : === " + mode);
+        try {
+            FileOutputStream os = new FileOutputStream(
+                "/sys/devices/platform/imx-i2c.0/i2c-0/0-0047/mode_func");
+            try {
+                os.write(Integer.toString(mode, 10).getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	
 	
 	private ArrayList<CallBackListener> callbacks = new ArrayList<CallBackListener>();
 	

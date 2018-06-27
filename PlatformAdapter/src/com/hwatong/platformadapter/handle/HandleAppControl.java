@@ -289,6 +289,10 @@ public class HandleAppControl {
                 Log.i(TAG, "======================" + name);
                 if ("LAUNCH".equals(operation) && "蓝牙".equals(name)) {
                     try {
+                    	Intent intent = new Intent();
+                        intent.setClassName("com.hwatong.settings","com.hwatong.f70.bluetooth.BaseBluetoothSettingActivity");
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(intent);
                         btService.setEnable(true);
                     } catch (RemoteException e) {
                         e.printStackTrace();
