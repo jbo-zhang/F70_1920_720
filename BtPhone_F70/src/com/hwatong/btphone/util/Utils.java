@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.hwatong.btphone.CallLog;
 import com.hwatong.btphone.Contact;
 import com.hwatong.btphone.activity.CallLogActivity;
+import com.hwatong.btphone.activity.ContactsListActivity;
 import com.hwatong.btphone.activity.DialActivity;
 import com.hwatong.btphone.bean.UICallLog;
 import com.hwatong.btphone.ui.DrawableTextView;
@@ -62,6 +63,14 @@ public class Utils {
 		intent.putExtra("call_log", callLog);
 		context.startActivity(intent);
 	}
+	
+	public static void gotoContactsActivityInService(Context context, boolean fromDial) {
+		Intent intent = new Intent(context, ContactsListActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra("from_dial", fromDial);
+		context.startActivity(intent);
+	}
+	
 	
 	public static void gotoCallLogActivityInService(Context context, int type) {
 		Intent intent = new Intent(context, CallLogActivity.class);

@@ -416,7 +416,8 @@ public class BtPhoneService extends Service implements IReceiverView, IServiceVi
 		if(!servicePresenter.isBtConnected()) {
 			return ;
 		}
-		L.d(thiz, "toAllCalls 1");
+		L.d(thiz, "toAllCalls 1" + isDialForground());
+		//Utils.gotoContactsActivityInService(this, isDialForground());
 		Utils.gotoDialActivityInService(this, null);
 		L.d(thiz, "toAllCalls 2");
 	}

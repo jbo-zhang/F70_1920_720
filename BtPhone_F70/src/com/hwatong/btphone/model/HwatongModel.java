@@ -893,6 +893,7 @@ public class HwatongModel implements IBTPhoneModel {
 						iView.showReject(currentCall);
 					}
 					synchronized (currentCallLock) {
+						insertCallLogToList(currentCall);
 						currentCall = null;
 					}
 					TimerTaskUtil.cancelTimer("update_duration");
@@ -901,11 +902,10 @@ public class HwatongModel implements IBTPhoneModel {
 					
 					
 					//及时更新通话记录，但有一个问题，全部通话记录中新插入的通话记录时间不对，无法显示在最上面。
-//					getAllLogsList();
-//					iView.updateMissedLogs(mCallLogMap.get(UICallLog.TYPE_CALL_MISS));
-//					iView.updateDialedLogs(mCallLogMap.get(UICallLog.TYPE_CALL_OUT));
-//					iView.updateReceivedLogs(mCallLogMap.get(UICallLog.TYPE_CALL_IN));	
-//					iView.updateAllLogs(mAllCallLogList);
+					iView.updateMissedLogs(mCallLogMap.get(UICallLog.TYPE_CALL_MISS));
+					iView.updateDialedLogs(mCallLogMap.get(UICallLog.TYPE_CALL_OUT));
+					iView.updateReceivedLogs(mCallLogMap.get(UICallLog.TYPE_CALL_IN));	
+					iView.updateAllLogs(mAllCallLogList);
 					
 				//拨打状态
 				} else if (CallStatus.PHONE_CALLING.equals(callStatus.status)) {
@@ -920,7 +920,7 @@ public class HwatongModel implements IBTPhoneModel {
 					
 				//来电状态
 				} else if (CallStatus.PHONE_COMING.equals(callStatus.status)) {
-					currentCall = getCallLogFromCallStatus(UICallLog.TYPE_CALL_IN, callStatus);
+					currentCall = getCallLogFromCallStatus(UICallLog.TYPE_CALL_MISS, callStatus);
 					
 					currentCall.shouldJump = 1;  //表示需要跳转界面
 					
@@ -939,6 +939,14 @@ public class HwatongModel implements IBTPhoneModel {
 					if(currentCall != null) {
 						currentCall.duration = 0;
 						
+						if(currentCall.type == UICallLog.TYPE_CALL_MISS) {
+							currentCall = getCallLogFromCallStatus(UICallLog.TYPE_CALL_IN, callStatus);
+							currentCall.shouldJump = 1;  //表示需要跳转界面
+						} else {
+							currentCall = getCallLogFromCallStatus(UICallLog.TYPE_CALL_OUT, callStatus);
+							currentCall.shouldJump = 1;  //表示需要跳转界面
+						}
+						
 						iView.showTalking(currentCall);
 						
 						TimerTaskUtil.startTimer("update_duration", 0, 1000, new TimerTask() {
@@ -947,14 +955,21 @@ public class HwatongModel implements IBTPhoneModel {
 							public void run() {
 								L.d(thiz, "roll in task!");
 								try {
-									if(iService != null && iService.getCallStatus() != null && CallStatus.PHONE_CALL_NONE.equals(iService.getCallStatus().status)) {
+									
+									CallStatus callStatus2 = null;
+									
+									if(iService != null) {
+										callStatus2 = iService.getCallStatus();
+									}
+									
+									if(callStatus2 != null && CallStatus.PHONE_CALL_NONE.equals(callStatus2.status)) {
 										L.d(thiz, "roll not in talking!");
 										TimerTaskUtil.cancelTimer("update_duration");
 										iView.showHangUp(currentCall);
 										return;
 									} else {
-										if(iService != null) {
-											L.d(thiz, "iService.getCallStatus : " + iService.getCallStatus().status);
+										if(callStatus2 != null) {
+											L.d(thiz, "iService.getCallStatus : " + callStatus2.status);
 										}
 									}
 								} catch (RemoteException e) {
@@ -1045,7 +1060,9 @@ public class HwatongModel implements IBTPhoneModel {
 		
 		clearAll();
 		
-		currentCall = null;
+		synchronized (currentCallLock) {
+			currentCall = null;
+		}
 		
 		phoneState = PhoneState.IDEL;
 		
@@ -1153,5 +1170,37 @@ public class HwatongModel implements IBTPhoneModel {
 	public PhoneState getPhoneStatus() {
 		return phoneState;
 	}
+	
+	
+	/**
+	 * compare : 20180621T161103 20180621T161114  时间格式  date=2018-01-01 02:02:15
+	 * @param log
+	 */
+	private void insertCallLogToList(UICallLog log) {
+		L.d(thiz, "insertCallLogToList!" + log);
+		
+		CallLog callLog = null;
+		switch (log.type) {
+		case UICallLog.TYPE_CALL_IN:
+			callLog = new CallLog(CallLog.TYPE_CALL_IN, log.name, log.number, log.date);
+			break;
+		case UICallLog.TYPE_CALL_MISS:
+			callLog = new CallLog(CallLog.TYPE_CALL_MISS, log.name, log.number, log.date);
+			break;
+			
+		case UICallLog.TYPE_CALL_OUT:
+			callLog = new CallLog(CallLog.TYPE_CALL_OUT, log.name, log.number, log.date);
+			break;
+		default:
+			break;
+		}
+		if(callLog != null) {
+			mCallLogMap.get(log.type).add(0,callLog);
+			mAllCallLogList.add(0,callLog);
+		}
+	}
+	
+	
+	
 	
 }
