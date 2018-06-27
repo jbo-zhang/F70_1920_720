@@ -1027,6 +1027,7 @@ public class Radio extends Activity implements OnClickListener,
 
 	@Override
 	public void close() {
+		radioPresenter.stop();
 		finish();
 	}
 

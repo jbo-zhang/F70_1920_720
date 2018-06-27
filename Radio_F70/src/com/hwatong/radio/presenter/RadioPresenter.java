@@ -384,6 +384,16 @@ public class RadioPresenter {
 			L.d(thiz, "onStatusChanged!");
 			mHandler.removeMessages(MSG_STATUS_CHANGED);
 			mHandler.sendEmptyMessage(MSG_STATUS_CHANGED);
+			
+			//解决seek结束列表对应电台不高亮问题
+			mHandler.removeMessages(MSG_CHANNELLIST_CHANGED);
+			if(isFm()) {
+				mHandler.sendMessage(Message.obtain(mHandler,
+						MSG_CHANNELLIST_CHANGED, 0, 0));
+ 			} else {
+ 				mHandler.sendMessage(Message.obtain(mHandler,
+ 						MSG_CHANNELLIST_CHANGED, 1, 0));
+ 			}
 		}
 
 		@Override
@@ -1030,7 +1040,6 @@ public class RadioPresenter {
 		return isAmInit;
 	}
 	
-	
 	public void setBandFromMode(int band, boolean isNewIntent) {
 		L.d(thiz, "setBandFromMode band= " + band + " mBand: " + mBand + " isNewIntent= " + isNewIntent);
 		
@@ -1048,4 +1057,17 @@ public class RadioPresenter {
 		}
 	}
 
+	
+	public void stop() {
+//		if(mService != null) {
+//			try {
+//				mService.pause();
+//			} catch (RemoteException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+	}
+	
+	
 }
