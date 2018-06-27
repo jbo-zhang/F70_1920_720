@@ -2095,41 +2095,42 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 					sendInfoUpdate(mCurrentBand, mCurrentChannel[mCurrentBand], mRequestPlay);
 				}
 
-				synchronized (this) {
-					if (/*op != OP_INIT && */exit) {
-						
-						if(band == 0) {
-							int i = 0;
-							SharedPreferences mSharedPreferencesFM = getSharedPreferences(
-									SharedPreferences_Radio_FM, MODE_PRIVATE);
-							if(mSharedPreferencesFM.contains(FM_Data + 0)) {
-								
-							} else {
-								Editor mEditorFM = mSharedPreferencesFM.edit();
-								mEditorFM.putInt(FM_Data + 0, 0);
-								mEditorFM.commit();
-								mEditorFM = null;
-							}
-							
-							mSharedPreferencesFM = null;
-							
-						} else {
-							SharedPreferences mSharedPreferencesAM = getSharedPreferences(
-									SharedPreferences_Radio_AM, MODE_PRIVATE);
-							if(mSharedPreferencesAM.contains(AM_Data + 0)) {
-								
-							} else {
-								Editor mEditorAM = mSharedPreferencesAM.edit();
-								mEditorAM.putInt(AM_Data + 0, 0);
-								mEditorAM.commit();
-								mEditorAM = null;
-							}
-							mSharedPreferencesAM = null;
-						}
-						
-						return false;
-					}
-				}
+//				//该代码表示如果搜索到一半退出，则恢复原来的列表，不更新列表
+//				synchronized (this) {
+//					if (/*op != OP_INIT && */exit) {
+//						
+//						if(band == 0) {
+//							int i = 0;
+//							SharedPreferences mSharedPreferencesFM = getSharedPreferences(
+//									SharedPreferences_Radio_FM, MODE_PRIVATE);
+//							if(mSharedPreferencesFM.contains(FM_Data + 0)) {
+//								
+//							} else {
+//								Editor mEditorFM = mSharedPreferencesFM.edit();
+//								mEditorFM.putInt(FM_Data + 0, 0);
+//								mEditorFM.commit();
+//								mEditorFM = null;
+//							}
+//							
+//							mSharedPreferencesFM = null;
+//							
+//						} else {
+//							SharedPreferences mSharedPreferencesAM = getSharedPreferences(
+//									SharedPreferences_Radio_AM, MODE_PRIVATE);
+//							if(mSharedPreferencesAM.contains(AM_Data + 0)) {
+//								
+//							} else {
+//								Editor mEditorAM = mSharedPreferencesAM.edit();
+//								mEditorAM.putInt(AM_Data + 0, 0);
+//								mEditorAM.commit();
+//								mEditorAM = null;
+//							}
+//							mSharedPreferencesAM = null;
+//						}
+//						
+//						return false;
+//					}
+//				}
 			}
 
 			try {
@@ -2461,7 +2462,7 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 				final String action = intent.getAction();
 				Log.d(TAG, "action " + action);
 				if (action.equals("com.hwatong.voice.CLOSE_FM")) {
-
+					pause();
 				} else if (action.equals("com.hwatong.voice.FM_CMD")) {
 					String freq = intent.getStringExtra("frequency");
 					if (freq == null || freq.isEmpty()) {
