@@ -21,7 +21,7 @@ import com.hwatong.projectmode.utils.SystemUtil;
 
 public class VersionInfoFragment extends BaseFragment{
     
-    private static final String MAP_VERSION_COMMAND = "cat /mxmap/MXNavi/mxversion.dat";
+    private static final String MAP_VERSION_COMMAND = "cat /hwatong_data/Shx/version.dat";//"cat /mxmap/MXNavi/mxversion.dat";
     
 	private TextView tvProductModel;
 	private TextView tvAndroidVersion;
@@ -137,6 +137,8 @@ public class VersionInfoFragment extends BaseFragment{
             String[] strs = stringBuffer.toString().split(":");
             if(strs.length == 3){
             	version = strs[2] ;
+            }else{
+                version = strs[0];
             }
         } catch (IOException e) {
             e.printStackTrace();

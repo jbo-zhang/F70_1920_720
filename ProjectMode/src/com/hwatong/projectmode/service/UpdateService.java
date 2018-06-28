@@ -15,6 +15,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.GeneralSecurityException;
 
+import android.content.pm.IPackageDeleteObserver;
+import android.content.pm.PackageManager;
+
 import org.json.JSONObject;
 
 import android.app.Notification;
@@ -547,6 +550,24 @@ public class UpdateService extends Service {
         // then install package
         try {
         	mWakelock.acquire();
+			//   install 
+            L.d(thiz,"start install....:"+ mSrcUpdateFile);
+			if(mSrcUpdateFile.contains("update_arm")) {
+                L.d(thiz,"install arm....");
+
+                deletePackage("com.shx.navi");
+
+			    File f = new File("/data/app/did");
+                if(f.exists()){
+                    L.d(thiz,"delete did.....");
+			        f.delete();
+                }
+                try{
+                    Thread.sleep(3000);                
+                }catch(Exception e){    
+                    //do nothing
+                }   
+			}
 			RecoverySystem.installPackage(this, recoveryFile);//installPackage升级
         } catch (IOException e) {
         	e.printStackTrace();
@@ -562,6 +583,18 @@ public class UpdateService extends Service {
         // cannot reach here...
 
 	}
+
+    private void deletePackage(String packageName){
+        PackageDeleteObserver observer = new PackageDeleteObserver();
+        getPackageManager().deletePackage(packageName, observer,
+                PackageManager.DELETE_ALL_USERS );
+    }
+
+   class PackageDeleteObserver extends IPackageDeleteObserver.Stub {
+        public void packageDeleted(String packageName, int returnCode) {
+            L.d(thiz,"package:"+packageName+" has deleted:" + returnCode);
+        }
+    }
 
 	RecoverySystem.ProgressListener recoveryVerifyListener = new RecoverySystem.ProgressListener() {
 		public void onProgress(int progress) {
