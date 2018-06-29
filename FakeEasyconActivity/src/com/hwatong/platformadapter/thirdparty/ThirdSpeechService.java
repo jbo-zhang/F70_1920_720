@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 
-import utils.L;
-import utils.TimerTaskUtil;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Service;
@@ -18,6 +16,8 @@ import android.os.RemoteException;
 import android.text.TextUtils;
 
 import com.hwatong.platformadapter.PlatformAdapterApp;
+import com.hwatong.platformadapter.utils.L;
+import com.hwatong.platformadapter.utils.TimerTaskUtil;
 import com.hwatong.statusbarinfo.aidl.IStatusBarInfo;
 import com.iflytek.platform.type.PlatformCode;
 import com.iflytek.platformservice.PlatformService;

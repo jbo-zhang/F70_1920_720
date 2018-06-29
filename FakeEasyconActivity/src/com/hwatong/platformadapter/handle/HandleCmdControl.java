@@ -6,7 +6,6 @@ import java.util.TimerTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import utils.L;
 import android.app.Instrumentation;
 import android.canbus.ICanbusService;
 import android.content.Context;
@@ -20,6 +19,7 @@ import android.view.KeyEvent;
 import com.hwatong.bt.BtDef;
 import com.hwatong.platformadapter.ServiceList;
 import com.hwatong.platformadapter.Tips;
+import com.hwatong.platformadapter.utils.L;
 import com.iflytek.platform.type.PlatformCode;
 import com.iflytek.platformservice.PlatformService;
 /**

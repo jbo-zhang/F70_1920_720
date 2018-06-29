@@ -3,7 +3,6 @@ package com.hwatong.platformadapter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import utils.L;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +14,7 @@ import android.os.RemoteException;
 
 import com.hwatong.bt.IService;
 import com.hwatong.btphone.CallStatus;
+import com.hwatong.platformadapter.utils.L;
 import com.iflytek.platform.type.PlatformCode;
 import com.iflytek.platformservice.PlatformService;
 

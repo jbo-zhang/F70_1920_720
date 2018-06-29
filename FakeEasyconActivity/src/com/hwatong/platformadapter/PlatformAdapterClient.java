@@ -6,7 +6,6 @@ import java.io.IOException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import utils.L;
 import android.canbus.CarStatus;
 import android.canbus.ICanbusService;
 import android.canbus.ICarStatusListener;
@@ -37,6 +36,7 @@ import com.hwatong.platformadapter.handle.HandlerBtPhoneControl;
 import com.hwatong.platformadapter.handle.HandlerRadioControl;
 import com.hwatong.platformadapter.thirdparty.ResultListener;
 import com.hwatong.platformadapter.thirdparty.ThirdSpeechService;
+import com.hwatong.platformadapter.utils.L;
 import com.iflytek.platform.PlatformClientListener;
 import com.iflytek.platform.type.PlatformCode;
 import com.iflytek.platformservice.PlatformService;

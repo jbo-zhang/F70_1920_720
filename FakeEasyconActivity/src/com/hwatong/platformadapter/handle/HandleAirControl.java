@@ -6,7 +6,8 @@ import java.util.regex.Pattern;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import utils.L;
+import com.hwatong.platformadapter.utils.L;
+
 import android.canbus.ACStatus;
 import android.canbus.IACStatusListener;
 import android.canbus.ICanbusService;

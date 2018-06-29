@@ -1,5 +1,5 @@
 package com.hwatong.platformadapter;
-import utils.L;
+import com.hwatong.platformadapter.utils.L;
 /**
  * 定制提示
  * @date 2017-11-28

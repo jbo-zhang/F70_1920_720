@@ -1,10 +1,10 @@
 package com.hwatong.platformadapter;
 
-import utils.L;
 import android.app.Application;
 import android.content.Intent;
 
 import com.hwatong.platformadapter.thirdparty.ThirdSpeechService;
+import com.hwatong.platformadapter.utils.L;
 import com.iflytek.platformservice.PlatformHelp;
 
 public class PlatformAdapterApp extends Application{

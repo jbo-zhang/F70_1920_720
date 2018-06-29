@@ -1,4 +1,4 @@
-package utils;
+package com.hwatong.platformadapter.utils;
 
 import android.util.Log;
 

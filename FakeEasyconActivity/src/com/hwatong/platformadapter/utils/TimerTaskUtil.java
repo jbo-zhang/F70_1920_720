@@ -1,4 +1,4 @@
-package utils;
+package com.hwatong.platformadapter.utils;
 
 import java.util.HashMap;
 import java.util.Timer;

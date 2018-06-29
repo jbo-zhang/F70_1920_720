@@ -3,7 +3,6 @@ package com.hwatong.platformadapter.handle;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import utils.L;
 import android.canbus.ICanbusService;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +11,7 @@ import android.os.SystemClock;
 
 import com.hwatong.platformadapter.ServiceList;
 import com.hwatong.platformadapter.Tips;
+import com.hwatong.platformadapter.utils.L;
 
 public class HandlerBtPhoneControl {
 	private static final String thiz= HandlerBtPhoneControl.class.getSimpleName() ;
