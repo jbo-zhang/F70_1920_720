@@ -44,6 +44,9 @@
             <intent-filter>
                 <action android:name="com.hwatong.voice.OPEN_AM" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="com.hwatong.voice.OPEN_FM" />
+            </intent-filter>
              <intent-filter>
                 <action android:name="com.hwatong.voice.FM_CMD" />
             </intent-filter>
