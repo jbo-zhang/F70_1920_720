@@ -1,4 +1,4 @@
-package com.hwatong.platformadapter;
+package utils;
 
 import java.lang.reflect.Method;
 
@@ -14,10 +14,11 @@ import android.content.IntentSender.SendIntentException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 public class Utils {
 
+	private static final String thiz = Utils.class.getSimpleName();
+	
     private static boolean USE_MAP_MXNAVI = false;//true:mxnavi;false:shx
 
     public static String getMapPackage(){
@@ -32,7 +33,7 @@ public class Utils {
 		ActivityManager activityManager = (ActivityManager) context.getSystemService(Activity.ACTIVITY_SERVICE);
 		final ComponentName cn = activityManager.getRunningTasks(1).get(0).topActivity;
 		if (cn != null) {
-			Log.d("Platformadapter.Utils", "getTopPackageName: " + cn.getPackageName());
+			L.d(thiz, "getTopPackageName: " + cn.getPackageName());
 			return cn.getPackageName();
 		}
 		return "";
@@ -72,7 +73,7 @@ public class Utils {
 	}
 
 	public static boolean launchMatchApp(Context context, String name, String rawText) {
-		Log.i("PlatformAdapter", "launchMatchApp-----" + "name:" + name + "rawText:" + rawText);
+		L.d(thiz, "launchMatchApp-----" + "name:" + name + "rawText:" + rawText);
 		if ("地图".equals(name) || "导航".equals(name)) {
 			openApplication(context, getMapPackage()/*"com.mxnavi.mxnavi"*/);
 			return true;
@@ -120,7 +121,7 @@ public class Utils {
 			return true;
 		} else if ("图片".equals(name)) {
 			if(!TextUtils.isEmpty(rawText) && rawText.contains("播放图片")) {
-				Log.d("Voice", "播放图片");
+				L.d(thiz, "播放图片");
 				doSendBroadCast(context, "com.hwatong.media.PLAY_PICTURE");
 			} else {
 				openPicture(context);
@@ -254,7 +255,7 @@ public class Utils {
 	}
 
 	public static String getMatchAppPkgName(String name) {
-		Log.i("PlatformAdapter", "getMatchAppPkgName-----" + "name:" + name);
+		L.d(thiz, "getMatchAppPkgName-----" + "name:" + name);
 		if ("地图".equals(name) || "导航".equals(name)) {
 			return getMapPackage()/*"com.mxnavi.mxnavi"*/;
 		} else if ("电话".equals(name) || "蓝牙".equals(name) || "蓝牙电话".equals(name)) {

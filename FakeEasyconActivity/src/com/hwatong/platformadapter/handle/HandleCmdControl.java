@@ -6,12 +6,7 @@ import java.util.TimerTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.hwatong.bt.BtDef;
-import com.hwatong.platformadapter.ServiceList;
-import com.hwatong.platformadapter.Tips;
-import com.iflytek.platform.type.PlatformCode;
-import com.iflytek.platformservice.PlatformService;
-
+import utils.L;
 import android.app.Instrumentation;
 import android.canbus.ICanbusService;
 import android.content.Context;
@@ -19,13 +14,19 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.RemoteException;
 import android.os.SystemClock;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.KeyEvent;
+
+import com.hwatong.bt.BtDef;
+import com.hwatong.platformadapter.ServiceList;
+import com.hwatong.platformadapter.Tips;
+import com.iflytek.platform.type.PlatformCode;
+import com.iflytek.platformservice.PlatformService;
 /**
  * @author caochao
  */
 public class HandleCmdControl {
-    private static final String TAG = "Voice";
+    private static final String thiz = HandleCmdControl.class.getSimpleName();
     /**
      * 处理系统命令
      */
@@ -47,7 +48,7 @@ public class HandleCmdControl {
 
     public static HandleCmdControl getInstance(Context context, ICanbusService canbusService , AudioManager audioManager,
             ServiceList serviceList) {
-        Log.d(TAG, "HandleCarControl init");
+        L.d(thiz, "HandleCmdControl init");
         if (mHandleCmdControl == null) {
             mHandleCmdControl = new HandleCmdControl(context);
         }
@@ -109,11 +110,11 @@ public class HandleCmdControl {
         }
         if (!category.isEmpty()) {
             if ("音量控制".equals(category)) {
-                if ("音量+".equals(name)) {
+                if (!TextUtils.isEmpty(name) && name.contains("音量+")) {
                     setMute(false);
                     mAudioManager.adjustSuggestedStreamVolume(AudioManager.ADJUST_RAISE, AudioManager.STREAM_MUSIC, AudioManager.FLAG_SHOW_UI);
                     return true;
-                } else if ("音量-".equals(name)) {
+                } else if (!TextUtils.isEmpty(name) && name.contains("音量-")) {
                     setMute(false);
                     mAudioManager.adjustSuggestedStreamVolume(AudioManager.ADJUST_LOWER, AudioManager.STREAM_MUSIC, AudioManager.FLAG_SHOW_UI);
                     return true;
@@ -131,7 +132,7 @@ public class HandleCmdControl {
                     setMute(false);
                     mAudioManager.setStreamVolume(AudioManager.STREAM_RING, nameVaule, AudioManager.FLAG_SHOW_UI);
                     return true;
-                } else if ("媒体音量调节".equals(name) || "蓝牙音乐音量调节".equals(name)) {
+                } else if ("媒体音量调节".equals(name) || "蓝牙音乐音量调节".equals(name) || "音乐音量调节".equals(name) || "收音机音量调节".equals(name)) {
                     setMute(false);
                     mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, nameVaule, AudioManager.FLAG_SHOW_UI);
                     return true;
@@ -204,7 +205,7 @@ public class HandleCmdControl {
                     
                     return true;
                 }
-                Log.d("caochao", "operation:"+operation+";offset:"+offset);
+                L.d(thiz, "operation:"+operation+";offset:"+offset);
                 if ("SELECT".equals(operation) && offset != -1) {
                     Intent intent = new Intent("com.hwatong.voice.SELECT_BT");
                     intent.putExtra("select", offset);
@@ -225,11 +226,13 @@ public class HandleCmdControl {
         } else if("解除黑屏".equals(name)){
             Intent intent = new Intent("com.hwatong.system.UNLOCK");
             mContext.sendBroadcast(intent); 
-            return true;           
-        } else if("下一首".equals(name)){
+            return true;     
+        //onNLPResult(): {"name":"下一个","focus":"cmd","rawText":"下一个。"}
+        //onNLPResult(): {"name":"下一首","focus":"cmd","rawText":"下一个"}   
+        } else if(!TextUtils.isEmpty(name) && (name.contains("下一个") || name.contains("下一首"))){
             sendMediaKeyEvent(KeyEvent.KEYCODE_MEDIA_NEXT);
             return true ;
-        } else if("上一首".equals(name)){
+        } else if(!TextUtils.isEmpty(name) && (name.contains("上一个") || name.contains("上一首"))){
             sendMediaKeyEvent(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
             return true ;
         }
@@ -255,7 +258,7 @@ public class HandleCmdControl {
             @Override
             public void run() {
                 try {
-                    Log.d(TAG, "sendKeyDownUpSync" + keyCode);
+                    L.d(thiz, "sendKeyDownUpSync" + keyCode);
                     mInst.sendKeyDownUpSync(keyCode);
                 } catch (Exception e) {
                     e.printStackTrace();

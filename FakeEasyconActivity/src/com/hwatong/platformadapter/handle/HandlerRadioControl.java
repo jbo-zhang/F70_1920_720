@@ -3,17 +3,17 @@ package com.hwatong.platformadapter.handle;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import utils.L;
 import android.canbus.ICanbusService;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.util.Log;
+import android.text.TextUtils;
 /**
  * @author caochao
  */
 public class HandlerRadioControl {
-    private static final String TAG = "Voice";
+    private static final String thiz = HandlerRadioControl.class.getSimpleName();
     /**
      * FM控制
      */
@@ -33,7 +33,7 @@ public class HandlerRadioControl {
      * @return
      */
     public static HandlerRadioControl getInstance(Context context, ICanbusService canbusService) {
-        Log.d(TAG, "HandleCarControl init");
+        L.d(thiz, "HandlerRadioControl init");
         if (mHandlerRadioControl == null) {
             mHandlerRadioControl = new HandlerRadioControl(context);
         }
@@ -44,6 +44,7 @@ public class HandlerRadioControl {
     private String mHandleMessage = null;
     
     public boolean handleRadioScence(JSONObject result) {
+    	L.d(thiz, "handleRadioScence!");
         
         String waveband = "";
         
@@ -73,17 +74,25 @@ public class HandlerRadioControl {
                 Intent intent = new Intent("com.hwatong.voice.OPEN_AM");
                 mContext.sendBroadcast(intent);       
             	return true;
-            }       	
+            } else if(waveband.equals("fm")) {
+            	Intent intent = new Intent("com.hwatong.voice.OPEN_FM");
+                mContext.sendBroadcast(intent);   
+                return true;
+            }
+            
         }
-        if ("收藏电台".equals(rawText) || "保存电台".equals(rawText)) {
-            Log.d(TAG, "rawText: " + rawText);
+        // {"operation":"SAVE","focus":"radio","rawText":"保存电台。"}
+        // {"operation":"SAVE","focus":"radio","rawText":"收藏电台。"}
+        //所以不能用equals
+        if (!TextUtils.isEmpty(rawText) && (rawText.contains("收藏电台") || rawText.contains("保存电台"))) {
+            L.d(thiz, "rawText: " + rawText);
             Intent intent = new Intent("com.hwatong.voice.FM_COLLECTION");
             mContext.sendBroadcast(intent);
             return true;
         }
         if (!waveband.isEmpty() && !code.isEmpty()) {
             double frequency = Double.parseDouble(code);
-            Log.d(TAG, "frequency: " + frequency);
+            L.d(thiz, "frequency: " + frequency);
 
             if (waveband.equals("fm")) {
                 if (frequency > 108 || frequency < 87.5) {
@@ -92,7 +101,7 @@ public class HandlerRadioControl {
                     Intent intent = new Intent("com.hwatong.voice.FM_CMD");
                     intent.putExtra("frequency", code);
                     mContext.sendBroadcast(intent);
-                    Log.d(TAG, "handleRadioScence send intent: " + intent);
+                    L.d(thiz, "handleRadioScence send intent: " + intent);
                     
                     //add++ 解决手动执行语音“FM87.8”跳主界面问题，延时，让界面先跳转语音界面再消失
                     SystemClock.sleep(1500);
@@ -106,7 +115,7 @@ public class HandlerRadioControl {
                     Intent intent = new Intent("com.hwatong.voice.AM_CMD");
                     intent.putExtra("frequency", code);
                     mContext.sendBroadcast(intent);
-                    Log.d(TAG, "handleRadioScence send intent: " + intent);
+                    L.d(thiz, "handleRadioScence send intent: " + intent);
                     
                     //add++解决手动执行语音“AM531”跳主界面问题，延时，让界面先跳转语音界面再消失
                     SystemClock.sleep(1500);

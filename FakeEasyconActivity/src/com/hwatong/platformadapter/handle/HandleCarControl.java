@@ -3,12 +3,12 @@ package com.hwatong.platformadapter.handle;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.hwatong.platformadapter.Tips;
-
+import utils.L;
 import android.canbus.ICanbusService;
 import android.content.Context;
 import android.os.RemoteException;
-import android.util.Log;
+
+import com.hwatong.platformadapter.Tips;
 
 /**
  * 
@@ -17,7 +17,7 @@ import android.util.Log;
  */
 public class HandleCarControl {
 
-	private static final String TAG = "Voice";
+	private static final String thiz = HandleCarControl.class.getSimpleName();
 	/**
 	 * 车辆控制
 	 */
@@ -33,7 +33,7 @@ public class HandleCarControl {
 	}
 
 	public static HandleCarControl getInstance(Context context, ICanbusService canbusService) {
-		Log.d(TAG, "HandleCarControl init");
+		L.d(thiz, "HandleCarControl init");
 		if (mHandCarControl == null) {
 			mHandCarControl = new HandleCarControl(context);
 		}
@@ -43,7 +43,7 @@ public class HandleCarControl {
 	}
 
 	public boolean handleCarControlScence(JSONObject result) {
-		Log.d(TAG, result.toString());
+		L.d(thiz, result.toString());
 
 		String operation = null;
 		String device = null;
@@ -55,47 +55,47 @@ public class HandleCarControl {
 		String name = null;
 		try {
 			operation = result.getString("operation");
-			Log.d(TAG, "operation:" + operation);
+			L.d(thiz, "operation:" + operation);
 		} catch (JSONException e) {
 		}
 		try {
 			device = result.getString("device");
-			Log.d(TAG, "device:" + device);
+			L.d(thiz, "device:" + device);
 		} catch (JSONException e) {
 		}
 		try {
 			mode = result.getString("mode");
-			Log.d(TAG, "mode:" + mode);
+			L.d(thiz, "mode:" + mode);
 		} catch (JSONException e) {
 		}
 		try {
 			temperature = result.getString("temperature");
-			Log.d(TAG, "temperature:" + temperature);
+			L.d(thiz, "temperature:" + temperature);
 		} catch (JSONException e) {
 		}
 		try {
 			fan_speed = result.getString("fan_speed");
-			Log.d(TAG, "fan_speed:" + fan_speed);
+			L.d(thiz, "fan_speed:" + fan_speed);
 		} catch (JSONException e) {
 		}
 		try {
 			airflow_direction = result.getString("airflow_direction");
-			Log.d(TAG, "airflow_direction:" + airflow_direction);
+			L.d(thiz, "airflow_direction:" + airflow_direction);
 		} catch (JSONException e) {
 		}
 		try {
 			airflow_direction = result.getString("airflow_direction");
-			Log.d(TAG, "airflow_direction:" + airflow_direction);
+			L.d(thiz, "airflow_direction:" + airflow_direction);
 		} catch (JSONException e) {
 		}
 		try {
 			rawText = result.getString("rawText");
-			Log.d(TAG, "rawText:" + rawText);
+			L.d(thiz, "rawText:" + rawText);
 		} catch (JSONException e) {
 		}
 		try {
 			name = result.getString("name");
-			Log.d(TAG, "name:" + name);
+			L.d(thiz, "name:" + name);
 		} catch (JSONException e) {
 		}
 
@@ -128,13 +128,13 @@ public class HandleCarControl {
 	private boolean sendCmd(int i, int j) {
 		try {
 			if (mCanbusService == null) {
-				Log.d(TAG, "CanbusService is null");
+				L.d(thiz, "CanbusService is null");
 				return false;
 			}
 			mCanbusService.writeASRRequest(i, j);
 			return true ;
 		} catch (RemoteException e) {
-			Log.d(TAG, "CanbusService RemoteException");
+			L.d(thiz, "CanbusService RemoteException");
 			e.printStackTrace();
 			return false ;
 		}

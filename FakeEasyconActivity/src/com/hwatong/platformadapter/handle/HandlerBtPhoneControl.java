@@ -3,18 +3,18 @@ package com.hwatong.platformadapter.handle;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.hwatong.platformadapter.ServiceList;
-import com.hwatong.platformadapter.Tips;
-
+import utils.L;
 import android.canbus.ICanbusService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.RemoteException;
 import android.os.SystemClock;
-import android.util.Log;
+
+import com.hwatong.platformadapter.ServiceList;
+import com.hwatong.platformadapter.Tips;
 
 public class HandlerBtPhoneControl {
-	private static final String TAG = "Voice" ;
+	private static final String thiz= HandlerBtPhoneControl.class.getSimpleName() ;
 	
 	private static HandlerBtPhoneControl mHandlerBtPhoneControl = null ;
 	
@@ -29,7 +29,7 @@ public class HandlerBtPhoneControl {
 	}
 
 	public static HandlerBtPhoneControl getInstance(Context context, ICanbusService canbusService , ServiceList serviceList) {
-		Log.d(TAG, "HandleAirControl init");
+		L.d(thiz, "HandlerBtPhoneControl init");
 		if (mHandlerBtPhoneControl == null) {
 			mHandlerBtPhoneControl = new HandlerBtPhoneControl(context);
 		}

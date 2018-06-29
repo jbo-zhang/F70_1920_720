@@ -1,10 +1,11 @@
 package com.hwatong.platformadapter.handle;
 import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.hwatong.platformadapter.ServiceList;
-import com.hwatong.platformadapter.Tips;
-import com.hwatong.platformadapter.Utils;
+
+import utils.L;
+import utils.Utils;
 import android.canbus.ICanbusService;
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,10 +13,12 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.RemoteException;
-import android.util.Log;
+
+import com.hwatong.platformadapter.ServiceList;
+import com.hwatong.platformadapter.Tips;
 
 public class HandleAppControl {
-    private static final String TAG = "Voice";
+    private static final String thiz = HandleAppControl.class.getSimpleName();
     /**
      * 本地App控制
      */
@@ -30,7 +33,7 @@ public class HandleAppControl {
     }
 
     public static HandleAppControl getInstance(Context context, ICanbusService canbusService , ServiceList serviceList) {
-        Log.d(TAG, "HandleCarControl init");
+        L.d(thiz, "HandleAppControl init");
         if (mHandleAppControl == null) {
             mHandleAppControl = new HandleAppControl(context);
         }
@@ -74,7 +77,7 @@ public class HandleAppControl {
             return true ;                    
         }
         if ("EXIT".equals(operation) && name.equalsIgnoreCase("ipod")) {
-            Log.d("caochao", "close ipod");
+        	L.d(thiz, "close ipod");
             Intent intent = new Intent("com.hwatong.voice.CLOSE_IPOD");
             mContext.sendBroadcast(intent);     
             return true ;                    
@@ -184,7 +187,7 @@ public class HandleAppControl {
                 mContext.startActivity(intent);
                 return true ;
             } catch (Exception e) {
-                Log.d(TAG , e.toString());
+                L.d(thiz , e.toString());
                 e.printStackTrace();
             }
             return false ;
@@ -192,7 +195,7 @@ public class HandleAppControl {
         
         //delete--
 //        if("LAUNCH".equals(operation) && "ipod".equalsIgnoreCase(name)){
-//        	Log.d(TAG," LAUNCH ipod !!!!!!!!!!!!!!");
+//        	L.d(thiz," LAUNCH ipod !!!!!!!!!!!!!!");
 //            return true ;
 //        }
         
@@ -286,7 +289,7 @@ public class HandleAppControl {
                         return true;
                     }
                 }
-                Log.i(TAG, "======================" + name);
+                L.d(thiz, "======================" + name);
                 if ("LAUNCH".equals(operation) && "蓝牙".equals(name)) {
                     try {
                     	Intent intent = new Intent();

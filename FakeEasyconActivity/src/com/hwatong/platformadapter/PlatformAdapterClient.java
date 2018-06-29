@@ -2,8 +2,11 @@ package com.hwatong.platformadapter;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import utils.L;
 import android.canbus.CarStatus;
 import android.canbus.ICanbusService;
 import android.canbus.ICarStatusListener;
@@ -23,7 +26,7 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
-import android.util.Log;
+
 import com.hwatong.btphone.CallStatus;
 import com.hwatong.platformadapter.handle.HandleAirControl;
 import com.hwatong.platformadapter.handle.HandleAppControl;
@@ -39,7 +42,7 @@ import com.iflytek.platform.type.PlatformCode;
 import com.iflytek.platformservice.PlatformService;
 
 public class PlatformAdapterClient implements PlatformClientListener {
-    private static final String TAG = "Voice";
+    private static final String thiz = PlatformAdapterClient.class.getSimpleName();
     private static final boolean DBG = true;
     private final Context mContext;
     private final AudioManager mAudioManager;
@@ -54,13 +57,16 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     private boolean mRecording;
 
+    /**
+     * 本应用的的application启动时会执行，应该也就是开机的时候
+     * @param context
+     */
     public PlatformAdapterClient(Context context) {
-        Log.d(TAG, "PlatformAdapterClient()");
+        L.d(thiz, "PlatformAdapterClient()");
 
         this.mContext = context;
         mServiceList = new ServiceList(mContext);
-        mAudioManager = (AudioManager) mContext
-                .getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
         mAudioService = IAudioService.Stub.asInterface(ServiceManager
                 .getService(Context.AUDIO_SERVICE));
         mAirConditionTips = context.getResources().getStringArray(
@@ -72,8 +78,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
         mCanbusService.addCarStatusListener(new ICarStatusListener.Stub() {
             @Override
             public void onReceived(CarStatus carStatus) throws RemoteException {
-                com.hwatong.btphone.IService service = mServiceList
-                        .getBtPhoneService();
+                com.hwatong.btphone.IService service = mServiceList.getBtPhoneService();
                 boolean isCall = false;
                 if (service != null) {
                     CallStatus callStatus = service.getCallStatus();
@@ -84,10 +89,10 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 }
                 if (carStatus.getStatus1() != 0 && carStatus.getStatus2() != 1
                         && mCanbusService.isUserConfirmed() && !isCall && carStatus.getStatus4()!=1) {
-                    Log.d(TAG, "voice speech on when client init!!");
+                    L.d(thiz, "voice speech on when client init!!");
                     PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
                 } else {
-                    Log.d(TAG, "voice speech off when client init!");
+                    L.d(thiz, "voice speech off when client init!");
                     PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
                 }
             }
@@ -112,20 +117,20 @@ public class PlatformAdapterClient implements PlatformClientListener {
      * 客户主动回调的方法
      */
     private void notifyAudioFocusChange(int focusChange) {
-        Log.d(TAG, "notifyAudioFocusChange(): " + focusChange);
+        L.d(thiz, "notifyAudioFocusChange(): " + focusChange);
 
         if (PlatformService.platformCallback == null) {
-            Log.e(TAG, "PlatformService.platformCallback == null");
+            L.d(thiz, "PlatformService.platformCallback == null");
             return;
         }
     }
 
     private void reportSearchPlayListResult(int type, String result) {
         if (DBG)
-            Log.d(TAG, "reportSearchPlayListResult(): " + type + ", " + result);
+            L.d(thiz, "reportSearchPlayListResult(): " + type + ", " + result);
 
         if (PlatformService.platformCallback == null) {
-            Log.e(TAG, "PlatformService.platformCallback == null");
+            L.d(thiz, "PlatformService.platformCallback == null");
             return;
         }
 
@@ -136,20 +141,31 @@ public class PlatformAdapterClient implements PlatformClientListener {
         }
     }
 
+    /**
+     * 	语音助理通知系统平台执行来电时的电话操作
+		参数:
+		state - 状态名称 参数说明：
+		0 CALL_STATE_IDLE 挂断电话
+		2 CALL_STATE_OFFHOOK接听电话
+		返回:
+		int 返回状态
+		SUCCESS 操作成功
+		FAILED 操作失败
+     */
     @Override
     public int changePhoneState(int state) {
-        Log.d(TAG, "changePhoneState(): " + state);
+        L.d(thiz, "changePhoneState(): " + state);
         return PlatformCode.FAILED;
     }
 
     @Override
     public int onRequestAudioFocus(int streamType, int nDuration) {
-        Log.d(TAG, "onRequestAudioFocus(): streamType " + streamType
+        L.d(thiz, "onRequestAudioFocus(): streamType " + streamType
                 + ", nDuration " + nDuration);
         PowerManager pm = (PowerManager) mContext
                 .getSystemService(Context.POWER_SERVICE);
         boolean isScreenOn = pm.isScreenOn();
-        Log.i(TAG, "isScreenOn:" + isScreenOn);
+        L.d(thiz, "isScreenOn:" + isScreenOn);
         if (!isScreenOn) {
             PowerManager.WakeLock wakeLock = pm.newWakeLock(
                 PowerManager.SCREEN_DIM_WAKE_LOCK, "TAG");
@@ -163,7 +179,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
     }
 
     private int doRequestAudioFocus(int streamType, int nDuration) {
-        Log.d(TAG, "doRequestAudioFocus(): streamType " + streamType
+        L.d(thiz, "doRequestAudioFocus(): streamType " + streamType
                 + ", nDuration " + nDuration);
 
         int audioFocusResult = AudioManager.AUDIOFOCUS_REQUEST_FAILED;
@@ -195,13 +211,13 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     @Override
     public void onAbandonAudioFocus() {
-        Log.d(TAG, "onAbandonAudioFocus()");
+        L.d(thiz, "onAbandonAudioFocus()");
 
         mAbandonAudioFocusRunnable.abandonAudioFocus();
     }
 
     private void doAbandonAudioFocus() {
-        Log.d(TAG, "doAbandonAudioFocus()");
+        L.d(thiz, "doAbandonAudioFocus()");
 
         if (mHasFocus) {
             mHasFocus = false;
@@ -226,7 +242,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
         /** 失去音频焦点 通知导航 */
         mContext.sendBroadcast(new Intent("com.iflytek.endoperation"));
         if (DBG)
-            Log.d(TAG, "sendBroadcast : " + "com.iflytek.endoperation");
+            L.d(thiz, "sendBroadcast : " + "com.iflytek.endoperation");
             mHandler.removeCallbacks(mStopSpeechRecord);
             mHandler.postDelayed(mStopSpeechRecord, 1000);
         }
@@ -240,7 +256,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
     private final Object mLock = new Object();
     @Override
     public String onDoAction(String actionJson) {
-        Log.d(TAG, "onDoAction(): " + actionJson);
+        L.d(thiz, "onDoAction(): " + actionJson);
         JSONObject resultJson = new JSONObject();
         if (actionJson == null) {
             try {
@@ -257,7 +273,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 if ("call".equals(action.getString("action"))) {
                     if (action.getString("param1") != null) {
                         final String number = action.getString("param1");
-                        Log.d(TAG, "call number = " + number);
+                        L.d(thiz, "call number = " + number);
                         synchronized (mLock) {
                             if (mServiceList.getBtPhoneService() != null) {
                                 try {
@@ -294,7 +310,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
                     resultJson.put("status", "success");
                     try {
                         if(!mCanbusService.isUserConfirmed()){
-                            Log.d(TAG, "isUserConfirmed = false ,speech off");
+                            L.d(thiz, "isUserConfirmed = false ,speech off");
                             PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
                         }
                     } catch (RemoteException e) {
@@ -306,7 +322,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
                     return resultJson.toString();
                 }
             } catch (JSONException e) {
-                Log.e(TAG, "Fail to do action:" + e.getMessage());
+                L.d(thiz, "Fail to do action:" + e.getMessage());
             }
         }
         try {
@@ -319,7 +335,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
     }
     @Override
     public String onGetCarNumbersInfo() {
-        Log.d(TAG, "onGetCarNumbersInfo()");
+        L.d(thiz, "onGetCarNumbersInfo()");
         // 获取车辆信息，暂时只是一个測試數據 。
         // 语音助理 的：违章查询业务依赖此信息
         // 包含三個信息：carNumber车牌号，carCode车架号，carDriveNo发动机号
@@ -329,7 +345,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     @Override
     public String onGetLocation() {
-        Log.d(TAG, "onGetLocation()");
+        L.d(thiz, "onGetLocation()");
         // 获取当前位置 这是只是模拟了一个位置 。实际的位置 需要客户实现
         // 语音助理 的：今天的天气、到上海的航班、附近的美食、附近的酒店，是依赖这个位置信息的
         String location = "{'name':'科大讯飞信息科技股份有限公司','address':'黄山路616','city':'合肥市','longitude':'117.143269','latitude':'31.834399'}";
@@ -338,17 +354,17 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     @Override
     public int onGetState(int state) {
-        Log.d(TAG, "onGetState(): " + state);
+        L.d(thiz, "onGetState(): " + state);
         if (state == PlatformCode.STATE_BLUETOOTH_PHONE) {
         // 返回蓝牙电话状态
             synchronized (mLock) {
                 try {
                     com.hwatong.btphone.IService mBtPhoneService = mServiceList.getBtPhoneService();
                     if (mBtPhoneService != null && mBtPhoneService.isHfpConnected()) {
-                        Log.d(TAG, "return STATE_BLUETOOTH_PHONE: " + "STATE_OK");
+                        L.d(thiz, "return STATE_BLUETOOTH_PHONE: " + "STATE_OK");
                         return PlatformCode.STATE_OK;
                     } else {
-                        Log.d(TAG, "return STATE_BLUETOOTH_PHONE: " + "STATE_NO");
+                        L.d(thiz, "return STATE_BLUETOOTH_PHONE: " + "STATE_NO");
                         return PlatformCode.STATE_NO;
                     }
                 } catch (RemoteException e) {
@@ -367,7 +383,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     @Override
     public String onNLPResult(String arg0) {
-        Log.d(TAG, "onNLPResult(): " + arg0);
+        L.d(thiz, "onNLPResult(): " + arg0);
         boolean handled = parseResult(arg0);
         JSONObject resultJson = new JSONObject();
         try {
@@ -400,7 +416,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     @Override
     public boolean onSearchPlayList(String arg0) {
-        Log.d(TAG, "onSearchPlayList(): " + arg0);
+        L.d(thiz, "onSearchPlayList(): " + arg0);
         try {
             JSONObject action = new JSONObject(arg0);
             String focus = action.optString("focus");
@@ -428,7 +444,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     @Override
     public void onServiceUnbind() {
-        Log.d(TAG, "onServiceUnbind()");
+        L.d(thiz, "onServiceUnbind()");
         // 助理因为异常，导致和平台适配器服务断开，这里可以做重置处理
         if (mHasFocus) {
             onAbandonAudioFocus();
@@ -557,7 +573,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
-            Log.d(TAG, "onReceive(): " + action);
+            L.d(thiz, "onReceive(): " + action);
             if ("com.hwatong.voice.SPEECH_BUTTON".equals(action)) {
                 mHandler.removeCallbacks(mStopSpeechRecord);
                 Intent launchIntent = new Intent();
@@ -572,7 +588,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 if ("ring".equals(status)) {
                     try {
                         PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
-                        Log.d(TAG,"PHONE_STATUS voice speech off success");
+                        L.d(thiz,"PHONE_STATUS voice speech off success");
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
@@ -581,9 +597,9 @@ public class PlatformAdapterClient implements PlatformClientListener {
                     try {
                         PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
                         setMode(3);
-                        Log.d(TAG,"PHONE_STATUS voice speech on success");
+                        L.d(thiz,"PHONE_STATUS voice speech on success");
                     } catch (RemoteException e) {
-                        Log.d(TAG,"PHONE_STATUS voice speech on failed");
+                        L.d(thiz,"PHONE_STATUS voice speech on failed");
                         e.printStackTrace();
                     }
                 }
@@ -591,7 +607,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
             if ("com.hwatong.system.USER_CONFIRMED".equals(action)) {
                 try {
                     PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
-                    Log.d(TAG,"USER_CONFIRMED voice speech on ");
+                    L.d(thiz,"USER_CONFIRMED voice speech on ");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -599,7 +615,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
             if ("com.hwatong.system.LOCK".equals(action)) {
                 try {
                     PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
-                    Log.d(TAG, "LOCK voice speech on ");
+                    L.d(thiz, "LOCK voice speech on ");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -607,7 +623,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
             if ("com.hwatong.system.UNLOCK".equals(action)) {
                 try {
                     PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
-                    Log.d("VoiceSpeechSwitchReceiver", "UNLOCK voice speech on ");
+                    L.d(thiz, "UNLOCK voice speech on ");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -631,6 +647,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     private boolean mHasFocus = false;
     private boolean mIsMuted;
+    
     /**
      * 语义解析处理 
      * @param arg0
@@ -638,7 +655,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
      */
     private boolean parseResult(final String arg0) {
     	
-    	Log.d(TAG, "zhangjinbo: " + arg0);
+    	L.d(thiz, "zhangjinbo: " + arg0);
     	
         int acc = -1;
         if (mCanbusService != null) {
@@ -648,7 +665,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 e.printStackTrace();
             }    
         }
-        Log.d(TAG, "xiaoma:"+ThirdSpeechService.state);
+        L.d(thiz, "xiaoma:"+ThirdSpeechService.state);
         try {
             JSONObject resultJson = new JSONObject(arg0);
             final String focus = resultJson.getString("focus");
@@ -763,7 +780,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 }
             }*/
         } catch (JSONException e) {
-            Log.e(TAG, "Fail to parserResult:" + e.getMessage());
+            L.d(thiz, "Fail to parserResult:" + e.getMessage());
         }
         return false;
     }
@@ -786,7 +803,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
     }
     private void setMode(int mode) {
     	
-    	Log.d(TAG, "setMode  mode : === " + mode);
+    	L.d(thiz, "setMode  mode : === " + mode);
     	
         try {
             FileOutputStream os = new FileOutputStream(

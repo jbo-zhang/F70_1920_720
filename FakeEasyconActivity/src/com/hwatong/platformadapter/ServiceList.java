@@ -3,6 +3,7 @@ package com.hwatong.platformadapter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import utils.L;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +12,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
-import android.util.Log;
+
 import com.hwatong.bt.IService;
 import com.hwatong.btphone.CallStatus;
 import com.iflytek.platform.type.PlatformCode;
@@ -22,7 +23,7 @@ import com.iflytek.platformservice.PlatformService;
  * @author caochao
  */
 public class ServiceList {
-    private static final String TAG = "Voice"; 
+    private static final String thiz = ServiceList.class.getSimpleName(); 
     
     private Context mContext ;
     /**
@@ -127,7 +128,7 @@ public class ServiceList {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.d(TAG, "BtPhoneService onServiceConnected !");
+            L.d(thiz, "BtPhoneService onServiceConnected !");
             btPhoneService = com.hwatong.btphone.IService.Stub.asInterface(service);
             if(btPhoneService!=null){
                 try {
@@ -173,16 +174,14 @@ public class ServiceList {
                         && (!CallStatus.PHONE_CALL_NONE
                                 .equals(callStatus.status))) {
                 setMode(2);
-                Log.d("VoiceSpeechSwitchReceiver",
-                        " MSG_CALL_STATUS_CHANGED voice speech off success");
+                L.d(thiz," MSG_CALL_STATUS_CHANGED voice speech off success");
                 PlatformService.platformCallback
                         .systemStateChange(PlatformCode.STATE_SPEECHOFF);
                 } else {
                 setMode(3);
                 PlatformService.platformCallback
                         .systemStateChange(PlatformCode.STATE_SPEECHON);
-                Log.d("VoiceSpeechSwitchReceiver",
-                        " MSG_CALL_STATUS_CHANGED voice speech on success");
+                L.d(thiz," MSG_CALL_STATUS_CHANGED voice speech on success");
                 }
                 } catch (RemoteException e) {
                 e.printStackTrace();

@@ -1,31 +1,28 @@
 package com.hwatong.platformadapter.handle;
 import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.hwatong.ipod.IService;
-import com.hwatong.media.MusicEntry;
-import com.hwatong.platformadapter.ServiceList;
-import com.hwatong.platformadapter.Tips;
-import com.hwatong.platformadapter.Utils;
+
+import utils.L;
+import utils.Utils;
 import android.canbus.ICanbusService;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.RemoteException;
 import android.os.SystemClock;
-import android.util.Log;
 
 import com.hwatong.ipod.IService;
 import com.hwatong.media.MusicEntry;
 import com.hwatong.platformadapter.ServiceList;
 import com.hwatong.platformadapter.Tips;
-import com.hwatong.platformadapter.Utils;
 /**
  * @author caochao
  */
 public class HandleMusicControl {
     
-    private static final String TAG = "Voice";
+    private static final String thiz = HandleMusicControl.class.getSimpleName();
     /**
      * 媒体控制
      */
@@ -43,7 +40,7 @@ public class HandleMusicControl {
     }
 
     public static HandleMusicControl getInstance(Context context, ICanbusService canbusService , ServiceList serviceList) {
-        Log.d(TAG, "HandleCarControl init");
+        L.d(thiz, "HandleMusicControl init");
         if (mHandMusicControl == null) {
             mHandMusicControl = new HandleMusicControl(context);
         }
@@ -95,12 +92,12 @@ public class HandleMusicControl {
          * 播放iPod
          */
         if("PLAY".equals(operation) && source.equalsIgnoreCase("ipod")){
-            Log.d("caochao", "play ipod , mServiceList =" +mServiceList );
+            L.d(thiz, "play ipod , mServiceList =" +mServiceList );
             IService service = null; 
             if(mServiceList!=null){
                 service = mServiceList.getIPodService();
                 try {
-                    Log.d("caochao", "ipod connect:"+service.isAttached());
+                	L.d(thiz, "ipod connect:"+service.isAttached());
                     if(service!=null && !service.isAttached()){
                         
                         Tips.setCustomTipUse(true);
@@ -142,7 +139,7 @@ public class HandleMusicControl {
         /**
          * 播放音乐
          */
-        Log.d(TAG, "source=" +source.isEmpty() );
+        L.d(thiz, "source=" +source.isEmpty() );
         if("PLAY".equals(operation) && (source.isEmpty() || "usb".equalsIgnoreCase(source))){
             if(mServiceList!= null){
                 com.hwatong.media.IService mediaService = mServiceList.getMediaService() ;
@@ -210,9 +207,9 @@ public class HandleMusicControl {
             mediaService = mServiceList.getMediaService() ;
         }
         
-        Log.d(TAG, "handleMusicScence source: " + source);
+        L.d(thiz, "handleMusicScence source: " + source);
         if (!source.isEmpty()) {
-            Log.d(TAG, "handleMusicScence, " + operation + " source: " + source);
+            L.d(thiz, "handleMusicScence, " + operation + " source: " + source);
             if ("蓝牙音乐".equals(source)) {
                 if ("CLOSE".equals(operation)) {
                     Intent intent = new Intent("com.hwatong.voice.CLOSE_BTMUSIC");
@@ -243,7 +240,7 @@ public class HandleMusicControl {
             } else if ("u盘".equalsIgnoreCase(source) || "sd".equalsIgnoreCase(source) || "本地".equals(source)) {
                 
                 if(mediaService!=null){
-                    Log.d("TAG" , "musicService!=null");
+                	L.d(thiz , "musicService!=null");
                     try {
                         List list = mediaService.getMusicList();
                         if(list == null || list.size() ==0){
@@ -257,7 +254,7 @@ public class HandleMusicControl {
                     }
                 }
                 Utils.openMusic(mContext);
-                Log.d(TAG, "handleMusicScence openApplication: " + source);
+                L.d(thiz, "handleMusicScence openApplication: " + source);
                 return true;
             }
         }
@@ -265,7 +262,7 @@ public class HandleMusicControl {
         if ("PLAY".equals(operation) && album.isEmpty() && category.isEmpty()) {
             final String pkg = "com.hwatong.usbmusic";
             Utils.openMusic(mContext);
-            Log.d(TAG, "handleMusicScence openApplication: " + pkg);
+            L.d(thiz, "handleMusicScence openApplication: " + pkg);
             return true;
         }
         return false;

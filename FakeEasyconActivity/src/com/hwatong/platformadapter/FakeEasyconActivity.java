@@ -14,13 +14,13 @@ public class FakeEasyconActivity extends Activity {
 	}
 
 	private void startApp(String app){
-		Intent intent = getApplicationContext().getPackageManager().
-				getLaunchIntentForPackage(app);
+		Intent intent = getApplicationContext().getPackageManager().getLaunchIntentForPackage(app);
 		if(intent != null) {
 			try{
 				startActivity(intent);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			}catch (Exception e){
+				e.printStackTrace();
 			}
 		}
 	}
