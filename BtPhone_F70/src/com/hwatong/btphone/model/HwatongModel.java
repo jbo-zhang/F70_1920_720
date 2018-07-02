@@ -1019,7 +1019,7 @@ public class HwatongModel implements IBTPhoneModel {
 	
 	private UICallLog getCallLogFromCallStatus(int type, CallStatus callStatus) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		UICallLog log = new UICallLog(type, callStatus.name, callStatus.number, df.format(new Date()));
+		UICallLog log = new UICallLog(type, callStatus.name == null ? "" : callStatus.name, callStatus.number == null ? "" : callStatus.number, df.format(new Date()));
 		return log;
 	}
 
@@ -1194,6 +1194,12 @@ public class HwatongModel implements IBTPhoneModel {
 		default:
 			break;
 		}
+		
+		if(TextUtils.isEmpty(callLog.number)) {
+			L.d(thiz, "current calllog number is empty");
+			return;
+		}
+		
 		if(callLog != null) {
 			mCallLogMap.get(log.type).add(0,callLog);
 			mAllCallLogList.add(0,callLog);

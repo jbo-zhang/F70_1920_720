@@ -593,8 +593,8 @@ public class ContactsListActivity extends BaseActivity {
 			holder.mDtvName.setDrawables(drawableLeft, null, null, null);
 //			holder.mDtvName.setText(contact.name);
 //			holder.mTvNumber.setText(contact.number);
-			holder.mDtvName.setText(TextUtils.ellipsize(contact.name, holder.mDtvName.getPaint(), 310, TextUtils.TruncateAt.END));
-			holder.mTvNumber.setText(TextUtils.ellipsize(contact.number,holder.mTvNumber.getPaint(), 260, TextUtils.TruncateAt.END));
+			holder.mDtvName.setText(TextUtils.ellipsize(contact.name == null ? "" : contact.name, holder.mDtvName.getPaint(), 310, TextUtils.TruncateAt.END));
+			holder.mTvNumber.setText(TextUtils.ellipsize(contact.number == null ? "" : contact.number, holder.mTvNumber.getPaint(), 260, TextUtils.TruncateAt.END));
 			
 			
 			

@@ -126,8 +126,8 @@ public class CallLogListAdapter extends BaseAdapter {
 //		}
 		
 		holder.mDtvName.setDrawables(drawableLeft, null, null, null);
-		holder.mDtvName.setText(TextUtils.ellipsize(callLog.name, holder.mDtvName.getPaint(), width1, TextUtils.TruncateAt.END));
-		holder.mTvNumber.setText(TextUtils.ellipsize(callLog.number,holder.mTvNumber.getPaint(), width2, TextUtils.TruncateAt.END));
+		holder.mDtvName.setText(TextUtils.ellipsize(callLog.name == null ? "" : callLog.name, holder.mDtvName.getPaint(), width1, TextUtils.TruncateAt.END));
+		holder.mTvNumber.setText(TextUtils.ellipsize(callLog.number == null ? "" : callLog.number,holder.mTvNumber.getPaint(), width2, TextUtils.TruncateAt.END));
 		
 		if (holder.mBtnDial != null) {
 			holder.mBtnDial.setFocusable(false);
