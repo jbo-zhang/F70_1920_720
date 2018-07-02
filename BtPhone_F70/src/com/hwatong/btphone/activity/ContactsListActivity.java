@@ -344,7 +344,7 @@ public class ContactsListActivity extends BaseActivity {
 			if(isChinese(letters)) {
 				L.d(thiz, "isChinese!");
 				for (Contact contact : mContactsList) {
-					if (contact.name.contains(letters)) {
+					if (contact.name != null && contact.name.contains(letters)) {
 						L.d(thiz, "name Chinese match: " + contact.name);
 						selectContacts1.add(contact);
 					}
@@ -355,7 +355,7 @@ public class ContactsListActivity extends BaseActivity {
 				L.d(thiz, "is not Chinese!");
 				letters = letters.toUpperCase();
 				for (Contact contact : mContactsList) {
-					if (contact.comFlg.toUpperCase().startsWith(letters.substring(0, 1))) {
+					if (contact.comFlg != null && contact.comFlg.toUpperCase().startsWith(letters.substring(0, 1))) {
 						L.d(thiz, "name first letter: " + contact.name);
 						selectContacts1.add(contact);
 					}
@@ -364,7 +364,7 @@ public class ContactsListActivity extends BaseActivity {
 				if(letters.length() > 1) {
 					//汉字首字母匹配
 					for (Contact contact : selectContacts1) {
-						if(contact.comFlg.toUpperCase().contains(letters.substring(1, 2))) {
+						if(contact.comFlg != null && contact.comFlg.toUpperCase().contains(letters.substring(1, 2))) {
 							L.d(thiz, "name second letter: " + contact.name);
 							if(Utils.getPinyinAndFirstLetter(contact.name)[1].startsWith(letters)) {
 								selectContacts2.add(contact);
@@ -377,7 +377,7 @@ public class ContactsListActivity extends BaseActivity {
 					} else {
 						//全拼匹配
 						for (Contact contact : selectContacts1) {
-							if(contact.comFlg.toUpperCase().startsWith(letters)) {
+							if(contact.comFlg != null && contact.comFlg.toUpperCase().startsWith(letters)) {
 								selectContacts2.add(contact);
 							}
 						}
