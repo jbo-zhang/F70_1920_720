@@ -661,9 +661,12 @@ public class PlatformAdapterClient implements PlatformClientListener {
         if (mCanbusService != null) {
             try {
                 acc = mCanbusService.getLastCarStatus(mContext.getPackageName()).getStatus1();
+                L.d(thiz, "acc = " + acc);
             } catch (RemoteException e) {
-                e.printStackTrace();
-            }    
+                L.d(thiz, "RemoteException: " + e.toString());
+            } catch (Exception e) {
+            	L.d(thiz, "Exception: " + e.toString());
+            }
         }
         L.d(thiz, "xiaoma:"+ThirdSpeechService.state);
         try {
