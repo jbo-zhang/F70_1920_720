@@ -2,6 +2,7 @@ package com.hwatong.platformadapter;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +15,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
+import android.location.LocationManager;
 import android.media.AudioManager;
 import android.media.IAudioFocusDispatcher;
 import android.media.IAudioService;
@@ -56,6 +59,9 @@ public class PlatformAdapterClient implements PlatformClientListener {
     private ServiceList mServiceList;
 
     private boolean mRecording;
+    
+    private LocationManager locationManager;
+    private String locationProvider; 
 
     /**
      * 本应用的的application启动时会执行，应该也就是开机的时候
@@ -348,7 +354,41 @@ public class PlatformAdapterClient implements PlatformClientListener {
         L.d(thiz, "onGetLocation()");
         // 获取当前位置 这是只是模拟了一个位置 。实际的位置 需要客户实现
         // 语音助理 的：今天的天气、到上海的航班、附近的美食、附近的酒店，是依赖这个位置信息的
-        String location = "{'name':'科大讯飞信息科技股份有限公司','address':'黄山路616','city':'合肥市','longitude':'117.143269','latitude':'31.834399'}";
+        
+        String locationJson = "{'name':'科大讯飞信息科技股份有限公司','address':'黄山路616','city':'合肥市','longitude':'117.143269','latitude':'31.834399'}";
+        
+        
+// 		// 获取地理位置管理器
+// 		locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+// 		// 获取所有可用的位置提供器
+// 		List<String> providers = locationManager.getProviders(true);
+// 		if (providers.contains(LocationManager.GPS_PROVIDER)) {
+// 			// 如果是GPS
+// 			locationProvider = LocationManager.GPS_PROVIDER;
+// 		} else if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+// 			// 如果是Network
+// 			locationProvider = LocationManager.NETWORK_PROVIDER;
+// 		}
+// 		
+// 		L.d(thiz, "locationProvider : " + locationProvider);
+// 		
+// 		if (locationProvider == null)
+// 			return null;
+// 		// 获取Location
+// 		Location location = locationManager.getLastKnownLocation(locationProvider);
+// 		
+// 		L.d(thiz, "location : " + location);
+// 		
+// 		if (location == null)
+// 			return null;
+// 		String longitude = String.format("%.6f", location.getLongitude());
+// 		String latitude = String.format("%.6f", location.getLatitude());
+// 		String result = "{'name':'','address':'','city':'','longitude':'" + longitude + "'," + "'latitude':'"
+// 				+ latitude + "'}";
+// 		L.d(thiz,"location result : " +  result);
+        
+        L.d(thiz,"location result : " +  locationJson);
+        
         return null;
     }
 

@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.os.SystemClock;
 import android.text.TextUtils;
 
 import com.hwatong.platformadapter.PlatformAdapterApp;
@@ -125,9 +126,23 @@ public class ThirdSpeechService extends Service implements ResultListener{
         public void switchSpeechMic(int state) throws RemoteException {
             L.d(thiz, "third switch mic for voice:" + state);
             if(state == 0){
+            	L.d(thiz, "systemStateChange: STATE_SPEECHOFF!");
                 PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
             } else if(state == 1){
-                PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
+            	new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						SystemClock.sleep(2000);
+						try {
+							L.d(thiz, "systemStateChange: STATE_SPEECHON!");
+							PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
+						} catch (RemoteException e) {
+							e.printStackTrace();
+						}
+						
+					}
+				}).start();
             }
         }
 	};

@@ -132,7 +132,7 @@ public class HandleCmdControl {
                     setMute(false);
                     mAudioManager.setStreamVolume(AudioManager.STREAM_RING, nameVaule, AudioManager.FLAG_SHOW_UI);
                     return true;
-                } else if ("媒体音量调节".equals(name) || "蓝牙音乐音量调节".equals(name) || "音乐音量调节".equals(name) || "收音机音量调节".equals(name)) {
+                } else if (!TextUtils.isEmpty(name) && name.contains("音量调节")) {
                     setMute(false);
                     mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, nameVaule, AudioManager.FLAG_SHOW_UI);
                     return true;

@@ -61,6 +61,7 @@ public class HandleAirControl {
 	public boolean handleAirControlScence(JSONObject result) {
 		try {
 			acStatus = mCanbusService.getLastACStatus(mContext.getPackageName());
+			L.d(thiz,"acStatus : " + acStatus);
 			if (acStatus == null) {
 				return false;
 			}
