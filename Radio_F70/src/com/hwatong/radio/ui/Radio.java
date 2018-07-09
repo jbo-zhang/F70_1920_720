@@ -397,11 +397,10 @@ public class Radio extends Activity implements OnClickListener,
 	}
 
 	private Handler seekbarHandler = new Handler() {
-		public void handleMessage(Message msg) {
-			if (msg.what == MSG_UPDATE_CHANNEL) {
-				radioPresenter.stopPreview();
-				radioPresenter.play(msg.arg1);
-			}
+		public void handleMessage(final Message msg) {
+			//控制指针的时候跳的有点乱，增加没有启动线程的试试
+			radioPresenter.stopPreviewWithNoThread();
+			radioPresenter.play(msg.arg1);
 		};
 	};
 
@@ -977,6 +976,7 @@ public class Radio extends Activity implements OnClickListener,
 
 	@Override
 	public void showLoading() {
+		mBtnRadioUpdate.setSelected(true);
 		runOnUiThread(new Runnable() {
 			
 			@Override
@@ -988,6 +988,7 @@ public class Radio extends Activity implements OnClickListener,
 
 	@Override
 	public void hideLoading() {
+		mBtnRadioUpdate.setSelected(false);
 		runOnUiThread(new Runnable() {
 			
 			@Override

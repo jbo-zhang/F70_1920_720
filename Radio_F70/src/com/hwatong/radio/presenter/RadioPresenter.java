@@ -610,28 +610,36 @@ public class RadioPresenter {
 	
 
 	/**
-	 * 请求有效电台(接口不确定是不是这个)
+	 * 请求步进
 	 * 
 	 * @param up
 	 */
-	public void tune(boolean forward) {
-		if (mService != null) {
-			try {
-				if (forward) {
-					L.d(thiz, "mService.tuneUp()");
-					mService.tuneUp();
-				} else {
-					L.d(thiz, "mService.tuneDown()");
-					mService.tuneDown();
+	public void tune(final boolean forward) {
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				if (mService != null) {
+					try {
+						if (forward) {
+							L.d(thiz, "mService.tuneUp()");
+							mService.tuneUp();
+						} else {
+							L.d(thiz, "mService.tuneDown()");
+							mService.tuneDown();
+						}
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
 				}
-			} catch (RemoteException e) {
-				e.printStackTrace();
+				
 			}
-		}
+		}).start();
 	}
 
 	/**
-	 * 请求步进
+	 * 
+	 * 请求有效电台(接口不确定是不是这个)
 	 * 
 	 * @param up
 	 *            0：down 1:up
@@ -909,6 +917,20 @@ public class RadioPresenter {
 		}
 		return false;
 	}
+	
+	public synchronized boolean stopPreviewWithNoThread() {
+		L.d(thiz, "doBack previewMode " + previewMode);
+		if(previewMode) {
+			L.d(thiz, "stopPreview()");
+			play(mFreq);
+			mHandler.removeMessages(MSG_PREVIEW_CHANNEL);
+			previewMode = false;
+			iRadioView.hidePreview();
+			return true;
+		}
+		return false;
+	}
+	
 	
 	
 	public boolean stopSeeking() {
