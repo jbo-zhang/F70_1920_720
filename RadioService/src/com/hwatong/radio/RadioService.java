@@ -656,6 +656,7 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 //				return;
 			mRadioThread.requestExitAndWait();
 			mRadioThread = null;
+			return;
 		}
 
 		synchronized (mOpLock) {
@@ -685,6 +686,7 @@ public class RadioService extends Service {//implements AudioManager.OnAudioFocu
 //				return;
 			mRadioThread.requestExitAndWait();
 			mRadioThread = null;
+			return;
 		}
 
 		synchronized (mOpLock) {
