@@ -34,6 +34,7 @@ public class FTPManager {
     private static final int PORT = 21;
     
     private static final String LOCAL_LOG_FILE = "/mnt/udisk2/f70log/tbox_log.tar";
+    private static final String LOCAL_LOG_FILE_2 = "/mnt/udisk/f70log/tbox_log.tar";
     
     public static FTPManager manager = null ;
     
@@ -97,10 +98,28 @@ public class FTPManager {
         if(file.exists()){
             file.delete();
             file.createNewFile();
+        } else{
+        	file.createNewFile();
         }
+        
+        if(!file.exists()) {
+        	file = new File(LOCAL_LOG_FILE_2);
+        	if(file.exists()){
+                file.delete();
+                file.createNewFile();
+            } else{
+            	file.createNewFile();
+            }
+        }
+        
+        if(!file.exists()) {
+        	return false;
+        }
+        
+        
         ftpClient.enterLocalPassiveMode();
         ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-        OutputStream outputStream = new FileOutputStream(new File(LOCAL_LOG_FILE), true);
+        OutputStream outputStream = new FileOutputStream(file, true);
         InputStream inputStream = ftpClient.retrieveFileStream(serverPath);
         
         byte[] b = new byte[1024];
