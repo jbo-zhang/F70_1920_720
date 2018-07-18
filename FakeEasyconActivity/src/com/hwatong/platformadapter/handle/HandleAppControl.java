@@ -119,6 +119,46 @@ public class HandleAppControl {
             }
         }
         
+        /**
+         * 手机互联操作关闭
+         */
+        if("EXIT".equals(operation)){
+            
+            if("手机里的导航".equals(name)){
+                String action = "com.hwatong.voice.PHONE_LINK_NAVIGATION_EXIT" ;
+                Intent intent = new Intent(action);
+                mContext.sendBroadcast(intent);
+                return true ;
+            }
+            if("手机里的天气".equals(name)){
+                String action = "com.hwatong.voice.PHONE_LINK_WEATHER_EXIT" ;
+                Intent intent = new Intent(action);
+                mContext.sendBroadcast(intent);
+                return true ;
+            }
+            if("手机里的新闻".equals(name)){
+                String action = "com.hwatong.voice.PHONE_LINK_NEWS_EXIT" ;
+                Intent intent = new Intent(action);
+                mContext.sendBroadcast(intent); 
+                return true ;
+            }
+            if("手机里的喜马拉雅".equals(name)){
+                String action = "com.hwatong.voice.PHONE_LINK_FM_EXIT" ;
+                Intent intent = new Intent(action);
+                mContext.sendBroadcast(intent);  
+                return true ;
+            }
+            if("手机里的音乐".equals(name)){
+                String action = "com.hwatong.voice.PHONE_LINK_MUSIC_EXIT" ;
+                Intent intent = new Intent(action);
+                mContext.sendBroadcast(intent);  
+                return true ;
+            }
+        }
+        
+        
+        
+        
         //add++ 添加处理{"name":"音乐","operation":"","focus":"app","rawText":"音乐"}情况
         if ("LAUNCH".equals(operation) && name.contains("音乐") || ("".equals(operation) && name.equals("音乐"))) {
             if(mediaService!=null){
@@ -179,11 +219,12 @@ public class HandleAppControl {
             }
             return false ;
         }
-        if("LAUNCH".equals(operation) && (name.contains("智能互联") )){
+        if("LAUNCH".equals(operation) && (name.contains("智能互联") || name.contains("手机互联"))){
             try {
+            	L.d(thiz, "打开智能互联");
                 Intent intent = new Intent();
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setComponent(new ComponentName("com.neusoft.ssp.cba.f70.car.assistant", "com.neusoft.ssp.cba.f70.car.assistant.MainActivity"));
+                intent.setComponent(new ComponentName("com.eryanet.vlink", "com.eryanet.vlink.ConnectActivity"));
                 mContext.startActivity(intent);
                 return true ;
             } catch (Exception e) {
@@ -208,6 +249,8 @@ public class HandleAppControl {
                 String packageName = pInfo.packageName;
                 String appName = pInfo.applicationInfo.loadLabel(pManager).toString();
 
+                L.d(thiz, "packageName : " + packageName + " appName : " + appName);
+                
                 if (appName.equalsIgnoreCase(name)) {
                     if ("com.hwatong.ipod".equals(packageName))
                         packageName = "com.hwatong.ipod.ui";

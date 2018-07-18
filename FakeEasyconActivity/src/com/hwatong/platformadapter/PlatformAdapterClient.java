@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.canbus.CarStatus;
 import android.canbus.ICanbusService;
 import android.canbus.ICarStatusListener;
+import android.canbus.ISystemStatusListener;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -103,6 +104,19 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 }
             }
         });
+        
+        mCanbusService.addSystemStatusListener("lock", new ISystemStatusListener.Stub() {
+			@Override
+			public void onReceived(String value) throws RemoteException {
+				if(/*"locked".equals(value) ||*/ "mute_locked".equals(value)){
+					PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
+                    L.d(thiz, "addSystemStatusListener LOCK voice speech on ");
+				}else if("unlocked".equals(value)){
+					 PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
+	                 L.d(thiz, "addSystemStatusListener UNLOCK voice speech on ");
+				}
+			}
+		});
         } catch (RemoteException e) {
         e.printStackTrace();
         }
@@ -653,20 +667,20 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 }
             }
             if ("com.hwatong.system.LOCK".equals(action)) {
-                try {
-                    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
-                    L.d(thiz, "LOCK voice speech on ");
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
+//                    L.d(thiz, "LOCK voice speech on ");
+//                } catch (RemoteException e) {
+//                    e.printStackTrace();
+//                }
             }
             if ("com.hwatong.system.UNLOCK".equals(action)) {
-                try {
-                    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
-                    L.d(thiz, "UNLOCK voice speech on ");
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
+//                    L.d(thiz, "UNLOCK voice speech on ");
+//                } catch (RemoteException e) {
+//                    e.printStackTrace();
+//                }
             }
         }
     };
@@ -687,7 +701,6 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     private boolean mHasFocus = false;
     private boolean mIsMuted;
-    
     /**
      * 语义解析处理 
      * @param arg0

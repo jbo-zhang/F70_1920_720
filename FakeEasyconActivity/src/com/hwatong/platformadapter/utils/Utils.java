@@ -179,7 +179,7 @@ public class Utils {
 			 * "com.hwatong.ebookreader"); return true; }
 			 */else if ("设置".equals(name)) {
 			Intent intent = new Intent();
-			intent.setClassName("com.hwatong.settings", "com.hwatong.settings.MainActivity");
+			intent.setClassName("com.hwatong.settings", "com.hwatong.f70.main.F70MainActivity");
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			try {
 				context.startActivity(intent);
