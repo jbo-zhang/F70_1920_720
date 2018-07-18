@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:layout_gravity="right"
     android:clickable="true"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
     android:orientation="vertical" >
 
     <ListView

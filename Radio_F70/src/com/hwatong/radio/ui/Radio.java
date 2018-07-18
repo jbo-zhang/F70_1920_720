@@ -15,12 +15,15 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -169,11 +172,20 @@ public class Radio extends Activity implements OnClickListener,
 				switch (msg.arg1) {
 				case R.id.btn_pre:
 					hideLoading();
-					radioPresenter.seek(false);
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							radioPresenter.seek(false);
+						}
+					}).start();
 					break;
 				case R.id.btn_next:
 					hideLoading();
-					radioPresenter.seek(true);
+					new Thread(new Runnable() {
+						public void run() {
+							radioPresenter.seek(true);
+						}
+					}).start();
 					break;
 				case R.id.btn_down:
 					radioPresenter.tune(false);
@@ -482,14 +494,72 @@ public class Radio extends Activity implements OnClickListener,
 	private void initListView() {
 
 		mLvChannelList.setEmptyView(mTvNoChannel);
+		
+		//当电台预览或者向下预览的时候，由于主线程不断刷新界面，导致listView的onItemClick很大概率不响应，但是onTouch是响应的。所以使用onTouch实现点击事件。
+		mLvChannelList.setOnTouchListener(new OnTouchListener() {
+			
+			private float downX;
+			private float downY;
+			private View downView;
 
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					downX = event.getX();
+					downY = event.getY();
+//					if(v instanceof ListView) {
+//						ListView lv = (ListView)v;
+//						int childCount = lv.getChildCount();
+//						for (int i = 0; i < childCount; i++) {
+//							if((event.getY() > lv.getChildAt(i).getY()) && event.getY() < lv.getChildAt(i).getY() + lv.getChildAt(i).getHeight()) {
+//								downView = lv.getChildAt(i);
+//							}
+//						}
+//					}
+					break;
+				case MotionEvent.ACTION_UP:
+					if(event.getX() == downX && event.getY() == downY && v instanceof ListView) {
+						ListView lv = (ListView)v;
+						int childCount = lv.getChildCount();
+						View view = null;
+						for (int i = 0; i < childCount; i++) {
+							if((event.getY() > lv.getChildAt(i).getY()) && event.getY() < lv.getChildAt(i).getY() + lv.getChildAt(i).getHeight()) {
+								view = lv.getChildAt(i);
+							}
+						}
+							
+						if(view!= null) {
+							final int freq = (Integer)((ViewHolder)view.getTag()).mTvFreq.getTag();
+							L.d(thiz, "onTouch childCount: " + childCount + " freq : " + freq);
+							new Thread(new Runnable() {
+								@Override
+								public void run() {
+									radioPresenter.stopPreviewWithNoThread();
+									radioPresenter.play(freq);
+								}
+							}).start();
+						}
+					}
+					break;
+				default:
+					break;
+				}
+				return false;
+			}
+		});
+		
 		mRadioAdapter = new RadioListAdapter(new ArrayList<Frequence>());
 		mLvChannelList.setAdapter(mRadioAdapter);
 		mLvChannelList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				radioPresenter.play(mRadioAdapter.getItem(position).frequence);
+//				L.d(thiz, "onItemClick position : " + position);
+//				radioPresenter.stopPreviewWithNoThread();
+//				radioPresenter.play(mRadioAdapter.getItem(position).frequence);
+				
 			}
 		});
 	}
@@ -698,7 +768,7 @@ public class Radio extends Activity implements OnClickListener,
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView, ViewGroup parent) {
 			ViewHolder viewHolder = null;
 			if (convertView == null) {
 				viewHolder = new ViewHolder();
@@ -716,6 +786,16 @@ public class Radio extends Activity implements OnClickListener,
 				viewHolder = (ViewHolder) convertView.getTag();
 			}
 
+//			convertView.setOnClickListener(new OnClickListener() {
+//				
+//				@Override
+//				public void onClick(View v) {
+//					radioPresenter.stopPreviewWithNoThread();
+//					radioPresenter.play(mFreqList.get(position).frequence);
+//				}
+//			});
+			
+			
 			Frequence freq = mFreqList.get(position);
 
 			boolean isPlay = mSelectId == position;
@@ -732,6 +812,8 @@ public class Radio extends Activity implements OnClickListener,
 				viewHolder.mTvFreq.setText(String.valueOf(freq.frequence));
 			}
 
+			viewHolder.mTvFreq.setTag(new Integer(freq.frequence));
+			
 			if (freq.isCollected) {
 				viewHolder.mIvCollecStar.setVisibility(View.VISIBLE);
 				viewHolder.mIvCollecStar.setSelected(isPlay);
@@ -742,13 +824,14 @@ public class Radio extends Activity implements OnClickListener,
 			return convertView;
 		}
 
-		private class ViewHolder {
-			private TextView mTvFreq;
-			private ImageView mIvPlay;
-			private ImageView mIvCollecStar;
-		}
+		
 	}
 
+	private class ViewHolder {
+		public TextView mTvFreq;
+		public ImageView mIvPlay;
+		public ImageView mIvCollecStar;
+	}
 	
 	private void refreshListPosition(int position) {
 		L.d(thiz, "refreshListPosition position : " + position);
