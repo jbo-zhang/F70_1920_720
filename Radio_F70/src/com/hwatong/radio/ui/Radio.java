@@ -289,6 +289,7 @@ public class Radio extends Activity implements OnClickListener,
 
 	@Override
 	protected void onPause() {
+		L.d(thiz, "onPause!");
 		super.onPause();
 		if (radioPresenter != null) {
 			radioPresenter.doBack();

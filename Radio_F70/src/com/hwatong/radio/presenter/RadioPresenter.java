@@ -3,6 +3,8 @@ package com.hwatong.radio.presenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.canbus.ICanbusService;
+import android.canbus.ISystemStatusListener;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +13,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
+import android.os.ServiceManager;
 import android.os.SystemClock;
-import android.os.SystemVibrator;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.widget.TextView;
@@ -66,6 +68,8 @@ public class RadioPresenter {
 	private boolean isFmInit = true, isAmInit = true; // 恢复出厂首次进入时为true
 	
 
+	private ICanbusService mCanbusService;
+	
 	private Context mContext;
 	
 	private Handler mHandler = new Handler() {
@@ -204,6 +208,26 @@ public class RadioPresenter {
 		Intent intent = new Intent();
 		intent.setAction("com.remote.hwatong.statusinfoservice");
 		context.bindService(intent, mConn2, Context.BIND_AUTO_CREATE);
+		
+		//锁屏状态下停止预览
+		mCanbusService = ICanbusService.Stub.asInterface(ServiceManager.getService("canbus"));
+        if (mCanbusService != null) {
+	        try {
+	        	mCanbusService.addSystemStatusListener("lock", new ISystemStatusListener.Stub() {
+	    			@Override
+	    			public void onReceived(String value) throws RemoteException {
+	    				if("mute_locked".equals(value)){
+	    					L.d(thiz, "screen locked !");
+	    					doBack();
+	    				}else if("unlocked".equals(value)){
+	    					
+	    				}
+	    			}
+	    		});
+	        } catch (RemoteException e) {
+	        	e.printStackTrace();
+	        }
+        }
 	}
 
 	public void unbindService(Context context) {
