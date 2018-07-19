@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
+import android.os.SystemClock;
 
 import com.hwatong.bt.IService;
 import com.hwatong.btphone.CallStatus;
@@ -168,24 +169,21 @@ public class ServiceList {
 
             case MSG_CALL_STATUS_CHANGED:
                 if (btPhoneService != null) {
-                try {
-                CallStatus callStatus = btPhoneService.getCallStatus();
-                if ((callStatus != null)
-                        && (!CallStatus.PHONE_CALL_NONE
-                                .equals(callStatus.status))) {
-                setMode(2);
-                L.d(thiz," MSG_CALL_STATUS_CHANGED voice speech off success");
-                PlatformService.platformCallback
-                        .systemStateChange(PlatformCode.STATE_SPEECHOFF);
-                } else {
-                setMode(3);
-                PlatformService.platformCallback
-                        .systemStateChange(PlatformCode.STATE_SPEECHON);
-                L.d(thiz," MSG_CALL_STATUS_CHANGED voice speech on success");
-                }
-                } catch (RemoteException e) {
-                e.printStackTrace();
-                }
+	                try {
+		                CallStatus callStatus = btPhoneService.getCallStatus();
+		                if ((callStatus != null) && (!CallStatus.PHONE_CALL_NONE.equals(callStatus.status))) {
+			                setMode(2);
+			                L.d(thiz," MSG_CALL_STATUS_CHANGED voice speech off success");
+			                PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
+		                } else {
+		                	SystemClock.sleep(1000);
+			                setMode(3);
+			                PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
+			                L.d(thiz," MSG_CALL_STATUS_CHANGED voice speech on success");
+		                }
+	                } catch (RemoteException e) {
+	                	e.printStackTrace();
+	                }
                 }
                 break;
             }

@@ -29,6 +29,7 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
+import android.os.SystemClock;
 
 import com.hwatong.btphone.CallStatus;
 import com.hwatong.platformadapter.handle.HandleAirControl;
@@ -649,9 +650,10 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 }
                 if ("release".equals(status)) {
                     try {
-                        PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
+                    	SystemClock.sleep(1000);
+                        int result = PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
                         setMode(3);
-                        L.d(thiz,"PHONE_STATUS voice speech on success");
+                        L.d(thiz,"PHONE_STATUS voice speech on success result : " + result);
                     } catch (RemoteException e) {
                         L.d(thiz,"PHONE_STATUS voice speech on failed");
                         e.printStackTrace();
@@ -660,6 +662,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
             }
             if ("com.hwatong.system.USER_CONFIRMED".equals(action)) {
                 try {
+                	SystemClock.sleep(1000);
                     PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
                     L.d(thiz,"USER_CONFIRMED voice speech on ");
                 } catch (RemoteException e) {
