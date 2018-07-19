@@ -132,6 +132,11 @@ public class HwatongModel implements IBTPhoneModel {
 	private int totalCount = 0;
 	
 	/**
+	 * 
+	 */
+	private int callLogTotalCount = 0;
+	
+	/**
 	 * 增加一个变量，防止多次快速点击拨打按钮造成卡顿
 	 */
 	private long dialStartTime = 0;
@@ -370,7 +375,9 @@ public class HwatongModel implements IBTPhoneModel {
 					//clearAll();
 					
 					showBooksLoadStartAndStarted();
-					
+					showLogsLoadStartAndStarted(UICallLog.TYPE_CALL_IN);
+					showLogsLoadStartAndStarted(UICallLog.TYPE_CALL_OUT);
+					showLogsLoadStartAndStarted(UICallLog.TYPE_CALL_MISS);
 					//phoneBookPresenter.requestExit();
 					
 				} else {
@@ -451,6 +458,7 @@ public class HwatongModel implements IBTPhoneModel {
 		mCallLogMap.get(UICallLog.TYPE_CALL_IN).clear();
 		mCallLogMap.get(UICallLog.TYPE_CALL_MISS).clear();
 		mAllCallLogList.clear();
+		callLogTotalCount = 0;
 	}
 	
 	private void clearLogsByType(int type) {
@@ -777,7 +785,7 @@ public class HwatongModel implements IBTPhoneModel {
 		
 		@Override
 		public void onCalllogDone(final String type,final int error) throws RemoteException {
-			L.d(thiz, "onCalllogDone type= " + type + " error= " + error);
+			L.d(thiz, callLogTotalCount + " onCalllogDone type= " + type + " error= " + error);
 
 			ThreadPoolUtil.THREAD_POOL_EXECUTOR.execute(new Runnable() {
 				
@@ -844,7 +852,46 @@ public class HwatongModel implements IBTPhoneModel {
 		
 		@Override
 		public void onCalllog(final String type, final String name, final String number, final String date) throws RemoteException {
-			L.dRoll(thiz, "onCalllog type= " + type + " name= " + name + " number= " + number+ " date= " + date);
+			L.dRoll(thiz, (++callLogTotalCount) + "onCalllog type= " + type + " name= " + name + " number= " + number+ " date= " + date);
+			
+			if(callLogTotalCount % 100 == 0) {
+				
+				ThreadPoolUtil.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+					
+					@Override
+					public void run() {
+						long start = System.currentTimeMillis();
+						
+						if(CallLog.TYPE_CALL_IN.equals(type)) {
+							try {
+								mCallLogMap.get(UICallLog.TYPE_CALL_IN).addAll(iService.getCalllogList(CallLog.TYPE_CALL_IN));
+							} catch (RemoteException e) {
+								e.printStackTrace();
+							}
+							iView.updateReceivedLogs(mCallLogMap.get(UICallLog.TYPE_CALL_IN));	
+							
+						} else if(CallLog.TYPE_CALL_OUT.equals(type)) {
+							try {
+								mCallLogMap.get(UICallLog.TYPE_CALL_OUT).addAll(iService.getCalllogList(CallLog.TYPE_CALL_OUT));
+							} catch (RemoteException e) {
+								e.printStackTrace();
+							}
+							iView.updateDialedLogs(mCallLogMap.get(UICallLog.TYPE_CALL_OUT));
+							
+						} else if(CallLog.TYPE_CALL_MISS.equals(type)) {
+							try {
+								mCallLogMap.get(UICallLog.TYPE_CALL_MISS).addAll(iService.getCalllogList(CallLog.TYPE_CALL_MISS));
+							} catch (RemoteException e) {
+								e.printStackTrace();
+							}
+							iView.updateMissedLogs(mCallLogMap.get(UICallLog.TYPE_CALL_MISS));
+						}
+						
+						L.d(thiz, "onCalllog cost : " + (System.currentTimeMillis() - start));
+					}
+				});
+			}
+			
 			
 //			ThreadPoolUtil.THREAD_POOL_EXECUTOR.execute(new Runnable() {
 //				
@@ -941,10 +988,10 @@ public class HwatongModel implements IBTPhoneModel {
 						
 						if(currentCall.type == UICallLog.TYPE_CALL_MISS) {
 							currentCall = getCallLogFromCallStatus(UICallLog.TYPE_CALL_IN, callStatus);
-							currentCall.shouldJump = 1;  //表示需要跳转界面
+							currentCall.shouldJump = 0;  //表示需要跳转界面
 						} else {
 							currentCall = getCallLogFromCallStatus(UICallLog.TYPE_CALL_OUT, callStatus);
-							currentCall.shouldJump = 1;  //表示需要跳转界面
+							currentCall.shouldJump = 0;  //表示需要跳转界面
 						}
 						
 						iView.showTalking(currentCall);
