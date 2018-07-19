@@ -1935,6 +1935,7 @@ public class Service extends android.app.Service implements
 				} 
 				//if (CallStatus.PHONE_COMING.equals(mCallState)) {
 					curPhoneNumber = number;
+					curPhoneName = null;
 					if (curPhoneNumber != null && !curPhoneNumber.isEmpty()) {
 						String name = "";
                         if(curPhoneName == null) {
