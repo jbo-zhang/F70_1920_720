@@ -431,8 +431,19 @@ public class Service extends android.app.Service implements
         @Override
         public void onHfpCallChanged(String address, NfHfpClientCall call) throws RemoteException {
             Log.v(TAG,"onHfpCallChanged() " + address + " " + call);
-            if(call.getId() <= 1)
+            if(call.getId() <= 1) {
             	processCall(call);
+            } else {
+            	int callstate = call.getState();
+            	Log.d(TAG, "callstate " + callstate + " mCallState " + mCallState);
+            	if(callstate == NfHfpClientCall.CALL_STATE_TERMINATED) {
+            		processCall(call);
+            	} else if(callstate == NfHfpClientCall.CALL_STATE_INCOMING) {
+            		processCall(call);
+            	} else if(callstate == NfHfpClientCall.CALL_STATE_ACTIVE) {
+            		processCall(call);
+            	}
+            }
         }
     };
     
@@ -615,6 +626,7 @@ public class Service extends android.app.Service implements
     };
 
     private synchronized void setVoiceMuted(boolean mute) {
+    	Log.d(TAG, "setVoiceMuted mute " + mute);
         if(mute != mVoiceMuted) {
             mVoiceMuted = mute;
             mAudioManager.setStreamMute(AudioManager.STREAM_VOICE_CALL, mute);
@@ -1908,7 +1920,7 @@ public class Service extends android.app.Service implements
 		synchronized (this) {
             setVoiceMuted(false);
 			mHfpHandler.removeCallbacks(mAutoAnswerRunnable);
-			if (mHfpConnected && (CallStatus.PHONE_CALLING.equals(mCallState) || CallStatus.PHONE_COMING.equals(mCallState) || CallStatus.PHONE_CALL_NONE.equals(mCallState))) {
+			if (mHfpConnected /* && (CallStatus.PHONE_CALLING.equals(mCallState) || CallStatus.PHONE_COMING.equals(mCallState) || CallStatus.PHONE_CALL_NONE.equals(mCallState)) */) {
                 if (CallStatus.PHONE_CALL_NONE.equals(mCallState)) {
                     //sometimes no CALL_STATE_ALERTING msg
                     Log.d(TAG, "no CALL_STATE_ALERTING received " + number);
@@ -1920,8 +1932,9 @@ public class Service extends android.app.Service implements
 					Intent intent = new Intent("com.hwatong.phone.PHONE_STATUS");
 					intent.putExtra("status", "talk");
 					sendBroadcast(intent);
-				}
-				if (CallStatus.PHONE_COMING.equals(mCallState)) {
+				} 
+				//if (CallStatus.PHONE_COMING.equals(mCallState)) {
+					curPhoneNumber = number;
 					if (curPhoneNumber != null && !curPhoneNumber.isEmpty()) {
 						String name = "";
                         if(curPhoneName == null) {
@@ -1955,7 +1968,7 @@ public class Service extends android.app.Service implements
 						notifyCalllogChange(CallLog.TYPE_CALL_IN);
                         */
 					}
-				}
+				//}
 
                 synchronized (mCallStateWaitor) {
 				    mCallState = CallStatus.PHONE_TALKING;
