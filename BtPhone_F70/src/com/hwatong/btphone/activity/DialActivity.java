@@ -639,23 +639,23 @@ public class DialActivity extends BaseActivity {
 
 	@Override
 	public void showLogsLoading(int type) {
-		mBtnGotoContacts.setEnabled(false);
-		mBtnGotoCallLog.setEnabled(false);
-		
-		mDtvGotoContacts.setEnabled(false);
-		mDtvGotoCallLog.setEnabled(false);
+//		mBtnGotoContacts.setEnabled(false);
+//		mBtnGotoCallLog.setEnabled(false);
+//		
+//		mDtvGotoContacts.setEnabled(false);
+//		mDtvGotoCallLog.setEnabled(false);
 	}
 	
 	@Override
 	public void syncLogsAlreadyLoad(int type) {
-		// 表示全部类型都下载完成 
-		if(type == 10) {
-			mBtnGotoContacts.setEnabled(true);
-			mBtnGotoCallLog.setEnabled(true);
-			
-			mDtvGotoContacts.setEnabled(true);
-			mDtvGotoCallLog.setEnabled(true);
-		}
+//		// 表示全部类型都下载完成 
+//		if(type == 10) {
+//			mBtnGotoContacts.setEnabled(true);
+//			mBtnGotoCallLog.setEnabled(true);
+//			
+//			mDtvGotoContacts.setEnabled(true);
+//			mDtvGotoCallLog.setEnabled(true);
+//		}
 	}
 	
 	@Override
