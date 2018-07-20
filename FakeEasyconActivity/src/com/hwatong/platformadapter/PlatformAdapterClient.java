@@ -664,6 +664,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 try {
                 	SystemClock.sleep(1000);
                     PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
+                    //HandleMusicControl.getInstance(mContext, mCanbusService,mServiceList).addToIfly();
                     L.d(thiz,"USER_CONFIRMED voice speech on ");
                 } catch (RemoteException e) {
                     e.printStackTrace();

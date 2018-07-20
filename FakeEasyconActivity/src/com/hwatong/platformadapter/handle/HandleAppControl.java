@@ -4,6 +4,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ActivityManager;
 import android.canbus.ICanbusService;
 import android.content.ComponentName;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.RemoteException;
+import android.text.TextUtils;
 
 import com.hwatong.platformadapter.ServiceList;
 import com.hwatong.platformadapter.Tips;
@@ -123,7 +125,8 @@ public class HandleAppControl {
          * 手机互联操作关闭
          */
         if("EXIT".equals(operation)){
-            
+            // {"name":"手机互联","operation":"EXIT","focus":"app","rawText":"关闭手机互联"}
+        	
             if("手机里的导航".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_NAVIGATION_EXIT" ;
                 Intent intent = new Intent(action);
@@ -154,6 +157,12 @@ public class HandleAppControl {
                 mContext.sendBroadcast(intent);  
                 return true ;
             }
+            //关闭手机互联
+            if(!TextUtils.isEmpty(name) && name.contains("互联")) {
+        		L.d(thiz, "exit vlink !");
+        		Utils.closeApplication(mContext, "com.eryanet.vlink");
+        		return true;
+        	}
         }
         
         

@@ -17,6 +17,8 @@ import com.hwatong.platformadapter.ServiceList;
 import com.hwatong.platformadapter.Tips;
 import com.hwatong.platformadapter.utils.L;
 import com.hwatong.platformadapter.utils.Utils;
+import com.iflytek.platform.type.PlatformCode;
+import com.iflytek.platformservice.PlatformService;
 /**
  * @author caochao
  */
@@ -48,6 +50,21 @@ public class HandleMusicControl {
         mServiceList = serviceList ;
         return mHandMusicControl;
     }
+    
+    
+//    public void addToIfly() {
+//		try {
+//			String[] songs = new String[] {"白昼之月", "宠儿", "飞", "坏与更坏", "让世界毁灭", "热血无赖", "天真有邪", "我梦见你梦见我", "我已经敢想妳", "勿忘你", "一点点", "我们不一样"};
+//			for (int i = 0; i < songs.length; i++) {
+//				L.d(thiz, songs[i]);
+//			}
+//			PlatformService.platformCallback.uploadCustomData(PlatformCode.UPLOADTYPE_SONGS, songs);
+//		} catch (RemoteException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//    }
+    
     
     public boolean handleMusicScence(JSONObject result) {
         // 歌名或歌手播放音乐
