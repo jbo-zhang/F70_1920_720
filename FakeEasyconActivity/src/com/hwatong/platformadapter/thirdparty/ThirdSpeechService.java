@@ -201,8 +201,10 @@ public class ThirdSpeechService extends Service implements ResultListener{
 	public String onResult(String result) {
 		return doAction(result);
 	}
-	public static final int START_RECORDER = 1 ;
-	public static final int STOP_RECORDER = 0 ;
+
+	public static final int START_RECORDER = 1;
+	public static final int STOP_RECORDER = 0;
+
 	@Override
 	public void onState(int state) {
 		L.d(thiz, "onState state " + state);

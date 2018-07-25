@@ -1,27 +1,19 @@
 package com.hwatong.platformadapter;
 
 import android.app.Application;
-import android.content.Intent;
+import android.util.Log;
 
-import com.hwatong.platformadapter.thirdparty.ThirdSpeechService;
-import com.hwatong.platformadapter.utils.L;
 import com.iflytek.platformservice.PlatformHelp;
 
-public class PlatformAdapterApp extends Application{
-	private static final String thiz = PlatformAdapterApp.class.getSimpleName();
-	
-	
-	private PlatformAdapterClient platformClient;
-
+public class PlatformAdapterApp extends Application {
 	@Override
 	public void onCreate(){
 		super.onCreate();
 
-		L.d(thiz, "onCreate!");
+		Log.d("PlatformAdapterApp", "onCreate!");
 		
-		platformClient = new PlatformAdapterClient(getApplicationContext());
+		PlatformAdapterClient platformClient = new PlatformAdapterClient(getApplicationContext());
 		PlatformHelp.getInstance().setPlatformClient(platformClient);
-		startService(new Intent(getApplicationContext(), ThirdSpeechService.class));
 	}
 
 	public static PlatformAdapterClient getPlatformClientInstance(){

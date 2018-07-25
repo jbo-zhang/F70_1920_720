@@ -14,10 +14,8 @@ import android.os.RemoteException;
 import android.os.SystemClock;
 
 import com.hwatong.bt.IService;
-import com.hwatong.btphone.CallStatus;
+
 import com.hwatong.platformadapter.utils.L;
-import com.iflytek.platform.type.PlatformCode;
-import com.iflytek.platformservice.PlatformService;
 
 /**
  * 服务类
@@ -48,15 +46,17 @@ public class ServiceList {
      */
     private com.hwatong.radio.IService radioService;
 
-    
+    private com.hwatong.btphone.ICallback mBtCallback;
     
     /**
      * 构造器生成服务
      * @param mContext
      */
-    public ServiceList(Context context) {
+    public ServiceList(Context context, com.hwatong.btphone.ICallback callback) {
         this.mContext = context;
-        if(mContext != null){
+        mBtCallback = callback;
+
+        if (mContext != null) {
             mContext.bindService(new Intent("com.hwatong.btphone.service"), mBtPhoneConnect, Context.BIND_AUTO_CREATE);
             mContext.bindService(new Intent("com.hwatong.bt.service"), mBtConnect, Context.BIND_AUTO_CREATE);
             mContext.bindService(new Intent("com.hwatong.media.MediaScannerService"), mMediaConnection, Context.BIND_AUTO_CREATE);
@@ -90,18 +90,6 @@ public class ServiceList {
     public com.hwatong.radio.IService getRadioService() {
         return radioService;
     }
-    private ServiceConnection mMediaConnection = new ServiceConnection() {
-        
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            
-        }
-        
-        @Override
-        public void onServiceConnected(ComponentName arg0, IBinder service) {
-            mediaService = com.hwatong.media.IService.Stub.asInterface(service);
-        }
-    };
     private ServiceConnection mRadioServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -113,17 +101,6 @@ public class ServiceList {
             radioService = null ;
         }
     };
-    private ServiceConnection mIPodServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            IPodService = com.hwatong.ipod.IService.Stub.asInterface(service);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            IPodService = null;
-        }
-    };
     
     private ServiceConnection mBtPhoneConnect = new ServiceConnection() {
 
@@ -131,7 +108,8 @@ public class ServiceList {
         public void onServiceConnected(ComponentName name, IBinder service) {
             L.d(thiz, "BtPhoneService onServiceConnected !");
             btPhoneService = com.hwatong.btphone.IService.Stub.asInterface(service);
-            if(btPhoneService!=null){
+
+            if (btPhoneService != null && mBtCallback != null) {
                 try {
                     btPhoneService.registerCallback(mBtCallback);
                 } catch (RemoteException e) {
@@ -145,7 +123,7 @@ public class ServiceList {
             btPhoneService = null;
         }
     };    
-    
+
     private ServiceConnection mBtConnect = new ServiceConnection(){
         
         @Override
@@ -157,122 +135,30 @@ public class ServiceList {
             
         }
     };
-    private final static int MSG_HFP_CONNECT_CHANGED = 1;
-    private final static int MSG_CALL_STATUS_CHANGED = 2;    
-    private final Handler mBtHandler = new Handler() {
+
+    private ServiceConnection mMediaConnection = new ServiceConnection() {
+        
         @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-
-            case MSG_HFP_CONNECT_CHANGED:
-                break;
-
-            case MSG_CALL_STATUS_CHANGED:
-                if (btPhoneService != null) {
-	                try {
-		                CallStatus callStatus = btPhoneService.getCallStatus();
-		                if ((callStatus != null) && (!CallStatus.PHONE_CALL_NONE.equals(callStatus.status))) {
-			                setMode(2);
-			                L.d(thiz," MSG_CALL_STATUS_CHANGED voice speech off success");
-			                PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
-		                } else {
-		                	SystemClock.sleep(1000);
-			                setMode(3);
-			                PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
-			                L.d(thiz," MSG_CALL_STATUS_CHANGED voice speech on success");
-		                }
-	                } catch (RemoteException e) {
-	                	e.printStackTrace();
-	                }
-                }
-                break;
-            }
+        public void onServiceDisconnected(ComponentName arg0) {
+            
+        }
+        
+        @Override
+        public void onServiceConnected(ComponentName arg0, IBinder service) {
+            mediaService = com.hwatong.media.IService.Stub.asInterface(service);
         }
     };
-    private final com.hwatong.btphone.ICallback mBtCallback = new com.hwatong.btphone.ICallback.Stub() {
+
+    private ServiceConnection mIPodServiceConnection = new ServiceConnection() {
         @Override
-        public void onHfpConnected() {
-            mBtHandler.removeMessages(MSG_HFP_CONNECT_CHANGED);
-            mBtHandler.sendEmptyMessageDelayed(MSG_HFP_CONNECT_CHANGED, 200);
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            IPodService = com.hwatong.ipod.IService.Stub.asInterface(service);
         }
 
         @Override
-        public void onHfpDisconnected() {
-            mBtHandler.removeMessages(MSG_HFP_CONNECT_CHANGED);
-            mBtHandler.sendEmptyMessage(MSG_HFP_CONNECT_CHANGED);
-        }
-
-        @Override
-        public void onCallStatusChanged() {
-            mBtHandler.removeMessages(MSG_CALL_STATUS_CHANGED);
-            mBtHandler.sendEmptyMessage(MSG_CALL_STATUS_CHANGED);
-        }
-
-        @Override
-        public void onRingStart() throws RemoteException {
-        }
-
-        @Override
-        public void onRingStop() throws RemoteException {
-        }
-
-        @Override
-        public void onHfpLocal() throws RemoteException {
-        }
-
-        @Override
-        public void onHfpRemote() throws RemoteException {
-        }
-
-        @Override
-        public void onPhoneBook(String type, String name, String number) {
-        }
-
-        @Override
-        public void onCalllog(String type, String name, String number,
-                String date) throws RemoteException {
-        }
-
-        @Override
-        public void onContactsChange() {
-        }
-
-        @Override
-        public void onCalllogChange(String type) {
-        }
-
-        @Override
-        public void onAllDownloadDone(int arg0) throws RemoteException {
-
-        }
-
-        @Override
-        public void onCalllogDone(String arg0, int arg1) throws RemoteException {
-
-        }
-
-        @Override
-        public void onPhoneBookDone(int arg0) throws RemoteException {
-
-        }
-
-        @Override
-        public void onSignalBattery() throws RemoteException {
-
+        public void onServiceDisconnected(ComponentName name) {
+            IPodService = null;
         }
     };
-    private void setMode(int mode) {
-        try {
-            FileOutputStream os = new FileOutputStream(
-                "/sys/devices/platform/imx-i2c.0/i2c-0/0-0047/mode_func");
-            try {
-                os.write(Integer.toString(mode, 10).getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            os.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }    
+
 }

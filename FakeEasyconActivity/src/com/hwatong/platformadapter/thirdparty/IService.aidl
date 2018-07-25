@@ -1,5 +1,7 @@
 package com.hwatong.platformadapter.thirdparty;
+
 import com.hwatong.platformadapter.thirdparty.CallBack;
+
 interface IService {
     /**
      *注册语音事件回调

@@ -1,6 +1,6 @@
 package com.hwatong.platformadapter.thirdparty;
 
-interface CallBack{
+interface CallBack {
     /**
 	 * 提供语义给第三方
 	 */
@@ -8,5 +8,5 @@ interface CallBack{
     /**
 	 *语音状态
 	 */
-    void onStatus(int status);
+    oneway void onStatus(int status);
 }

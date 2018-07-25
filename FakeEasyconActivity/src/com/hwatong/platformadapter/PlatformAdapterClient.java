@@ -30,8 +30,8 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
+import android.util.Log;
 
-import com.hwatong.btphone.CallStatus;
 import com.hwatong.platformadapter.handle.HandleAirControl;
 import com.hwatong.platformadapter.handle.HandleAppControl;
 import com.hwatong.platformadapter.handle.HandleCarControl;
@@ -47,16 +47,18 @@ import com.iflytek.platform.type.PlatformCode;
 import com.iflytek.platformservice.PlatformService;
 
 public class PlatformAdapterClient implements PlatformClientListener {
-    private static final String thiz = PlatformAdapterClient.class.getSimpleName();
+	private static final String TAG = "PlatformAdapterClient";
     private static final boolean DBG = true;
+
+    private static final int SEARCH_MUSIC = 0;
+    private static final int SEARCH_RADIO = 1;
+
     private final Context mContext;
     private final AudioManager mAudioManager;
     private final IAudioService mAudioService;
     private int currentMicType = -1;
     private final ICanbusService mCanbusService;
     private String[] mAirConditionTips = null;
-    public static final int SEARCH_MUSIC = 0;
-    public static final int SEARCH_RADIO = 1;
 
     private ServiceList mServiceList;
 
@@ -70,88 +72,137 @@ public class PlatformAdapterClient implements PlatformClientListener {
      * @param context
      */
     public PlatformAdapterClient(Context context) {
-        L.d(thiz, "PlatformAdapterClient()");
+        L.d(TAG, "PlatformAdapterClient()");
 
         this.mContext = context;
-        mServiceList = new ServiceList(mContext);
+
+		mContext.startService(new Intent(context, ThirdSpeechService.class));
+
+        mServiceList = new ServiceList(mContext, mBtCallback);
+
         mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        mAudioService = IAudioService.Stub.asInterface(ServiceManager
-                .getService(Context.AUDIO_SERVICE));
+        mAudioService = IAudioService.Stub.asInterface(ServiceManager.getService(Context.AUDIO_SERVICE));
+
         mAirConditionTips = context.getResources().getStringArray(
                 R.array.open_aircondition_tips);
-        mCanbusService = ICanbusService.Stub.asInterface(ServiceManager
-                .getService("canbus"));
+
+        mCanbusService = ICanbusService.Stub.asInterface(ServiceManager.getService("canbus"));
+
         if (mCanbusService != null) {
-        try {
-        mCanbusService.addCarStatusListener(new ICarStatusListener.Stub() {
-            @Override
-            public void onReceived(CarStatus carStatus) throws RemoteException {
-                com.hwatong.btphone.IService service = mServiceList.getBtPhoneService();
-                boolean isCall = false;
-                if (service != null) {
-                    CallStatus callStatus = service.getCallStatus();
-                    if (callStatus != null
-                        && !callStatus.status.equals(CallStatus.PHONE_CALL_NONE)) {
-                        isCall = true;
+            try {
+                mCanbusService.addCarStatusListener(new ICarStatusListener.Stub() {
+                    @Override
+                    public void onReceived(CarStatus carStatus) throws RemoteException {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                notifySystemStateChange();
+                            }
+                        });
                     }
-                }
-                if (carStatus.getStatus1() != 0 && carStatus.getStatus2() != 1
-                        && mCanbusService.isUserConfirmed() && !isCall && carStatus.getStatus4()!=1) {
-                    L.d(thiz, "voice speech on when client init!!");
-                    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
-                } else {
-                    L.d(thiz, "voice speech off when client init!");
-                    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
-                }
+                });
+                
+                mCanbusService.addSystemStatusListener("lock", new ISystemStatusListener.Stub() {
+        			@Override
+        			public void onReceived(String value) throws RemoteException {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                notifySystemStateChange();
+                            }
+                        });
+        			}
+        		});
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
-        });
-        
-        mCanbusService.addSystemStatusListener("lock", new ISystemStatusListener.Stub() {
-			@Override
-			public void onReceived(String value) throws RemoteException {
-				if(/*"locked".equals(value) ||*/ "mute_locked".equals(value)){
-					PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
-                    L.d(thiz, "addSystemStatusListener LOCK voice speech on ");
-				}else if("unlocked".equals(value)){
-					 PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
-	                 L.d(thiz, "addSystemStatusListener UNLOCK voice speech on ");
-				}
-			}
-		});
-        } catch (RemoteException e) {
-        e.printStackTrace();
-        }
         }
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.hwatong.voice.SPEECH_OFF");
         filter.addAction("com.hwatong.voice.SPEECH_ON");
         filter.addAction("com.hwatong.voice.SPEECH_BUTTON");
-        filter.addAction("com.hwatong.phone.PHONE_STATUS");
-        filter.addAction("com.hwatong.system.USER_CONFIRMED");
-        filter.addAction("com.hwatong.system.LOCK");
-        filter.addAction("com.hwatong.system.UNLOCK");
+
         mContext.registerReceiver(mSpeechSwitchReceiver, filter);
     }
+
+	private void notifySystemStateChange() {
+		L.d(TAG, "notifySystemStateChange!");
+		if (PlatformService.platformCallback == null) {
+			Log.e(TAG, "PlatformService.platformCallback == null");
+			return;
+		}
+
+		try {
+            com.hwatong.btphone.IService service = mServiceList.getBtPhoneService();
+
+            if (service != null) {
+                com.hwatong.btphone.CallStatus callStatus = service.getCallStatus();
+                if (callStatus != null && !callStatus.status.equals(com.hwatong.btphone.CallStatus.PHONE_CALL_NONE)) {
+		            if (DBG) Log.d(TAG, "notifySystemStateChange SPEECHOFF");
+	                changeDinoseMode(2);
+    			    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
+                    return;
+                }
+            }
+
+		    if (!mCanbusService.isUserConfirmed()) {
+		        if (DBG) Log.d(TAG, "notifySystemStateChange SPEECHOFF");
+			    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
+			    return;
+			}
+			
+		    String lockStatus = mCanbusService.getSystemStatus("lock");
+
+		    L.d(TAG, "lockStatus : " + lockStatus);
+		    
+			if (/*"locked".equals(value) ||*/ "mute_locked".equals(lockStatus)) {
+		        if (DBG) Log.d(TAG, "notifySystemStateChange SPEECHOFF");
+			    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
+			    return;
+			}
+
+			CarStatus carStatus = mCanbusService.getLastCarStatus(mContext.getPackageName());
+
+            if (carStatus.getStatus1() == 0 ||  // ACC OFF
+                carStatus.getStatus2() == 1 ||  // Back Gear ON
+                carStatus.getStatus4() == 1) {  // RVC ON
+		        if (DBG) Log.d(TAG, "notifySystemStateChange SPEECHOFF");
+			    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
+                return;
+            }
+
+			if ("unlocked".equals(lockStatus)) {
+		        if (DBG) Log.d(TAG, "notifySystemStateChange SPEECHON");
+				PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
+                changeDinoseMode(3);
+			}
+
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
     /**
      * 客户主动回调的方法
      */
     private void notifyAudioFocusChange(int focusChange) {
-        L.d(thiz, "notifyAudioFocusChange(): " + focusChange);
+        L.d(TAG, "notifyAudioFocusChange(): " + focusChange);
 
         if (PlatformService.platformCallback == null) {
-            L.d(thiz, "PlatformService.platformCallback == null");
+            L.d(TAG, "PlatformService.platformCallback == null");
             return;
         }
     }
 
     private void reportSearchPlayListResult(int type, String result) {
         if (DBG)
-            L.d(thiz, "reportSearchPlayListResult(): " + type + ", " + result);
+            L.d(TAG, "reportSearchPlayListResult(): " + type + ", " + result);
 
         if (PlatformService.platformCallback == null) {
-            L.d(thiz, "PlatformService.platformCallback == null");
+            L.d(TAG, "PlatformService.platformCallback == null");
             return;
         }
 
@@ -175,18 +226,18 @@ public class PlatformAdapterClient implements PlatformClientListener {
      */
     @Override
     public int changePhoneState(int state) {
-        L.d(thiz, "changePhoneState(): " + state);
+        L.d(TAG, "changePhoneState(): " + state);
         return PlatformCode.FAILED;
     }
 
     @Override
     public int onRequestAudioFocus(int streamType, int nDuration) {
-        L.d(thiz, "onRequestAudioFocus(): streamType " + streamType
+        L.d(TAG, "onRequestAudioFocus(): streamType " + streamType
                 + ", nDuration " + nDuration);
         PowerManager pm = (PowerManager) mContext
                 .getSystemService(Context.POWER_SERVICE);
         boolean isScreenOn = pm.isScreenOn();
-        L.d(thiz, "isScreenOn:" + isScreenOn);
+        L.d(TAG, "isScreenOn:" + isScreenOn);
         if (!isScreenOn) {
             PowerManager.WakeLock wakeLock = pm.newWakeLock(
                 PowerManager.SCREEN_DIM_WAKE_LOCK, "TAG");
@@ -200,7 +251,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
     }
 
     private int doRequestAudioFocus(int streamType, int nDuration) {
-        L.d(thiz, "doRequestAudioFocus(): streamType " + streamType
+        L.d(TAG, "doRequestAudioFocus(): streamType " + streamType
                 + ", nDuration " + nDuration);
 
         int audioFocusResult = AudioManager.AUDIOFOCUS_REQUEST_FAILED;
@@ -232,13 +283,13 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     @Override
     public void onAbandonAudioFocus() {
-        L.d(thiz, "onAbandonAudioFocus()");
+        L.d(TAG, "onAbandonAudioFocus()");
 
         mAbandonAudioFocusRunnable.abandonAudioFocus();
     }
 
     private void doAbandonAudioFocus() {
-        L.d(thiz, "doAbandonAudioFocus()");
+        L.d(TAG, "doAbandonAudioFocus()");
 
         if (mHasFocus) {
             mHasFocus = false;
@@ -263,7 +314,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
         /** 失去音频焦点 通知导航 */
         mContext.sendBroadcast(new Intent("com.iflytek.endoperation"));
         if (DBG)
-            L.d(thiz, "sendBroadcast : " + "com.iflytek.endoperation");
+            L.d(TAG, "sendBroadcast : " + "com.iflytek.endoperation");
             mHandler.removeCallbacks(mStopSpeechRecord);
             mHandler.postDelayed(mStopSpeechRecord, 1000);
         }
@@ -277,7 +328,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
     private final Object mLock = new Object();
     @Override
     public String onDoAction(String actionJson) {
-        L.d(thiz, "onDoAction(): " + actionJson);
+        L.d(TAG, "onDoAction(): " + actionJson);
         JSONObject resultJson = new JSONObject();
         if (actionJson == null) {
             try {
@@ -294,7 +345,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 if ("call".equals(action.getString("action"))) {
                     if (action.getString("param1") != null) {
                         final String number = action.getString("param1");
-                        L.d(thiz, "call number = " + number);
+                        L.d(TAG, "call number = " + number);
                         synchronized (mLock) {
                             if (mServiceList.getBtPhoneService() != null) {
                                 try {
@@ -308,17 +359,19 @@ public class PlatformAdapterClient implements PlatformClientListener {
                         return resultJson.toString();
                     }
                 }  else if ("startspeechrecord".equals(action.getString("action"))) {
-                    if(mResultListener!=null){
+                    if (mResultListener != null) {
                         mResultListener.onState(ThirdSpeechService.START_RECORDER);
                     }
                     synchronized (mLock) {
                         mRecording = true;
                     }
-                    changeDinoseMode(0);
+
+                    changeDinoseMode(1);
+
                     resultJson.put("status", "success");
                     return resultJson.toString();
                 } else if ("stopspeechrecord".equals(action.getString("action"))) {
-                    if(mResultListener!=null){
+                    if (mResultListener != null) {
                         mResultListener.onState(ThirdSpeechService.STOP_RECORDER);
                     }
                     synchronized (mLock) {
@@ -327,23 +380,15 @@ public class PlatformAdapterClient implements PlatformClientListener {
                     resultJson.put("status", "success");
                     return resultJson.toString();
                 } else if ("startwakerecord".equals(action.getString("action"))) {
-                    changeDinoseMode(1);
+                    changeDinoseMode(3);
                     resultJson.put("status", "success");
-                    try {
-                        if(!mCanbusService.isUserConfirmed()){
-                            L.d(thiz, "isUserConfirmed = false ,speech off");
-                            PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
-                        }
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }                                        
                     return resultJson.toString();
                 } else if ("stopwakerecord".equals(action.getString("action"))) {
                     resultJson.put("status", "success");
                     return resultJson.toString();
                 }
             } catch (JSONException e) {
-                L.d(thiz, "Fail to do action:" + e.getMessage());
+                L.d(TAG, "Fail to do action:" + e.getMessage());
             }
         }
         try {
@@ -356,7 +401,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
     }
     @Override
     public String onGetCarNumbersInfo() {
-        L.d(thiz, "onGetCarNumbersInfo()");
+        L.d(TAG, "onGetCarNumbersInfo()");
         // 获取车辆信息，暂时只是一个測試數據 。
         // 语音助理 的：违章查询业务依赖此信息
         // 包含三個信息：carNumber车牌号，carCode车架号，carDriveNo发动机号
@@ -366,7 +411,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     @Override
     public String onGetLocation() {
-        L.d(thiz, "onGetLocation()");
+        L.d(TAG, "onGetLocation()");
         // 获取当前位置 这是只是模拟了一个位置 。实际的位置 需要客户实现
         // 语音助理 的：今天的天气、到上海的航班、附近的美食、附近的酒店，是依赖这个位置信息的
         
@@ -385,14 +430,14 @@ public class PlatformAdapterClient implements PlatformClientListener {
 // 			locationProvider = LocationManager.NETWORK_PROVIDER;
 // 		}
 // 		
-// 		L.d(thiz, "locationProvider : " + locationProvider);
+// 		L.d(TAG, "locationProvider : " + locationProvider);
 // 		
 // 		if (locationProvider == null)
 // 			return null;
 // 		// 获取Location
 // 		Location location = locationManager.getLastKnownLocation(locationProvider);
 // 		
-// 		L.d(thiz, "location : " + location);
+// 		L.d(TAG, "location : " + location);
 // 		
 // 		if (location == null)
 // 			return null;
@@ -400,26 +445,26 @@ public class PlatformAdapterClient implements PlatformClientListener {
 // 		String latitude = String.format("%.6f", location.getLatitude());
 // 		String result = "{'name':'','address':'','city':'','longitude':'" + longitude + "'," + "'latitude':'"
 // 				+ latitude + "'}";
-// 		L.d(thiz,"location result : " +  result);
+// 		L.d(TAG,"location result : " +  result);
         
-        L.d(thiz,"location result : " +  locationJson);
+        L.d(TAG,"location result : " +  locationJson);
         
         return null;
     }
 
     @Override
     public int onGetState(int state) {
-        L.d(thiz, "onGetState(): " + state);
+        L.d(TAG, "onGetState(): " + state);
         if (state == PlatformCode.STATE_BLUETOOTH_PHONE) {
         // 返回蓝牙电话状态
             synchronized (mLock) {
                 try {
                     com.hwatong.btphone.IService mBtPhoneService = mServiceList.getBtPhoneService();
                     if (mBtPhoneService != null && mBtPhoneService.isHfpConnected()) {
-                        L.d(thiz, "return STATE_BLUETOOTH_PHONE: " + "STATE_OK");
+                        L.d(TAG, "return STATE_BLUETOOTH_PHONE: " + "STATE_OK");
                         return PlatformCode.STATE_OK;
                     } else {
-                        L.d(thiz, "return STATE_BLUETOOTH_PHONE: " + "STATE_NO");
+                        L.d(TAG, "return STATE_BLUETOOTH_PHONE: " + "STATE_NO");
                         return PlatformCode.STATE_NO;
                     }
                 } catch (RemoteException e) {
@@ -438,7 +483,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     @Override
     public String onNLPResult(String arg0) {
-        L.d(thiz, "onNLPResult(): " + arg0);
+        L.d(TAG, "onNLPResult(): " + arg0);
         boolean handled = parseResult(arg0);
         JSONObject resultJson = new JSONObject();
         try {
@@ -471,7 +516,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     @Override
     public boolean onSearchPlayList(String arg0) {
-        L.d(thiz, "onSearchPlayList(): " + arg0);
+        L.d(TAG, "onSearchPlayList(): " + arg0);
         try {
             JSONObject action = new JSONObject(arg0);
             String focus = action.optString("focus");
@@ -499,26 +544,31 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     @Override
     public void onServiceUnbind() {
-        L.d(thiz, "onServiceUnbind()");
+        L.d(TAG, "onServiceUnbind()");
         // 助理因为异常，导致和平台适配器服务断开，这里可以做重置处理
         if (mHasFocus) {
             onAbandonAudioFocus();
         }
     }
+
     private final IAudioFocusDispatcher mAudioFocusDispatcher = new AudioFocusDispatcher();
-    private final class AudioFocusDispatcher extends IAudioFocusDispatcher.Stub
-            implements Runnable {
+
+    private final class AudioFocusDispatcher extends IAudioFocusDispatcher.Stub implements Runnable {
         private int focusChange;
         private boolean done;
+
         @Override
         public void dispatchAudioFocusChange(int focusChange, String id) {
             if (Looper.myLooper() == mHandler.getLooper()) {
                 notifyAudioFocusChange(focusChange);
                 return;
             }
+
             synchronized (this) {
                 done = false;
+
                 this.focusChange = focusChange;
+
                 if (mHandler.post(this)) {
                     while (!done) {
                         try {
@@ -540,46 +590,56 @@ public class PlatformAdapterClient implements PlatformClientListener {
             }
         }
     }
+
     private final IBinder mICallBack = new Binder();
+
     private final RequestAudioFocusRunnable mRequestAudioFocusRunnable = new RequestAudioFocusRunnable();
+
     private final class RequestAudioFocusRunnable implements Runnable {
         int streamType;
         int durationHint;
         int audioFocusResult;
+
         boolean done;
+
         public int requestAudioFocus(int streamType, int durationHint) {
             if (Looper.myLooper() == mHandler.getLooper()) {
-                return requestAudioFocus(streamType, durationHint);
+                return doRequestAudioFocus(streamType, durationHint);
             }
+
             synchronized (this) {
                 this.streamType = streamType;
                 this.durationHint = durationHint;
                 this.audioFocusResult = AudioManager.AUDIOFOCUS_REQUEST_FAILED;
+
                 done = false;
+
                 if (mHandler.post(this)) {
                     while (!done) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        try {
+                            wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
-            return this.audioFocusResult;
+                return this.audioFocusResult;
             }
         }
 
         @Override
         public void run() {
-            this.audioFocusResult = doRequestAudioFocus(streamType,
-                    durationHint);
+            this.audioFocusResult = doRequestAudioFocus(streamType, durationHint);
+
             synchronized (this) {
                 done = true;
                 notifyAll();
             }
         }
     }
+
     private final AbandonAudioFocusRunnable mAbandonAudioFocusRunnable = new AbandonAudioFocusRunnable();
+
     private final class AbandonAudioFocusRunnable implements Runnable {
         boolean done;
         public void abandonAudioFocus() {
@@ -624,12 +684,19 @@ public class PlatformAdapterClient implements PlatformClientListener {
         }
     }
 
-    private BroadcastReceiver mSpeechSwitchReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mSpeechSwitchReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
-            L.d(thiz, "onReceive(): " + action);
-            if ("com.hwatong.voice.SPEECH_BUTTON".equals(action)) {
+            L.d(TAG, "onReceive(): " + action);
+
+			if ("com.hwatong.voice.SPEECH_OFF".equals(action)) {
+				notifySystemStateChange();
+
+			} else if ("com.hwatong.voice.SPEECH_ON".equals(action)) {
+				notifySystemStateChange();
+
+            } else if ("com.hwatong.voice.SPEECH_BUTTON".equals(action)) {
                 mHandler.removeCallbacks(mStopSpeechRecord);
                 Intent launchIntent = new Intent();
                 launchIntent.setComponent(new ComponentName(
@@ -637,57 +704,11 @@ public class PlatformAdapterClient implements PlatformClientListener {
                     "com.iflytek.autofly.SpeechClientService"));
                 launchIntent.putExtra("fromservice", "CanbusService");
                 mContext.startService(launchIntent);
-            }
-            if ("com.hwatong.phone.PHONE_STATUS".equals(action)) {
-                String status = intent.getStringExtra("status");
-                if ("ring".equals(status)) {
-                    try {
-                        PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
-                        L.d(thiz,"PHONE_STATUS voice speech off success");
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if ("release".equals(status)) {
-                    try {
-                    	SystemClock.sleep(1000);
-                        int result = PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
-                        setMode(3);
-                        L.d(thiz,"PHONE_STATUS voice speech on success result : " + result);
-                    } catch (RemoteException e) {
-                        L.d(thiz,"PHONE_STATUS voice speech on failed");
-                        e.printStackTrace();
-                    }
-                }
-            }
-            if ("com.hwatong.system.USER_CONFIRMED".equals(action)) {
-                try {
-                	SystemClock.sleep(1000);
-                    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
-                    //HandleMusicControl.getInstance(mContext, mCanbusService,mServiceList).addToIfly();
-                    L.d(thiz,"USER_CONFIRMED voice speech on ");
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-            if ("com.hwatong.system.LOCK".equals(action)) {
-//                try {
-//                    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
-//                    L.d(thiz, "LOCK voice speech on ");
-//                } catch (RemoteException e) {
-//                    e.printStackTrace();
-//                }
-            }
-            if ("com.hwatong.system.UNLOCK".equals(action)) {
-//                try {
-//                    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
-//                    L.d(thiz, "UNLOCK voice speech on ");
-//                } catch (RemoteException e) {
-//                    e.printStackTrace();
-//                }
+
             }
         }
     };
+
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -712,20 +733,20 @@ public class PlatformAdapterClient implements PlatformClientListener {
      */
     private boolean parseResult(final String arg0) {
     	
-    	L.d(thiz, "zhangjinbo: " + arg0);
+    	L.d(TAG, "zhangjinbo: " + arg0);
     	
         int acc = -1;
         if (mCanbusService != null) {
             try {
                 acc = mCanbusService.getLastCarStatus(mContext.getPackageName()).getStatus1();
-                L.d(thiz, "acc = " + acc);
+                L.d(TAG, "acc = " + acc);
             } catch (RemoteException e) {
-                L.d(thiz, "RemoteException: " + e.toString());
+                L.d(TAG, "RemoteException: " + e.toString());
             } catch (Exception e) {
-            	L.d(thiz, "Exception: " + e.toString());
+            	L.d(TAG, "Exception: " + e.toString());
             }
         }
-        L.d(thiz, "xiaoma:"+ThirdSpeechService.state);
+        L.d(TAG, "xiaoma:"+ThirdSpeechService.state);
         try {
             JSONObject resultJson = new JSONObject(arg0);
             final String focus = resultJson.getString("focus");
@@ -840,44 +861,34 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 }
             }*/
         } catch (JSONException e) {
-            L.d(thiz, "Fail to parserResult:" + e.getMessage());
+            L.d(TAG, "Fail to parserResult:" + e.getMessage());
         }
         return false;
     }
 
     private void changeDinoseMode(int type) {
         // 若客户使用了 讯飞的降噪模块 这里来切换 降噪模块的不同工作模式
-        if (type == 0) {
-            // 降噪模式
-            if (currentMicType != 0) {
-                setMode(1);
-            }
-            currentMicType = 0;
-       } else {
-            // 唤醒模式
-            if (currentMicType != 1) {
-                setMode(3);
-            }
-            currentMicType = 1;
-        }
-    }
-    private void setMode(int mode) {
-    	
-    	L.d(thiz, "setMode  mode : === " + mode);
-    	
-        try {
-            FileOutputStream os = new FileOutputStream(
-                "/sys/devices/platform/imx-i2c.0/i2c-0/0-0047/mode_func");
+        // 1: 降噪模式 2: 通话模式 3: 唤醒模式
+        if (currentMicType == -1 || currentMicType != type) {
+        	L.d(TAG, "changeDinoseMode type " + type);
+        	
             try {
-                os.write(Integer.toString(mode, 10).getBytes());
+                FileOutputStream os = new FileOutputStream(
+                    "/sys/devices/platform/imx-i2c.0/i2c-0/0-0047/mode_func");
+                try {
+                    os.write(Integer.toString(type, 10).getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                os.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            os.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            currentMicType = type;
         }
     }
+
     /*
      * {"song":"忘情水"}<br/> {"artist":"刘德华"}<br/> {"category":"摇滚歌曲"}<br/>
      * {"source":"网络"}<br/>
@@ -911,9 +922,129 @@ public class PlatformAdapterClient implements PlatformClientListener {
         intent.putExtra("run", "true");
         mContext.startService(intent);
     }
+
     private ResultListener mResultListener = null;
+
     public void setResultListener(ResultListener listener) {
         mResultListener = listener;
     }
+
+	private void onCallStatusChanged() {
+		if (DBG) Log.d(TAG, "onCallStatusChanged()");
+
+        com.hwatong.btphone.IService btPhoneService = mServiceList.getBtPhoneService();
+
+        if (btPhoneService != null) {
+            try {
+                com.hwatong.btphone.CallStatus callStatus = btPhoneService.getCallStatus();
+                if (callStatus != null && !com.hwatong.btphone.CallStatus.PHONE_CALL_NONE.equals(callStatus.status)) {
+                    mBtHandler.removeMessages(MSG_CALL_HANGUP);
+
+				    notifySystemStateChange();
+                } else {
+                    mBtHandler.removeMessages(MSG_CALL_HANGUP);
+                    mBtHandler.sendEmptyMessageDelayed(MSG_CALL_HANGUP, 1000);
+                }
+            } catch (RemoteException e) {
+            	e.printStackTrace();
+            }
+        }
+	}
+	
+    private final static int MSG_HFP_CONNECT_CHANGED = 1;
+    private final static int MSG_CALL_STATUS_CHANGED = 2;    
+    private final static int MSG_CALL_HANGUP = 3;    
+
+    private final Handler mBtHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+
+            case MSG_HFP_CONNECT_CHANGED:
+                break;
+
+            case MSG_CALL_STATUS_CHANGED:
+				onCallStatusChanged();
+                break;
+
+            case MSG_CALL_HANGUP:
+		        notifySystemStateChange();
+                break;
+            }
+        }
+    };
+
+    private final com.hwatong.btphone.ICallback mBtCallback = new com.hwatong.btphone.ICallback.Stub() {
+        @Override
+        public void onHfpConnected() {
+            mBtHandler.removeMessages(MSG_HFP_CONNECT_CHANGED);
+            mBtHandler.sendEmptyMessageDelayed(MSG_HFP_CONNECT_CHANGED, 200);
+        }
+
+        @Override
+        public void onHfpDisconnected() {
+            mBtHandler.removeMessages(MSG_HFP_CONNECT_CHANGED);
+            mBtHandler.sendEmptyMessage(MSG_HFP_CONNECT_CHANGED);
+        }
+
+        @Override
+        public void onCallStatusChanged() {
+            mBtHandler.removeMessages(MSG_CALL_STATUS_CHANGED);
+            mBtHandler.sendEmptyMessage(MSG_CALL_STATUS_CHANGED);
+        }
+
+        @Override
+        public void onRingStart() throws RemoteException {
+        }
+
+        @Override
+        public void onRingStop() throws RemoteException {
+        }
+
+        @Override
+        public void onHfpLocal() throws RemoteException {
+        }
+
+        @Override
+        public void onHfpRemote() throws RemoteException {
+        }
+
+        @Override
+        public void onPhoneBook(String type, String name, String number) {
+        }
+
+        @Override
+        public void onCalllog(String type, String name, String number,
+                String date) throws RemoteException {
+        }
+
+        @Override
+        public void onContactsChange() {
+        }
+
+        @Override
+        public void onCalllogChange(String type) {
+        }
+
+        @Override
+        public void onAllDownloadDone(int arg0) throws RemoteException {
+
+        }
+
+        @Override
+        public void onCalllogDone(String arg0, int arg1) throws RemoteException {
+
+        }
+
+        @Override
+        public void onPhoneBookDone(int arg0) throws RemoteException {
+
+        }
+
+        @Override
+        public void onSignalBattery() throws RemoteException {
+
+        }
+    };
 
 }
