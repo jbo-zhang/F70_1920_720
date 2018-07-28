@@ -59,7 +59,7 @@
     <string name="disconnecting">正在断开...</string>
     <string name="no_search">未搜索到设备</string>
     <string name="unknown_device">未知设备</string>
-    <string name="unknown">未知</string>
+    <string name="unknown">Unknown</string>
     <string name="bt_connect_info">蓝牙设备已连接</string>
     <string name="bt_disconnect_info">蓝牙设备断开</string>
     <string name="read_hint1">正在下载，请稍后...</string>

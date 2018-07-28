@@ -129,6 +129,11 @@ public class DialActivity extends BaseActivity {
 	
 	private long startTime = 0;			//增加一个变量，使得拨打按钮不能使劲狂按，解决这次拨打显示的是上次的号码问题
 	
+	/**
+	 * 保存起来，用于匹配号码对应的联系人名字
+	 */
+	private List<CallLog> allLogs = new ArrayList<CallLog>();
+	
 
 	@Override
 	protected void initView() {
@@ -670,6 +675,7 @@ public class DialActivity extends BaseActivity {
 
 	@Override
 	public void updateAllLogs(List<CallLog> list) {
+		allLogs = list;
 		mCallAdapter.refresh(list);
 	}
 	
@@ -683,8 +689,34 @@ public class DialActivity extends BaseActivity {
 	
 	
 	private void setNameAndNumber(String name, String number) {
+		
+		name = handleUnknownName(name, number);
+		
 		mTvName.setText(name);
 		mTvtalkNumber.setText(number);
+	}
+	
+	
+	private String handleUnknownName(String name, String number) {
+		long start = System.currentTimeMillis();
+		if(TextUtils.isEmpty(name) && !TextUtils.isEmpty(number)) {
+			String tempName = "";
+			for (CallLog log : allLogs) {
+				if(number.equals(log.number)) {
+					if(!TextUtils.isEmpty(log.name)) {
+						tempName = log.name;
+						break;
+					}
+				}
+			}
+			
+			L.dRoll(thiz, "handleUnknownName cost : " + (System.currentTimeMillis() - start));
+			
+			return tempName;
+			
+		} else {
+			return name;
+		}
 	}
 	
 	

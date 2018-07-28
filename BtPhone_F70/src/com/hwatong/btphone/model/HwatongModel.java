@@ -198,6 +198,8 @@ public class HwatongModel implements IBTPhoneModel {
 						currentCall.shouldJump = 0;   //表示不用跳界面
 					}
 					
+					L.d(thiz,"phoneState ::: " + phoneState + " currentCall ::: " + currentCall);
+					
 					//同步通话状态
 					if(phoneState == PhoneState.TALKING) {
 						iView.showTalking(currentCall);
@@ -982,67 +984,68 @@ public class HwatongModel implements IBTPhoneModel {
 						}
 						currentCall = getCallLogFromCallStatus(UICallLog.TYPE_CALL_OUT, callStatus);
 						currentCall.shouldJump = 1;  //表示需要跳转界面
-					}
-					if(currentCall != null) {
+					} else if(currentCall != null) {
 						currentCall.duration = 0;
 						
 						if(currentCall.type == UICallLog.TYPE_CALL_MISS) {
 							currentCall = getCallLogFromCallStatus(UICallLog.TYPE_CALL_IN, callStatus);
-							currentCall.shouldJump = 0;  //表示需要跳转界面
+							currentCall.shouldJump = 0;  //表示不需要跳转界面
 						} else {
 							currentCall = getCallLogFromCallStatus(UICallLog.TYPE_CALL_OUT, callStatus);
-							currentCall.shouldJump = 0;  //表示需要跳转界面
+							currentCall.shouldJump = 0;  //表示不需要跳转界面
 						}
-						
-						iView.showTalking(currentCall);
-						
-						TimerTaskUtil.startTimer("update_duration", 0, 1000, new TimerTask() {
-							
-							@Override
-							public void run() {
-								L.d(thiz, "roll in task!");
-								try {
-									
-									CallStatus callStatus2 = null;
-									
-									if(iService != null) {
-										callStatus2 = iService.getCallStatus();
-									}
-									
-									if(callStatus2 != null && CallStatus.PHONE_CALL_NONE.equals(callStatus2.status)) {
-										L.d(thiz, "roll not in talking!");
-										TimerTaskUtil.cancelTimer("update_duration");
-										iView.showHangUp(currentCall);
-										return;
-									} else {
-										if(callStatus2 != null) {
-											L.d(thiz, "iService.getCallStatus : " + callStatus2.status);
-										}
-									}
-								} catch (RemoteException e) {
-									e.printStackTrace();
-								}
-								
-								if(currentCall != null) {
-									synchronized (currentCallLock) {
-										if(currentCall != null) {
-											currentCall.duration += 1000;
-											if(phoneState == PhoneState.TALKING) {
-												currentCall.shouldJump = 0;  //表示不需要跳转界面
-												iView.showTalking(currentCall);
-											} else if(phoneState == phoneState.INPUT) {
-												currentCall.shouldJump = 0;  //表示不需要跳转界面
-												iView.showDTMFInput(currentCall);
-											}
-										}
-									}
-								}
-								
-							}
-						});
 					}
+					
+					
+					iView.showTalking(currentCall);
+					
+					TimerTaskUtil.startTimer("update_duration", 0, 1000, new TimerTask() {
+						
+						@Override
+						public void run() {
+							L.d(thiz, "roll in task!");
+							try {
+								
+								CallStatus callStatus2 = null;
+								
+								if(iService != null) {
+									callStatus2 = iService.getCallStatus();
+								}
+								
+								if(callStatus2 != null && CallStatus.PHONE_CALL_NONE.equals(callStatus2.status)) {
+									L.d(thiz, "roll not in talking!");
+									TimerTaskUtil.cancelTimer("update_duration");
+									iView.showHangUp(currentCall);
+									return;
+								} else {
+									if(callStatus2 != null) {
+										L.d(thiz, "iService.getCallStatus : " + callStatus2.status);
+									}
+								}
+							} catch (RemoteException e) {
+								e.printStackTrace();
+							}
+							
+							if(currentCall != null) {
+								synchronized (currentCallLock) {
+									if(currentCall != null) {
+										currentCall.duration += 1000;
+										if(phoneState == PhoneState.TALKING) {
+											currentCall.shouldJump = 0;  //表示不需要跳转界面
+											iView.showTalking(currentCall);
+										} else if(phoneState == phoneState.INPUT) {
+											currentCall.shouldJump = 0;  //表示不需要跳转界面
+											iView.showDTMFInput(currentCall);
+										}
+									}
+								}
+							}
+							
+						}
+					});
 					phoneState = PhoneState.TALKING;
 				}
+					
 			}
 			
 			//同步麦克风

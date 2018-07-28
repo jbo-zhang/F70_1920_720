@@ -320,6 +320,7 @@ public class CallLogActivity extends BaseActivity {
 		if(UICallLog.TYPE_CALL_OUT == mCurCallLogType) {
 			mAdapter.refresh(list);
 		}
+		mLvCallLog.hideCurrentItemBtn();
 	}
 	
 	@Override
@@ -329,6 +330,7 @@ public class CallLogActivity extends BaseActivity {
 		if(UICallLog.TYPE_CALL_MISS == mCurCallLogType) {
 			mAdapter.refresh(list);
 		}
+		mLvCallLog.hideCurrentItemBtn();
 	}
 	
 	@Override
@@ -338,6 +340,7 @@ public class CallLogActivity extends BaseActivity {
 		if(UICallLog.TYPE_CALL_IN == mCurCallLogType) {
 			mAdapter.refresh(list);
 		}
+		mLvCallLog.hideCurrentItemBtn();
 	}
 	
 	@Override

@@ -125,8 +125,10 @@ public class CallLogListAdapter extends BaseAdapter {
 //			break;
 //		}
 		
+		String name = handleUnknownName(callLog);
+		
 		holder.mDtvName.setDrawables(drawableLeft, null, null, null);
-		holder.mDtvName.setText(TextUtils.ellipsize(callLog.name == null ? "" : callLog.name, holder.mDtvName.getPaint(), width1, TextUtils.TruncateAt.END));
+		holder.mDtvName.setText(TextUtils.ellipsize(name, holder.mDtvName.getPaint(), width1, TextUtils.TruncateAt.END));
 		holder.mTvNumber.setText(TextUtils.ellipsize(callLog.number == null ? "" : callLog.number,holder.mTvNumber.getPaint(), width2, TextUtils.TruncateAt.END));
 		
 		if (holder.mBtnDial != null) {
@@ -145,6 +147,30 @@ public class CallLogListAdapter extends BaseAdapter {
 		return convertView;
 	}
 	
+	
+	private String handleUnknownName(CallLog callLog) {
+		long start = System.currentTimeMillis();
+		
+		if(TextUtils.isEmpty(callLog.name) && !TextUtils.isEmpty(callLog.number)) {
+			String name = mContext.getString(R.string.unknown);
+			for (CallLog log : mDataList) {
+				if(callLog.number.equals(log.number)) {
+					if(!TextUtils.isEmpty(log.name)) {
+						name = log.name;
+						break;
+					}
+				}
+			}
+			
+			L.dRoll(thiz, "handleUnknownName cost : " + (System.currentTimeMillis() - start));
+			return name;
+		} else {
+			return callLog.name;
+		}
+		
+	}
+
+
 	public interface ButtonOnClick{
 		void clickButton(CallLog callLog);
 	}
