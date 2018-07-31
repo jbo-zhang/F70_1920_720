@@ -491,7 +491,16 @@ public class DialActivity extends BaseActivity {
 			mKeyBoardCb.deleteAll();
 			break;
 		case R.id.key_0:
-			mKeyBoardCb.append(key_plus, dtmf);
+			
+			if (mCurPhoneState == PhoneState.IDEL) {
+				mKeyBoardCb.append(key_plus, dtmf);
+			} else if (mCurPhoneState == PhoneState.TALKING || mCurPhoneState == PhoneState.INPUT) {
+				char code = mKeyBoardCb.getChar(key_plus);
+				if (mService != null) {
+					mService.dtmf(code);
+				}
+			}
+			
 			dtmf.playTone(mKeyBoardCb.getChar(v.getId()));
 			return true;
 		default:
