@@ -1,5 +1,6 @@
 package com.hwatong.platformadapter.handle;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -138,8 +139,9 @@ public class HandleMusicControl {
                 com.hwatong.media.IService mediaService = mServiceList.getMediaService() ;
                 if(mediaService!=null){
                     try {
-                        List list = mediaService.getPictureList() ;
-                        if(list.size()==0){
+                       // List list = mediaService.getPictureList() ;
+                    	L.d(thiz , "musicService!=null picture file size " + mediaService.pictureFileSize());
+                        if(mediaService.pictureFileSize()==0){
                             Tips.setCustomTipUse(true);
                             Tips.setCustomTip("暂无本地图片");
                             return false;                          
@@ -162,8 +164,9 @@ public class HandleMusicControl {
                 com.hwatong.media.IService mediaService = mServiceList.getMediaService() ;
                 if(mediaService!=null){
                     try {
-                        List list = mediaService.getMusicList() ;
-                        if(list.size()==0){
+                       // List list = mediaService.getMusicList() ;
+                    	L.d(thiz, "musicService music file size : " + mediaService.musicFileSize());
+                        if(mediaService.musicFileSize()==0){
                             Tips.setCustomTipUse(true);
                             Tips.setCustomTip("暂无本地音乐");
                             return false;                          
@@ -176,13 +179,18 @@ public class HandleMusicControl {
             if (!song.isEmpty() || !artist.isEmpty()) {
                 if(mServiceList!= null){
                     com.hwatong.media.IService mediaService = mServiceList.getMediaService() ;
-                    List<MusicEntry> list = null;
+                    List<MusicEntry> list = new ArrayList<MusicEntry>();
                     if(mediaService!=null){
-                        try {
-                            list = mediaService.getMusicList();
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
+					 try {
+					  for(int i=0;i<=mediaService.musicFileSize()/2000;i++){
+						  List<MusicEntry> temp = mediaService.getMusicList(i);
+						  L.d(thiz, "getMusicList temp size : " + temp.size());
+						  list.addAll(temp);
+					  	}
+					  } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                      
                     }
                     if(list!=null){
                         MusicEntry musicEntry  ;
@@ -257,10 +265,10 @@ public class HandleMusicControl {
             } else if ("u盘".equalsIgnoreCase(source) || "sd".equalsIgnoreCase(source) || "本地".equals(source)) {
                 
                 if(mediaService!=null){
-                	L.d(thiz , "musicService!=null");
                     try {
-                        List list = mediaService.getMusicList();
-                        if(list == null || list.size() ==0){
+                    	L.d(thiz , "musicService!=null mediaService music file size " + mediaService.musicFileSize());
+                      //  List list = mediaService.getMusicList();
+                        if(mediaService.musicFileSize() ==0){
                             Tips.setCustomTipUse(true);
                             Tips.setCustomTip("没有本地音乐");
                             return true ;

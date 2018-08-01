@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.canbus.CarStatus;
+import android.canbus.GpsStatus;
 import android.canbus.ICanbusService;
 import android.canbus.ICarStatusListener;
 import android.canbus.ISystemStatusListener;
@@ -88,6 +89,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
         mCanbusService = ICanbusService.Stub.asInterface(ServiceManager.getService("canbus"));
 
+        
         if (mCanbusService != null) {
             try {
                 mCanbusService.addCarStatusListener(new ICarStatusListener.Stub() {
@@ -122,6 +124,9 @@ public class PlatformAdapterClient implements PlatformClientListener {
         filter.addAction("com.hwatong.voice.SPEECH_OFF");
         filter.addAction("com.hwatong.voice.SPEECH_ON");
         filter.addAction("com.hwatong.voice.SPEECH_BUTTON");
+        
+        // 增加获取导航提供的位置
+        filter.addAction("com.mxnavi.mxnavi.TO_CTRL_TURNING_INFO");
 
         mContext.registerReceiver(mSpeechSwitchReceiver, filter);
     }
@@ -419,33 +424,33 @@ public class PlatformAdapterClient implements PlatformClientListener {
         
         
 // 		// 获取地理位置管理器
-// 		locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-// 		// 获取所有可用的位置提供器
-// 		List<String> providers = locationManager.getProviders(true);
-// 		if (providers.contains(LocationManager.GPS_PROVIDER)) {
-// 			// 如果是GPS
-// 			locationProvider = LocationManager.GPS_PROVIDER;
-// 		} else if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
-// 			// 如果是Network
-// 			locationProvider = LocationManager.NETWORK_PROVIDER;
-// 		}
-// 		
-// 		L.d(TAG, "locationProvider : " + locationProvider);
-// 		
-// 		if (locationProvider == null)
-// 			return null;
-// 		// 获取Location
-// 		Location location = locationManager.getLastKnownLocation(locationProvider);
-// 		
-// 		L.d(TAG, "location : " + location);
-// 		
-// 		if (location == null)
-// 			return null;
-// 		String longitude = String.format("%.6f", location.getLongitude());
-// 		String latitude = String.format("%.6f", location.getLatitude());
-// 		String result = "{'name':'','address':'','city':'','longitude':'" + longitude + "'," + "'latitude':'"
-// 				+ latitude + "'}";
-// 		L.d(TAG,"location result : " +  result);
+ 		locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+ 		// 获取所有可用的位置提供器
+ 		List<String> providers = locationManager.getProviders(true);
+ 		if (providers.contains(LocationManager.GPS_PROVIDER)) {
+ 			// 如果是GPS
+ 			locationProvider = LocationManager.GPS_PROVIDER;
+ 		} else if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+ 			// 如果是Network
+ 			locationProvider = LocationManager.NETWORK_PROVIDER;
+ 		}
+ 		
+ 		L.d(TAG, "locationProvider : " + locationProvider);
+ 		
+ 		if (locationProvider == null)
+ 			return null;
+ 		// 获取Location
+ 		Location location = locationManager.getLastKnownLocation(locationProvider);
+ 		
+ 		L.d(TAG, "location : " + location);
+ 		
+ 		if (location == null)
+ 			return null;
+ 		String longitude = String.format("%.6f", location.getLongitude());
+ 		String latitude = String.format("%.6f", location.getLatitude());
+ 		String result = "{'name':'','address':'','city':'','longitude':'" + longitude + "'," + "'latitude':'"
+ 				+ latitude + "'}";
+ 		L.d(TAG,"location result : " +  result);
         
         L.d(TAG,"location result : " +  locationJson);
         
@@ -705,6 +710,26 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 launchIntent.putExtra("fromservice", "CanbusService");
                 mContext.startService(launchIntent);
 
+            } else if("com.mxnavi.mxnavi.TO_CTRL_TURNING_INFO".equals(action)) {
+            	
+            	try {
+                	if(mCanbusService != null) {
+                		GpsStatus lastGpsStatus = mCanbusService.getLastGpsStatus(mContext.getPackageName());
+                		Log.d(TAG, "lastGpsStatus : " + lastGpsStatus);
+                		if(lastGpsStatus != null) {
+                			double latitude = lastGpsStatus.getLatitude();
+                			double longitude = lastGpsStatus.getLongitude();
+                			Log.d(TAG, "latitude : " + latitude + " longitude : " + longitude);
+                		}
+                	} 
+        		} catch (RemoteException e) {
+        			e.printStackTrace();
+        		}
+            	
+            	String adminName = intent.getStringExtra("adminname");
+            	String roadName = intent.getStringExtra("roadname");
+            	
+            	Log.d(TAG, "receive TO_CTRL_TURNING_INFO " + adminName + "+" + roadName + "#");
             }
         }
     };

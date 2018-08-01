@@ -172,8 +172,8 @@ public class HandleAppControl {
         if ("LAUNCH".equals(operation) && name.contains("音乐") || ("".equals(operation) && name.equals("音乐"))) {
             if(mediaService!=null){
                 try {
-                    List list = mediaService.getMusicList();
-                        if(list==null || list.size() == 0){
+                	L.d(thiz, "luanch musicfilesize : " + mediaService.musicFileSize());
+                        if(mediaService.musicFileSize() == 0){
                             Tips.setCustomTipUse(true);
                             Tips.setCustomTip("暂无本地音乐");
                             return false;
@@ -188,8 +188,8 @@ public class HandleAppControl {
         if ("LAUNCH".equals(operation) && name.contains("视频") || ("".equals(operation) && name.equals("视频"))) {
             if(mediaService!=null){
                 try {
-                    List list = mediaService.getVideoList();
-                    if(list==null || list.size() == 0){
+                	L.d(thiz, "luanch videofilesize : " + mediaService.videoFileSize());
+                    if(mediaService.videoFileSize() == 0){
                         Tips.setCustomTipUse(true);
                         Tips.setCustomTip("暂无本地视频");
                         return false;
@@ -205,8 +205,8 @@ public class HandleAppControl {
         if ("LAUNCH".equals(operation) && name.contains("图片") || ("".equals(operation) && name.equals("图片"))) {
             if(mediaService!=null){
                 try {
-                    List list = mediaService.getPictureList();
-                    if(list==null || list.size() == 0){
+                	L.d(thiz, "luanch pictureFileSize : " + mediaService.pictureFileSize());
+                    if(mediaService.pictureFileSize() == 0){
                         Tips.setCustomTipUse(true);
                         Tips.setCustomTip("暂无本地图片");
                         return false;
