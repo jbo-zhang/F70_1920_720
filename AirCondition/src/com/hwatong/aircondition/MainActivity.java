@@ -106,8 +106,7 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 				handleACStatusReceived();
 				break;
 			case 20:
-				sendCloseBroadcast();
-				MainActivity.this.finish();
+				doFinish();
 				break;
 			}
 		}
@@ -419,8 +418,7 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 			break;
 
 		case R.id.btn_return:
-			sendCloseBroadcast();
-			finish();
+			doFinish();
 			break;
 
 		case R.id.btn_wind_level_1:
@@ -936,7 +934,7 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
 
 	@Override
 	public void close() {
-		finish();
+		doFinish();
 	}
 	
 	/**
@@ -970,9 +968,10 @@ public class MainActivity extends Activity implements OnClickListener, IVoiceVie
     }
     
     
-    
-    
-    
-	
+    private void doFinish() {
+    	sendCloseBroadcast();
+    	finish();
+		overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_close_exit);
+    }
 	
 }
