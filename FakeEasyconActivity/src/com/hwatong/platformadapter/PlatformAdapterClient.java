@@ -65,6 +65,11 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
     private boolean mRecording;
     
+    
+    private String locationJsonFormat = "{'name':'%s','address':'%s','city':'%s','longitude':'%f','latitude':'%f'}";
+    private String locationJson = null;
+    
+    
     private LocationManager locationManager;
     private String locationProvider; 
 
@@ -126,8 +131,8 @@ public class PlatformAdapterClient implements PlatformClientListener {
         filter.addAction("com.hwatong.voice.SPEECH_BUTTON");
         
         // 增加获取导航提供的位置
-        filter.addAction("com.mxnavi.mxnavi.TO_CTRL_TURNING_INFO");
-
+        filter.addAction("com.shx.shxmap.TO_CTRL_ADRESS_INFO");
+        
         mContext.registerReceiver(mSpeechSwitchReceiver, filter);
     }
 
@@ -419,42 +424,11 @@ public class PlatformAdapterClient implements PlatformClientListener {
         L.d(TAG, "onGetLocation()");
         // 获取当前位置 这是只是模拟了一个位置 。实际的位置 需要客户实现
         // 语音助理 的：今天的天气、到上海的航班、附近的美食、附近的酒店，是依赖这个位置信息的
-        
-        String locationJson = "{'name':'科大讯飞信息科技股份有限公司','address':'黄山路616','city':'合肥市','longitude':'117.143269','latitude':'31.834399'}";
-        
-        
-// 		// 获取地理位置管理器
- 		locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
- 		// 获取所有可用的位置提供器
- 		List<String> providers = locationManager.getProviders(true);
- 		if (providers.contains(LocationManager.GPS_PROVIDER)) {
- 			// 如果是GPS
- 			locationProvider = LocationManager.GPS_PROVIDER;
- 		} else if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
- 			// 如果是Network
- 			locationProvider = LocationManager.NETWORK_PROVIDER;
- 		}
- 		
- 		L.d(TAG, "locationProvider : " + locationProvider);
- 		
- 		if (locationProvider == null)
- 			return null;
- 		// 获取Location
- 		Location location = locationManager.getLastKnownLocation(locationProvider);
- 		
- 		L.d(TAG, "location : " + location);
- 		
- 		if (location == null)
- 			return null;
- 		String longitude = String.format("%.6f", location.getLongitude());
- 		String latitude = String.format("%.6f", location.getLatitude());
- 		String result = "{'name':'','address':'','city':'','longitude':'" + longitude + "'," + "'latitude':'"
- 				+ latitude + "'}";
- 		L.d(TAG,"location result : " +  result);
+        // "{'name':'科大讯飞信息科技股份有限公司','address':'黄山路616','city':'合肥市','longitude':'117.143269','latitude':'31.834399'}";
         
         L.d(TAG,"location result : " +  locationJson);
         
-        return null;
+        return locationJson;
     }
 
     @Override
@@ -710,26 +684,46 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 launchIntent.putExtra("fromservice", "CanbusService");
                 mContext.startService(launchIntent);
 
-            } else if("com.mxnavi.mxnavi.TO_CTRL_TURNING_INFO".equals(action)) {
+            } else if("com.shx.shxmap.TO_CTRL_ADRESS_INFO".equals(action)) {
+            	
+            	double latitude = 0;
+            	double longitude = 0;
             	
             	try {
                 	if(mCanbusService != null) {
                 		GpsStatus lastGpsStatus = mCanbusService.getLastGpsStatus(mContext.getPackageName());
-                		Log.d(TAG, "lastGpsStatus : " + lastGpsStatus);
+                		L.d(TAG, "lastGpsStatus : " + lastGpsStatus);
                 		if(lastGpsStatus != null) {
-                			double latitude = lastGpsStatus.getLatitude();
-                			double longitude = lastGpsStatus.getLongitude();
-                			Log.d(TAG, "latitude : " + latitude + " longitude : " + longitude);
+                			latitude = lastGpsStatus.getLatitude();
+                			longitude = lastGpsStatus.getLongitude();
+                			L.d(TAG, "Gps latitude : " + latitude + " longitude : " + longitude);
                 		}
                 	} 
         		} catch (RemoteException e) {
         			e.printStackTrace();
         		}
             	
+            	
+//            	 Intent intent2 = new Intent("com.shx.shxmap.TO_CTRL_ADRESS_INFO");
+//            	 intent2.putExtra("adminname", stradminname);
+//            	 intent2.putExtra("roadname", roadname);
+//            	 intent2.putExtra("lon", dblon);
+//            	 intent2.putExtra("lat", dblat);
+            	
             	String adminName = intent.getStringExtra("adminname");
             	String roadName = intent.getStringExtra("roadname");
             	
-            	Log.d(TAG, "receive TO_CTRL_TURNING_INFO " + adminName + "+" + roadName + "#");
+            	double lat = intent.getDoubleExtra("lat", 0);
+            	double lon = intent.getDoubleExtra("lon", 0);
+            	
+            	L.d(TAG, "Navi latitude : " + lat + " longitude : " + lon + " admin : " + adminName + " road : " + roadName);
+            	
+            	//地图传过来有则以地图优先
+            	latitude = lat == 0 ? latitude : lat;
+            	longitude = lon == 0 ? longitude : lon;
+            	
+            	locationJson = String.format(locationJsonFormat, roadName, roadName, adminName, longitude, latitude);
+            	
             }
         }
     };
