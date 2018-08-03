@@ -95,7 +95,13 @@ public class ContactsListActivity extends BaseActivity {
 	/**
 	 * 同步上面那个傀儡的显示
 	 */
-	private TextView tvTexting;
+	private EditText tvTexting;
+	
+	/**
+	 * 用户选定的过滤词
+	 */
+	private String filterText = ""; 
+	
 
 	@Override
 	protected void initView() {
@@ -130,13 +136,14 @@ public class ContactsListActivity extends BaseActivity {
 		
 		etSearch = (EditText)findViewById(R.id.et_search);
 		
-		tvTexting = (TextView) findViewById(R.id.tv_texting);
+		tvTexting = (EditText) findViewById(R.id.tv_texting);
 		
 		etSearch.addTextChangedListener(new TextWatcher() {
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				tvTexting.setText(s.toString());
+				tvTexting.setSelection(s.toString().length());
 			}
 			
 			@Override
@@ -160,7 +167,10 @@ public class ContactsListActivity extends BaseActivity {
 	              if(keyCode == KeyEvent.KEYCODE_ENTER){  
 	                  /*隐藏软键盘*/  
 	            	  hideSoftInput();
-	                  searchContactsByLetter(etSearch.getText().toString().trim());
+	            	  
+	            	  filterText = etSearch.getText().toString().trim();
+	                  searchContactsByLetter(filterText);
+	                  
 	                  return true;  
 	              }  
 	              return false;  
@@ -176,7 +186,7 @@ public class ContactsListActivity extends BaseActivity {
 	 if (ev.getAction() == MotionEvent.ACTION_DOWN) { 
 		 // 获得当前得到焦点的View，一般情况下就是EditText（特殊情况就是轨迹求或者实体案件会移动焦点） 
 		//View v = getCurrentFocus(); 
-		 if (isShouldHideInput(etSearch, ev)) { 
+		 if (isShouldHideInput(tvTexting, ev)) { 
 			 L.d(thiz, "hide Soft Input ");
 			 hideSoftInput();
 		 } 
@@ -290,7 +300,8 @@ public class ContactsListActivity extends BaseActivity {
 					break;
 				case -3:// 确定键
 					hideKeyboard();
-					searchContactsByLetter(mEtShowInputText.getText().toString().trim());
+					filterText = mEtShowInputText.getText().toString().trim();
+					searchContactsByLetter(filterText);
 					break;
 
 				default:
@@ -628,7 +639,7 @@ public class ContactsListActivity extends BaseActivity {
 		mContactsList.clear();
 		mContactsList.addAll(list);
 		//searchContactsByLetter(mEtShowInputText.getText().toString().trim());
-		searchContactsByLetter(tvTexting.getText().toString().trim());
+		searchContactsByLetter(filterText);
 		mLvContacts.hideCurrentItemBtn();
 		//mAdapter.refresh(list);
 	}

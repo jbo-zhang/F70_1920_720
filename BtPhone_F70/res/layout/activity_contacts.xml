@@ -90,7 +90,7 @@
                 android:visibility="gone" />
         </FrameLayout>
         
-        <TextView 
+      <!--   <TextView 
             android:id="@+id/tv_texting"
             android:layout_height="80px"
             android:layout_width="match_parent"
@@ -101,6 +101,23 @@
             android:gravity="center_vertical"
             android:visibility="invisible"
             android:layout_centerInParent="true"
+            /> -->
+        
+        <EditText
+            android:id="@+id/tv_texting"
+            android:layout_height="80px"
+            android:layout_width="match_parent"
+            android:background="#777777"
+            android:singleLine="true"
+            android:textSize="22sp"
+            android:textColor="@color/white"
+            android:paddingLeft="5dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:gravity="center_vertical"
+            android:visibility="invisible"
+            android:layout_centerInParent="true"
+            android:cursorVisible="false"
             />
         
     </RelativeLayout>
