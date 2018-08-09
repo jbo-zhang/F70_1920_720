@@ -47,10 +47,10 @@ public class UpdateFragment extends BaseFragment {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClassName("com.mxnavi.mxnaviupdate", "com.mxnavi.mxnaviupdate.MainActivity");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getActivity().startActivity(intent);
+//                Intent intent = new Intent();
+//                intent.setClassName("com.mxnavi.mxnaviupdate", "com.mxnavi.mxnaviupdate.MainActivity");
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                getActivity().startActivity(intent);
             }
 		    
 		});

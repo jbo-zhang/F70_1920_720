@@ -48,6 +48,7 @@
     <string name="error_server_no_package">服务器未发现升级包</string>
     <string name="error_write_file">写入文件失败</string>
     <string name="error_image_file">Error: 错误的升级包</string>
+    <string name="error_file_not_exists">Error: 文件不存在</string>
     <string name="verify_package">正在校验升级包</string>
     <string name="have_new">发现升级包</string>
     <string name="length_unknown">Unknown</string>

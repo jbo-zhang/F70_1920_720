@@ -659,6 +659,7 @@ public class UpdateService extends Service {
 		final int ERROR_IMAGE_FILE_ERROR = 8;// 错误图像文件错误
 		
 		final int ERROR_MMC_SIZE_NOT_MATCH = 9; //MMC大小不符合
+		final int ERROR_FILE_NOT_EXISTS = 10;
 		
 		
 		// results

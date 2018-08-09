@@ -31,12 +31,14 @@
     <TextView
         android:id="@+id/mx_update"
         style="@style/update_item"
+        android:visibility="invisible"
         android:text="@string/mx_update"
         />
     
     <View 
         android:layout_height="1dp"
         android:layout_width="807dp"
+        android:visibility="invisible"
         android:background="@drawable/line"
         />   
 

@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.SystemClock;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -110,6 +111,13 @@ public class SystemUpdateFragment extends BaseFragment implements UpdateService.
 			public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
 				final FileAdapter adapter = (FileAdapter) adapterView.getAdapter();
 				File file = adapter.getItem(index);
+				if(!file.exists()) {
+					if(fileAdapter.getSelectedIndex() == -1) {
+						onUIStateChanged(STATE_IN_CHECKED,ERROR_FILE_NOT_EXISTS, null); 
+					}
+					return ;
+				} 
+				
 				if (file.isFile()) {
 					if (index != fileAdapter.getSelectedIndex()) {
 						fileAdapter.setSelectedIndex(index);
@@ -211,7 +219,12 @@ public class SystemUpdateFragment extends BaseFragment implements UpdateService.
 				
 				@Override
 				public void onClick(View v) {
-					update_file = getItem(position).getPath();
+					File file = getItem(position);
+					if(!file.exists()) {
+						onUIStateChanged(STATE_IN_CHECKED,ERROR_FILE_NOT_EXISTS, null); 
+						return ;
+					}
+					update_file = file.getPath();
 					L.d(thiz, "update_file : " + update_file);
 					if (mService != null && update_file != null) {
 						mService.setUpdateFile(update_file);
@@ -341,6 +354,8 @@ public class SystemUpdateFragment extends BaseFragment implements UpdateService.
 			L.d(thiz, getText(R.string.error_mmc_size_not_match) + "");
 			showErrorDialog("", getText(R.string.error_mmc_size_not_match).toString(), "");
 			
+		} else if(error == ERROR_FILE_NOT_EXISTS) {
+			showErrorDialog("", getText(R.string.error_file_not_exists).toString(), "");
 		}
 	}
 
