@@ -189,17 +189,24 @@ public class UpdateService extends Service {
 		File file = new File(filename);
 		int size;
 		String version;
+		FileInputStream fis=null;
 		try {
-			FileInputStream fis=null;
 			fis = new FileInputStream(file);
 			size = fis.available();
 			version = Util.getImageVersion(fis);	
-			fis.close();
 			return new UpdateFileInfo(filename, version, size);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally{
+			try {
+				if(fis != null) {
+					fis.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -402,13 +409,13 @@ public class UpdateService extends Service {
 	private void copyUpgradePackage() {
 		
 		L.d(thiz, "copyUpgradePackage()复制更新包");
-
+		FileInputStream is = null;
 		try{
 			mWakelock.acquire();
 			
 			reportStateChanged(OTAUIStateChangeListener.STATE_IN_COPY, 0, null);
 			File fromFile=new File(mSrcUpdateFile);
-			FileInputStream is = new FileInputStream(fromFile);
+			is = new FileInputStream(fromFile);
 			
 //			File targetFile = new File(mUpdatePackageLocation);
 			if (handleImageFile(is)) {
@@ -426,6 +433,13 @@ public class UpdateService extends Service {
 		} finally {
 			mWakelock.release();
 			mWakelock.acquire(2);
+			if(is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
@@ -482,9 +496,9 @@ public class UpdateService extends Service {
 			pkg.delete();
 		}
 		int size = is.available();
-		
+		FileOutputStream os = null;
 		try {
-			FileOutputStream os = new FileOutputStream(pkg);
+			os = new FileOutputStream(pkg);
 			try {
 				os.write(b, end + 1, total - end - 1);
 				for (;;) {
@@ -504,8 +518,6 @@ public class UpdateService extends Service {
 				} catch (IOException e) {
             		e.printStackTrace();
 				}
-				os.close();
-				is.close();
 			}
 			
 			L.d(thiz,"444");
@@ -518,6 +530,10 @@ public class UpdateService extends Service {
             e.printStackTrace();
             L.d(thiz,"666" + e.toString());
 			return false;
+		} finally {
+			if(os != null) {
+				os.close();
+			}
 		}
 
 		L.d(thiz, total + " bytes download completed");//现在完成的更新包的大小
