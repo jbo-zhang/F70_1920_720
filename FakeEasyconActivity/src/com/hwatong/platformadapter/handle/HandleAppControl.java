@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActivityManager;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.canbus.ICanbusService;
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.RemoteException;
+import android.os.SystemClock;
 import android.text.TextUtils;
 
 import com.hwatong.platformadapter.ServiceList;
@@ -93,30 +95,40 @@ public class HandleAppControl {
                 String action = "com.hwatong.voice.PHONE_LINK_NAVIGATION" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent);
+                SystemClock.sleep(500);
+                openVLink();
                 return true ;
             }
             if("手机里的天气".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_WEATHER" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent);
+                SystemClock.sleep(500);
+                openVLink();
                 return true ;
             }
             if("手机里的新闻".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_NEWS" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent); 
+                SystemClock.sleep(500);
+                openVLink();
                 return true ;
             }
             if("手机里的喜马拉雅".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_FM" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent);  
+                SystemClock.sleep(500);
+                openVLink();
                 return true ;
             }
             if("手机里的音乐".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_MUSIC" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent);  
+                SystemClock.sleep(500);
+                openVLink();
                 return true ;
             }
         }
@@ -160,16 +172,17 @@ public class HandleAppControl {
             //关闭手机互联
             if(!TextUtils.isEmpty(name) && name.contains("互联")) {
         		L.d(thiz, "exit vlink !");
-        		Utils.closeApplication(mContext, "com.eryanet.vlink");
+//        		Utils.closeApplication(mContext, "com.eryanet.vlink");
+        		if(isVLinkForground()) {
+        			toHome();
+        		}
         		return true;
         	}
         }
         
-        
-        
-        
         //add++ 添加处理{"name":"音乐","operation":"","focus":"app","rawText":"音乐"}情况
-        if ("LAUNCH".equals(operation) && name.contains("音乐") || ("".equals(operation) && name.equals("音乐"))) {
+        if ( ("LAUNCH".equals(operation) && (name.contains("音乐"))) || ("".equals(operation) && name.equals("音乐")) ) {
+        	L.d(thiz ,"111");
             if(mediaService!=null){
                 try {
                 	L.d(thiz, "luanch musicfilesize : " + mediaService.musicFileSize());
@@ -229,18 +242,7 @@ public class HandleAppControl {
             return false ;
         }
         if("LAUNCH".equals(operation) && (name.contains("智能互联") || name.contains("手机互联"))){
-            try {
-            	L.d(thiz, "打开智能互联");
-                Intent intent = new Intent();
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setComponent(new ComponentName("com.eryanet.vlink", "com.eryanet.vlink.ConnectActivity"));
-                mContext.startActivity(intent);
-                return true ;
-            } catch (Exception e) {
-                L.d(thiz , e.toString());
-                e.printStackTrace();
-            }
-            return false ;
+            return openVLink();
         }
         
         //delete--
@@ -260,6 +262,7 @@ public class HandleAppControl {
 
                 L.d(thiz, "packageName : " + packageName + " appName : " + appName);
                 
+                //以应用名去匹配应用
                 if (appName.equalsIgnoreCase(name)) {
                     if ("com.hwatong.ipod".equals(packageName))
                         packageName = "com.hwatong.ipod.ui";
@@ -306,6 +309,7 @@ public class HandleAppControl {
                 }
             }
 
+            //名字匹配不到，需要自己匹配
             if (i >= paklist.size()) {
                 if ("LAUNCH".equals(operation) || operation.isEmpty()) {
                     if (Utils.launchMatchApp(mContext, name, raw)) {
@@ -335,6 +339,14 @@ public class HandleAppControl {
                         } else if ("com.hwatong.usbpicture".equals(pkgName)) {
                             Intent intent = new Intent("com.hwatong.voice.CLOSE_PICTURE");
                             mContext.sendBroadcast(intent);
+                        }  else if("com.hwatong.recorder".equals(pkgName)) {
+                        	if(isActivityForground("com.hwatong.recorder.MainActivity")) {
+                        		toHome();
+                        	}
+                        }  else if("com.xiaoma.launcher".equals(pkgName)) {
+                        	if(isActivityForgroundByContians("com.xiaoma")) {
+                        		toHome();
+                        	}
                         } else {
                             Utils.closeApplication(mContext, pkgName);
                         }
@@ -375,4 +387,76 @@ public class HandleAppControl {
 
         return false;
     }
+
+	private boolean openVLink() {
+		if(isVLinkForground()) {
+			return true;
+		}
+		try {
+			L.d(thiz, "打开智能互联");
+		    Intent intent = new Intent();
+		    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		    intent.setComponent(new ComponentName("com.eryanet.vlink", "com.eryanet.vlink.ConnectActivity"));
+		    mContext.startActivity(intent);
+		    return true ;
+		} catch (Exception e) {
+		    L.d(thiz , e.toString());
+		    e.printStackTrace();
+		}
+		return false ;
+	}
+	
+	
+	
+	protected boolean isVLinkForground() {
+		boolean isForground = isActivityForground("com.eryanet.vlink.ConnectActivity") || isActivityForground("com.live555.activity.MirrorActivity");
+		L.d(thiz, "isVLinkForground : " + isForground);
+		return isForground;
+	}
+	
+	protected boolean isActivityForground(String activityName) {
+		if(TextUtils.isEmpty(activityName)) {
+			return false;
+		}
+		ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+		List<RunningTaskInfo> cn = am.getRunningTasks(1);
+		RunningTaskInfo taskInfo = cn.get(0);
+		ComponentName name = taskInfo.topActivity;
+		L.d(thiz, "which activity is top : " + name);
+		if (activityName.equals(name.getClassName())) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	protected boolean isActivityForgroundByContians(String activityName) {
+		if(TextUtils.isEmpty(activityName)) {
+			return false;
+		}
+		ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+		List<RunningTaskInfo> cn = am.getRunningTasks(1);
+		RunningTaskInfo taskInfo = cn.get(0);
+		ComponentName name = taskInfo.topActivity;
+		L.d(thiz, "which activity is top : " + name);
+		if (name != null && name.getClassName() != null && name.getClassName().contains(activityName)) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * to home!
+	 */
+	private void toHome() {
+		Intent intent = new Intent("com.hwatong.launcher.MAIN");
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		try {
+			mContext.startActivity(intent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

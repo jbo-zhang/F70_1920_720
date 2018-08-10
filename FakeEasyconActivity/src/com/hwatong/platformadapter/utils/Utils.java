@@ -74,6 +74,11 @@ public class Utils {
 
 	public static boolean launchMatchApp(Context context, String name, String rawText) {
 		L.d(thiz, "launchMatchApp-----" + "name:" + name + "rawText:" + rawText);
+		
+		if(name == null) {
+			return false;
+		}
+		
 		if ("地图".equals(name) || "导航".equals(name)) {
 			openApplication(context, getMapPackage()/*"com.mxnavi.mxnavi"*/);
 			return true;
@@ -113,7 +118,7 @@ public class Utils {
 		} else if ("u盘".equals(name) || "播放器".equals(name)) {
 			openMusic(context);
 			return true;
-		} else if ("音乐".equals(name)) {
+		} else if ("音乐".equals(name) || "usb音乐".equals(name)) {
 			openMusic(context);
 			return true;
 		} else if ("视频".equals(name)) {
@@ -177,7 +182,8 @@ public class Utils {
 		 *//*
 			 * else if ("电子书".equals(name)) { openApplication(context,
 			 * "com.hwatong.ebookreader"); return true; }
-			 */else if ("设置".equals(name)) {
+			 */
+		else if ("设置".equals(name)) {
 			Intent intent = new Intent();
 			intent.setClassName("com.hwatong.settings", "com.hwatong.f70.main.F70MainActivity");
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -186,6 +192,16 @@ public class Utils {
 				return true;
 			} catch (ActivityNotFoundException e) {
 			}
+		} else if(name.contains("行车记录") || name.contains("行车纪录")) {
+			Intent intent = new Intent("com.hwatong.drivingrecord.MAIN");
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			try {
+				context.startActivity(intent);
+				return true;
+			} catch(ActivityNotFoundException e) {
+				
+			}
+			
 		}
 
 		return false;
@@ -256,6 +272,9 @@ public class Utils {
 
 	public static String getMatchAppPkgName(String name) {
 		L.d(thiz, "getMatchAppPkgName-----" + "name:" + name);
+		if(name == null) {
+			return null;
+		}
 		if ("地图".equals(name) || "导航".equals(name)) {
 			return getMapPackage()/*"com.mxnavi.mxnavi"*/;
 		} else if ("电话".equals(name) || "蓝牙".equals(name) || "蓝牙电话".equals(name)) {
@@ -272,14 +291,18 @@ public class Utils {
 			return "com.hwatong.usbpicture";
 		} else if ("蓝牙音乐".equals(name)) {
 			return "com.hwatong.btphone.ui";
-		} else if ("手机互联".equals(name) || "亿连".equals(name)) {
+		} /*else if ("手机互联".equals(name) || "亿连".equals(name)) {
 			return "net.easyconn";
-		} else if ("ipod".equals(name)) {
+		} */ else if ("ipod".equals(name)) {
 			return "com.hwatong.ipod.ui";
 		} else if ("车辆信息".equals(name)) {
 			// return "com.hwatong.tpms";
 		} else if ("设置".equals(name)) {
 			return "com.hwatong.settings";
+		} else if(name.contains("行车记录") || name.contains("行车纪录")) {
+			return "com.hwatong.recorder";
+		} else if(name.contains("娱乐云") || name.contains("在线娱乐")) {
+			return "com.xiaoma.launcher";
 		}
 		return null;
 	}
