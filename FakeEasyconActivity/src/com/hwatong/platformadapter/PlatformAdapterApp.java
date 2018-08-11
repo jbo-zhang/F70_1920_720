@@ -14,6 +14,9 @@ public class PlatformAdapterApp extends Application {
 		
 		PlatformAdapterClient platformClient = new PlatformAdapterClient(getApplicationContext());
 		PlatformHelp.getInstance().setPlatformClient(platformClient);
+		
+		
+		
 	}
 
 	public static PlatformAdapterClient getPlatformClientInstance(){

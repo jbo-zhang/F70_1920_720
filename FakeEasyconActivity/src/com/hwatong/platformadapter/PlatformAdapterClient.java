@@ -72,6 +72,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
     
     private LocationManager locationManager;
     private String locationProvider; 
+    private int acc_status = 1;
 
     /**
      * 本应用的的application启动时会执行，应该也就是开机的时候
@@ -94,18 +95,20 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
         mCanbusService = ICanbusService.Stub.asInterface(ServiceManager.getService("canbus"));
 
-        
         if (mCanbusService != null) {
             try {
                 mCanbusService.addCarStatusListener(new ICarStatusListener.Stub() {
                     @Override
                     public void onReceived(CarStatus carStatus) throws RemoteException {
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                notifySystemStateChange();
-                            }
-                        });
+//                    	if(acc_status != carStatus.getStatus1()) {
+//                    		mHandler.post(new Runnable() {
+//                    			@Override
+//                    			public void run() {
+//                    				notifySystemStateChange();
+//                    			}
+//                    		});
+//                    		acc_status = carStatus.getStatus1();
+//                    	}
                     }
                 });
                 
@@ -124,6 +127,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 e.printStackTrace();
             }
         }
+        
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.hwatong.voice.SPEECH_OFF");
@@ -134,9 +138,10 @@ public class PlatformAdapterClient implements PlatformClientListener {
         filter.addAction("com.shx.shxmap.TO_CTRL_ADRESS_INFO");
         
         mContext.registerReceiver(mSpeechSwitchReceiver, filter);
+        
     }
 
-	private void notifySystemStateChange() {
+	public void notifySystemStateChange() {
 		L.d(TAG, "notifySystemStateChange!");
 		if (PlatformService.platformCallback == null) {
 			Log.e(TAG, "PlatformService.platformCallback == null");
@@ -670,9 +675,11 @@ public class PlatformAdapterClient implements PlatformClientListener {
             L.d(TAG, "onReceive(): " + action);
 
 			if ("com.hwatong.voice.SPEECH_OFF".equals(action)) {
+				
 				notifySystemStateChange();
-
+				
 			} else if ("com.hwatong.voice.SPEECH_ON".equals(action)) {
+				
 				notifySystemStateChange();
 
             } else if ("com.hwatong.voice.SPEECH_BUTTON".equals(action)) {
@@ -696,7 +703,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 		if(lastGpsStatus != null) {
                 			latitude = lastGpsStatus.getLatitude();
                 			longitude = lastGpsStatus.getLongitude();
-                			L.d(TAG, "Gps latitude : " + latitude + " longitude : " + longitude);
+                			Log.d("Voice_roll", "Client Gps latitude : " + latitude + " longitude : " + longitude);
                 		}
                 	} 
         		} catch (RemoteException e) {
@@ -716,11 +723,12 @@ public class PlatformAdapterClient implements PlatformClientListener {
             	double lat = intent.getDoubleExtra("lat", 0);
             	double lon = intent.getDoubleExtra("lon", 0);
             	
-            	L.d(TAG, "Navi latitude : " + lat + " longitude : " + lon + " admin : " + adminName + " road : " + roadName);
+            	Log.d("Voice_roll", "Navi latitude : " + lat + " longitude : " + lon + " admin : " + adminName + " road : " + roadName);
             	
             	//地图传过来有则以地图优先
             	latitude = lat == 0 ? latitude : lat;
             	longitude = lon == 0 ? longitude : lon;
+            	
             	
             	locationJson = String.format(locationJsonFormat, roadName, roadName, adminName, longitude, latitude);
             	
