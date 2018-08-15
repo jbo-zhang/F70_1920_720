@@ -12,6 +12,7 @@ import android.canbus.GpsStatus;
 import android.canbus.ICanbusService;
 import android.canbus.ICarStatusListener;
 import android.canbus.ISystemStatusListener;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -365,6 +366,14 @@ public class PlatformAdapterClient implements PlatformClientListener {
                             if (mServiceList.getBtPhoneService() != null) {
                                 try {
                                     mServiceList.getBtPhoneService().phoneDial(number);
+                                    Intent intent = new Intent();
+                        			intent.setClassName("com.hwatong.btphone.ui", "com.hwatong.btphone.activity.DialActivity");
+                        			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        			intent.putExtra("from_voice", true);
+                        			try {
+                        				mContext.startActivity(intent);
+                        			} catch (ActivityNotFoundException e) {
+                        			}
                                 } catch (RemoteException e) {
                                     e.printStackTrace();
                                 }

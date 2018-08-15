@@ -91,7 +91,7 @@ public class HandleAppControl {
          */
         if("LAUNCH".equals(operation)){
             
-            if("手机里的导航".equals(name)){
+            if("手机里的导航".equals(name) || "手机中的导航".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_NAVIGATION" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent);
@@ -99,7 +99,7 @@ public class HandleAppControl {
                 openVLink();
                 return true ;
             }
-            if("手机里的天气".equals(name)){
+            if("手机里的天气".equals(name) || "手机中的天气".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_WEATHER" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent);
@@ -107,7 +107,7 @@ public class HandleAppControl {
                 openVLink();
                 return true ;
             }
-            if("手机里的新闻".equals(name)){
+            if("手机里的新闻".equals(name) || "手机中的新闻".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_NEWS" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent); 
@@ -115,7 +115,7 @@ public class HandleAppControl {
                 openVLink();
                 return true ;
             }
-            if("手机里的喜马拉雅".equals(name)){
+            if("手机里的喜马拉雅".equals(name) || "手机中的喜马拉雅".equals(name) || "手机中的电台".equals(name) || "手机里的电台".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_FM" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent);  
@@ -123,7 +123,7 @@ public class HandleAppControl {
                 openVLink();
                 return true ;
             }
-            if("手机里的音乐".equals(name)){
+            if("手机里的音乐".equals(name)||"手机中的音乐".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_MUSIC" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent);  
@@ -131,6 +131,7 @@ public class HandleAppControl {
                 openVLink();
                 return true ;
             }
+            
         }
         
         /**
@@ -139,31 +140,31 @@ public class HandleAppControl {
         if("EXIT".equals(operation)){
             // {"name":"手机互联","operation":"EXIT","focus":"app","rawText":"关闭手机互联"}
         	
-            if("手机里的导航".equals(name)){
+            if("手机里的导航".equals(name) || "手机中的导航".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_NAVIGATION_EXIT" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent);
                 return true ;
             }
-            if("手机里的天气".equals(name)){
+            if("手机里的天气".equals(name) || "手机中的天气".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_WEATHER_EXIT" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent);
                 return true ;
             }
-            if("手机里的新闻".equals(name)){
+            if("手机里的新闻".equals(name) || "手机中的新闻".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_NEWS_EXIT" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent); 
                 return true ;
             }
-            if("手机里的喜马拉雅".equals(name)){
+            if("手机里的喜马拉雅".equals(name) || "手机中的喜马拉雅".equals(name) || "手机中的电台".equals(name) || "手机里的电台".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_FM_EXIT" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent);  
                 return true ;
             }
-            if("手机里的音乐".equals(name)){
+            if("手机里的音乐".equals(name) || "手机中的音乐".equals(name)){
                 String action = "com.hwatong.voice.PHONE_LINK_MUSIC_EXIT" ;
                 Intent intent = new Intent(action);
                 mContext.sendBroadcast(intent);  

@@ -96,7 +96,7 @@ public class Utils {
 			}
 		} else if ("电话".equals(name) || "蓝牙".equals(name) || "蓝牙电话".equals(name)) {
 			Intent intent = new Intent();
-			intent.setClassName("com.hwatong.btphone.ui", "com.hwatong.btphone.ui.MainActivity");
+			intent.setClassName("com.hwatong.btphone.ui", "com.hwatong.btphone.activity.PhoneActivity");
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			try {
 				context.startActivity(intent);
