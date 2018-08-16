@@ -125,7 +125,7 @@ public class DialActivity extends BaseActivity {
 
 	private DailDTMF dtmf;
 	
-	private int from = 0;
+	private int from = 0;		//1表示通话记录， 2表示通讯录
 	
 	private long startTime = 0;			//增加一个变量，使得拨打按钮不能使劲狂按，解决这次拨打显示的是上次的号码问题
 	
@@ -260,7 +260,8 @@ public class DialActivity extends BaseActivity {
 					break;
 				}
 			} else if(intent.getBooleanExtra("from_voice", false)) {
-				L.d(thiz, "from Voice true!");
+				from = intent.getIntExtra("from", 0);
+				L.d(thiz, "from Voice true! from = " + from);
 				mCallOverExit = true;
 			}
 		}
@@ -413,12 +414,7 @@ public class DialActivity extends BaseActivity {
 		case R.id.btn_goto_contacts:
 			L.d(thiz, "onclick goto contacts!");
 			if (mCurPhoneState == PhoneState.IDEL) {
-				//Utils.gotoActivity(this, ContactsListActivity.class);
-				
-				Intent intent = new Intent(this, ContactsListActivity.class);
-				intent.putExtra("from_dial", true);
-				startActivity(intent);
-				
+				goContactsFromDial();
 			} else {
 				Intent intent = new Intent(this, ContactsListActivity.class);
 				intent.putExtra("from_dial", true);
@@ -428,12 +424,7 @@ public class DialActivity extends BaseActivity {
 		case R.id.btn_goto_call_log:
 			L.d(thiz, "onclick goto calllog!");
 			if (mCurPhoneState == PhoneState.IDEL) {
-				//Utils.gotoActivity(this, CallLogActivity.class);
-				
-				Intent intent = new Intent(this, CallLogActivity.class);
-				intent.putExtra("from_dial", true);
-				startActivity(intent);
-				
+				goCalllogFromDial();
 			} else {
 				Intent intent = new Intent(this, CallLogActivity.class);
 				intent.putExtra("from_dial", true);
@@ -485,6 +476,9 @@ public class DialActivity extends BaseActivity {
 			break;
 		}
 	}
+
+	
+
 
 	@Override
 	protected boolean doLongClick(View v) {
@@ -602,10 +596,10 @@ public class DialActivity extends BaseActivity {
 				if (mCallOverExit) {
 					mCallOverExit = false;
 					if(from == 1) {
-						Utils.gotoActivity(DialActivity.this, CallLogActivity.class);
+						goCalllogFromDial();
 						from = 0;
 					} else if(from == 2) {
-						Utils.gotoActivity(DialActivity.this, ContactsListActivity.class);
+						goContactsFromDial();
 						from = 0;
 					} else {
 						finish();
@@ -636,10 +630,10 @@ public class DialActivity extends BaseActivity {
 				if (mCallOverExit) {
 					mCallOverExit = false;
 					if(from == 1) {
-						Utils.gotoActivity(DialActivity.this, CallLogActivity.class);
+						goCalllogFromDial();
 						from = 0;
 					} else if(from == 2) {
-						Utils.gotoActivity(DialActivity.this, ContactsListActivity.class);
+						goContactsFromDial();
 						from = 0;
 					} else {
 						finish();
@@ -729,6 +723,19 @@ public class DialActivity extends BaseActivity {
 		} else {
 			return name;
 		}
+	}
+	
+	//from_dial 说明是从dial界面点击下部按钮跳到通讯录界面，通讯录结束后需要返回dial界面
+	private void goContactsFromDial() {
+		Intent intent = new Intent(this, ContactsListActivity.class);
+		intent.putExtra("from_dial", true);
+		startActivity(intent);
+	}
+	
+	private void goCalllogFromDial() {
+		Intent intent = new Intent(this, CallLogActivity.class);
+		intent.putExtra("from_dial", true);
+		startActivity(intent);
 	}
 	
 	
