@@ -259,6 +259,9 @@ public class DialActivity extends BaseActivity {
 				default:
 					break;
 				}
+			} else if(intent.getBooleanExtra("from_voice", false)) {
+				L.d(thiz, "from Voice true!");
+				mCallOverExit = true;
 			}
 		}
 	}

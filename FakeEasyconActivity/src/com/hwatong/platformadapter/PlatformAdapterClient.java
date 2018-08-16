@@ -7,6 +7,9 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RecentTaskInfo;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.canbus.CarStatus;
 import android.canbus.GpsStatus;
 import android.canbus.ICanbusService;
@@ -32,6 +35,7 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.hwatong.platformadapter.handle.HandleAirControl;
@@ -366,14 +370,9 @@ public class PlatformAdapterClient implements PlatformClientListener {
                             if (mServiceList.getBtPhoneService() != null) {
                                 try {
                                     mServiceList.getBtPhoneService().phoneDial(number);
-                                    Intent intent = new Intent();
-                        			intent.setClassName("com.hwatong.btphone.ui", "com.hwatong.btphone.activity.DialActivity");
-                        			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        			intent.putExtra("from_voice", true);
-                        			try {
-                        				mContext.startActivity(intent);
-                        			} catch (ActivityNotFoundException e) {
-                        			}
+                                   
+                                    startDialActivity();
+                                    
                                 } catch (RemoteException e) {
                                     e.printStackTrace();
                                 }
@@ -1082,5 +1081,63 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
         }
     };
+    
+    
+    
+    //语音拨打电话需要直接跳转到拨号界面，这么多判断是因为当dial在前台不要finish，当dial在后台需要finish，当dial在通讯录/通话记录之后需要跳回通讯录/通话记录
+    private void startDialActivity() {
+    	Intent intent = new Intent();
+		intent.setClassName("com.hwatong.btphone.ui", "com.hwatong.btphone.activity.DialActivity");
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra("from_voice", true);
+		
+		
+		ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+		List<RunningTaskInfo> cn = am.getRunningTasks(5);
+		if(cn == null) {
+			return;
+		}
+		
+		for(int i = 0; i < cn.size(); i++) {
+			RunningTaskInfo runningTaskInfo = cn.get(i);
+			if(runningTaskInfo == null) {
+				continue;
+			}
+			
+			ComponentName topActivity = runningTaskInfo.topActivity;
+			int numActivities = runningTaskInfo.numActivities;
+			
+			if(topActivity == null) {
+				continue;
+			}
+
+			String topName = topActivity.getClassName();
+			
+			L.d(TAG, "topActivity : " + topName + " numActivities : " + numActivities);
+			
+			if(topName.contains("com.iflytek.autofly.activity")) {
+				continue;
+			} else if("com.hwatong.btphone.activity.DialActivity".equals(topName)) {
+				L.d(TAG, "back top!");
+				return;
+			} else if("com.hwatong.btphone.activity.ContactsListActivity".equals(topName) && numActivities == 3) {
+				intent.putExtra("from", 2);
+				L.d(TAG, "back top behind contacts!");
+				break;
+			} else if("com.hwatong.btphone.activity.CallLogActivity".equals(topName) &&  numActivities == 3) {
+				intent.putExtra("from", 1);
+				L.d(TAG, "back top behind calllog!");
+				break;
+			} else {
+				break;
+			}
+		}
+		
+		try {
+			mContext.startActivity(intent);
+		} catch (ActivityNotFoundException e) {
+			L.d(TAG, "ActivityNotFoundException : " + e.getMessage());
+		}
+    }
 
 }
