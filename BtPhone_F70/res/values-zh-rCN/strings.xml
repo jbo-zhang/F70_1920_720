@@ -65,7 +65,7 @@
     <string name="read_hint1">正在下载，请稍后...</string>
     <string name="read_hint2">同步中，已下载：&#160;</string>
     <string name="read_hint3">下载成功</string>
-    <string name="coming_now">正在呼叫……</string>
+    <string name="coming_now">来电中…</string>
     <string name="accept">通话</string>
     <string name="reject">挂断</string>
     <string name="no_data"></string>
