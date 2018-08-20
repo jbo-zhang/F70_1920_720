@@ -197,8 +197,15 @@ public class HandleCmdControl {
                     return false ;
                 }
                 if ("蓝牙搜索".equals(name) || "蓝牙连接".equals(name)) {
-                    Intent intent = new Intent("com.hwatong.voice.SEARCH_BT");
-                    mContext.sendBroadcast(intent);
+                	
+                	if(isBtConnected()) {
+                		Tips.setCustomTipUse(true);
+                        Tips.setCustomTip("蓝牙已连接");
+                        return false ;
+                	} else {
+                		Intent intent = new Intent("com.hwatong.voice.SEARCH_BT");
+                		mContext.sendBroadcast(intent);
+                	}
                     
                     //add++ 解决跳主界面问题
                     SystemClock.sleep(1500);
@@ -283,4 +290,26 @@ public class HandleCmdControl {
         }
         return true ;
     }
+    
+    
+    /**
+     * 蓝牙是否连接
+     * @return
+     */
+    private boolean isBtConnected(){
+	    if(btService == null){
+	        return false;
+	    }
+	    try {
+            if(!btService.getConnectState()){
+                return false ;
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+	    return true ;
+	}
+    
+    
+    
 }

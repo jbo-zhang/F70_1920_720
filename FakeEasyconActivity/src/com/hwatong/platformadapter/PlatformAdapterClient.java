@@ -184,6 +184,8 @@ public class PlatformAdapterClient implements PlatformClientListener {
 
 			CarStatus carStatus = mCanbusService.getLastCarStatus(mContext.getPackageName());
 
+			L.d(TAG, "carStatus: " + carStatus);
+			
             if (carStatus.getStatus1() == 0 ||  // ACC OFF
                 carStatus.getStatus2() == 1 ||  // Back Gear ON
                 carStatus.getStatus4() == 1) {  // RVC ON
