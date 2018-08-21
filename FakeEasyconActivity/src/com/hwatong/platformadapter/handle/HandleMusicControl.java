@@ -156,7 +156,7 @@ public class HandleMusicControl {
             return true ;
         }
         /**
-         * 播放音乐
+         * 播放音乐 {"operation":"PLAY","source":"手机","focus":"music","rawText":"打开手机里的歌曲"} 
          */
         L.d(thiz, "source=" +source.isEmpty() );
         if("PLAY".equals(operation) && (source.isEmpty() || "usb".equalsIgnoreCase(source))){
@@ -283,8 +283,21 @@ public class HandleMusicControl {
                 return true;
             }
         }
-        // 来首歌
+        
+        // 来首歌  {"operation":"PLAY","source":"手机","focus":"music","rawText":"打开手机里的歌曲"}
         if ("PLAY".equals(operation) && album.isEmpty() && category.isEmpty()) {
+        	
+        	 try {
+				if(mediaService.musicFileSize()==0){
+				     Tips.setCustomTipUse(true);
+				     Tips.setCustomTip("暂无本地音乐");
+				     return false;                          
+				 }
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+        	
+        	
             final String pkg = "com.hwatong.usbmusic";
             Utils.openMusic(mContext);
             L.d(thiz, "handleMusicScence openApplication: " + pkg);
