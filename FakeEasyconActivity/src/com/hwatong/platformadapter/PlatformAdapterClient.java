@@ -1091,8 +1091,11 @@ public class PlatformAdapterClient implements PlatformClientListener {
     	Intent intent = new Intent();
 		intent.setClassName("com.hwatong.btphone.ui", "com.hwatong.btphone.activity.DialActivity");
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.putExtra("from_voice", true);
 		
+		
+		boolean fromVoice = true;
+		boolean voiceFromOutside = false;
+		int from = 0;
 		
 		ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
 		List<RunningTaskInfo> cn = am.getRunningTasks(5);
@@ -1107,6 +1110,7 @@ public class PlatformAdapterClient implements PlatformClientListener {
 			}
 			
 			ComponentName topActivity = runningTaskInfo.topActivity;
+			ComponentName baseActivity = runningTaskInfo.baseActivity;
 			int numActivities = runningTaskInfo.numActivities;
 			
 			if(topActivity == null) {
@@ -1114,26 +1118,58 @@ public class PlatformAdapterClient implements PlatformClientListener {
 			}
 
 			String topName = topActivity.getClassName();
+			String baseName = baseActivity.getClassName();
 			
-			L.d(TAG, "topActivity : " + topName + " numActivities : " + numActivities);
+			L.d(TAG, "topActivity : " + topName + " numActivities : " + numActivities + " baseActivity: " + baseName);
 			
+			
+			//------------以下判断蓝牙电话应用是不是在前台---------------------
+			
+			//过滤掉讯飞前台activity
 			if(topName.contains("com.iflytek.autofly.activity")) {
 				continue;
+			
+			// 如果前台是拨号界面,再跳一次，不然服务跳会把fromoutside置为true
 			} else if("com.hwatong.btphone.activity.DialActivity".equals(topName)) {
 				L.d(TAG, "back top!");
-				return;
-			} else if("com.hwatong.btphone.activity.ContactsListActivity".equals(topName) && numActivities == 3) {
-				intent.putExtra("from", 2);
-				L.d(TAG, "back top behind contacts!");
+				fromVoice = false;
 				break;
-			} else if("com.hwatong.btphone.activity.CallLogActivity".equals(topName) &&  numActivities == 3) {
-				intent.putExtra("from", 1);
-				L.d(TAG, "back top behind calllog!");
+				
+				
+			//如果前台是通讯录，分情况，当有3个activity表示通讯录是从通话界面跳过去的，当有2个activity且第一个是通话界面，表示通讯录也是从通话界面跳过去的
+			} else if("com.hwatong.btphone.activity.ContactsListActivity".equals(topName)) {
+				
+				if(numActivities == 3 || ("com.hwatong.btphone.activity.DialActivity".equals(baseName) &&  numActivities == 2)) {
+					from = 2;
+					L.d(TAG, "back top behind contacts!");
+				} 
 				break;
+				
+			//如果前台是通话记录，分情况，当有3个activity表示通话记录是从通话界面跳过去的，当有2个activity且第一个是通话界面，表示通话记录也是从通话界面跳过去的
+			} else if("com.hwatong.btphone.activity.CallLogActivity".equals(topName)) {
+				
+				if(numActivities == 3 || ("com.hwatong.btphone.activity.DialActivity".equals(baseName) &&  numActivities == 2)) {
+					from = 1;
+					L.d(TAG, "back top behind calllog!");
+				} 
+				break;
+			
+			
+			//如果前台是蓝牙电话界面，直接判定dial不在前台
+			} else if("com.hwatong.btphone.activity.PhoneActivity".equals(topName)) {
+				break;
+				
+				
+			//到这里表示非蓝牙电话应用界面，表示从应用外部跳转
 			} else {
+				voiceFromOutside = true;
 				break;
 			}
 		}
+		
+		intent.putExtra("from_voice", fromVoice);
+		intent.putExtra("voice_from_out_side", voiceFromOutside);
+		intent.putExtra("from", from);
 		
 		try {
 			mContext.startActivity(intent);
