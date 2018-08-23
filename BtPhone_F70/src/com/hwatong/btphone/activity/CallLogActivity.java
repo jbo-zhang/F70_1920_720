@@ -248,7 +248,10 @@ public class CallLogActivity extends BaseActivity {
 	@Override
 	public void showComing(UICallLog callLog) {
 		if(callLog.shouldJump == 1) {
-			if(((BtPhoneApplication) getApplication()).getActivitySize() == 3) {
+			int activitySize = ((BtPhoneApplication) getApplication()).getActivitySize();
+			String className = ((BtPhoneApplication) getApplication()).getBaseActivity().getClass().getName();
+			L.d(thiz, "className: " + className + " activitySize: " + activitySize);
+			if(activitySize == 3 || (activitySize == 2 && className.equals("com.hwatong.btphone.activity.DialActivity"))) {
 				Utils.gotoDialActivity(this, callLog, 1);
 			} else {
 				Utils.gotoDialActivity(this, callLog);
@@ -260,7 +263,10 @@ public class CallLogActivity extends BaseActivity {
 	@Override
 	public void showCalling(UICallLog callLog) {
 		if(callLog.shouldJump == 1) {
-			if(((BtPhoneApplication) getApplication()).getActivitySize() == 3) {
+			int activitySize = ((BtPhoneApplication) getApplication()).getActivitySize();
+			String className = ((BtPhoneApplication) getApplication()).getBaseActivity().getClass().getName();
+			L.d(thiz, "className: " + className + " activitySize: " + activitySize);
+			if(activitySize == 3 || (activitySize == 2 && className.equals("com.hwatong.btphone.activity.DialActivity"))) {
 				Utils.gotoDialActivity(this, callLog, 1);
 			} else {
 				Utils.gotoDialActivity(this, callLog);
@@ -271,7 +277,10 @@ public class CallLogActivity extends BaseActivity {
 	@Override
 	public void showTalking(UICallLog callLog) {
 		if(callLog.shouldJump == 1) {
-			if(((BtPhoneApplication) getApplication()).getActivitySize() == 3) {
+			int activitySize = ((BtPhoneApplication) getApplication()).getActivitySize();
+			String className = ((BtPhoneApplication) getApplication()).getBaseActivity().getClass().getName();
+			L.d(thiz, "className: " + className + " activitySize: " + activitySize);
+			if(activitySize == 3 || (activitySize == 2 && className.equals("com.hwatong.btphone.activity.DialActivity"))) {
 				Utils.gotoDialActivity(this, callLog, 1);
 			} else {
 				Utils.gotoDialActivity(this, callLog);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.hwatong.btphone.CallLog;
 import com.hwatong.btphone.activity.base.BaseActivity;
 import com.hwatong.btphone.adapter.CallLogListAdapter;
+import com.hwatong.btphone.app.BtPhoneApplication;
 import com.hwatong.btphone.bean.UICallLog;
 import com.hwatong.btphone.constants.Constant;
 import com.hwatong.btphone.constants.PhoneState;
@@ -26,7 +28,6 @@ import com.hwatong.btphone.ui.NoDoubleItemClickListener;
 import com.hwatong.btphone.ui.R;
 import com.hwatong.btphone.util.DailDTMF;
 import com.hwatong.btphone.util.L;
-import com.hwatong.btphone.util.Utils;
 
 /**
  * 通话界面
@@ -133,6 +134,28 @@ public class DialActivity extends BaseActivity {
 	 * 保存起来，用于匹配号码对应的联系人名字
 	 */
 	private List<CallLog> allLogs = new ArrayList<CallLog>();
+	
+	
+	private boolean fromOutside = false;
+	
+	private boolean fromVoice = false;
+	
+	private boolean voiceFromOutside = false;
+	
+	private static final  int FROM_VOICE_TO_FALSE = 1;
+	
+	private Handler myHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case FROM_VOICE_TO_FALSE:
+				fromVoice = false;
+				break;
+			default:
+				break;
+			}
+		};
+	};
+	
 	
 
 	@Override
@@ -247,6 +270,7 @@ public class DialActivity extends BaseActivity {
 		if (intent != null) {
 			UICallLog log = intent.getParcelableExtra("call_log");
 			from = intent.getIntExtra("from", 0);
+			fromOutside = intent.getBooleanExtra("from_out_side", false);
 			if(log != null) {
 				mCallOverExit = true;
 				switch (log.type) {
@@ -260,12 +284,17 @@ public class DialActivity extends BaseActivity {
 					break;
 				}
 			} else if(intent.getBooleanExtra("from_voice", false)) {
+				fromVoice = true;
 				from = intent.getIntExtra("from", 0);
-				L.d(thiz, "from Voice true! from = " + from);
+				fromOutside = intent.getBooleanExtra("voice_from_out_side", false);
 				mCallOverExit = true;
 			}
+			
+			L.d(thiz, "from=" + from + " fromOutside=" + fromOutside + " fromVoice=" + fromVoice + " callOverExit=" + mCallOverExit);
+			
 		}
 	}
+	
 
 	private void initListView() {
 		mCallAdapter = new CallLogListAdapter(this, R.layout.item_cantacts,new ArrayList<CallLog>(0));
@@ -578,45 +607,27 @@ public class DialActivity extends BaseActivity {
 		L.d(thiz, "showIdel");
 		setNameAndNumber("", "");
 		onStateChange(PhoneState.IDEL);
+		if(fromVoice) {
+			myHandler.removeMessages(FROM_VOICE_TO_FALSE);
+			myHandler.sendEmptyMessageDelayed(FROM_VOICE_TO_FALSE, 1000);
+		} else {
+			fromOutside = mCallOverExit = false;
+		}
 	}
 
 	@Override
 	public void showReject(UICallLog callLog) {
 		L.d(thiz, "showReject");
-		mBtnHandUp.setVisibility(View.GONE);
-		mBtnCall.setVisibility(View.GONE);
-		mTvCallOver.setVisibility(View.VISIBLE);
-
-		mKeyBoardCb.deleteAll();
-
-		mHandler.postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				if (mCallOverExit) {
-					mCallOverExit = false;
-					if(from == 1) {
-						goCalllogFromDial();
-						from = 0;
-					} else if(from == 2) {
-						goContactsFromDial();
-						from = 0;
-					} else {
-						finish();
-					}
-				}
-				mTvCallOver.setVisibility(View.GONE);
-				onStateChange(PhoneState.IDEL);
-				
-				setNameAndNumber("", "");
-				
-			}
-		}, 500);
+		callOver();
 	}
 	
 	@Override
 	public void showHangUp(UICallLog callLog) {
 		L.d(thiz, "showHangUp");
+		callOver();
+	}
+	
+	private void callOver() {
 		mBtnHandUp.setVisibility(View.GONE);
 		mBtnCall.setVisibility(View.GONE);
 		mTvCallOver.setVisibility(View.VISIBLE);
@@ -627,8 +638,18 @@ public class DialActivity extends BaseActivity {
 
 			@Override
 			public void run() {
+				mTvCallOver.setVisibility(View.GONE);
+				onStateChange(PhoneState.IDEL);
+				
+				setNameAndNumber("", "");
+				
+				if(fromOutside) {
+					BtPhoneApplication.getInstance().exit();
+					return;
+				}
+				
+				
 				if (mCallOverExit) {
-					mCallOverExit = false;
 					if(from == 1) {
 						goCalllogFromDial();
 						from = 0;
@@ -639,13 +660,12 @@ public class DialActivity extends BaseActivity {
 						finish();
 					}
 				} 
-				mTvCallOver.setVisibility(View.GONE);
-				onStateChange(PhoneState.IDEL);
-				
-				setNameAndNumber("", "");
+				fromOutside = mCallOverExit = false;
 			}
 		}, 500);
 	}
+	
+	
 
 
 	@Override

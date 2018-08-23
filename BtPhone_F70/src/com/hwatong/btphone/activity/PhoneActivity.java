@@ -35,7 +35,7 @@ public class PhoneActivity extends BaseActivity{
 	private ImageButton mBtnReturn;
 
 	private TextView tvTip;
-
+	
 	int totalY;
 
 	@Override
@@ -249,7 +249,5 @@ public class PhoneActivity extends BaseActivity{
 		toHome();
 		BtPhoneApplication.getInstance().exit();
 	}
-	
-	
 
 }

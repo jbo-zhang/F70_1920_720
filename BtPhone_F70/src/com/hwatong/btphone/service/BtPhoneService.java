@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.hwatong.btphone.CallLog;
 import com.hwatong.btphone.Contact;
+import com.hwatong.btphone.activity.DialActivity;
 import com.hwatong.btphone.app.BtPhoneApplication;
 import com.hwatong.btphone.bean.UICallLog;
 import com.hwatong.btphone.constants.Constant;
@@ -445,7 +446,11 @@ public class BtPhoneService extends Service implements IReceiverView, IServiceVi
 	@Override
 	public void gotoDialActivity(UICallLog callLog) {
 		L.d(thiz, "goto dial activity in service");
-		Utils.gotoDialActivityInService(this, callLog);
+		Intent intent = new Intent(this, DialActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra("call_log", callLog);
+		intent.putExtra("from_out_side", true);
+		startActivity(intent);
 	}
 	
 	protected boolean isCallLogForground() {

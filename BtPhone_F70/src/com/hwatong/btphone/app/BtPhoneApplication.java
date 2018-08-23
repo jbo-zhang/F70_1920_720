@@ -15,6 +15,7 @@ import android.util.SparseArray;
 import com.hwatong.btphone.activity.CallLogActivity;
 import com.hwatong.btphone.bean.UICallLog;
 import com.hwatong.btphone.service.BtPhoneService;
+import com.hwatong.btphone.ui.R;
 import com.hwatong.btphone.util.L;
 
 /**
@@ -95,8 +96,13 @@ public class BtPhoneApplication extends Application {
 		L.d(thiz, "exit, activityList size : " + activityList.size());
 		for (Activity activity : activityList) {
 			activity.finish();
+			activity.overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_close_exit);
 		}
 		
+	}
+	
+	public Activity getBaseActivity() {
+		return activityList.get(0);
 	}
 	
 	
