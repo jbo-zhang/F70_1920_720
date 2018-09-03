@@ -144,6 +144,11 @@ public class Radio extends Activity implements OnClickListener,
 	private Toast mCollectToast;
 	private CustomDialog dialog;
 	
+	/**
+	 * 防止快速点击
+	 */
+	private long startTime = 0;
+	
 	private int[] stringIds = new int[] { R.string.collection1,
 			R.string.collection2, R.string.collection3, R.string.collection4,
 			R.string.collection5, R.string.collection6, R.string.collection7,
@@ -633,10 +638,13 @@ public class Radio extends Activity implements OnClickListener,
 
 	@Override
 	public void onClick(View v) {
-		// 防止快速点击，所以采用Handler事件
-		mHandler.removeMessages(MSG_DELAYCLICK);
-		Message msg = mHandler.obtainMessage(MSG_DELAYCLICK, v.getId(), 1, v);
-		mHandler.sendMessageDelayed(msg, 200);
+		// 防止快速点击
+		if(System.currentTimeMillis() - startTime > 200) {
+			mHandler.removeMessages(MSG_DELAYCLICK);
+			Message msg = mHandler.obtainMessage(MSG_DELAYCLICK, v.getId(), 1, v);
+			mHandler.sendMessage(msg);
+			startTime = System.currentTimeMillis();
+		}		
 	}
 
 	/**
@@ -1060,11 +1068,11 @@ public class Radio extends Activity implements OnClickListener,
 
 	@Override
 	public void showLoading() {
-		mBtnRadioUpdate.setSelected(true);
 		runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
+				mBtnRadioUpdate.setSelected(true);
 				dialog.show();
 			}
 		});
@@ -1072,11 +1080,11 @@ public class Radio extends Activity implements OnClickListener,
 
 	@Override
 	public void hideLoading() {
-		mBtnRadioUpdate.setSelected(false);
 		runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
+				mBtnRadioUpdate.setSelected(false);
 				if (dialog.isShowing()) {
 					dialog.dismiss();
 				}

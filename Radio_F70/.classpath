@@ -6,8 +6,8 @@
 	<classpathentry exported="true" kind="lib" path="libs/com.hwatong.radio.jar" sourcepath="/RadioService"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="lib" path="E:/github/F70/f70classes.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="E:/github/F70/f70classes.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

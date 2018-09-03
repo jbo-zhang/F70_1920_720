@@ -152,6 +152,7 @@ public class RadioPresenter {
 			case MSG_PREVIEW_CHANNEL:
 				play(mFreq);
 				seek(true);
+				previewMode = true;
 				break;
 			}
 
@@ -917,7 +918,6 @@ public class RadioPresenter {
 
 	public void startPreview() {
 		previewStartFreq = mFreq;
-		previewMode = true;
 		mHandler.sendEmptyMessage(MSG_PREVIEW_CHANNEL);
 		iRadioView.showPreview();
 	}
