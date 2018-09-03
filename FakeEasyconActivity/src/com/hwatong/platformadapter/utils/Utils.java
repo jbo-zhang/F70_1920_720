@@ -63,6 +63,7 @@ public class Utils {
 	}
 
 	public static void closeApplication(Context context, String packageName) {
+		L.d(thiz, "forceStopPackage : " + packageName);
 		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 		try {
 			Method method = Class.forName("android.app.ActivityManager").getMethod("forceStopPackage", String.class);
@@ -281,7 +282,9 @@ public class Utils {
 			return "com.hwatong.btphone.ui";
 		} else if ("收音机".equals(name) || "电台".equals(name) || "广播".equals(name)) {
 			return "com.hwatong.radio.ui";
-		} else if ("u盘".equals(name) || "播放器".equals(name)) {
+			
+		//{"name":"usb音乐","operation":"EXIT","focus":"app","rawText":"关闭USB音乐。"}	
+		} else if ("u盘".equals(name) || "播放器".equals(name) || "usb音乐".equalsIgnoreCase(name)) {
 			return "com.hwatong.usbmusic";
 		} else if ("音乐".equals(name)) {
 			return "com.hwatong.usbmusic";

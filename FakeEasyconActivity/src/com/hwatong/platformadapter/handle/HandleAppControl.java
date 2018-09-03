@@ -309,7 +309,7 @@ public class HandleAppControl {
                     break;
                 }
             }
-
+            
             //名字匹配不到，需要自己匹配
             if (i >= paklist.size()) {
                 if ("LAUNCH".equals(operation) || operation.isEmpty()) {

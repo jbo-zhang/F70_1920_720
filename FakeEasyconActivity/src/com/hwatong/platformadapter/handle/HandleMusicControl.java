@@ -264,21 +264,28 @@ public class HandleMusicControl {
                 return true;
             } else if ("u盘".equalsIgnoreCase(source) || "sd".equalsIgnoreCase(source) || "本地".equals(source)) {
                 
-                if(mediaService!=null){
-                    try {
-                    	L.d(thiz , "musicService!=null mediaService music file size " + mediaService.musicFileSize());
-                      //  List list = mediaService.getMusicList();
-                        if(mediaService.musicFileSize() ==0){
-                            Tips.setCustomTipUse(true);
-                            Tips.setCustomTip("没有本地音乐");
-                            return true ;
+            	if("CLOSE".equalsIgnoreCase(operation)) {
+            		L.d(thiz , "close usb music");
+            		Intent intent = new Intent("com.hwatong.voice.CLOSE_MUSIC");
+                    mContext.sendBroadcast(intent);
+            	} else if("PLAY".equalsIgnoreCase(operation)){
+            		if(mediaService!=null){
+                        try {
+                        	L.d(thiz , "musicService!=null mediaService music file size " + mediaService.musicFileSize());
+                          //  List list = mediaService.getMusicList();
+                            if(mediaService.musicFileSize() ==0){
+                                Tips.setCustomTipUse(true);
+                                Tips.setCustomTip("没有本地音乐");
+                                return true ;
+                            }
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                            return false ;
                         }
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                        return false ;
                     }
-                }
-                Utils.openMusic(mContext);
+                    Utils.openMusic(mContext);
+            	}
+                
                 L.d(thiz, "handleMusicScence openApplication: " + source);
                 return true;
             }

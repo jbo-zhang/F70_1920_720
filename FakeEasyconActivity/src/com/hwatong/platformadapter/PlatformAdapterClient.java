@@ -430,7 +430,8 @@ public class PlatformAdapterClient implements PlatformClientListener {
         // 获取车辆信息，暂时只是一个測試數據 。
         // 语音助理 的：违章查询业务依赖此信息
         // 包含三個信息：carNumber车牌号，carCode车架号，carDriveNo发动机号
-        String carInfo = "{'carNumber':'粤YM5610','carCode':'116238','carDriveNo':'123446'}";
+//        String carInfo = "{'carNumber':'粤YM5610','carCode':'116238','carDriveNo':'123446'}";
+        String carInfo = "{'carNumber':'','carCode':'','carDriveNo':''}";
         return carInfo;
     }
 
