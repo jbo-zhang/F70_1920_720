@@ -125,25 +125,7 @@ public class ThirdSpeechService extends Service implements ResultListener{
         @Override
         public void switchSpeechMic(int state) throws RemoteException {
             L.d(thiz, "third switch mic for voice:" + state);
-            if(state == 0){
-            	L.d(thiz, "systemStateChange: STATE_SPEECHOFF!");
-                PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
-            } else if(state == 1){
-            	new Thread(new Runnable() {
-					
-					@Override
-					public void run() {
-						SystemClock.sleep(2000);
-						try {
-							L.d(thiz, "systemStateChange: STATE_SPEECHON!");
-							PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
-						} catch (RemoteException e) {
-							e.printStackTrace();
-						}
-						
-					}
-				}).start();
-            }
+            PlatformAdapterApp.getPlatformClientInstance().doSwitchSpeechMic(state);
         }
 	};
 	

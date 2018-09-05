@@ -78,6 +78,10 @@ public class PlatformAdapterClient implements PlatformClientListener {
     private LocationManager locationManager;
     private String locationProvider; 
     private int acc_status = 1;
+    
+    
+    private boolean thirdUsingMic = false;
+    
 
     /**
      * 本应用的的application启动时会执行，应该也就是开机的时候
@@ -154,46 +158,62 @@ public class PlatformAdapterClient implements PlatformClientListener {
 		}
 
 		try {
+			
+			// 1、打电话状态 关闭录音
             com.hwatong.btphone.IService service = mServiceList.getBtPhoneService();
-
             if (service != null) {
                 com.hwatong.btphone.CallStatus callStatus = service.getCallStatus();
+                L.d(TAG, "callStatus : " + callStatus);
                 if (callStatus != null && !callStatus.status.equals(com.hwatong.btphone.CallStatus.PHONE_CALL_NONE)) {
-		            if (DBG) Log.d(TAG, "notifySystemStateChange SPEECHOFF");
+		            if (DBG) Log.d(TAG, "!PHONE_CALL_NONE notifySystemStateChange SPEECHOFF");
 	                changeDinoseMode(2);
     			    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
                     return;
                 }
             }
 
+            
+            // 2、未点击同意状态 关闭录音
 		    if (!mCanbusService.isUserConfirmed()) {
-		        if (DBG) Log.d(TAG, "notifySystemStateChange SPEECHOFF");
+		        if (DBG) Log.d(TAG, "!isUserConfirmed notifySystemStateChange SPEECHOFF");
 			    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
 			    return;
 			}
 			
-		    String lockStatus = mCanbusService.getSystemStatus("lock");
-
-		    L.d(TAG, "lockStatus : " + lockStatus);
 		    
+		    
+		    // 3、锁屏状态 关闭录音
+		    String lockStatus = mCanbusService.getSystemStatus("lock");
+		    L.d(TAG, "lockStatus : " + lockStatus);
 			if (/*"locked".equals(value) ||*/ "mute_locked".equals(lockStatus)) {
-		        if (DBG) Log.d(TAG, "notifySystemStateChange SPEECHOFF");
+		        if (DBG) Log.d(TAG, "mute_locked notifySystemStateChange SPEECHOFF");
 			    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
 			    return;
 			}
 
-			CarStatus carStatus = mCanbusService.getLastCarStatus(mContext.getPackageName());
-
-			L.d(TAG, "carStatus: " + carStatus);
 			
+			// 4、倒车状态 关闭录音
+			CarStatus carStatus = mCanbusService.getLastCarStatus(mContext.getPackageName());
+			L.d(TAG, "carStatus: " + carStatus);
             if (carStatus.getStatus1() == 0 ||  // ACC OFF
                 carStatus.getStatus2() == 1 ||  // Back Gear ON
                 carStatus.getStatus4() == 1) {  // RVC ON
-		        if (DBG) Log.d(TAG, "notifySystemStateChange SPEECHOFF");
+		        if (DBG) Log.d(TAG, "back car notifySystemStateChange SPEECHOFF");
 			    PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
                 return;
             }
 
+            
+            // 5、第三方使用状态 关闭录音
+            if(thirdUsingMic) {
+            	if (DBG) Log.d(TAG, "thirdUsingMic notifySystemStateChange SPEECHOFF");
+            	PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHOFF);
+            	return;
+            }
+            
+            
+            
+            // 6、非打电话，已点击同意，非锁屏，非倒车，非第三方使用状态 开启录音。
 			if ("unlocked".equals(lockStatus)) {
 		        if (DBG) Log.d(TAG, "notifySystemStateChange SPEECHON");
 				PlatformService.platformCallback.systemStateChange(PlatformCode.STATE_SPEECHON);
@@ -1178,5 +1198,23 @@ public class PlatformAdapterClient implements PlatformClientListener {
 			L.d(TAG, "ActivityNotFoundException : " + e.getMessage());
 		}
     }
-
+    
+    
+    public void doSwitchSpeechMic(int state) {
+    	L.d(TAG, "doSwitchSpeechMic third switch mic for voice : " + state);
+    	
+    	thirdUsingMic = (state==0);
+    	
+    	if(thirdUsingMic) {
+    		notifySystemStateChange();
+    	} else {
+    		new Thread(new Runnable() {
+				@Override
+				public void run() {
+					SystemClock.sleep(2000);
+					notifySystemStateChange();
+				}
+			}).start();
+    	}
+    }
 }
