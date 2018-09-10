@@ -584,12 +584,23 @@ public class DisplaySetting extends BaseFragment implements OnTouchListener,
 
 		@Override
 		public void onReceived(CarConfig carConfig) throws RemoteException {
+			if(carConfig == null) {
+				return;
+			}
+			
 			LogUtils.d("iCarConfigListener wholecarlight:"
-					+ carConfig.getStatus8());
-			Message configMessage = Message.obtain();
-			configMessage.what = DASHBOARD_LIGHTESSS;
-			configMessage.obj = carConfig;
-			wholeCarLightHandler.sendMessage(configMessage);
+					+ carConfig.getStatus8() + " 14: " + carConfig.getStatus14());
+			
+			//得到反馈不处理，如果与界面不符，默默后台再发一次
+			int dashboardLightValue = carConfig.getStatus14();
+			if(dashboardLightValue != dashboardLight.getProgress()) {
+				setDashboardLight(dashboardLight.getProgress());
+			}
+			
+//			Message configMessage = Message.obtain();
+//			configMessage.what = DASHBOARD_LIGHTESSS;
+//			configMessage.obj = carConfig;
+//			wholeCarLightHandler.sendMessage(configMessage);
 		}
 	};
 	
