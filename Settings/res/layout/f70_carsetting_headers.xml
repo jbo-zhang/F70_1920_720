@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:orientation="horizontal" >
+
+    <include layout="@layout/f70_global_back_btn" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/setting_main_seperate" />
+
+    <com.hwatong.settings.widget.MyRadioGroup
+        android:id="@+id/carsetting_navi"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+
+        <!-- 门 -->
+
+        <RadioButton
+            android:id="@+id/cardoorsetting"
+            android:layout_weight="1"
+            android:background="@drawable/carsetting_door_selector"
+            android:text="@string/car_door"
+            android:gravity="center"
+            android:checked="true"
+            style="@style/carsetting_all_radiobutton_style" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/setting_main_seperate" />
+
+        <!-- 后视镜 -->
+
+        <RadioButton
+            android:id="@+id/rearviewsetting"
+            android:layout_weight="1"
+            android:background="@drawable/carsetting_rearview_selector"
+            android:gravity="center"
+            android:text="@string/rearview"
+            android:visibility="gone"
+            style="@style/carsetting_all_radiobutton_style" />
+
+        <ImageView
+            android:id="@+id/rearviewsetting_intervel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/setting_main_seperate"
+            android:visibility="gone" />
+
+        <!-- 灯光 -->
+
+        <RadioButton
+            android:id="@+id/carlightsetting"
+            android:layout_weight="1"
+            android:background="@drawable/carsetting_light_selector"
+            android:gravity="center"
+            android:text="@string/light_setting"
+            style="@style/carsetting_all_radiobutton_style" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/setting_main_seperate" />
+
+        <!-- 倒车设置 -->
+
+        <RadioButton
+            android:id="@+id/reversingsetting"
+            android:layout_weight="1"
+            android:background="@drawable/carsetting_reversing_selector"
+            android:gravity="center"
+            android:text="@string/reversing"
+            style="@style/carsetting_all_radiobutton_style" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/setting_main_seperate" />
+
+        <!-- 车速报警 -->
+
+        <RadioButton
+            android:id="@+id/speedwarn"
+            android:layout_weight="1"
+            android:background="@drawable/carsetting_speedwarn_selector"
+            android:gravity="center"
+            android:text="@string/speedwarn"
+            android:visibility="gone"
+            style="@style/carsetting_all_radiobutton_style" />
+
+        <ImageView
+            android:id="@+id/speedwarn_intervel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/setting_main_seperate"
+            android:visibility="gone" />
+
+        <!-- 保养提示 -->
+
+        <RadioButton
+            android:id="@+id/keepfit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/carsetting_keepfit_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/keepfit"
+            android:textColor="@drawable/f70_radiotext_selector"
+            android:textSize="18sp"
+            android:lines="1"
+            android:visibility="gone" />
+    </com.hwatong.settings.widget.MyRadioGroup>
+
+</LinearLayout>

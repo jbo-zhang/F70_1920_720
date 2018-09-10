@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.hwatong.settings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical" >
+
+    <!-- 高音 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="@dimen/sound_title_text_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:text="@string/treble"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <!--
+             <include
+            layout="@layout/f70_volume_commonbtn_decre" />
+        -->
+
+        <ImageButton
+            android:id="@+id/treble_decre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/commonvolume_selector"
+            android:src="@drawable/f70_volume_button_decre" />
+
+        <SeekBar
+            android:id="@+id/treble_seekbar"
+            style="@style/styleMySeekbar"
+            android:layout_gravity="center_vertical" />
+
+        <!--
+             <include
+            android:id="@+id/treble_add"
+            layout="@layout/f70_volume_commonbtn_add" />
+        -->
+
+        <ImageButton
+            android:id="@+id/treble_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/commonvolume_selector"
+            android:src="@drawable/f70_volume_button_add" />
+
+        <TextView
+            android:id="@+id/treble_text"
+            android:layout_width="@dimen/sound_number_text_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/back_bar_rbtext" />
+    </LinearLayout>
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_intervel_height"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+    <!-- 中音 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="@dimen/sound_title_text_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:text="@string/mid"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <!--
+             <include
+            android:id="@+id/mid_decre"
+            layout="@layout/f70_volume_commonbtn_decre" />
+        -->
+
+        <ImageButton
+            android:id="@+id/mid_decre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/commonvolume_selector"
+            android:src="@drawable/f70_volume_button_decre" />
+
+        <SeekBar
+            android:id="@+id/mid_seekbar"
+            style="@style/styleMySeekbar"
+            android:layout_gravity="center_vertical" />
+
+        <!--
+             <include
+            android:id="@+id/mid_add"
+            layout="@layout/f70_volume_commonbtn_add" />
+        -->
+
+        <ImageButton
+            android:id="@+id/mid_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/commonvolume_selector"
+            android:src="@drawable/f70_volume_button_add" />
+
+        <TextView
+            android:id="@+id/mid_text"
+            android:layout_width="@dimen/sound_number_text_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/back_bar_rbtext" />
+    </LinearLayout>
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_intervel_height"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+    <!-- 低音 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="@dimen/sound_title_text_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:text="@string/bass"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <!--
+             <include
+            android:id="@+id/bass_decre"
+            layout="@layout/f70_volume_commonbtn_decre" />
+        -->
+
+        <ImageButton
+            android:id="@+id/bass_decre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/commonvolume_selector"
+            android:src="@drawable/f70_volume_button_decre" />
+
+        <SeekBar
+            android:id="@+id/bass_seekbar"
+            style="@style/styleMySeekbar"
+            android:layout_gravity="center_vertical" />
+
+        <!--
+             <include
+            android:id="@+id/bass_add"
+            layout="@layout/f70_volume_commonbtn_add" />
+        -->
+
+        <ImageButton
+            android:id="@+id/bass_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/commonvolume_selector"
+            android:src="@drawable/f70_volume_button_add" />
+
+        <TextView
+            android:id="@+id/bass_text"
+            android:layout_width="@dimen/sound_number_text_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/back_bar_rbtext" />
+    </LinearLayout>
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_intervel_height"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+    <!-- 左右平衡 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="@dimen/sound_title_text_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:text="@string/r_l_equal"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <ImageButton
+            android:id="@+id/r_l_equal_decre"
+            android:layout_width="@dimen/balance_button_width"
+            android:layout_height="@dimen/balance_button_height"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/decre_left"
+            android:background="@null"
+            android:src="@drawable/equal_l_selector" />
+
+        <com.hwatong.settings.widget.StartPointSeekBar
+            android:id="@+id/r_l_equal_seekbar"
+            android:layout_gravity="center_vertical"
+            app:defaultBackgroundColor="@color/equal_seekbar_normal"
+            app:defaultBackgroundRangeColor="@color/equal_seekbar_press"
+            app:maxValue="7.0"
+            app:minValue="-7.0"
+            style="@style/balance_startpointseekbar_style" >
+        </com.hwatong.settings.widget.StartPointSeekBar>
+
+        <ImageButton
+            android:id="@+id/r_l_equal_add"
+            android:layout_width="@dimen/balance_button_width"
+            android:layout_height="@dimen/balance_button_height"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/add_left"
+            android:background="@null"
+            android:src="@drawable/equal_r_selector" />
+
+        <TextView
+            android:id="@+id/r_l_equal_text"
+            android:layout_width="@dimen/sound_number_text_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/add_left"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/back_bar_rbtext" />
+    </LinearLayout>
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_intervel_height"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+    <!-- 前后平衡 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="@dimen/sound_title_text_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:text="@string/f_b_equal"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <ImageButton
+            android:id="@+id/f_b_equal_decre"
+            android:layout_width="@dimen/balance_button_width"
+            android:layout_height="@dimen/balance_button_height"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/decre_left"
+            android:background="@null"
+            android:src="@drawable/equal_l_selector" />
+
+        <com.hwatong.settings.widget.StartPointSeekBar
+            android:id="@+id/f_b_equal_seekbar"
+            android:layout_gravity="center_vertical"
+            app:defaultBackgroundColor="@color/equal_seekbar_normal"
+            app:defaultBackgroundRangeColor="@color/equal_seekbar_press"
+            app:maxValue="7.0"
+            app:minValue="-7.0"
+            style="@style/balance_startpointseekbar_style" >
+        </com.hwatong.settings.widget.StartPointSeekBar>
+
+        <ImageButton
+            android:id="@+id/f_b_equal_add"
+            android:layout_width="@dimen/balance_button_width"
+            android:layout_height="@dimen/balance_button_height"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/fade_text_left"
+            android:background="@null"
+            android:src="@drawable/equal_r_selector" />
+
+        <TextView
+            android:id="@+id/f_b_equal_text"
+            android:layout_width="@dimen/sound_number_text_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/add_left"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/back_bar_rbtext" />
+    </LinearLayout>
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_intervel_height"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+</LinearLayout>

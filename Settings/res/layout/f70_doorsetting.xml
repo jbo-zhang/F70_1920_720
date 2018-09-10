@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.hwatong.settings"
+    android:layout_width="match_parent"
+    android:layout_height="350dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <!-- 自动落锁 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height" >
+
+            <TextView
+                android:layout_width="@dimen/setting_title"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:text="@string/auto_droplock"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+
+            <!--
+                 <CheckBox
+                android:id="@+id/switch_auto_droplock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/setting_title_checkbox"
+                android:button="@drawable/setting_checkbox_selector" />            -->
+
+            <com.hwatong.settings.widget.SwitchButton
+                android:id="@+id/switch_auto_droplock"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/title_interval_text"
+                android:textSize="@dimen/setting_titletext"
+                app:kswBackDrawable="@drawable/track"
+                app:kswTextOff="@string/switch_button_off"
+                app:kswTextOn="@string/switch_button_on"
+                app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+        <!-- 自动解锁 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="@dimen/setting_title"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:text="@string/auto_deallock"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+
+            <!--
+                 <CheckBox
+                android:id="@+id/switch_auto_deallock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/setting_title_checkbox"
+                android:button="@drawable/setting_checkbox_selector" />-->
+
+            <com.hwatong.settings.widget.SwitchButton
+                android:id="@+id/switch_auto_deallock"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/title_interval_text"
+                android:textSize="@dimen/setting_titletext"
+                app:kswBackDrawable="@drawable/track"
+                app:kswTextOff="@string/switch_button_off"
+                app:kswTextOn="@string/switch_button_on"
+                app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+        <!-- 自动重锁 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="@dimen/setting_title"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:text="@string/auto_repeatlock"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+
+            <!--
+                 <CheckBox
+                android:id="@+id/switch_auto_repeatlock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/setting_title_checkbox"
+                android:button="@drawable/setting_checkbox_selector" />-->
+
+            <com.hwatong.settings.widget.SwitchButton
+                android:id="@+id/switch_auto_repeatlock"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/title_interval_text"
+                android:textSize="@dimen/setting_titletext"
+                app:kswBackDrawable="@drawable/track"
+                app:kswTextOff="@string/switch_button_off"
+                app:kswTextOn="@string/switch_button_on"
+                app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+        <!-- 单门解锁 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="@dimen/single_door_unlock"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:text="@string/singledoor_deallock"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+
+            <!--
+                 <CheckBox
+                android:id="@+id/switch_singledoor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/setting_title_checkbox"
+                android:button="@drawable/setting_checkbox_selector" />-->
+
+            <com.hwatong.settings.widget.SwitchButton
+                android:id="@+id/switch_singledoor"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/title_interval_text"
+                android:textSize="@dimen/setting_titletext"
+                app:kswBackDrawable="@drawable/track"
+                app:kswTextOff="@string/switch_button_off"
+                app:kswTextOn="@string/switch_button_on"
+                app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+        <!-- 落锁闪烁 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="@dimen/setting_title"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:text="@string/downlock_withtwinkle"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+
+            <!--
+                 <CheckBox
+                android:id="@+id/switch_downlock_withtwinkle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/setting_title_checkbox"
+                android:button="@drawable/setting_checkbox_selector" />-->
+
+            <com.hwatong.settings.widget.SwitchButton
+                android:id="@+id/switch_downlock_withtwinkle"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/title_interval_text"
+                android:textSize="@dimen/setting_titletext"
+                app:kswBackDrawable="@drawable/track"
+                app:kswTextOff="@string/switch_button_off"
+                app:kswTextOn="@string/switch_button_on"
+                app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+        <!-- 解锁闪烁 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="@dimen/setting_title"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:text="@string/deallock_withtwinkle"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+
+            <!--
+                 <CheckBox
+                android:id="@+id/switch_deallock_withtwinkle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/setting_title_checkbox"
+                android:button="@drawable/setting_checkbox_selector" />-->
+
+            <com.hwatong.settings.widget.SwitchButton
+                android:id="@+id/switch_deallock_withtwinkle"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/title_interval_text"
+                android:textSize="@dimen/setting_titletext"
+                app:kswBackDrawable="@drawable/track"
+                app:kswTextOff="@string/switch_button_off"
+                app:kswTextOn="@string/switch_button_on"
+                app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

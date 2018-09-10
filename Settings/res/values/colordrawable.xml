@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <drawable name="red_rectangle">#f00</drawable>
+    <drawable name="blue_rectangle">#0000ff</drawable>
+    <drawable name="green_rectangle">#f0f0</drawable>
+    <drawable name="leftpane_divider">#FFFFFF</drawable>
+    
+</resources>

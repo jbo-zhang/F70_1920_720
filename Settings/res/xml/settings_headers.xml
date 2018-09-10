@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2010 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- Bluetooth --> 
+    <header
+        android:id="@+id/bluetooth_settings"
+        android:fragment="com.hwatong.settings.fragment.MyBluetoothSettings"
+        android:icon="@drawable/ic_header_bluetooth"
+        android:title="@string/bluetooth_settings_title" />
+	
+    <!-- Wifi -->
+    <header
+        android:id="@+id/wifi_settings"
+        android:fragment="com.hwatong.settings.wifi.WifiSettings"
+        android:icon="@drawable/ic_header_wireless"
+        android:title="@string/wifi_title" />
+    <!-- Bluetooth 
+    <header
+        android:id="@+id/bluetooth_settings"
+        android:icon="@drawable/ic_header_bluetooth"
+        android:title="@string/bluetooth_settings_title" >
+        <intent android:action="com.hwatong.BT_SETTINGS" />
+    </header>
+	-->
+    <!-- Sound -->
+    <header
+        android:id="@+id/sound_settings"
+        android:fragment="com.hwatong.settings.SoundSettings"
+        android:icon="@drawable/ic_header_sound"
+        android:title="@string/sound_title" />
+
+    <!--
+    Common
+    <header
+        android:id="@+id/common_settings"
+        android:icon="@drawable/ic_settings_common"
+        android:fragment="com.hwatong.settings.CommonSettings"
+        android:title="@string/common_title" 
+        />
+    -->
+    <!-- Date & Time
+    <header
+        android:id="@+id/date_time_settings"
+        android:fragment="com.hwatong.settings.fragment.MyDateTimeSettings"
+        android:icon="@drawable/ic_header_common"
+        android:title="@string/common_title" />
+    -->
+    <!-- Language -->
+    <header
+        android:id="@+id/language_settings"
+        android:fragment="com.hwatong.settings.fragment.MyLanguageSettings"
+        android:icon="@drawable/ic_header_common"
+        android:title="@string/common_title" />
+
+    <!-- Wallpaper -->
+    <header
+        android:id="@+id/wallpaper_settings"
+        android:fragment="com.hwatong.settings.wallpaper.WallpaperSettings"
+        android:icon="@drawable/ic_header_wallpaper"
+        android:title="@string/wallpaper_settings_title" >
+    </header>
+
+    <!-- Application Settings -->
+    <!--
+    <header
+        android:id="@+id/application_settings"
+        android:fragment="com.hwatong.settings.applications.ManageApplications"
+        android:icon="@drawable/ic_settings_applications"
+        android:title="@string/applications_settings" />
+    -->
+    <!-- Ambient light -->
+    <header
+        android:id="@+id/atmospherelamp_settings"
+        android:fragment="com.hwatong.settings.fragment.MyAtmosphereLampSettings"
+        android:icon="@drawable/ic_header_atmospherelamp"
+        android:title="@string/atmospherelamp_title" />
+
+    <!-- Factory reset -->
+    <header
+        android:id="@+id/factory_settings"
+        android:fragment="com.hwatong.settings.ResetSettings"
+        android:icon="@drawable/ic_header_factory"
+        android:title="@string/factory_title" />
+
+</preference-headers>

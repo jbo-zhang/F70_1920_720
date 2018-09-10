@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hwatong.settings"
+    android:sharedUserId="android.uid.system"
+    android:versionCode="15"
+    android:versionName="1.15" >
+
+    <!-- android:sharedUserId="android.uid.system" -->
+
+    <original-package android:name="com.hwatong.settings" />
+
+    <uses-sdk
+        android:minSdkVersion="17"
+        android:targetSdkVersion="21" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.DEVICE_POWER" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.HARDWARE_TEST" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.MASTER_CLEAR" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="com.google.android.googleapps.permission.GOOGLE_AUTH" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIMAX_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIMAX_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CLEAR_APP_USER_DATA" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_CHECKIN_PROPERTIES" />
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+    <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.MOVE_PACKAGE" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.BACKUP" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.STATUS_BAR" />
+    <uses-permission android:name="android.permission.MANAGE_USB" />
+    <uses-permission android:name="android.permission.SET_POINTER_SPEED" />
+    <uses-permission android:name="android.permission.SET_KEYBOARD_LAYOUT" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    <uses-permission android:name="android.permission.COPY_PROTECTED_DATA" />
+    <uses-permission android:name="android.permission.MANAGE_USERS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.CONFIGURE_WIFI_DISPLAY" />
+    <uses-permission android:name="android.permission.SET_TIME" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.SET_TIME_ZONE" />
+
+    <application
+        android:name="com.hwatong.f70.main.F70Application"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/settings_label"
+        android:supportsRtl="true"
+        android:taskAffinity=""
+        android:theme="@style/MyTheme2"
+        android:launchMode="singleTask"
+        android:uiOptions="splitActionBarWhenNarrow" >
+        <activity
+            android:name="com.hwatong.settings.SettingsActivity"
+            android:clearTaskOnLaunch="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="com.hwatong.settings.RINGERVOLUME_SETTINGS" />
+                <action android:name="android.settings.RINGERVOLUME_SETTINGS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.hwatong.settings.FRAGMENT_CLASS"
+                android:value="com.hwatong.settings.fragment.MyRingerVolumeFragment" />
+        </activity>
+        <activity
+            android:name="com.hwatong.settings.Settings"
+            android:label="@string/settings_label_launcher"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.hwatong.settings" >
+
+            <!--
+                             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.hwatong.setting.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name="com.hwatong.settings.SubSettings"
+            android:parentActivityName="Settings"
+            android:taskAffinity="com.hwatong.settings" >
+        </activity>
+        <activity
+            android:name="com.hwatong.settings.CreateShortcut"
+            android:label="@string/settings_shortcut"
+            android:theme="@style/Theme.CreateShortCut" >
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hwatong.settings.Settings$WifiSettingsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:excludeFromRecents="true"
+            android:label="@string/wifi_settings"
+            android:taskAffinity="" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.settings.WIFI_SETTINGS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.VOICE_LAUNCH" />
+                <category android:name="com.hwatong.settings.SHORTCUT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.hwatong.settings.FRAGMENT_CLASS"
+                android:value="com.hwatong.settings.wifi.WifiSettings" />
+            <meta-data
+                android:name="com.hwatong.settings.TOP_LEVEL_HEADER_ID"
+                android:resource="@id/wifi_settings" />
+        </activity>
+
+        <!-- Keep compatibility with old shortcuts. -->
+        <activity-alias
+            android:name=".wifi.WifiSettings"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:label="@string/wifi_settings"
+            android:targetActivity="Settings$WifiSettingsActivity"
+            android:taskAffinity="com.hwatong.settings" >
+            <meta-data
+                android:name="com.hwatong.settings.FRAGMENT_CLASS"
+                android:value="com.hwatong.settings.wifi.WifiSettings" />
+            <meta-data
+                android:name="com.hwatong.settings.TOP_LEVEL_HEADER_ID"
+                android:resource="@id/wifi_settings" />
+        </activity-alias>
+
+        <activity
+            android:name="com.hwatong.settings.wifi.WifiSettingsForSetupWizardXL"
+            android:clearTaskOnLaunch="true"
+            android:exported="true"
+            android:screenOrientation="behind"
+            android:theme="@android:style/Theme.Holo.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.hwatong.settings.Settings$AdvancedWifiSettingsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/wifi_advanced_settings_label"
+            android:parentActivityName="Settings$WifiSettingsActivity"
+            android:taskAffinity="com.hwatong.settings" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.settings.WIFI_IP_SETTINGS" />
+
+                <category android:name="android.intent.category.VOICE_LAUNCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.hwatong.settings.FRAGMENT_CLASS"
+                android:value="com.hwatong.settings.wifi.AdvancedWifiSettings" />
+            <meta-data
+                android:name="com.hwatong.settings.TOP_LEVEL_HEADER_ID"
+                android:resource="@id/wifi_settings" />
+            <meta-data
+                android:name="com.hwatong.settings.PARENT_FRAGMENT_TITLE"
+                android:resource="@string/wifi_settings" />
+            <meta-data
+                android:name="com.hwatong.settings.PARENT_FRAGMENT_CLASS"
+                android:value="com.hwatong.settings.Settings$WifiSettingsActivity" />
+        </activity>
+        <activity
+            android:name="com.hwatong.settings.Settings$BluetoothSettingsActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:label="@string/bluetooth_settings_title"
+            android:taskAffinity="" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="com.hwatong.BT_SETTINGS" />
+                <action android:name="android.settings.BLUETOOTH_SETTINGS" />
+
+                <category android:name="android.intent.category.VOICE_LAUNCH" />
+                <category android:name="com.android.settings.SHORTCUT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.hwatong.settings.FRAGMENT_CLASS"
+                android:value="com.hwatong.settings.fragment.MyBluetoothSettings" />
+            <meta-data
+                android:name="com.hwatong.settings.TOP_LEVEL_HEADER_ID"
+                android:resource="@id/bluetooth_settings" />
+        </activity>
+
+        <!-- Keep compatibility with old shortcuts. -->
+        <activity-alias
+            android:name=".fragment.MyBluetoothSettings"
+            android:clearTaskOnLaunch="true"
+            android:exported="true"
+            android:label="@string/bluetooth_settings_title"
+            android:targetActivity="Settings$BluetoothSettingsActivity" >
+            <meta-data
+                android:name="com.hwatong.settings.FRAGMENT_CLASS"
+                android:value="com.hwatong.settings.fragment.MyBluetoothSettings" />
+            <meta-data
+                android:name="com.hwatong.settings.TOP_LEVEL_HEADER_ID"
+                android:resource="@id/bluetooth_settings" />
+        </activity-alias>
+
+        <activity
+            android:name="com.hwatong.settings.Settings$DateTimeSettingsActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/date_and_time"
+            android:taskAffinity="" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.settings.DATE_SETTINGS" />
+                <action android:name="android.intent.action.QUICK_CLOCK" />
+
+                <category android:name="android.intent.category.VOICE_LAUNCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.hwatong.settings.FRAGMENT_CLASS"
+                android:value="com.hwatong.settings.DateTimeSettings" />
+        </activity>
+        <activity
+            android:name="com.hwatong.settings.DateTimeSettingsSetupWizard"
+            android:label="@string/date_and_time"
+            android:screenOrientation="behind"
+            android:theme="@android:style/Theme.Holo.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hwatong.settings.Settings$SecuritySettingsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/security_settings_title"
+            android:parentActivityName="Settings"
+            android:taskAffinity="" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.settings.SECURITY_SETTINGS" />
+                <action android:name="android.credentials.UNLOCK" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.VOICE_LAUNCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.hwatong.settings.FRAGMENT_CLASS"
+                android:value="com.hwatong.settings.SecuritySettings" />
+            <meta-data
+                android:name="com.hwatong.settings.TOP_LEVEL_HEADER_ID"
+                android:resource="@id/security_settings" />
+        </activity>
+        <activity
+            android:name="com.hwatong.settings.Settings$SoundSettingsActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/sound_settings"
+            android:taskAffinity="" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="com.hwatong.settings.SOUND_SETTINGS" />
+                <action android:name="android.settings.SOUND_SETTINGS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.VOICE_LAUNCH" />
+                <category android:name="com.hwatong.settings.SHORTCUT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.hwatong.settings.FRAGMENT_CLASS"
+                android:value="com.hwatong.settings.SoundSettings" />
+            <meta-data
+                android:name="com.hwatong.settings.TOP_LEVEL_HEADER_ID"
+                android:resource="@id/sound_settings" />
+        </activity>
+
+        <!-- Keep compatibility with old shortcuts. -->
+        <activity-alias
+            android:name="SoundSettings"
+            android:exported="true"
+            android:label="@string/sound_settings"
+            android:targetActivity="Settings$SoundSettingsActivity" >
+            <meta-data
+                android:name="com.hwatong.settings.FRAGMENT_CLASS"
+                android:value="com.hwatong.settings.SoundSettings" />
+            <meta-data
+                android:name="com.hwatong.settings.TOP_LEVEL_HEADER_ID"
+                android:resource="@id/sound_settings" />
+        </activity-alias>
+
+        <!-- Runs in the phone process since it needs access to the Phone object -->
+        <activity
+            android:name="com.hwatong.settings.deviceinfo.Status"
+            android:label="@string/device_status_activity_title"
+            android:process="com.hwatong.phone"
+            android:theme="@android:style/Theme.Holo.DialogWhenLarge" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.VOICE_LAUNCH" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hwatong.settings.deviceinfo.MiscFilesHandler"
+            android:theme="@android:style/Theme.Holo.DialogWhenLarge" />
+
+        <!-- lcb -->
+        <activity
+            android:name="com.hwatong.settings.wallpaper.WallpaperActivity"
+            android:label="@string/wallpaper_app_name" >
+        </activity>
+
+        <!-- f70 -->
+        <activity
+            android:name="com.hwatong.f70.bluetooth.BaseBluetoothSettingActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+            
+        </activity>
+        <activity
+            android:name="com.hwatong.f70.commonsetting.BaseCommonSettingActivity"
+            android:configChanges="locale" >
+        </activity>
+        <activity
+            android:name="com.hwatong.f70.soundsetting.BaseSoundSettingActivity" >
+        </activity>
+        <activity
+            android:name="com.hwatong.f70.carsetting.BaseCarSettingActivity" >
+        </activity>
+        <activity
+            android:name="com.hwatong.f70.main.F70MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.hwatong.setting.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hwatong.f70.huachenyun.BaseHuaChenYunActivity" >
+        </activity>
+
+        <receiver android:name="com.hwatong.f70.soundsetting.F70CompleteReceive" >
+            <intent-filter android:priority="999" >
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.hwatong.voice.SEARCH_BT" />
+                <action android:name="com.ljw.testwifi" />
+                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+                <action android:name="F70.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.btphoneservice.changedeffect" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

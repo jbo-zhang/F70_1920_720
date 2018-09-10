@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   android:background="@android:color/black"
+    android:orientation="vertical" >
+
+    <!-- 整车亮度 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="@dimen/whole_car_text_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/whole_car_text_intervel"
+            android:text="@string/whole_car_light"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <include
+            android:id="@+id/whole_car_light_decre"
+            layout="@layout/f70_volume_commonbtn_decre" />
+
+        <SeekBar
+            android:id="@+id/whole_car_light_seekbar"
+            style="@style/styleMySeekbar"
+            android:layout_gravity="center_vertical" />
+
+        <include
+            android:id="@+id/whole_car_light_add"
+            layout="@layout/f70_volume_commonbtn_add" />
+
+        <TextView
+            android:id="@+id/whole_car_text"
+            android:layout_width="@dimen/whole_car_number_width_intervel"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/back_bar_rbtext" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_intervel_height"
+        android:layout_gravity="center"
+        android:background="@color/title_intervel_color"
+        android:visibility="gone" />
+
+    <!-- 多媒体亮度 -->
+    
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="@dimen/media_text_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/whole_car_text_intervel"
+            android:text="@string/media_light"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <include
+            android:id="@+id/media_light_decre"
+            layout="@layout/f70_volume_commonbtn_decre" />
+
+        <SeekBar
+            android:id="@+id/media_light_seekbar"
+            style="@style/styleMySeekbar"
+            android:layout_gravity="center_vertical" />
+
+        <include
+            android:id="@+id/media_light_add"
+            layout="@layout/f70_volume_commonbtn_add" />
+
+        <TextView
+            android:id="@+id/media_light_text"
+            android:layout_width="@dimen/whole_car_number_width_intervel"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/back_bar_rbtext" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_intervel_height"
+        android:layout_gravity="center"
+        android:background="@color/title_intervel_color" />
+
+    <!-- 仪表亮度 -->
+        <LinearLayout
+        android:id="@+id/ipc_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="@dimen/whole_car_text_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/whole_car_text_intervel"
+            android:text="@string/instrument_light"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <include
+            android:id="@+id/instrument_light_decre"
+            layout="@layout/f70_volume_commonbtn_decre" />
+
+        <SeekBar
+            android:id="@+id/instrument_light_seekbar"
+            style="@style/styleMySeekbar"
+            android:layout_gravity="center_vertical" />
+
+        <include
+            android:id="@+id/instrument_light_add"
+            layout="@layout/f70_volume_commonbtn_add" />
+
+        <TextView
+            android:id="@+id/instrument_light_text"
+            android:layout_width="@dimen/whole_car_number_width_intervel"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/back_bar_rbtext" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ipc_intervel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_intervel_height"
+        android:layout_gravity="center"
+        android:background="@color/title_intervel_color"
+        android:visibility="gone" />
+
+</LinearLayout>

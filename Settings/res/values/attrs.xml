@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2008 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+    <declare-styleable name="WifiEncryptionState">
+        <attr name="state_encrypted" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="IconPreferenceScreen">
+        <attr name="icon" format="reference" />
+    </declare-styleable>
+    
+    <declare-styleable name="BatteryHistoryChart">
+        <!-- Base text color, typeface, size, and style. -->
+        <attr name="android:textAppearance" />
+        <!-- Text color. -->
+        <attr name="android:textColor" />
+        <!-- Size of the text. Recommended dimension type for text is "sp" for scaled-pixels (example: 15sp). -->
+        <attr name="android:textSize" />
+        <!-- Typeface (normal, sans, serif, monospace) for the text. -->
+        <attr name="android:typeface" />
+        <!-- Style (bold, italic, bolditalic) for the text. -->
+        <attr name="android:textStyle" />
+        <!-- Place a shadow of the specified color behind the text. -->
+        <attr name="android:shadowColor" />
+        <!-- Horizontal offset of the shadow. -->
+        <attr name="android:shadowDx" />
+        <!-- Vertical offset of the shadow. -->
+        <attr name="android:shadowDy" />
+        <!-- Radius of the shadow. -->
+        <attr name="android:shadowRadius" />
+    </declare-styleable>
+
+    <declare-styleable name="PercentageBarChart">
+        <!-- Background color -->
+        <attr name="emptyColor" format="color" />
+        <!-- Minimum tick width for each slice in the bar chart. -->
+        <attr name="minTickWidth" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ChartView">
+        <!-- optimal width of the chart -->
+        <attr name="optimalWidth" format="dimension" />
+        <!-- how to weight extra space beyond optimal width -->
+        <attr name="optimalWidthWeight" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="ChartSweepView">
+        <attr name="sweepDrawable" format="reference" />
+        <attr name="followAxis">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="neighborMargin" format="dimension" />
+        <attr name="labelSize" format="dimension" />
+        <attr name="labelTemplate" format="reference" />
+        <attr name="labelColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ChartGridView">
+        <attr name="primaryDrawable" format="reference" />
+        <attr name="secondaryDrawable" format="reference" />
+        <attr name="borderDrawable" format="reference" />
+        <attr name="labelColor" />
+    </declare-styleable>
+
+    <declare-styleable name="ChartNetworkSeriesView">
+        <attr name="strokeColor" format="color" />
+        <attr name="fillColor" format="color" />
+        <attr name="fillColorSecondary" format="color" />
+    </declare-styleable>
+    <declare-styleable name="SwitchButton2">
+        <attr name="frameDrawable" format="reference|color"/>
+        <attr name="stateDrawable" format="reference|color"/>
+        <attr name="stateMaskDrawable" format="reference|color"/>
+        <attr name="sliderDrawable" format="reference|color"/>
+	    <attr name="withTextInterval" format="dimension"/>
+    </declare-styleable>
+    
+        <declare-styleable name="StartPointSeekBar">
+        <attr name="minValue" format="float"/>
+        <attr name="maxValue" format="float"/>
+        <attr name="thumbDrawable" format="reference"></attr>
+        <attr name="thumbPressedDrawable" format="reference"></attr>
+        <attr name="defaultBackgroundColor" format="color"></attr>
+        <attr name="defaultBackgroundRangeColor" format="color"></attr>
+        <attr name="middlescale" format="reference"></attr>
+    </declare-styleable>
+    
+                <declare-styleable name="SwitchButton">
+        <attr name="kswThumbDrawable" format="reference"/>
+        <attr name="kswThumbColor" format="color|reference"/>
+        <attr name="kswThumbMargin" format="dimension|reference"/>
+        <attr name="kswThumbMarginTop" format="dimension|reference"/>
+        <attr name="kswThumbMarginBottom" format="dimension|reference"/>
+        <attr name="kswThumbMarginLeft" format="dimension|reference"/>
+        <attr name="kswThumbMarginRight" format="dimension|reference"/>
+        <attr name="kswThumbWidth" format="dimension|reference"/>
+        <attr name="kswThumbHeight" format="dimension|reference"/>
+        <attr name="kswThumbRadius" format="dimension|reference"/>
+        <attr name="kswBackRadius" format="dimension|reference"/>
+        <attr name="kswBackDrawable" format="reference"/>
+        <attr name="kswBackColor" format="color|reference"/>
+        <attr name="kswFadeBack" format="boolean"/>
+        <attr name="kswBackMeasureRatio" format="float"/>
+        <attr name="kswAnimationDuration" format="integer"/>
+        <attr name="kswTintColor" format="color|reference"/>
+        <attr name="kswTextOn" format="string"/>
+        <attr name="kswTextOff" format="string"/>
+        <attr name="kswTextMarginH" format="dimension"/>
+        <attr name="kswAutoAdjustTextPosition" format="boolean"/>
+    </declare-styleable>
+    
+
+    <declare-styleable name="VerticalSeekBar">
+        <attr name="seekBarRotation">
+            <!-- Clock wise - 90 deg; top = min, bottom = max -->
+            <enum name="CW90" value="90" />
+            <!-- Clock wise - 270 deg; bottom = min, top = max -->
+            <enum name="CW270" value="270" />
+        </attr>
+    </declare-styleable>
+
+</resources>

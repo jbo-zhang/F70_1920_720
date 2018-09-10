@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:paddingEnd="?android:attr/scrollbarSize" >
+
+    <ImageView
+        android:id="@+android:id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+android:id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dip"
+        android:layout_marginEnd="6dip"
+        android:layout_marginStart="6dip"
+        android:layout_marginTop="6dip"
+        android:ellipsize="marquee"
+        android:fadingEdge="horizontal"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dip"
+        android:layout_marginEnd="6dip"
+        android:layout_marginStart="15dip"
+        android:layout_marginTop="6dip" >
+
+        <RadioGroup
+            android:id="@+id/rg_navi_mix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/rb_navi_mix_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:background="@null"
+                android:button="@drawable/btn_radio"
+                android:focusable="true"
+                android:paddingStart="5dp"
+                android:text="@string/sound_navi_mix_open"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <RadioButton
+                android:id="@+id/rb_navi_mix_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:background="@null"
+                android:button="@drawable/btn_radio"
+                android:focusable="true"
+                android:paddingStart="5dp"
+                android:text="@string/sound_navi_mix_close"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <RadioButton
+                android:id="@+id/rb_navi_mix_voice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:background="@null"
+                android:button="@drawable/btn_radio"
+                android:focusable="true"
+                android:paddingStart="5dp"
+                android:text="@string/sound_navi_mix_voice_priority"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </RadioGroup>
+    </RelativeLayout>
+
+</LinearLayout>

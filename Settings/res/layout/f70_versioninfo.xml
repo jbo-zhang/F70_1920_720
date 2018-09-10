@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/title_interval_text"
+        android:layout_marginTop="@dimen/language_radiobutton_magintop"
+        android:text="@string/system_version_title"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/setting_titletext" />
+
+    <!-- 软件版本 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@drawable/system_setting_selector"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/software_version_name"
+            android:layout_width="@dimen/version_text_width"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:layout_centerVertical="true"
+            android:text="@string/software_version"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <TextView
+            android:id="@+id/tv_software_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/software_version_name"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+    </RelativeLayout>
+
+    <!-- 硬件版本 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@drawable/system_setting_selector"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:visibility="invisible" >
+
+        <TextView
+            android:id="@+id/mcu_version_name"
+            android:layout_width="@dimen/version_text_width"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:layout_centerVertical="true"
+            android:text="@string/mcu_version"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <TextView
+            android:id="@+id/tv_hardware_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/mcu_version_name"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+    </RelativeLayout>
+
+    <!-- ARM版本 -->
+
+    <RelativeLayout
+        android:id="@+id/arm_version"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@drawable/system_setting_selector"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:visibility="invisible" >
+
+        <TextView
+            android:id="@+id/system_version_name"
+            android:layout_width="@dimen/version_text_width"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:layout_centerVertical="true"
+            android:text="@string/arm_version"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <TextView
+            android:id="@+id/tv_system_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/system_version_name"
+            android:singleLine="true"
+            android:text="@string/system_defaultversion"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+    </RelativeLayout>
+
+</LinearLayout>

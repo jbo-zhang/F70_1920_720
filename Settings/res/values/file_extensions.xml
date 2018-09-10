@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 图片的后缀名字 -->
+    <array name="fileEndingImage">
+        <item>png</item>
+        <item>9.png</item>
+        <item>gif</item>
+        <item>jpg</item>
+        <item>jpeg</item>
+        <item>bmp</item>
+        <item>ico</item>
+        <item>rgb</item>
+         <item>webp</item>
+    </array>
+</resources>

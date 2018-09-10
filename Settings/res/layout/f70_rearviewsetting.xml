@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.hwatong.settings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- 后视镜自动折叠 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:layout_width="@dimen/rearview_text_width"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:text="@string/rearview_autofold"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <!--
+                 <CheckBox
+                android:id="@+id/switch_rearview_autofold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="660dp"
+                android:button="@drawable/setting_checkbox_selector" />       -->
+
+        <com.hwatong.settings.widget.SwitchButton
+            android:id="@+id/switch_rearview_autofold"
+            style="@style/SwitchButtonStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/title_interval_text"
+            app:kswBackDrawable="@drawable/track"
+            app:kswTextOff="@string/switch_button_off"
+            app:kswTextOn="@string/switch_button_on"
+            android:textSize="@dimen/setting_titletext"
+            app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+    </RelativeLayout>
+
+</LinearLayout>

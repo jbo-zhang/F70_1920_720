@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.hwatong.settings"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/convenient_layout_scroll_height" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <!-- 故障提醒 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:gravity="center_vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="@dimen/setting_title"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:text="@string/fault_remind"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+
+            <!--
+                 <CheckBox
+                android:id="@+id/switch_fault_remind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/setting_title_checkbox"
+                android:button="@drawable/setting_checkbox_selector" />            -->
+
+            <com.hwatong.settings.widget.SwitchButton
+                android:id="@+id/switch_fault_remind"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/title_interval_text"
+                app:kswBackDrawable="@drawable/track"
+                app:kswTextOff="@string/switch_button_off"
+                app:kswTextOn="@string/switch_button_on"
+                android:textSize="@dimen/setting_titletext"
+                app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_intervel_height"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+        <!-- 到位追踪 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="@dimen/arrive_track_text_width"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:text="@string/arrive_track"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+
+            <!--
+                 <CheckBox
+                android:id="@+id/switch_arrive_track"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/setting_title_checkbox"
+                android:button="@drawable/setting_checkbox_selector" />            -->
+
+            <com.hwatong.settings.widget.SwitchButton
+                android:id="@+id/switch_arrive_track"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/title_interval_text"
+                app:kswBackDrawable="@drawable/track"
+                app:kswTextOff="@string/switch_button_off"
+                app:kswTextOn="@string/switch_button_on"
+                android:textSize="@dimen/setting_titletext"
+                app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_intervel_height"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+        <!-- 远程开启/关闭寻车 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="@dimen/remote_open_findcar_text_width"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:text="@string/remote_open_findcar"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+
+            <!--
+                 <CheckBox
+                android:id="@+id/switch_remote_open_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="620dp"
+                android:button="@drawable/setting_checkbox_selector" />            -->
+
+            <com.hwatong.settings.widget.SwitchButton
+                android:id="@+id/switch_remote_open_findcar"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/title_interval_text"
+                app:kswBackDrawable="@drawable/track"
+                app:kswTextOff="@string/switch_button_off"
+                app:kswTextOn="@string/switch_button_on"
+                android:textSize="@dimen/setting_titletext"
+                app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_intervel_height"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+        <!-- 远程开启/关闭喇叭 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="@dimen/remote_open_findcar_text_width"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:text="@string/remote_open_mic"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+
+            <!--
+                 <CheckBox
+                android:id="@+id/switch_remote_open_mic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="620dp"
+                android:button="@drawable/setting_checkbox_selector" />            -->
+
+            <com.hwatong.settings.widget.SwitchButton
+                android:id="@+id/switch_remote_open_mic"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/title_interval_text"
+                app:kswBackDrawable="@drawable/track"
+                app:kswTextOff="@string/switch_button_off"
+                app:kswTextOn="@string/switch_button_on"
+                android:textSize="@dimen/setting_titletext"
+                app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_intervel_height"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+        <!-- 远程开启/关闭发动机 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="@dimen/remote_open_engine_text_width"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:text="@string/remote_open_engine"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+
+            <!--
+                 <CheckBox
+                android:id="@+id/switch_remote_open_engine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="590dp"
+                android:button="@drawable/setting_checkbox_selector" />            -->
+
+            <com.hwatong.settings.widget.SwitchButton
+                android:id="@+id/switch_remote_open_engine"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/title_interval_text"
+                app:kswBackDrawable="@drawable/track"
+                app:kswTextOff="@string/switch_button_off"
+                app:kswTextOn="@string/switch_button_on"
+                android:textSize="@dimen/setting_titletext"
+                app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_intervel_height"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+        <!-- 远程开启/关闭空调 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="@dimen/remote_open_engine_text_width"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:text="@string/remote_open_air"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+
+            <!--
+                 <CheckBox
+                android:id="@+id/switch_remote_open_air"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="620dp"
+                android:button="@drawable/setting_checkbox_selector" />            -->
+
+            <com.hwatong.settings.widget.SwitchButton
+                android:id="@+id/switch_remote_open_air"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/title_interval_text"
+                app:kswBackDrawable="@drawable/track"
+                app:kswTextOff="@string/switch_button_off"
+                app:kswTextOn="@string/switch_button_on"
+                android:textSize="@dimen/setting_titletext"
+                app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_intervel_height"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color"  />
+
+        <!-- 远程上锁/解锁 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="@dimen/remote_open_engine_text_width"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:text="@string/remote_lock"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+
+            <!--
+                 <CheckBox
+                android:id="@+id/switch_remote_lock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/setting_title_checkbox"
+                android:button="@drawable/setting_checkbox_selector" />            -->
+
+            <com.hwatong.settings.widget.SwitchButton
+                android:id="@+id/switch_remote_lock"
+                style="@style/SwitchButtonStyle"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/title_interval_text"
+                app:kswBackDrawable="@drawable/track"
+                app:kswTextOff="@string/switch_button_off"
+                app:kswTextOn="@string/switch_button_on"
+                android:textSize="@dimen/setting_titletext"
+                app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

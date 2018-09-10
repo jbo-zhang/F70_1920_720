@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        android:title="@string/common_title"
+        xmlns:settings="http://schemas.android.com/apk/res/com.hwatong.settings">
+
+    <!-- Language -->
+    <PreferenceScreen
+            android:fragment="com.hwatong.settings.LocalePicker"
+            android:key="phone_language"
+            android:title="@string/phone_language"/>
+
+    <!-- Application Settings -->
+    <!-- 
+    <PreferenceScreen
+        android:fragment="com.hwatong.settings.applications.ManageApplications"
+        android:title="@string/applications_settings"
+        android:id="@+id/application_settings" />
+     -->
+	<!-- Factory reset -->
+    <PreferenceScreen
+        android:title="@string/master_clear_title"
+        android:fragment="com.hwatong.settings.ResetSettings" />
+	<!-- 
+    <PreferenceScreen
+        android:title="@string/master_clear_title"
+        android:fragment="com.hwatong.settings.MasterClear" />
+ 	-->
+    <!-- Security -->
+    <PreferenceScreen
+        android:fragment="com.hwatong.settings.SecuritySettings"
+        android:title="@string/security_settings_title"
+        android:id="@+id/security_settings" />
+
+    <!-- Wifi -->
+    <com.hwatong.settings.WifiPreference
+        android:fragment="com.hwatong.settings.wifi.WifiSettings"
+        android:title="@string/wifi_settings"
+		android:key="wifi_settings"
+        android:id="@+id/wifi_settings" />
+    
+</PreferenceScreen>

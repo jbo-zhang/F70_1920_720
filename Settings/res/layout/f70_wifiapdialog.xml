@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center" >
+    
+        <!-- 显示部分 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:background="@drawable/setting_wifi_titlebg"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/wifi_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <LinearLayout
+            android:id="@+id/passwordchanged"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:focusable="true"
+        	android:focusableInTouchMode="true" >
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="@dimen/wifiap_dialog_edit_width"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/wifiap_dialog_top"
+                android:imeOptions="actionDone"
+                android:textColor="@android:color/white"
+                android:background="@drawable/setting_wifi_passwordedit"
+                android:maxLength="15"
+                android:singleLine="true"
+                android:longClickable="false"
+                android:inputType="textEmailAddress" 
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/wifiap_dialog_top"
+                android:src="@drawable/setting_wifi_divider" />
+
+            <LinearLayout
+                android:id="@+id/show_password_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/setting_wifi_passwordbg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/wifiap_dialog_top"
+                android:visibility="gone" >
+
+                <CheckBox
+                    android:id="@+id/show_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:button="@drawable/setting_wifi_passwordenabled_selector"
+                    android:checked="true"
+                    android:gravity="center" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    
+	    <!-- 按钮部分 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/setting_wifi_l_selector"
+            android:text="@string/wifi_setup_cancel"
+            android:textColor="@drawable/f70_textview_click"
+            android:textSize="@dimen/setup_title_size" />
+
+        <!--
+             <LinearLayout
+            android:id="@+id/wificonnect_confirm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|bottom"
+            android:layout_weight="1"
+            android:background="@drawable/setting_wifi_l_selector"
+            android:clickable="true"
+            android:gravity="center" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/deleteconfirm"
+                android:textColor="@color/red"
+                android:textSize="@dimen/setting_titletext" />
+        </LinearLayout>
+        -->
+<!--         <Button
+            android:id="@+id/button3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/setting_wifi_r_selector"
+            android:text="@string/wifi_setup_cancel"
+            android:textColor="@drawable/f70_textview_click"
+            android:textSize="25sp"
+            android:visibility="gone" /> -->
+
+        <!--
+             <LinearLayout
+            android:id="@+id/wificonnect_quit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|bottom"
+            android:layout_weight="1"
+            android:background="@drawable/setting_wifi_r_selector"
+            android:clickable="true"
+            android:gravity="center" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/deletequit"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+        </LinearLayout>
+        -->
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/setting_wifi_r_selector"
+            android:text="@string/deleteconfirm"
+            android:textColor="@drawable/f70_textview_click"
+            android:textSize="@dimen/setup_title_size" />
+    </LinearLayout>
+</LinearLayout>

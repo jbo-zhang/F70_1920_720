@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:layout_marginTop="12dp"
+    android:orientation="vertical"
+    android:background="#ffffff">
+    
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:orientation="horizontal">
+      
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/datetime_year"
+            android:textColor="#000000"
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/datetime_month"
+            android:textColor="#000000"
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/datetime_day"
+            android:textColor="#000000"
+            android:textSize="20sp"/> 
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/datetime_hour"
+            android:textColor="#000000"
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/datetime_minute"
+            android:textColor="#000000"
+            android:textSize="20sp"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:background="#ffffff">
+      
+        <com.hwatong.settings.wheel.WheelView android:id="@+id/yearwheel"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"/>
+        <com.hwatong.settings.wheel.WheelView android:id="@+id/monthwheel"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"/>
+        <com.hwatong.settings.wheel.WheelView android:id="@+id/daywheel"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"/>
+        <com.hwatong.settings.wheel.WheelView android:id="@+id/hourwheel"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"/> 
+        <com.hwatong.settings.wheel.WheelView android:id="@+id/minutewheel"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"/> 
+    </LinearLayout>
+</LinearLayout>

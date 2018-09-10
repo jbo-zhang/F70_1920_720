@@ -1,0 +1,110 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.hwatong.wallpaper.MainActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <RelativeLayout
+                    android:id="@+id/local"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp" >
+
+                    <TextView
+                        android:id="@+id/local_tx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:background="@drawable/wallpaper_buttonleft"
+                        android:text="@string/wallpaper_default1"
+                        android:textColor="@color/wallpaper_textcolor"
+                        android:textSize="22sp" />
+                </RelativeLayout>
+
+<!--                 <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:background="@drawable/line2" /> -->
+
+                <RelativeLayout
+                    android:id="@+id/usb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp" >
+
+                    <TextView
+                        android:id="@+id/usb_tx"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:background="@drawable/wallpaper_buttonright"
+                        android:text="@string/wallpaper_usb"
+                        android:textColor="@color/wallpaper_textcolor"
+                        android:textSize="22sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+<!--             <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/line1" /> -->
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/show_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <GridView
+            android:id="@+id/gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:horizontalSpacing="47dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="3"
+            android:verticalSpacing="33dp"/>
+
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wallpaper_nothavefile"
+            android:textSize="22sp"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/down_usb_file_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"  />
+    </LinearLayout>
+
+</LinearLayout>

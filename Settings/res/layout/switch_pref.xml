@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+<Switch xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pref_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="false"
+        android:padding="8dip" 
+    	android:switchMinWidth="63dp"
+        android:textOff=""
+        android:textOn=""
+        android:thumb="@drawable/thumb1"
+        android:thumbTextPadding="19dp"
+        android:track="@drawable/track1">
+</Switch>
+-->
+
+<com.hwatong.settings.widget.SwitchButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.hwatong.settings"
+    android:id="@+id/pref_switch"
+    style="@style/SwitchButtonStyle"
+    app:kswBackDrawable="@drawable/track"
+    app:kswTextOff="@string/switch_button_off"
+    app:kswTextOn="@string/switch_button_on"
+    android:textSize="@dimen/setting_titletext"
+    app:kswThumbDrawable="@drawable/setting_switch_thumb"/>
+<!-- android:switchMinWidth="44dp"：track使用的是宽度为48dp的圆角方形，此处值不大于48dp都可以 -->
+<!-- android:thumbTextPadding="16dp":thumb使用的的半径为16dp的圆 -->

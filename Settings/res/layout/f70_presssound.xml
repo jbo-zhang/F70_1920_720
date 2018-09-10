@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.hwatong.settings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/title_interval_text"
+        android:layout_marginTop="@dimen/language_radiobutton_magintop"
+        android:text="@string/press_sound"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/setting_titletext" />
+
+    <com.hwatong.settings.widget.SwitchButton
+        android:id="@+id/presssound"
+        style="@style/SwitchButtonStyle"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/title_interval_text"
+        android:layout_marginTop="@dimen/presssound_button_magintop"
+        app:kswBackDrawable="@drawable/track"
+        app:kswTextOff="@string/switch_button_off"
+        app:kswTextOn="@string/switch_button_on"
+        android:textSize="@dimen/setting_titletext"
+        app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+
+    <!--
+         <CheckBox
+        android:id="@+id/presssound" 
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="780dp"
+        android:button="@drawable/setting_checkbox_selector"/>
+    -->
+
+</RelativeLayout>

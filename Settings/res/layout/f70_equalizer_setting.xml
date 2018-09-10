@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="@dimen/equalizer_scroll_width"
+        android:layout_height="@dimen/equalizer_scroll_height" >
+
+        <RadioGroup
+            android:id="@+id/fx_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <!-- 流行 -->
+
+            <RadioButton
+                android:id="@+id/fx_pop"
+                style="@style/EffectRadioButtonStyle"
+                android:text="@string/audio_fx_pop" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_intervel_height"
+                android:layout_gravity="center"
+                android:background="@color/title_intervel_color" />
+
+            <!-- 爵士 -->
+
+            <RadioButton
+                android:id="@+id/fx_jazz"
+                style="@style/EffectRadioButtonStyle"
+                android:text="@string/audio_fx_jazz" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_intervel_height"
+                android:layout_gravity="center"
+                android:background="@color/title_intervel_color" />
+
+            <!-- 古典 -->
+
+            <RadioButton
+                android:id="@+id/fx_classical"
+                style="@style/EffectRadioButtonStyle"
+                android:text="@string/audio_fx_classical" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_intervel_height"
+                android:layout_gravity="center"
+                android:background="@color/title_intervel_color" />
+
+            <!-- 摇滚 -->
+
+            <RadioButton
+                android:id="@+id/fx_rock"
+                style="@style/EffectRadioButtonStyle"
+                android:text="@string/audio_fx_rock" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_intervel_height"
+                android:layout_gravity="center"
+                android:background="@color/title_intervel_color" />
+
+            <!-- 人声 -->
+
+            <RadioButton
+                android:id="@+id/fx_human"
+                style="@style/EffectRadioButtonStyle"
+                android:text="@string/audio_fx_human" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_intervel_height"
+                android:layout_gravity="center"
+                android:background="@color/title_intervel_color" />
+
+            <!-- 平直 -->
+
+            <RadioButton
+                android:id="@+id/fx_flat"
+                style="@style/EffectRadioButtonStyle"
+                android:text="@string/audio_fx_flat" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_intervel_height"
+                android:layout_gravity="center"
+                android:background="@color/title_intervel_color" />
+            <!-- 自定义 -->
+
+            <RadioButton
+                android:id="@+id/fx_none"
+                android:layout_width="@dimen/fx_none_width"
+                android:layout_height="@dimen/title_height"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:button="@null"
+                android:drawableRight="@drawable/btn_radio"
+                android:text="@string/audio_fx_none"
+                android:textSize="@dimen/setting_titletext" />
+        </RadioGroup>
+    </ScrollView>
+
+</LinearLayout>

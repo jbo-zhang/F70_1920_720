@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RadioGroup
+        android:id="@+id/language_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+         >
+
+        <RadioButton
+            android:id="@+id/chinese"
+            android:layout_width="@dimen/language_radiobutton_width"
+            android:layout_height="@dimen/title_height"
+            android:button="@null"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:drawableRight="@drawable/btn_radio"
+            android:text="@string/language_chinese"
+            android:textSize="@dimen/setting_titletext"  />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_intervel_height"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/title_intervel_color"/>
+
+        <RadioButton
+            android:id="@+id/english"
+            android:layout_width="@dimen/language_radiobutton_width"
+            android:layout_height="@dimen/title_height"
+            android:button="@null"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:drawableRight="@drawable/btn_radio"
+            android:text="@string/language_english"
+            android:textSize="@dimen/setting_titletext" />
+    </RadioGroup>
+
+</LinearLayout>

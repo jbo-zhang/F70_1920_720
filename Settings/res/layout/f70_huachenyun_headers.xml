@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:orientation="horizontal" >
+
+    <include layout="@layout/f70_global_back_btn" />
+
+    <com.hwatong.settings.widget.MyRadioGroup
+        android:id="@+id/huachenyun_navi"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+
+        <!-- 网络设置 -->
+
+        <RadioButton
+            android:id="@+id/networksetting"
+            android:layout_weight="1"
+            android:background="@drawable/soundcurrent_selector"
+            android:checked="true"
+            android:gravity="center"
+            android:text="@string/huachen_network"
+			style="@style/hcy_redaiobutton_style" />
+
+        <!-- 舒适便利性 -->
+
+        <RadioButton
+            android:id="@+id/convenientsetting"
+            android:layout_weight="1"
+            android:background="@drawable/soundconpent_selector"
+            android:gravity="center"
+            android:text="@string/hauchen_convenient"
+			style="@style/hcy_redaiobutton_style" />
+
+        <!-- 智能导航 -->
+
+        <RadioButton
+            android:id="@+id/smartnavi"
+            android:layout_weight="1"
+            android:background="@drawable/soundconpent_selector"
+            android:gravity="center"
+            android:text="@string/hauchen_smartnavi"
+            android:visibility="gone"
+            style="@style/hcy_redaiobutton_style" />
+
+        <!-- 安防 -->
+
+        <RadioButton
+            android:id="@+id/sefety"
+            android:layout_weight="1"
+            android:background="@drawable/soundequalizer_selector"
+            android:gravity="center"
+            android:text="@string/hauchen_sefety"
+            style="@style/hcy_redaiobutton_style" />
+    </com.hwatong.settings.widget.MyRadioGroup>
+
+</LinearLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:orientation="horizontal" >
+
+    <include layout="@layout/f70_global_back_btn" />
+
+    <com.hwatong.settings.widget.MyRadioGroup
+        android:id="@+id/sound_navi"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+
+        <!-- 当前设置 -->
+
+        <RadioButton
+            android:id="@+id/currentsoundsettingsetting"
+            android:layout_weight="1"
+            android:background="@drawable/soundcurrent_selector"
+            android:checked="true"
+            android:gravity="center"
+            android:text="@string/current_setting"
+			style="@style/sound_setting_radiobutton_style" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/setting_main_seperate" />
+
+        <!-- 均衡器 -->
+
+        <RadioButton
+            android:id="@+id/equalizersettingsetting"
+            android:layout_weight="1"
+            android:background="@drawable/soundloud_selector"
+            android:gravity="center"
+            android:text="@string/equalizer_setting"
+			style="@style/sound_setting_radiobutton_style" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/setting_main_seperate" />
+
+        <!-- 车速补偿 -->
+
+        <RadioButton
+            android:id="@+id/speedcompensationsettingsetting"
+            android:layout_weight="1"
+            android:background="@drawable/soundconpent_selector"
+            android:gravity="center"
+            android:text="@string/speedcompensation_setting"
+            style="@style/sound_setting_radiobutton_style" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/setting_main_seperate" />
+
+        <!-- 响度 -->
+
+        <RadioButton
+            android:id="@+id/loudnesssetting"
+            android:layout_weight="1"
+            android:background="@drawable/soundequalizer_selector"
+            android:gravity="center"
+            android:text="@string/loudness_setting"
+            style="@style/sound_setting_radiobutton_style" />
+    </com.hwatong.settings.widget.MyRadioGroup>
+
+</LinearLayout>

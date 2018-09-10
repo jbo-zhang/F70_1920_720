@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.hwatong.settings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- 危险报警 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="@dimen/setting_title"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:layout_centerVertical="true"
+            android:text="@string/dangerous_warn"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+                
+        <!--
+                 <CheckBox
+                android:id="@+id/switch_dangerous_warn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/setting_title_checkbox"
+                android:button="@drawable/setting_checkbox_selector" />
+        -->
+
+        <com.hwatong.settings.widget.SwitchButton
+            android:id="@+id/switch_dangerous_warn"
+            style="@style/SwitchButtonStyle"
+            android:layout_marginRight="@dimen/title_interval_text"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            app:kswBackDrawable="@drawable/track"
+            app:kswTextOff="Off"
+            app:kswTextOn="On"
+            app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+    </RelativeLayout>
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_intervel_height"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+
+    <!-- 紧急联系人 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="@dimen/version_text_width"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:layout_centerVertical="true"
+            android:text="@string/urgent_contacts"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <TextView
+            android:id="@+id/warn_contact_name"
+            android:layout_width="@dimen/setting_title"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/title_interval_text"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+    </RelativeLayout>
+
+</LinearLayout>

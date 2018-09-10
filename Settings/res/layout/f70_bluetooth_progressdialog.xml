@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bluetooth_connect_toastbg"
+    android:orientation="horizontal"
+    android:gravity="center" >
+
+    <ProgressBar
+        android:id="@+id/loadingImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/progressbar_loading_distance"
+        android:layout_gravity="center"
+        android:indeterminateDrawable="@drawable/progress_medium" />
+    
+    <TextView 
+        android:id="@+id/bluetooth_progress_title"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textSize="@dimen/setting_titletext"
+        android:textColor="@android:color/white"
+        android:text="@string/bluetooth_srarching"/>
+
+</LinearLayout>

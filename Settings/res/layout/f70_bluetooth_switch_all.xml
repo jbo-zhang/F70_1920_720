@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.hwatong.settings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- 蓝牙开关 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/btswitch_text"
+            android:text="@string/bluetooth_switch_title"
+            style="@style/bluetooth_all_setting_text_style" />
+
+        <!--
+             <CheckBox
+            android:id="@+id/switch_bluetooth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="56dp"
+            android:button="@drawable/setting_checkbox_selector" />
+        -->
+
+        <com.hwatong.settings.widget.SwitchButton
+            android:id="@+id/switch_bluetooth"
+            style="@style/SwitchButtonStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/title_interval_text"
+            android:textSize="@dimen/setting_titletext"
+            app:kswBackDrawable="@drawable/track"
+            app:kswTextOff="@string/switch_button_off"
+            app:kswTextOn="@string/switch_button_on"
+            app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_intervel_height"
+        android:layout_gravity="center"
+        android:background="@color/title_intervel_color" />
+
+    <!-- 自动连接 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:text="@string/auto_connection"
+            style="@style/bluetooth_all_setting_text_style" />
+
+        <!--
+             <CheckBox
+            android:id="@+id/bluetooth_autoconnection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="56dp"
+            android:button="@drawable/setting_checkbox_selector" />
+        -->
+
+        <com.hwatong.settings.widget.SwitchButton
+            android:id="@+id/bluetooth_autoconnection"
+            style="@style/SwitchButtonStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/title_interval_text"
+            android:textSize="@dimen/setting_titletext"
+            app:kswBackDrawable="@drawable/track2"
+            app:kswTextOff="@string/switch_button_off"
+            app:kswTextOn="@string/switch_button_on"
+            android:textColor="@drawable/f70_textcolor"
+            app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_intervel_height"
+        android:layout_gravity="center"
+        android:background="@color/title_intervel_color" />
+
+    <!-- 自动接听 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:text="@string/auto_answer"
+            style="@style/bluetooth_all_setting_text_style" />
+
+        <!--
+             <CheckBox
+            android:id="@+id/bluetooth_autoanswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"           
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="56dp"
+            android:button="@drawable/setting_checkbox_selector" />
+        -->
+
+        <com.hwatong.settings.widget.SwitchButton
+            android:id="@+id/bluetooth_autoanswer"
+            style="@style/SwitchButtonStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/title_interval_text"
+            android:textSize="@dimen/setting_titletext"
+            app:kswBackDrawable="@drawable/track2"
+            app:kswTextOff="@string/switch_button_off"
+            app:kswTextOn="@string/switch_button_on"
+            android:textColor="@drawable/f70_textcolor"
+            app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_intervel_height"
+        android:layout_gravity="center"
+        android:background="@color/title_intervel_color" />
+
+    <!-- 蓝牙名称 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
+
+        <TextView
+            android:id="@+id/blename_text"
+            android:layout_width="@dimen/setting_title"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:text="@string/bluetoothname"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <ScrollView
+            android:id="@+id/ScrollView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/blename_text" >
+            
+             <EditText
+                android:id="@+id/bluetoothname"
+                android:layout_width="@dimen/setting_title"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/title_interval_text"
+                android:background="@null"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:maxLength="10"
+                android:longClickable="false"
+                android:text="@string/ble_defaultname"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" />
+        </ScrollView>
+
+        <!--
+             <EditText
+            android:id="@+id/bluetoothname"
+            android:layout_width="@dimen/setting_title"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="56dp"
+            android:layout_toRightOf="@+id/blename_text"
+            android:background="@null"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/ble_defaultname"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+        -->
+    </RelativeLayout>
+
+    <!--
+         <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:paddingBottom="8dp"
+        android:paddingEnd="12dp"
+        android:paddingStart="20dp"
+        android:paddingTop="8dp" >
+
+        <Button
+            android:id="@+id/btn_device_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:text="@string/bluetooth_edit_modify"
+            android:textColor="@color/text_color1" />
+
+        <TextView
+            android:id="@+id/tv_device_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/btn_device_name"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/text_color1" />
+
+        <EditText
+            android:id="@+id/et_device_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/btn_device_name"
+            android:background="@null"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:inputType="textVisiblePassword"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="gone" />
+    </RelativeLayout>   -->
+
+</LinearLayout>

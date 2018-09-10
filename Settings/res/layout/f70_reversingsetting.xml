@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.hwatong.settings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:layout_width="@dimen/setting_title"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:text="@string/reversing_mute"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <RadioGroup
+            android:id="@+id/setmute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/switch_reversing_mute"
+            android:orientation="horizontal" >
+
+            <!-- 高 -->
+
+            <RadioButton
+                android:id="@+id/mute_hight"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/carsetting_rb_selector"
+                android:button="@null"
+                android:checked="true"
+                android:layout_marginRight="@dimen/light_time_select"
+                android:gravity="center"
+                android:text="@string/mute_hight"
+                android:textSize="@dimen/back_bar_rbtext" />
+
+            <!-- 中 -->
+
+            <RadioButton
+                android:id="@+id/mute_middle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/carsetting_rb_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/light_time_select"
+                android:text="@string/mute_middle"
+                android:textSize="@dimen/back_bar_rbtext" />
+
+            <!-- 低 -->
+
+            <RadioButton
+                android:id="@+id/mute_low"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/carsetting_rb_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/mute_low"
+                android:textSize="@dimen/back_bar_rbtext" />
+        </RadioGroup>
+
+        <!--
+             <CheckBox
+            android:id="@+id/switch_reversing_mute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/volume_seekbar_side_margin"
+            android:button="@drawable/setting_checkbox_selector" />       -->
+
+        <com.hwatong.settings.widget.SwitchButton
+            android:id="@+id/switch_reversing_mute"
+            style="@style/SwitchButtonStyle"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/title_interval_text"
+            app:kswBackDrawable="@drawable/track"
+            app:kswTextOff="@string/switch_button_off"
+            app:kswTextOn="@string/switch_button_on"
+            android:textSize="@dimen/setting_titletext"
+            app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+    </RelativeLayout>
+
+</LinearLayout>

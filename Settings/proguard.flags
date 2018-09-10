@@ -1,0 +1,16 @@
+# Keep all Fragments in this package, which are used by reflection.
+-keep class com.hwatong.settings.*Fragment
+-keep class com.hwatong.settings.*Picker
+-keep class com.hwatong.settings.*Settings
+-keep class com.hwatong.settings.wifi.*Settings
+-keep class com.hwatong.settings.deviceinfo.*
+-keep class com.hwatong.settings.bluetooth.*
+-keep class com.hwatong.settings.applications.*
+-keep class com.hwatong.settings.inputmethod.*
+-keep class com.hwatong.settings.MasterClear
+-keep class com.hwatong.settings.MasterClearConfirm
+-keep class com.hwatong.settings.accounts.*
+-keep class com.hwatong.settings.fuelgauge.*
+-keep class com.hwatong.settings.users.*
+-keep class com.hwatong.settings.wallpaper.*
+-keep class com.hwatong.settings.fragment.*

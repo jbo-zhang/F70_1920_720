@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/time_layout_padding" >
+
+    <!-- 时间模式调节 -->
+
+    <RelativeLayout
+        android:id="@+id/auto_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:gravity="center"
+        android:visibility="invisible" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:layout_marginTop="@dimen/time_setting_auto_text_magintop"
+            android:text="@string/timemode"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/back_bar_rbtext" />
+
+        <RadioGroup
+            android:id="@+id/timemoderg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/title_interval_text"
+            android:layout_marginTop="@dimen/time_setting_auto_radiobutton_magintop"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/time_manual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/common_timemode_selector"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="@string/timemode_manual"
+                android:textSize="@dimen/back_bar_rbtext" />
+
+            <RadioButton
+                android:id="@+id/time_auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/time_setting_auto_radiobutton_intervel"
+                android:background="@drawable/common_timemode_selector"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="@string/timemode_auto"
+                android:textSize="@dimen/back_bar_rbtext" />
+        </RadioGroup>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_intervel_height"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:background="@color/title_intervel_color" />
+    </RelativeLayout>
+
+    <!-- 时间调节 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/setting_time_rightbg"
+            android:orientation="horizontal"
+            android:padding="@dimen/time_setting_auto_text_magintop" >
+
+            <!-- 年份调节 -->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    style="@style/wheel_text_style"
+                    android:layout_gravity="center"
+                    android:text="@string/datetime_year" />
+
+                <!--
+                     <include
+                    android:id="@+id/year_add"
+                    layout="@layout/f70_global_timesetting_btnadd" />               -->
+
+                <ImageButton
+                    android:id="@+id/year_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/setting_timeset_vtnselector"
+                    android:src="@drawable/timesetting_button_add_selector" />
+
+                <com.hwatong.settings.wheel.WheelView
+                    android:id="@+id/yearwheel"
+                    style="@style/wheel_style" />
+
+                <!--
+                     <include
+                    android:id="@+id/year_decre"
+                    layout="@layout/f70_global_timesetting_btndecre" />-->
+
+                <ImageButton
+                    android:id="@+id/year_decre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/setting_timeset_vtnselector"
+                    android:src="@drawable/timesetting_button_decre_selector" />
+            </LinearLayout>
+
+            <!-- 月份调节 -->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/wheel_intervel"
+                android:orientation="vertical" >
+
+                <TextView
+                    style="@style/wheel_text_style"
+                    android:layout_gravity="center"
+                    android:text="@string/datetime_month" />
+
+                <!--
+                     <include
+                    android:id="@+id/month_add"
+                    layout="@layout/f70_global_timesetting_btnadd" />-->
+
+                <ImageButton
+                    android:id="@+id/month_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/setting_timeset_vtnselector"
+                    android:src="@drawable/timesetting_button_add_selector" />
+
+                <com.hwatong.settings.wheel.WheelView
+                    android:id="@+id/monthwheel"
+                    style="@style/wheel_style" />
+
+                <!--
+                     <include
+                    android:id="@+id/month_decre"
+                    layout="@layout/f70_global_timesetting_btndecre" />-->
+
+                <ImageButton
+                    android:id="@+id/month_decre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/setting_timeset_vtnselector"
+                    android:src="@drawable/timesetting_button_decre_selector" />
+            </LinearLayout>
+
+            <!-- 日期调节 -->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/wheel_intervel"
+                android:orientation="vertical" >
+
+                <TextView
+                    style="@style/wheel_text_style"
+                    android:layout_gravity="center"
+                    android:text="@string/datetime_day" />
+
+                <!--
+                     <include
+                    android:id="@+id/day_add"
+                    layout="@layout/f70_global_timesetting_btnadd" />-->
+
+                <ImageButton
+                    android:id="@+id/day_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/setting_timeset_vtnselector"
+                    android:src="@drawable/timesetting_button_add_selector" />
+
+                <com.hwatong.settings.wheel.WheelView
+                    android:id="@+id/daywheel"
+                    style="@style/wheel_style" />
+
+                <!--
+                     <include
+                    android:id="@+id/day_decre"
+                    layout="@layout/f70_global_timesetting_btndecre" />-->
+
+                <ImageButton
+                    android:id="@+id/day_decre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/setting_timeset_vtnselector"
+                    android:src="@drawable/timesetting_button_decre_selector" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/date_from_year_distance"
+            android:background="@drawable/setting_time_leftbg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/date_from_year_padding" >
+
+            <!-- 小时调节 -->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    style="@style/wheel_text_style"
+                    android:layout_gravity="center"
+                    android:text="@string/datetime_hour" />
+
+                <!--
+                     <include
+                    android:id="@+id/hour_add"
+                    layout="@layout/f70_global_timesetting_btnadd" /> -->
+
+                <ImageButton
+                    android:id="@+id/hour_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/setting_timeset_vtnselector"
+                    android:src="@drawable/timesetting_button_add_selector" />
+
+                <com.hwatong.settings.wheel.WheelView
+                    android:id="@+id/hourwheel"
+                    style="@style/wheel_style" />
+
+                <!--
+                     <include
+                    android:id="@+id/hour_decre"
+                    layout="@layout/f70_global_timesetting_btndecre" />-->
+
+                <ImageButton
+                    android:id="@+id/hour_decre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/setting_timeset_vtnselector"
+                    android:src="@drawable/timesetting_button_decre_selector" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/time_colon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/time_colon_magintop"
+                android:text="@string/colon"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/time_colon_size" />
+            <!-- 分钟调节 -->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    style="@style/wheel_text_style"
+                    android:layout_gravity="center"
+                    android:text="@string/datetime_minute" />
+
+                <!--
+                     <include
+                    android:id="@+id/minute_add"
+                    layout="@layout/f70_global_timesetting_btnadd" /> -->
+
+                <ImageButton
+                    android:id="@+id/minute_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/setting_timeset_vtnselector"
+                    android:src="@drawable/timesetting_button_add_selector" />
+
+                <com.hwatong.settings.wheel.WheelView
+                    android:id="@+id/minutewheel"
+                    style="@style/wheel_style" />
+
+                <!--
+                          <include
+                    android:id="@+id/minute_decre"
+                    layout="@layout/f70_global_timesetting_btndecre" />
+                -->
+
+                <ImageButton
+                    android:id="@+id/minute_decre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/setting_timeset_vtnselector"
+                    android:src="@drawable/timesetting_button_decre_selector" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 时间调节部分 -->
+
+</LinearLayout>

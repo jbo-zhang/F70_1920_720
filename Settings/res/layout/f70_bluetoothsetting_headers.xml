@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bluetooth_navi"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:orientation="horizontal" >
+
+    <include layout="@layout/f70_global_back_btn" />
+
+    <!--
+         <RadioGroup
+        android:id="@+id/bluetooth_navi"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+    -->
+
+
+    <!-- 设备列表 -->
+
+    <RadioButton
+        android:id="@+id/devicelist_rb"
+        style="@style/bluetooth_navi_button_style"
+        android:layout_weight="1"
+        android:background="@drawable/bluetooth_devicelist_selector"
+        android:text="@string/device_list" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/setting_main_seperate" />
+
+    <!-- 搜索列表 -->
+
+    <RadioButton
+        android:id="@+id/searchdevice_rb"
+        style="@style/bluetooth_navi_button_style"
+        android:layout_weight="1"
+        android:background="@drawable/bluetooth_searchlist_selector"
+        android:text="@string/search_list" />
+
+    <!-- </RadioGroup> -->
+
+</LinearLayout>

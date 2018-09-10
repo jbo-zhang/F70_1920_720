@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/date_time_set_date"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal"
+        android:paddingStart="8dip" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="8dip" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/datetime_year"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <ImageButton
+                android:id="@+id/volume_minus1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/datetime_settings_minus" />
+
+            <TextView
+                android:id="@+id/volume_text1"
+                android:layout_width="108dp"
+                android:layout_height="105dp"
+                android:background="@drawable/datetime_settings_text_bg"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="64sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/volume_plus1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/datetime_settings_plus" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="8dip" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/datetime_month"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <ImageButton
+                android:id="@+id/volume_minus2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/datetime_settings_minus" />
+
+            <TextView
+                android:id="@+id/volume_text2"
+                android:layout_width="108dp"
+                android:layout_height="105dp"
+                android:background="@drawable/datetime_settings_text_bg"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="64sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/volume_plus2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/datetime_settings_plus" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="8dip" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/datetime_day"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <ImageButton
+                android:id="@+id/volume_minus3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/datetime_settings_minus" />
+
+            <TextView
+                android:id="@+id/volume_text3"
+                android:layout_width="108dp"
+                android:layout_height="105dp"
+                android:background="@drawable/datetime_settings_text_bg"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="64sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/volume_plus3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/datetime_settings_plus" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="8dip"
+            android:layout_marginLeft="8dp" >
+
+            <com.hwatong.settings.view.WeekDayView
+                android:id="@+id/week_day_view"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <com.hwatong.settings.view.MonthDateView
+                    android:id="@+id/month_date_view"
+                    android:layout_width="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_height="200dp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:settings="http://schemas.android.com/apk/res/com.hwatong.settings"
+    android:key="atmospherelamp_settings"
+    android:title="@string/atmospherelamp_title" >
+
+    <!-- switch preference-->
+    <PreferenceScreen
+        android:key="switch_preference"
+        android:title="@string/atmospherelamp_switch_title" 
+        android:widgetLayout="@layout/preference_widget_arrow"
+        android:fragment="com.hwatong.settings.fragment.MyAtmosphereLampSwitchFragment" />
+    
+    <!-- static settings -->
+    <PreferenceScreen
+        android:key="static_settings"
+        android:title="@string/atmospherelamp_static_title" 
+        android:widgetLayout="@layout/preference_widget_arrow"
+        android:fragment="com.hwatong.settings.fragment.MyAtmosphereLampStaticFragment" />
+    
+    <!-- Dynamic settings -->
+    <PreferenceScreen
+        android:key="dynamic_settings"
+        android:title="@string/atmospherelamp_dynamic_title" 
+        android:widgetLayout="@layout/preference_widget_arrow"
+        android:fragment="com.hwatong.settings.fragment.MyAtmosphereLampDynamicFragment" />
+    
+    <!--Instrument table -->
+    <com.hwatong.settings.MySwitchPreference
+        android:defaultValue="true"
+        android:key="instrument_table"
+        android:title="@string/atmospherelamp_instrument_title"
+        android:widgetLayout="@layout/switch_pref" />
+    
+</PreferenceScreen>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.hwatong.settings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- 超速报警 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="@dimen/keep_fit_text_width"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:text="@string/speed_warn"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <!--
+             <CheckBox
+            android:id="@+id/switch_speed_warn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/setting_title_checkbox"
+            android:button="@drawable/setting_checkbox_selector" />
+        -->
+
+        <com.hwatong.settings.widget.SwitchButton
+            android:id="@+id/switch_speed_warn"
+            style="@style/SwitchButtonStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/title_interval_text"
+            android:textSize="@dimen/setting_titletext"
+            app:kswBackDrawable="@drawable/track"
+            app:kswTextOff="@string/switch_button_off"
+            app:kswTextOn="@string/switch_button_on"
+            app:kswThumbDrawable="@drawable/setting_switch_thumb" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_intervel_height"
+        android:layout_gravity="center"
+        android:background="@color/title_intervel_color" />
+
+    <!-- 超速报警车速设置 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="@dimen/speed_warn_text_width"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/title_interval_text"
+            android:text="@string/speed_warn_setting"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/title_interval_text"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <!--
+                 <include
+                android:id="@+id/speed_decre"
+                layout="@layout/f70_volume_commonbtn_decre" />
+            -->
+
+            <ImageButton
+                android:id="@+id/speed_decre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/commonvolume_selector"
+                android:src="@drawable/f70_volume_button_decre" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/speed_warn_number_adjust_intervel"
+                android:background="@drawable/speedwarn_value_bg" >
+
+                <TextView
+                    android:id="@+id/speed_warn_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/speed_warn_number_intervel"
+                    android:text="@string/speed_warn_defaultvalue"
+                    android:textColor="@drawable/f70_textcolor"
+                    android:textSize="@dimen/setting_titletext" />
+
+                <TextView
+                    android:id="@+id/speed_warn_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/speed_warn_defaultunit"
+                    android:textColor="@drawable/f70_textcolor"
+                    android:textSize="@dimen/setting_titletext" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/speed_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/speed_warn_number_adjust_intervel"
+                android:background="@drawable/commonvolume_selector"
+                android:src="@drawable/f70_volume_button_add" />
+
+            <!--
+                 <include
+                android:id="@+id/speed_add"
+                layout="@layout/f70_volume_commonbtn_add" />
+            -->
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

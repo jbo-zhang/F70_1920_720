@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/bluetooth_delete_title" >
+        
+        <TextView
+            android:id="@+id/delete_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/tipdeletebluetooth"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext" />
+
+        <TextView
+            android:id="@+id/delete_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_below="@+id/delete_title"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:maxEms="10" />
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/delete_name"
+            android:layout_below="@+id/delete_title"
+            android:text="@string/sign"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|bottom"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+<!--             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/deleteconfirm"
+                android:textColor="@color/red"
+                android:textSize="@dimen/setting_titletext" /> -->
+                
+                            <Button
+                android:id="@+id/dialog_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bluetooth_delete_dialog_selector_l"
+                android:text="@string/deleteconfirm"
+                android:textColor="@drawable/f70_textview_click"
+                android:textSize="@dimen/setting_titletext" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|bottom"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center" >
+
+<!--             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/deletequit"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/setting_titletext" /> -->
+                
+                                            <Button
+                android:id="@+id/dialog_quit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bluetooth_delete_dialog_selector_r"
+                android:text="@string/deletequit"
+                android:textColor="@drawable/f70_textview_click"
+                android:textSize="@dimen/setting_titletext" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

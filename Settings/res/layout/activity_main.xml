@@ -1,0 +1,140 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hwatong.settings.MainActivity" >
+
+    <LinearLayout
+        android:id="@+id/ll_line1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/iv_sound_settings"
+                style="@style/activityMainImageView"
+                android:src="@drawable/ic_settings_sound" />
+
+            <TextView
+                style="@style/activityMainTextView"
+                android:layout_below="@id/iv_sound_settings"
+                android:text="@string/sound_title" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/iv_screen_settings"
+                style="@style/activityMainImageView"
+                android:src="@drawable/ic_settings_screen" />
+
+            <TextView
+                style="@style/activityMainTextView"
+                android:layout_below="@id/iv_screen_settings"
+                android:text="@string/screen_title" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/iv_time_settings"
+                style="@style/activityMainImageView"
+                android:src="@drawable/ic_settings_time" />
+
+            <TextView
+                style="@style/activityMainTextView"
+                android:layout_below="@id/iv_time_settings"
+                android:text="@string/time_title" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/iv_version_settings"
+                style="@style/activityMainImageView"
+                android:src="@drawable/ic_settings_version" />
+
+            <TextView
+                style="@style/activityMainTextView"
+                android:layout_below="@id/iv_version_settings"
+                android:text="@string/version_title" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/ll_line1"
+        android:layout_marginTop="30dp" >
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/iv_wallpaper_settings"
+                style="@style/activityMainImageView"
+                android:src="@drawable/ic_settings_wallpaper" />
+
+            <TextView
+                style="@style/activityMainTextView"
+                android:layout_below="@id/iv_wallpaper_settings"
+                android:text="@string/wallpaper_settings_title" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <ImageView
+                android:id="@+id/iv_system_settings"
+                style="@style/activityMainImageView"
+                android:src="@drawable/ic_settings_system" />
+
+            <TextView
+                style="@style/activityMainTextView"
+                android:layout_below="@id/iv_system_settings"
+                android:text="@string/system_title" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+<!-- 
+            <ImageView
+                android:id="@+id/iv_applications_settings"
+                style="@style/activityMainImageView"
+                android:src="@drawable/ic_settings_applications" />
+
+            <TextView
+                style="@style/activityMainTextView"
+                android:layout_below="@id/iv_applications_settings"
+                android:text="@string/applications_settings" />
+ -->                
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

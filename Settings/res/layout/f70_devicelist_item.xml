@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp" >
+
+        <TextView
+            android:id="@+id/device_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="56dp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/setting_titletext"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:maxEms="10" />
+
+        <Button
+            android:id="@+id/device_disconnorconn"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/device_deleteorconn"
+            android:background="@drawable/bluetooth_btn_selector"
+            android:text="@string/bluetooth_connect"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/back_bar_rbtext"
+            android:shrinkColumns="3" />
+
+        <Button
+            android:id="@+id/device_deleteorconn"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bluetooth_btn_selector"
+            android:text="@string/bluetooth_delete"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/back_bar_rbtext" />
+    </RelativeLayout>
+
+<!--     <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/preference_divider" /> -->
+
+</LinearLayout>

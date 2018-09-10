@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2012 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+    <dimen name="device_memory_usage_button_width">16dip</dimen>
+    <dimen name="device_memory_usage_button_height">32dip</dimen>
+    <dimen name="action_bar_switch_padding">36dip</dimen>
+
+    <dimen name="app_icon_size">56dip</dimen>
+    <dimen name="screen_margin_sides">64dip</dimen>
+    <dimen name="screen_margin_top">72dip</dimen>
+    <dimen name="screen_margin_bottom">48dip</dimen>
+    <dimen name="content_margin_left">16dip</dimen>
+    <dimen name="description_margin_top">26dip</dimen>
+    <dimen name="description_margin_sides">40dip</dimen>
+    <dimen name="bind_app_widget_dialog_checkbox_bottom_padding">16dip</dimen>
+    <dimen name="installed_app_details_bullet_offset">8dip</dimen>
+
+    <dimen name="data_usage_chart_height">252dip</dimen>
+    <dimen name="data_usage_chart_optimalWidth">440dip</dimen>
+
+    <dimen name="volume_seekbar_side_margin">8dip</dimen>
+
+    <dimen name="crypt_clock_size">100sp</dimen>
+
+    <item type="dimen" name="setup_title_height">15%</item>
+    <item type="dimen" name="setup_border_width">5%</item>
+    <dimen name="setup_margin_bottom">0dip</dimen>
+    <dimen name="setup_title_size">25sp</dimen>
+    <dimen name="setup_button_size">32dip</dimen>
+    <dimen name="setup_item_margin">16dip</dimen>
+
+    <dimen name="divider_height">3dip</dimen>
+    <dimen name="divider_margin_top">6dip</dimen>
+    <dimen name="divider_margin_bottom">7dip</dimen>
+
+    <!--  Size of icons in the top-level of settings  -->
+    <dimen name="header_icon_width">28dp</dimen>
+    <dimen name="appwidget_min_width">260dip</dimen>
+    <dimen name="appwidget_min_height">40dip</dimen>
+
+    <dimen name="pager_tabs_padding">0dp</dimen>
+
+    <!-- Size of AppWidget previews in KeyguardAppWidgetPickActivity -->
+    <dimen name="appwidget_preview_width">140dip</dimen>
+    <dimen name="appwidget_preview_height">80dip</dimen>
+    <dimen name="keyguard_appwidget_picker_max_width">800dip</dimen>
+    <dimen name="keyguard_appwidget_picker_margin_left">6dip</dimen>
+    <dimen name="keyguard_appwidget_picker_margin_right">6dip</dimen>
+    <integer name="keyguard_appwidget_picker_cols">1</integer>
+    
+    <dimen name="preference_content_minheight">87dp</dimen>
+    <dimen name="preference_header_minheight">71dp</dimen>
+    
+        <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    
+    <dimen name="menu_width">852dp</dimen>
+    <dimen name="menu_height">410dp</dimen>
+    <dimen name="navi_height">70dp</dimen>
+    <dimen name="image">428dp</dimen>
+    <dimen name="back_bar_rbtext">19sp</dimen>
+    <dimen name="equalizer_panel_hz">18sp</dimen>
+    <dimen name="setting_titletext">19sp</dimen>
+    <dimen name="timeset_text">22sp</dimen>
+    <dimen name="setting_title">200dip</dimen>
+    <dimen name="setting_title_checkbox">680dip</dimen>
+    
+    <dimen name="time_setting_text_size">42dip</dimen>
+    
+    <!-- bluetooth setting -->
+    <dimen name="progressbar_loading_distance">15dip</dimen>
+    <dimen name="title_interval_text">56dip</dimen>
+    <dimen name="title_height">70dip</dimen>
+    <dimen name="title_intervel_height">1dip</dimen>
+    <dimen name="device_list_listheight">305dip</dimen>
+    <dimen name="search_list_height">380dip</dimen>
+    <dimen name="single_door_unlock">300dip</dimen>
+    <dimen name="keep_fit_text_width">300dip</dimen>
+    <dimen name="main_distance_text_intervel">10dip</dimen>
+    <dimen name="me_light_width">250dip</dimen>
+    <dimen name="light_time_select">10px</dimen>
+    <dimen name="rearview_text_width">220dip</dimen>
+    <dimen name="speed_warn_number_intervel">20dip</dimen>
+    <dimen name="speed_warn_number_adjust_intervel">20px</dimen>
+    <dimen name="speed_warn_text_width">350dip</dimen>
+    <dimen name="bluetoothConnectedInfoToast_offset">60dip</dimen>
+    
+    <!-- common setting -->
+    <dimen name="whole_car_text_width">150dip</dimen>
+    <dimen name="whole_car_text_intervel">30dip</dimen>
+    <dimen name="whole_car_number_width_intervel">60dip</dimen>
+    <dimen name="media_text_width">150dip</dimen>
+    <dimen name="language_radiobutton_width">740dip</dimen>
+    <dimen name="language_radiobutton_magintop">20dip</dimen>
+    <dimen name="presssound_button_magintop">10dip</dimen>
+    <dimen name="time_setting_auto_text_magintop">10dip</dimen>
+    <dimen name="time_setting_auto_radiobutton_magintop">10px</dimen>
+    <dimen name="time_setting_auto_radiobutton_intervel">8dip</dimen>
+    <dimen name="wheel_intervel">5dip</dimen>
+    <dimen name="date_from_year_distance">72dip</dimen>
+    <dimen name="date_from_year_padding">10dip</dimen>
+    <dimen name="time_colon_magintop">20dip</dimen>
+    <dimen name="time_colon_size">25sp</dimen>
+    <dimen name="time_layout_padding">12dip</dimen>
+    <dimen name="version_text_width">250dip</dimen>
+    <dimen name="language_radiobutton_size">70dip</dimen>
+    
+    
+    <!-- car setting -->
+    <dimen name="keepfit_radiobutton_textsize">20sp</dimen>
+    
+    <!-- hcy setting -->
+    <dimen name="convenient_layout_scroll_height">380dip</dimen>
+    <dimen name="arrive_track_text_width">300dip</dimen>
+    <dimen name="remote_open_findcar_text_width">260dip</dimen>
+    <dimen name="remote_open_engine_text_width">350dip</dimen>
+    <dimen name="position_tocar_text_width">220dip</dimen>
+    
+    <!-- main -->
+ 	<dimen name="main_layout_scroll_height">380dp</dimen>
+ 	<dimen name="main_title_height">75dip</dimen>
+ 	<dimen name="main_text_left_intervel">34dip</dimen>
+ 	<dimen name="main_arrow_maginright">10dip</dimen>
+ 	<dimen name="carsetting_title_maginleft">24dip</dimen>
+ 	<dimen name="backupsetting_title_maginleft">30dip</dimen>
+ 	<dimen name="huachenyun_title_maginleft">33dip</dimen>
+    <dimen name="back_dialog_text_width">500dip</dimen>
+    
+    <!-- sound setting -->
+    <dimen name="sound_title_text_width">120dip</dimen>
+    <dimen name="sound_number_text_width">60dip</dimen>
+    <dimen name="balance_button_width">45dp</dimen>
+    <dimen name="balance_button_height">69dp</dimen>
+    <dimen name="decre_left">15dp</dimen>
+    <dimen name="add_left">12dp</dimen>
+    <dimen name="startpointseekbar_width">434dp</dimen>
+    <dimen name="startpointseekbar_padding">12dip</dimen>
+    <dimen name="fade_text_left">10dp</dimen>
+    <dimen name="fade_reset_button_maginleft">300dip</dimen>
+    <dimen name="fade_reset_button_magintop">10dp</dimen>
+    <dimen name="fade_up_button_magintop">70px</dimen>
+    <dimen name="fade_left_button_maginleft">60px</dimen>
+    <dimen name="fade_down_button_magindown">40px</dimen>
+    <dimen name="fade_right_button_maginright">20px</dimen>
+    
+    <dimen name="equalizer_scroll_width">852dp</dimen>
+    <dimen name="equalizer_scroll_height">350dp</dimen>
+    <dimen name="fx_none_width">740dp</dimen>
+    <dimen name="wifiap_dialog_edit_width">300dp</dimen>
+    <dimen name="wifiap_dialog_top">10px</dimen>
+    <dimen name="eq_hz_title_top">47px</dimen>
+    <dimen name="eq_hz_sb_top">35px</dimen>
+    <dimen name="eq_hz_63_left">40px</dimen>
+    <dimen name="eq_hz_400_left">25px</dimen>
+    <dimen name="eq_hz_1000_left">25px</dimen>
+    <dimen name="eq_hz_2500_left">15px</dimen>
+    <dimen name="eq_hz_6300_left">18px</dimen>
+    <dimen name="eq_hz_sb_height">289dip</dimen>
+    
+    <dimen name="eq_sb_63_left">70px</dimen>
+    <dimen name="eq_sb_400_left">70px</dimen>
+    <dimen name="eq_sb_1000_left">70px</dimen>
+    <dimen name="eq_sb_2500_left">70px</dimen>
+    <dimen name="eq_sb_6300_left">70px</dimen>
+    <dimen name="eq_r_button_left">140px</dimen>
+    
+        <!-- wifi -->
+    <dimen name="nework_select_title_text_left">46dip</dimen>
+    <dimen name="nework_select_title_right">38dip</dimen>
+    <dimen name="wifiap_right">20px</dimen>
+    <dimen name="wifidialog_width">685dip</dimen>
+    <dimen name="wifidialog_height">350dip</dimen>
+    <dimen name="wifidialog_offset">210dip</dimen>
+</resources>

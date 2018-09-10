@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2010 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/wifi_settings_category" >
+
+    <!-- Wifi Switch -->
+    <!--
+    <PreferenceCategory android:key="wifi_switch"
+            android:title="@string/wifi_switch_title"/>
+    -->
+    <com.hwatong.settings.preference.SelectWifiPreference
+        android:id="@+id/wifi_selecting"
+        android:key="select_network"
+        android:title="@string/select_network" />
+    
+    <!-- Wifi_traffic -->
+     <com.hwatong.settings.preference.WifiApEditPreference
+        android:id="@+id/wifi_ap_traffic"
+        android:key="wifiap_traffic"
+        android:title="@string/wifi_ap_alltraffic" />
+    <!-- Connected -->
+     <com.hwatong.settings.preference.WifiApSwichPreference
+        android:id="@+id/wifi_ap_switch"
+        android:key="wifi_switch_ap"
+        android:title="@string/wifi_ap" />
+
+<!--     <com.hwatong.settings.preference.WifiApEditPreference
+        android:id="@+id/wifi_ap_name"
+        android:key="wifi_name"
+        android:title="@string/wifi_ap_name"/>
+    
+    <com.hwatong.settings.preference.WifiApEditPreference
+        android:id="@+id/wifi_ap_encry"
+        android:key="wifi_encry"
+        android:title="@string/wifi_ap_encrypted"/> -->
+    
+<!--     <com.hwatong.settings.preference.MyWifiSearch
+        android:id="@+id/wifi_ap_device"
+        android:key="wifi_device"
+        android:title="@string/wifi_ap_device"/> -->
+    <!-- Wifi AccessPoint -->
+    <!--
+    <PreferenceCategory android:key="wifi_accesspoint"
+            android:title="@string/wifi_accesspoint_title"/>
+    -->
+
+</PreferenceScreen>

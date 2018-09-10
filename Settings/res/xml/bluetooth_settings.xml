@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:settings="http://schemas.android.com/apk/res/com.hwatong.settings"
+    android:title="@string/bluetooth_title" >
+
+    <!-- device name -->
+    <com.hwatong.settings.preference.MyBluetoothDeviceName
+        android:key="device_name"
+        android:title="@string/bluetooth_device_name_title"
+        />
+
+    <!-- pin password -->
+    <com.hwatong.settings.MyEditTextPreference
+        android:key="pin_code"
+        android:title="@string/bluetooth_pin_password_title"
+        />
+
+    <!-- connected device -->
+    <com.hwatong.settings.MyTextViewPreference
+        android:key="connected_device"
+        android:title="@string/bluetooth_connected_title"
+        />
+
+</PreferenceScreen>

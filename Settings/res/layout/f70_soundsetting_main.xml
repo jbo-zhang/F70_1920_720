@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="horizontal" >
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2" >
+
+        <FrameLayout
+            android:id="@+id/sound_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </FrameLayout>
+
+        <include layout="@layout/f70_soundsetting_headers" />
+    </FrameLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/interval_all" />
+
+    <!-- 右边的显示图 -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+        
+        <!-- 当前设置右边的车子调节图 -->
+        
+        <RelativeLayout
+            android:id="@+id/current_sound_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="gone" >
+            
+            <Button
+                android:id="@+id/sound_reset" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/sound_reset"
+                android:textSize="@dimen/back_bar_rbtext"
+                android:textColor="@android:color/white"
+                android:background="@drawable/sound_reset_button"
+                android:layout_marginLeft="@dimen/fade_reset_button_maginleft"
+                android:layout_marginTop="@dimen/fade_reset_button_magintop"/>
+            
+            <!-- 上 -->
+            <Button
+                android:id="@+id/sound_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sound_up"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/fade_up_button_magintop"
+                />
+            
+            <!-- 左 -->
+             <Button
+                android:id="@+id/sound_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sound_left"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/fade_left_button_maginleft"/>
+             
+             <!-- 下 -->
+             <Button
+                android:id="@+id/sound_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sound_down"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/touch_layout"
+                android:layout_marginTop="@dimen/fade_down_button_magindown"/>
+             
+             <!-- 右 -->
+             <Button
+                android:id="@+id/sound_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sound_right"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/touch_layout"
+                android:layout_marginLeft="@dimen/eq_r_button_left"
+                android:layout_marginTop="@dimen/fade_down_button_magindown"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/f70_sound_car" />
+
+            <com.hwatong.settings.widget.DrawView
+                android:id="@+id/touch_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/f70_sound_area" />
+        </RelativeLayout>
+        
+        <!-- 音效设置右边的显示频率 -->
+        <LinearLayout
+            android:id="@+id/equalizer_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone" >
+            
+            <!-- 标题 -->
+            <LinearLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                
+                <!-- 63hz -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/equalizer_panel_hz"
+                    android:text="@string/eq_hz_63"
+                    android:layout_marginTop="@dimen/eq_hz_title_top"
+                    android:layout_marginLeft="@dimen/eq_hz_63_left"
+                    android:textColor="@android:color/white"/>
+                
+                <!-- 400hz -->
+                    <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/equalizer_panel_hz"
+                    android:text="@string/eq_hz_400"
+                    android:layout_marginTop="@dimen/eq_hz_title_top"
+                    android:layout_marginLeft="@dimen/eq_hz_400_left"
+                    android:textColor="@android:color/white"/>
+                    
+                <!-- 1000hz -->
+                    <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/equalizer_panel_hz"
+                    android:text="@string/eq_hz_1000"
+                    android:layout_marginTop="@dimen/eq_hz_title_top"
+                    android:layout_marginLeft="@dimen/eq_hz_1000_left"
+                    android:textColor="@android:color/white"/>
+                    
+                <!-- 2500hz -->
+                    <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/equalizer_panel_hz"
+                    android:text="@string/eq_hz_2500"
+                    android:layout_marginTop="@dimen/eq_hz_title_top"
+                    android:layout_marginLeft="@dimen/eq_hz_400_left"
+                    android:textColor="@android:color/white"/>
+                    
+                <!-- 6300hz -->
+                    <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/equalizer_panel_hz"
+                    android:text="@string/eq_hz_6300"
+                    android:layout_marginTop="@dimen/eq_hz_title_top"
+                    android:layout_marginLeft="@dimen/eq_hz_6300_left"
+                    android:textColor="@android:color/white"/>
+                                  
+            </LinearLayout>
+            
+            <!-- 调节条 -->
+            <LinearLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                
+                <!-- 63hz -->
+                <com.hwatong.settings.widget.VerticalSeekBar
+                    android:id="@+id/hz63"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/eq_hz_sb_height"
+                    android:progressDrawable="@drawable/eq_adjust"
+                    android:thumb="@drawable/f70_eq_sb_thumb"
+                    android:thumbOffset="0dp"
+                    android:layout_marginLeft="@dimen/eq_sb_63_left"
+                    android:layout_marginTop="@dimen/eq_hz_sb_top"
+                    ></com.hwatong.settings.widget.VerticalSeekBar>
+                
+                <!-- 400hz -->
+                <com.hwatong.settings.widget.VerticalSeekBar
+                    android:id="@+id/hz400"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/eq_hz_sb_height"
+                    android:progressDrawable="@drawable/eq_adjust"
+                    android:thumbOffset="0dp"
+                    android:thumb="@drawable/f70_eq_sb_thumb"
+                    android:layout_marginLeft="@dimen/eq_sb_400_left"
+                    android:layout_marginTop="@dimen/eq_hz_sb_top"></com.hwatong.settings.widget.VerticalSeekBar>
+                
+                <!-- 1000hz -->
+                <com.hwatong.settings.widget.VerticalSeekBar
+                    android:id="@+id/hz1000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/eq_hz_sb_height"
+                    android:progressDrawable="@drawable/eq_adjust"
+                    android:thumbOffset="0dp"
+                    android:thumb="@drawable/f70_eq_sb_thumb"
+                    android:layout_marginLeft="@dimen/eq_sb_1000_left"
+                    android:layout_marginTop="@dimen/eq_hz_sb_top"></com.hwatong.settings.widget.VerticalSeekBar>
+                
+                <!-- 2500hz -->
+               <com.hwatong.settings.widget.VerticalSeekBar
+                    android:id="@+id/hz2500"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/eq_hz_sb_height"
+                    android:progressDrawable="@drawable/eq_adjust"
+                    android:thumbOffset="0dp"
+                    android:thumb="@drawable/f70_eq_sb_thumb"
+                    android:layout_marginLeft="@dimen/eq_sb_2500_left"
+                    android:layout_marginTop="@dimen/eq_hz_sb_top"></com.hwatong.settings.widget.VerticalSeekBar>
+                
+                <!-- 6300hz -->
+              <com.hwatong.settings.widget.VerticalSeekBar
+                    android:id="@+id/hz6300"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/eq_hz_sb_height"
+                    android:progressDrawable="@drawable/eq_adjust"
+                    android:thumbOffset="0dp"
+                    android:thumb="@drawable/f70_eq_sb_thumb"
+                    android:layout_marginLeft="@dimen/eq_sb_6300_left"
+                    android:layout_marginTop="@dimen/eq_hz_sb_top"></com.hwatong.settings.widget.VerticalSeekBar>
+            </LinearLayout>
+        </LinearLayout>
+		
+        <ImageView
+            android:id="@+id/bigimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/setting_soundset_rbg"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+</LinearLayout>
