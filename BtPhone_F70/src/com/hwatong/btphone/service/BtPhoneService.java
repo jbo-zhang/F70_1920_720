@@ -249,7 +249,9 @@ public class BtPhoneService extends Service implements IReceiverView, IServiceVi
 			return;
 		}
 
-		tvName.setText(currentCall.number + " " + currentCall.name);
+		tvName.setText(TextUtils.ellipsize(currentCall.number + " " + currentCall.name, tvName.getPaint(), 700, TextUtils.TruncateAt.END));
+		
+		//tvName.setText(currentCall.number + " " + currentCall.name);
 
 		tvCalling.setText(getString(R.string.coming_now));
 		tvAccept.setText(getString(R.string.accept));
