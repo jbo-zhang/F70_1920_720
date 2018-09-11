@@ -709,16 +709,16 @@ public class DialActivity extends BaseActivity {
 	@Override
 	public void showDTMFInput(UICallLog callLog) {
 		onStateChange(PhoneState.INPUT);
-		mTvName.setText(callLog.dtmfStr);
+		mTvName.setText(TextUtils.ellipsize(callLog.dtmfStr, mTvName.getPaint(), 500, TextUtils.TruncateAt.START));
+		//mTvName.setText(callLog.dtmfStr);
 		showTalkingTime(callLog.duration);
 	}
 	
 	
 	private void setNameAndNumber(String name, String number) {
-		
 		name = handleUnknownName(name, number);
-		
-		mTvName.setText(name);
+		mTvName.setText(TextUtils.ellipsize(name, mTvName.getPaint(), 500, TextUtils.TruncateAt.END));
+		//mTvName.setText(name);
 		mTvtalkNumber.setText(number);
 	}
 	
