@@ -589,12 +589,12 @@ public class DisplaySetting extends BaseFragment implements OnTouchListener,
 			}
 			
 			LogUtils.d("iCarConfigListener wholecarlight:"
-					+ carConfig.getStatus8() + " 14: " + carConfig.getStatus14());
+					+ carConfig.getStatus8() + " 14: " + carConfig.getStatus14() + dashboardLight.getProgress());
 			
-			//得到反馈不处理，如果与界面不符，默默后台再发一次
+			//得到反馈不处理，如果与界面不符，默默后台再发一次(需要注意顺序，先删除)
 			int dashboardLightValue = carConfig.getStatus14();
 			if(dashboardLightValue != dashboardLight.getProgress()) {
-				setDashboardLight(dashboardLight.getProgress());
+				//setDashboardLight(dashboardLight.getProgress());
 			}
 			
 //			Message configMessage = Message.obtain();
