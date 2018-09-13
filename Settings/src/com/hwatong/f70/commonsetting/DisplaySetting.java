@@ -506,9 +506,9 @@ public class DisplaySetting extends BaseFragment implements OnTouchListener,
 		} else {
 			value = progress - 1 < 0 ? 0 : progress - 1;
 		}
-		seekBar.setProgress(value);
+		//seekBar.setProgress(value);
 		setDashboardLight(value);
-		dashboardLightText.setText("" + value);
+		//dashboardLightText.setText("" + value);
 	}
 
 	/**
@@ -592,15 +592,15 @@ public class DisplaySetting extends BaseFragment implements OnTouchListener,
 					+ carConfig.getStatus8() + " 14: " + carConfig.getStatus14() + dashboardLight.getProgress());
 			
 			//得到反馈不处理，如果与界面不符，默默后台再发一次(需要注意顺序，先删除)
-			int dashboardLightValue = carConfig.getStatus14();
-			if(dashboardLightValue != dashboardLight.getProgress()) {
-				//setDashboardLight(dashboardLight.getProgress());
-			}
+//			int dashboardLightValue = carConfig.getStatus14();
+//			if(dashboardLightValue != dashboardLight.getProgress()) {
+//				//setDashboardLight(dashboardLight.getProgress());
+//			}
 			
-//			Message configMessage = Message.obtain();
-//			configMessage.what = DASHBOARD_LIGHTESSS;
-//			configMessage.obj = carConfig;
-//			wholeCarLightHandler.sendMessage(configMessage);
+			Message configMessage = Message.obtain();
+			configMessage.what = DASHBOARD_LIGHTESSS;
+			configMessage.obj = carConfig;
+			wholeCarLightHandler.sendMessage(configMessage);
 		}
 	};
 	
