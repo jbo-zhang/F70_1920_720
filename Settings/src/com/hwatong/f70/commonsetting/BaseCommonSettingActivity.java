@@ -4,6 +4,7 @@ import com.hwatong.f70.baseview.BaseFragment.OnFragmentImageChangedListener;
 import com.hwatong.f70.main.F70Application;
 import com.hwatong.f70.main.LogUtils;
 import com.hwatong.f70.main.Utils;
+import com.hwatong.settings.CommonSettings;
 import com.hwatong.settings.R;
 import com.hwatong.settings.widget.MyRadioGroup;
 
@@ -12,6 +13,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -74,7 +77,6 @@ public class BaseCommonSettingActivity extends Activity implements
 
 		button = (RelativeLayout) findViewById(R.id.setting_main_back);
 		button.setOnClickListener(this);
-
 		
 		startFragment(mLanguageSetting, LANGUAGESETTINGFLAG);
 	}
@@ -174,20 +176,66 @@ public class BaseCommonSettingActivity extends Activity implements
 		}
 	}
 	
+	
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case 1:
+				Log.d("zjb", "refresh radiogroup");
+				commonSettingHeaders.enabledAllRadioButton();
+				break;
 
-	private void startFragment(Fragment f, String fragmentFlag) {
-		
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		
-		// if (fragmentManager.findFragmentByTag(fragmentFlag) != null) {
-		// fragmentTransaction.show(f);
-		// } else {
-		
-		fragmentTransaction.replace(COMMONSETTING_FRAGMENT, f, fragmentFlag);
-		fragmentTransaction.commit();
-		currentFragment = fragmentFlag;
+			default:
+				break;
+			}
+		};
+	};
+	
+	private synchronized void startFragment(final Fragment f, final String fragmentFlag) {
+		Log.d("zjb", "startFragment isVisible" + f.isVisible() + "  isAdded: " + f.isAdded() + " " + fragmentFlag + " " + currentFragment + Thread.currentThread().getName());
+		if(handler.hasMessages(1)) {
+			Log.d("zjb", "contain message too fast");
+			syncLabel();
+		} else {
+			Log.d("zjb", "not have message");
+			handler.removeCallbacksAndMessages(null);
+			handler.post(new Runnable() {
+				@Override
+				public void run() {
+					if(f.isVisible()) {
+						return;
+					}
+					FragmentTransaction fragmentTransaction = fragmentManager
+							.beginTransaction();
+					fragmentTransaction.replace(COMMONSETTING_FRAGMENT, f, fragmentFlag);
+					fragmentTransaction.commit();
+					currentFragment = fragmentFlag;
+					syncLabel();
+				}
+			});
+			commonSettingHeaders.disEnabledAllRadioButton();
+			handler.sendEmptyMessageDelayed(1, 200);
+		}
 	}
+	
+	private void syncLabel() {
+		if(TIMESETTINGFLAG.equals(currentFragment)) {
+			 commonSettingHeaders.check(R.id.timesetting);
+			 
+		} else if(DISPLAYSSETTINGFLAG.equals(currentFragment)) {
+			 commonSettingHeaders.check(R.id.displaysetting);
+			 
+		} else if(LANGUAGESETTINGFLAG.equals(currentFragment)) {
+			 commonSettingHeaders.check(R.id.languagesetting);
+			 
+		} else if(PRESSSOUNDFLAG.equals(currentFragment)) {
+			 commonSettingHeaders.check(R.id.presssound);
+			 
+		} else if(VERSIONINFOFLAG.equals(currentFragment)) {
+			commonSettingHeaders.check(R.id.version);
+		}
+	}
+	
 
 	private void hideFragments() {
 		Fragment fragment = fragmentManager.findFragmentByTag(currentFragment);

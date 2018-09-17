@@ -12,6 +12,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -41,7 +43,7 @@ public class BaseCarSettingActivity extends Activity implements
 	private MyRadioGroup carSettingHeaders;
 	private RadioButton doorRb, rearViewRb, lightRb, reversingRb, warnRb,
 			keepfitRb;
-	private RelativeLayout button;// ���ؼ�
+	private RelativeLayout button;// ���ؼ�
 	private ImageView bigImage;
 	private FragmentManager fragmentManager;
 	private ImageView rearviewIntervel, speedwarnIntervel;
@@ -183,21 +185,72 @@ public class BaseCarSettingActivity extends Activity implements
 		}
 	}
 
-	private void startFragment(Fragment f, String fragmentFlag) {
+	
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case 1:
+				Log.d("zjb", "refresh radiogroup");
+				carSettingHeaders.enabledAllRadioButton();
+				break;
 
+			default:
+				break;
+			}
+		};
+	};
+	
+	
+	private synchronized void startFragment(final Fragment f, final String fragmentFlag) {
+		Log.d("zjb", "startFragment isVisible " + f.isVisible() + "  isAdded: " + f.isAdded() + " " + fragmentFlag + " " + currentFragment + Thread.currentThread().getName());
 		
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		
-		// if (fragmentManager.findFragmentByTag(fragmentFlag) != null) {
-		// fragmentTransaction.show(f);
-		// } else {
-		
-		fragmentTransaction.replace(CARSETTING_FRAGMENT, f, fragmentFlag);
-
-		// }
-		fragmentTransaction.commit();
-		currentFragment = fragmentFlag;
+		if(handler.hasMessages(1)) {
+			Log.d("zjb", "contain message too fast");
+			syncLabel();
+		} else {
+			Log.d("zjb", "not have message");
+			handler.removeCallbacksAndMessages(null);
+			handler.post(new Runnable() {
+				@Override
+				public void run() {
+					if(f.isVisible()) {
+						return;
+					}
+					FragmentTransaction fragmentTransaction = fragmentManager
+							.beginTransaction();
+					fragmentTransaction.replace(CARSETTING_FRAGMENT, f, fragmentFlag);
+					fragmentTransaction.commit();
+					currentFragment = fragmentFlag;
+					syncLabel();
+				}
+			});
+			carSettingHeaders.disEnabledAllRadioButton();
+			handler.sendEmptyMessageDelayed(1, 200);
+		}
+	}
+	
+	/**
+	 * 为了保证按钮与fragment同步
+	 */
+	private void syncLabel() {
+		if(DOORSETTINGFLAG.equals(currentFragment)) {
+			carSettingHeaders.check(R.id.cardoorsetting);
+			
+		} else if(REARVIEWSETTINGFLAG.equals(currentFragment)) {
+			carSettingHeaders.check(R.id.rearviewsetting);
+			
+		} else if(LIGHTSETTINGFLAG.equals(currentFragment)) {
+			carSettingHeaders.check(R.id.carlightsetting);
+			
+		} else if(REVERSINGSETTINGFLAG.equals(currentFragment)) {
+			carSettingHeaders.check(R.id.reversingsetting);
+			
+		} else if(SPEEDWARNFLAG.equals(currentFragment)) {
+			carSettingHeaders.check(R.id.speedwarn);
+			
+		} else if(KEEPFITTIPSFLAG.equals(currentFragment)) {
+			carSettingHeaders.check(R.id.keepfit);
+		}
 	}
 
 	private void hideFragments() {

@@ -89,7 +89,7 @@ public class EqualizerSetting extends BaseFragment implements
 		Activity activity = getActivity();
 		String currentModeName = "";
 		if(activity != null) {			
-			currentModeName = EffectUtils.getCarSettingsString(getActivity()
+			currentModeName = EffectUtils.getCarSettingsString(activity
 					.getContentResolver(), EffectUtils.EQUALIZER_MODE);
 		}
 		LogUtils.d("initEffectRadioGroup: " + currentModeName);
@@ -163,17 +163,25 @@ public class EqualizerSetting extends BaseFragment implements
 				+ ", custom mid: " + EffectUtils.getCustomMid()
 				+ ", custom treble: "
 				+ EffectUtils.getCustomTreble());
-		EffectUtils.putCarSettingsString(getActivity().getContentResolver(),
+		
+		Activity activity = getActivity();
+		
+		if(activity == null) {
+			LogUtils.d("activity is null !");
+			return;
+		}
+		
+		EffectUtils.putCarSettingsString(activity.getContentResolver(),
 				EffectUtils.EQUALIZER_MODE, type);
 		LogUtils.d("type: " + type);
 		if (type.equals(EffectUtils.CUSTOMER)) {
 			int[] customer = {0, 0, 0, 0, 0};
-			if(getActivity() != null) {
-				customer[0] = EffectUtils.getBand1(getActivity());
-				customer[1] = EffectUtils.getBand2(getActivity());
-				customer[2] = EffectUtils.getBand3(getActivity());
-				customer[3] = EffectUtils.getBand4(getActivity());
-				customer[4] = EffectUtils.getBand5(getActivity());
+			if(activity != null) {
+				customer[0] = EffectUtils.getBand1(activity);
+				customer[1] = EffectUtils.getBand2(activity);
+				customer[2] = EffectUtils.getBand3(activity);
+				customer[3] = EffectUtils.getBand4(activity);
+				customer[4] = EffectUtils.getBand5(activity);
 				
 				for(int i : customer)
 					LogUtils.d("customer get: " + i);
@@ -212,7 +220,7 @@ public class EqualizerSetting extends BaseFragment implements
 //		}
 		syncActivityData(type);
 		
-//		saveCurrentEqModeAfterExit(type);//D¡ä?o¡ä?
+//		saveCurrentEqModeAfterExit(type);//Dï¿½ï¿½?oï¿½ï¿½?
 	}
 	
 	@Override

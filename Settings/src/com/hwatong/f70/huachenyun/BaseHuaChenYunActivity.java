@@ -15,6 +15,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -160,23 +162,71 @@ public class BaseHuaChenYunActivity extends Activity implements
 		bigImage.setImageResource(R.drawable.hcy_wifi);
 	}
 	
-	private void startFragment(Fragment f, String fragmentFlag) {
+	
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case 1:
+				Log.d("zjb", "refresh radiogroup");
+				huachenSettingHeaders.enabledAllRadioButton();
+				break;
 
+			default:
+				break;
+			}
+		};
+	};
+	
+	
+	private synchronized void startFragment(final Fragment f, final String fragmentFlag) {
+		Log.d("zjb", "startFragment isVisible " + f.isVisible() + "  isAdded: " + f.isAdded() + " " + fragmentFlag + " " + currentFragment + Thread.currentThread().getName());
 		
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		
-		// if (fragmentManager.findFragmentByTag(fragmentFlag) != null) {
-		// fragmentTransaction.show(f);
-		// } else {
-		//
-		fragmentTransaction.replace(HUACHENSETTING_FRAGMENT, f, fragmentFlag);
-
-		// }
-		fragmentTransaction.commit();
-		currentFragment = fragmentFlag;
+		if(handler.hasMessages(1)) {
+			Log.d("zjb", "contain message too fast");
+			syncLabel();
+		} else {
+			Log.d("zjb", "not have message");
+			handler.removeCallbacksAndMessages(null);
+			handler.post(new Runnable() {
+				@Override
+				public void run() {
+					if(f.isVisible()) {
+						return;
+					}
+					FragmentTransaction fragmentTransaction = fragmentManager
+							.beginTransaction();
+					fragmentTransaction.replace(HUACHENSETTING_FRAGMENT, f, fragmentFlag);
+					fragmentTransaction.commit();
+					currentFragment = fragmentFlag;
+					syncLabel();
+				}
+			});
+			huachenSettingHeaders.disEnabledAllRadioButton();
+			handler.sendEmptyMessageDelayed(1, 200);
+		}
 	}
-
+	
+	/**
+	 * 为了保证按钮与fragment同步
+	 */
+	private void syncLabel() {
+		if(WIFISETTINGFLAG.equals(currentFragment)) {
+			huachenSettingHeaders.check(R.id.networksetting);
+			
+		} else if(WIFIAPSETTINGFLAG.equals(currentFragment)) {
+			huachenSettingHeaders.check(R.id.networksetting);
+			
+		} else if(CONVENIENTSETTINGFLAG.equals(currentFragment)) {
+			huachenSettingHeaders.check(R.id.convenientsetting);
+			
+		} else if(SMARTNAVISETTINGFLAG.equals(currentFragment)) {
+			huachenSettingHeaders.check(R.id.smartnavi);
+			
+		} else if(SEFETYSETTINGFLAG.equals(currentFragment)) {
+			huachenSettingHeaders.check(R.id.sefety);
+		}
+	}
+	
 	private void hideFragments() {
 		Fragment fragment = fragmentManager.findFragmentByTag(currentFragment);
 		FragmentTransaction fragmentTransaction = fragmentManager

@@ -30,6 +30,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -265,19 +266,68 @@ public class BaseSoundSettingActivity extends Activity implements
 		}
 	}	
 
-	private void startFragment(Fragment f, String fragmentFlag) {
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case 1:
+				Log.d("zjb", "refresh radiogroup");
+				soundSettingHeaders.enabledAllRadioButton();
+				break;
 
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		// if (fragmentManager.findFragmentByTag(fragmentFlag) != null) {
-		// fragmentTransaction.show(f);
-		// } else {
-		fragmentTransaction.replace(SOUNDSETTING_FRAGMENT, f, fragmentFlag);
-
-		// }
-		fragmentTransaction.commit();
-		currentFragment = fragmentFlag;
+			default:
+				break;
+			}
+		};
+	};
+	
+	
+	private synchronized void startFragment(final Fragment f, final String fragmentFlag) {
+		Log.d("zjb", "startFragment isVisible " + f.isVisible() + "  isAdded: " + f.isAdded() + " " + fragmentFlag + " " + currentFragment + Thread.currentThread().getName());
+		
+		if(handler.hasMessages(1)) {
+			Log.d("zjb", "contain message too fast");
+			syncLabel();
+		} else {
+			Log.d("zjb", "not have message");
+			handler.removeCallbacksAndMessages(null);
+			handler.post(new Runnable() {
+				@Override
+				public void run() {
+					if(f.isVisible()) {
+						return;
+					}
+					
+					FragmentTransaction fragmentTransaction = fragmentManager
+							.beginTransaction();
+					fragmentTransaction.replace(SOUNDSETTING_FRAGMENT, f, fragmentFlag);
+					fragmentTransaction.commit();
+					currentFragment = fragmentFlag;
+					syncLabel();
+				}
+			});
+			soundSettingHeaders.disEnabledAllRadioButton();
+			handler.sendEmptyMessageDelayed(1, 200);
+		}
 	}
+	
+	/**
+	 * 为了保证按钮与fragment同步
+	 */
+	private void syncLabel() {
+		if(CURRENTSOUNDSETTINGFLAG.equals(currentFragment)) {
+			soundSettingHeaders.check(R.id.currentsoundsettingsetting);
+			
+		} else if(EQUALIZERSETTINGFLAG.equals(currentFragment)) {
+			soundSettingHeaders.check(R.id.equalizersettingsetting);
+			
+		} else if(SPEEDCOMPENSATIONSETTINGFLAG.equals(currentFragment)) {
+			soundSettingHeaders.check(R.id.speedcompensationsettingsetting);
+			
+		} else if(LOUDNESSSETTINGFLAG.equals(currentFragment)) {
+			soundSettingHeaders.check(R.id.loudnesssetting);
+		}
+	}
+	
 
 	@Override
 	public void onClick(View v) {
