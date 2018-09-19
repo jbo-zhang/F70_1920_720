@@ -120,6 +120,8 @@ public class Service extends android.app.Service implements
     CanHandler mCanHandler;
 
     boolean mVoiceMuted = false;
+    
+    private int calling_type = 3;//0:in; 1:out; 3:invalid
 
     static final int MSG_PHONEBOOK_UPDATE = 1;
     class PhoneBookHandler extends Handler {
@@ -238,7 +240,7 @@ public class Service extends android.app.Service implements
                     break;
                 case MSG_CAN_PHONE:
                     Log.d(TAG, "MSG_CAN_PHONE");
-                    
+                    calling_type = msg.arg1;
                     canbus.writeIPCPhone(0x0F /*TEL:Invalid*/, 
                                          (msg.arg2 > 0x03)?0x01:0x03 /*BTPairing:Invalid*/, 
                                          msg.arg1 /*Phone:x*/, 
@@ -2761,9 +2763,12 @@ public class Service extends android.app.Service implements
         if(name_buf != null) {
             name_len = name_buf.length;
         }
+        
         if(number_buf != null) {
             number_len = number_buf.length;
+            Log.d(TAG, "number_len: " + number_len);
         }
+        
         byte data[] = new byte[1+name_len+number_len];
         if(name_len > 0) {
             data[0] = (byte)name_len;
@@ -2787,7 +2792,7 @@ public class Service extends android.app.Service implements
                     canbus.writeCallInfo(total /*Total_Messages*/, 
                                                  j /*MessageNumber*/, 
                                                  0x0E /*CallLogNum*/, 
-                                                 0x03 /*CallLog*/, 
+                                                 calling_type /*CallLog*/, //0:in; 1:out
                                                  0x00 /*PhoneAuth*/, 
                                                  once /*Characters*/
                                                  );
@@ -2806,7 +2811,6 @@ public class Service extends android.app.Service implements
     private static final int BT_VOICE_ACCOFF_CHANGED_DELAY = 0x88;
     private static final int BT_VOICE_ACCOFF_CHANGED_DELAY_TIME = 1000;
     private Handler btVoiceDelayHandler  = new Handler() {
-
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
