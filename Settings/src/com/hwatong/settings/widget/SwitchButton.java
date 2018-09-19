@@ -35,7 +35,7 @@ import android.view.ViewParent;
 import android.view.View.OnClickListener;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.CompoundButton;
-
+import android.os.Handler;
 
 /**
  * SwitchButton
@@ -568,10 +568,12 @@ public class SwitchButton extends CompoundButton implements OnClickListener{
         }
     }
 
+		Handler handler = new Handler();
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        if (!isEnabled() || !isClickable() || !isFocusable()) {
+        if (!isEnabled() || !isClickable() || !isFocusable() || handler.hasMessages(1)) {
             return false;
         }
 
@@ -618,6 +620,8 @@ public class SwitchButton extends CompoundButton implements OnClickListener{
                 	onUserCheckedChangeListener.onUserCheckedChanged(this, this.isChecked());
                 	performClick();
                 }
+                
+                handler.sendEmptyMessageDelayed(1, 200);
                 
                 break;
 

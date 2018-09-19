@@ -456,7 +456,7 @@ public class MyRadioGroup extends LinearLayout {
 		}
 	}
 
-	private void disEnabledAllRadioButton() {
+	public void disEnabledAllRadioButton() {
 		for (int j = 0; j < this.getChildCount(); j++) {
 			if (curPress != this.getChildAt(j).getId()) {
 				this.getChildAt(j).setEnabled(false);
@@ -464,7 +464,7 @@ public class MyRadioGroup extends LinearLayout {
 		}
 	}
 
-	private void enabledAllRadioButton() {
+	public void enabledAllRadioButton() {
 		for (int j = 0; j < this.getChildCount(); j++) {
 			if (curPress != this.getChildAt(j).getId()) {
 				this.getChildAt(j).setEnabled(true);
