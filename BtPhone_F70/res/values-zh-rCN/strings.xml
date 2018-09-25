@@ -69,5 +69,9 @@
     <string name="accept">通话</string>
     <string name="reject">挂断</string>
     <string name="no_data"></string>
+    
+    <string name="reject_updating">更新被拒绝！</string>
+    <string name="update_timeout">更新超时！</string>
+    <string name="update_failed">更新失败！</string>
 
 </resources>

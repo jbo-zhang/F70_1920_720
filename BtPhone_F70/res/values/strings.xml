@@ -70,6 +70,10 @@
     <string name="reject">Hang up</string>
     <string name="no_data"></string>
     
+    <string name="reject_updating">Reject updating!</string>
+    <string name="update_timeout">Update timeout!</string>
+    <string name="update_failed">Update failed!</string>
+    
     <string name="key_1">1</string>
     <string name="key_2">2</string>
     <string name="key_3">3</string>

@@ -16,6 +16,7 @@ import com.hwatong.btphone.adapter.CallLogListAdapter;
 import com.hwatong.btphone.adapter.CallLogListAdapter.ButtonOnClick;
 import com.hwatong.btphone.app.BtPhoneApplication;
 import com.hwatong.btphone.bean.UICallLog;
+import com.hwatong.btphone.constants.BtPhoneDef;
 import com.hwatong.btphone.constants.Constant;
 import com.hwatong.btphone.ui.DialogViewControl;
 import com.hwatong.btphone.ui.PopItemButtonListView;
@@ -311,7 +312,38 @@ public class CallLogActivity extends BaseActivity {
 	public void showLogsLoaded(int type, int result) {
 		L.d(thiz, "showLogLoaded type= " + type + " result= " + result);
 		if(type == mCurCallLogType) {
-			showTextDialog(R.string.dialog_updated);
+			
+//			switch (result) {
+//			case BtPhoneDef.PBAP_DOWNLOAD_REJECT:
+//				if(mCallLogMap.get(type).size() == 0) {
+//					showTextDialog(R.string.reject_updating);
+//					return;
+//				}
+//				break;
+//				
+//			case BtPhoneDef.PBAP_DOWNLOAD_FAILED:
+//				if(mCallLogMap.get(type).size() == 0) {
+//					showTextDialog(R.string.update_failed);
+//					return;
+//				}
+//				break;
+//				
+//			case BtPhoneDef.PBAP_DOWNLOAD_TIMEOUT:
+//				if(mCallLogMap.get(type).size() == 0) {
+//					showTextDialog(R.string.update_timeout);
+//					return;
+//				}
+//				break;
+//				
+//			default:
+//				break;
+//			}
+			
+			if(mCallLogMap.get(type).size() == 0) {
+				showTextDialog(R.string.update_failed);
+			} else {
+				showTextDialog(R.string.dialog_updated);
+			}
 		}
 	}
 	

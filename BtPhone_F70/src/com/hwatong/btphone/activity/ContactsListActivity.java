@@ -38,6 +38,7 @@ import com.hwatong.btphone.Contact;
 import com.hwatong.btphone.activity.base.BaseActivity;
 import com.hwatong.btphone.app.BtPhoneApplication;
 import com.hwatong.btphone.bean.UICallLog;
+import com.hwatong.btphone.constants.BtPhoneDef;
 import com.hwatong.btphone.constants.Constant;
 import com.hwatong.btphone.ui.DialogViewControl;
 import com.hwatong.btphone.ui.DrawableTextView;
@@ -657,7 +658,37 @@ public class ContactsListActivity extends BaseActivity {
 
 	@Override
 	public void showBooksLoaded(boolean succeed, int reason) {
-		showTextDialog(R.string.dialog_updated);
+		L.d(thiz, "showBooksLoaded reason : " + reason);
+//		switch (reason) {
+//		case BtPhoneDef.PBAP_DOWNLOAD_REJECT:
+//			if(mContactsList.size() == 0) {
+//				showTextDialog(R.string.reject_updating);
+//				return;
+//			}
+//			break;
+//			
+//		case BtPhoneDef.PBAP_DOWNLOAD_FAILED:
+//			if(mContactsList.size() == 0) {
+//				showTextDialog(R.string.update_failed);
+//				return;
+//			}
+//			break;
+//			
+//		case BtPhoneDef.PBAP_DOWNLOAD_TIMEOUT:
+//			if(mContactsList.size() == 0) {
+//				showTextDialog(R.string.update_timeout);
+//				return;
+//			}
+//			break;
+//			
+//		default:
+//			break;
+//		}
+		if(mContactsList.size() == 0) {
+			showTextDialog(R.string.update_failed);
+		} else {
+			showTextDialog(R.string.dialog_updated);
+		}
 	}
 
 	@Override

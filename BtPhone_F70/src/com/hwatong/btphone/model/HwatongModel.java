@@ -385,7 +385,7 @@ public class HwatongModel implements IBTPhoneModel {
 				} else {
 					booksLoading = false;
 					logsLoading = logsInLoading = logsOutLoading = logsMissLoading = false;
-					showBooksLoadedAndSync(false, BtPhoneDef.PBAP_DOWNLOAD_REJECT);
+					showBooksLoadedAndSync(false, BtPhoneDef.PBAP_DOWNLOAD_CALL_REJECT);
 				}
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -787,7 +787,7 @@ public class HwatongModel implements IBTPhoneModel {
 		
 		@Override
 		public void onCalllogDone(final String type,final int error) throws RemoteException {
-			L.d(thiz, callLogTotalCount + " onCalllogDone type= " + type + " error= " + error);
+			L.d(thiz, callLogTotalCount + " showLogsLoaded type= " + type + " error= " + error);
 
 			ThreadPoolUtil.THREAD_POOL_EXECUTOR.execute(new Runnable() {
 				
@@ -804,13 +804,13 @@ public class HwatongModel implements IBTPhoneModel {
 						
 					} else if(CallLog.TYPE_CALL_OUT.equals(type)) {
 						logsOutLoading = false;
-						showLogsLoadedAndSync(UICallLog.TYPE_CALL_OUT, error);
 						iView.updateDialedLogs(mCallLogMap.get(UICallLog.TYPE_CALL_OUT));
+						showLogsLoadedAndSync(UICallLog.TYPE_CALL_OUT, error);
 						
 					} else if(CallLog.TYPE_CALL_MISS.equals(type)) {
 						logsMissLoading = false;
-						showLogsLoadedAndSync(UICallLog.TYPE_CALL_MISS, error);
 						iView.updateMissedLogs(mCallLogMap.get(UICallLog.TYPE_CALL_MISS));
+						showLogsLoadedAndSync(UICallLog.TYPE_CALL_MISS, error);
 					}
 					
 					iView.updateAllLogs(mAllCallLogList);
