@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:background="@drawable/bluetooth_connect_toastbg"
+	>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+
+        <ProgressBar
+            android:id="@+id/loadingImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="15dp"
+            android:background="#FF2F2F2F"
+            android:indeterminateDrawable="@drawable/progress_medium" />
+
+        <TextView
+            android:id="@+id/bluetooth_progress_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/f70_bluetooth_searching"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/bluetooth_textsize" />
+    </LinearLayout>
+
+	<TextView
+	    android:id="@+id/cancel_search_btn"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+        android:visibility="gone"
+	    android:layout_gravity="right|center_vertical"
+	    android:layout_marginEnd="30dp"
+	    android:background="@drawable/cancel_search_btn"
+	    android:gravity="center"
+	    android:text="@string/cancel_search"
+	    android:textColor="@android:color/white"
+	    android:textSize="@dimen/bluetooth_textsize" />
+</FrameLayout>
