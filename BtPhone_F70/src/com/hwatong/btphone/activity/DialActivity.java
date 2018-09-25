@@ -611,6 +611,17 @@ public class DialActivity extends BaseActivity {
 			myHandler.removeMessages(FROM_VOICE_TO_FALSE);
 			myHandler.sendEmptyMessageDelayed(FROM_VOICE_TO_FALSE, 1000);
 		} else {
+			if (mCallOverExit) {
+				if(from == 1) {
+					goCalllogFromDial();
+					from = 0;
+				} else if(from == 2) {
+					goContactsFromDial();
+					from = 0;
+				} else {
+					finish();
+				}
+			} 
 			fromOutside = mCallOverExit = false;
 		}
 	}
