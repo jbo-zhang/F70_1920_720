@@ -181,10 +181,14 @@ public class HandleAppControl {
         	}
         }
         
-        //add++ 添加处理{"name":"音乐","operation":"","focus":"app","rawText":"音乐"}情况
+        // add++ 添加处理{"name":"音乐","operation":"","focus":"app","rawText":"音乐"}情况
+        // {"name":"酷我音乐","operation":"LAUNCH","focus":"app","rawText":"打开酷我音乐"}
         if ( ("LAUNCH".equals(operation) && (name.contains("音乐"))) || ("".equals(operation) && name.equals("音乐")) ) {
         	L.d(thiz ,"111");
-            if(mediaService!=null){
+        	
+        	if("酷我音乐".equals(name)){
+        		//放行
+        	} else if(mediaService!=null){
                 try {
                 	L.d(thiz, "luanch musicfilesize : " + mediaService.musicFileSize());
                         if(mediaService.musicFileSize() == 0){

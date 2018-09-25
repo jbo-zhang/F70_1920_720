@@ -80,7 +80,8 @@ public class Utils {
 			return false;
 		}
 		
-		if ("地图".equals(name) || "导航".equals(name)) {
+		// 需添加 {"name":"本地导航","operation":"LAUNCH","focus":"app","rawText":"打开本地导航"}
+		if ("地图".equals(name) || "导航".equals(name) || "本地导航".equals(name)) {
 			openApplication(context, getMapPackage()/*"com.mxnavi.mxnavi"*/);
 			return true;
 		} else if ("蓝牙".equals(name)) {
@@ -276,7 +277,8 @@ public class Utils {
 		if(name == null) {
 			return null;
 		}
-		if ("地图".equals(name) || "导航".equals(name)) {
+		
+		if ("地图".equals(name) || "导航".equals(name) || "本地导航".equals(name)) {
 			return getMapPackage()/*"com.mxnavi.mxnavi"*/;
 		} else if ("电话".equals(name) || "蓝牙".equals(name) || "蓝牙电话".equals(name)) {
 			return "com.hwatong.btphone.ui";
