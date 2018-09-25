@@ -401,21 +401,44 @@ public class HandleAirControl {
      * @param temperature
      * @return
      */
+	// {"device":"空调","operation":"SET","temperature":"+3","focus":"airControl","rawText":"空调温度升高三度"}
+	// {"device":"空调","operation":"SET","temperature":"-2","focus":"airControl","rawText":"空调温度降低二度"}
     private boolean handleTemperature2(String temperature) {
         if(acStatus==null){
             return false ;
         }
+        
+        temperature = temperature.trim();
         int cur = acStatus.getStatus1(); 
+        
         if(temperature.contains("+")){
-            sendCmd(10, cur+2);
+        	
+        	if(temperature.length() == 1) {
+        		sendCmd(10, cur+2);
+        	} else if(temperature.length() > 1) {
+        		temperature = temperature.substring(1);
+        		if(isNumeric(temperature)) {
+        			sendCmd(10, cur + (int)(Float.valueOf(temperature)*2));
+        		}
+        	}
             return true;
+            
+        } else if(temperature.contains("-")){
+            
+            if(temperature.length() == 1) {
+            	sendCmd(10, cur-2);
+        	} else if(temperature.length() > 1) {
+        		temperature = temperature.substring(1);
+        		if(isNumeric(temperature)) {
+        			sendCmd(10, cur - (int)(Float.valueOf(temperature)*2));
+        		}
+        	}
+            return true;
+            
         } else if(isNumeric(temperature)){
             sendCmd(10, (int)(Float.valueOf(temperature)*2));
             return true;
-        } else if(temperature.contains("-")){
-            sendCmd(10, cur-2);
-            return true;
-        }
+        } 
         return false;
     }
 	private boolean isNumeric(String str) {
@@ -461,6 +484,13 @@ public class HandleAirControl {
 				L.d(thiz, "CanbusService is null");
 				return;
 			}
+			
+			//空调温度限制范围
+			if(i == 10) {
+				j = j > 64 ? 64 : j;
+				j = j < 32 ? 32 : j;
+			}
+			
 			mCanbusService.writeACControl(i, j);
 			L.d(thiz, "CanbusService send CMD : type=" + i + "; value =" + j);
 		} catch (RemoteException e) {
