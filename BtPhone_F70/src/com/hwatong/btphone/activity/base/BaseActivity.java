@@ -264,8 +264,8 @@ public abstract class BaseActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onPause() {
 		L.d(thiz, "onPause");
-		BtPhoneApplication.getInstance().unRegisterHandler(mHandler, types);
 		super.onPause();
+		//BtPhoneApplication.getInstance().unRegisterHandler(mHandler, types);
 	}
 	
 	

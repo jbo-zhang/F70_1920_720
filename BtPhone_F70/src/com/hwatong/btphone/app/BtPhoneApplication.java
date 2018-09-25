@@ -108,10 +108,12 @@ public class BtPhoneApplication extends Application {
 	
 	
 	public synchronized void registerHandler(Handler handler, int[] type) {
+		L.d(thiz, "registerHandler!");
 		mHandler = handler;
 	}
 
 	public synchronized void unRegisterHandler(Handler handler, int[] type) {
+		L.d(thiz, "unRegisterHandler!");
 		mHandler = null;
 	}
 
@@ -125,6 +127,7 @@ public class BtPhoneApplication extends Application {
 //	}
 	
 	public synchronized void notifyMsg(int what) {
+		L.d(thiz, "nofityMsg! mHandler = " + mHandler);
 		if(mHandler != null) {
 			mHandler.sendEmptyMessage(what);
 		}

@@ -577,7 +577,9 @@ public class DialActivity extends BaseActivity {
 
 	@Override
 	public void showDisconnected() {
+		L.d(thiz, "showDisconnected startActivity! start ");
 		startActivity(new Intent(DialActivity.this, PhoneActivity.class));
+		L.d(thiz, "showDisconnected startActivity! end ");
 	}
 
 	@Override
