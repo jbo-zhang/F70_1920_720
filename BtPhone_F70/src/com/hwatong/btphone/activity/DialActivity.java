@@ -144,6 +144,11 @@ public class DialActivity extends BaseActivity {
 	
 	private static final  int FROM_VOICE_TO_FALSE = 1;
 	
+	/**
+	 * 防止跳转后回到拨号界面，showIdel的时候退出界面
+	 */
+	private boolean everJump = false;
+	
 	private Handler myHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -442,6 +447,7 @@ public class DialActivity extends BaseActivity {
 			break;
 		case R.id.btn_goto_contacts:
 			L.d(thiz, "onclick goto contacts!");
+			everJump = true;
 			if (mCurPhoneState == PhoneState.IDEL) {
 				goContactsFromDial();
 			} else {
@@ -452,6 +458,7 @@ public class DialActivity extends BaseActivity {
 			break;
 		case R.id.btn_goto_call_log:
 			L.d(thiz, "onclick goto calllog!");
+			everJump = true;
 			if (mCurPhoneState == PhoneState.IDEL) {
 				goCalllogFromDial();
 			} else {
@@ -613,7 +620,7 @@ public class DialActivity extends BaseActivity {
 			myHandler.removeMessages(FROM_VOICE_TO_FALSE);
 			myHandler.sendEmptyMessageDelayed(FROM_VOICE_TO_FALSE, 1000);
 		} else {
-			if (mCallOverExit) {
+			if (mCallOverExit && !everJump) {
 				if(from == 1) {
 					goCalllogFromDial();
 					from = 0;
