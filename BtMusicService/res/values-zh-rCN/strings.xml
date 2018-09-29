@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">蓝牙服务</string>
+
+    <string name="bt_connect_info">蓝牙设备已连接</string>
+    <string name="bt_disconnect_info">蓝牙设备断开</string>
+    <string name="call_over">通话结束</string>
+    <string name="bt_disconnect">蓝牙连接已断开</string>
+    <string name="bt_connect">蓝牙连接</string>
+    <string name="connect_que">是否打开蓝牙音乐？</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BT Service</string>
+
+    <string name="bt_connect_info">Bluetooth device is connected</string>
+    <string name="bt_disconnect_info">Bluetooth device is disconnected</string>
+    <string name="call_over">Conversation End</string>
+    <string name="bt_disconnect">Bluetooth connection is lost</string>
+    <string name="bt_connect">Bluetooth Connect</string>
+    <string name="connect_que">Go to BT Music?</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+
+</resources>
