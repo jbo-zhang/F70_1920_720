@@ -84,6 +84,7 @@ public class Service extends android.app.Service implements
                     	addr = mCommandA2dp.getA2dpConnectedAddress();
                     } else {
                     }
+                    Log.d(TAG, "onServiceConnected mCommandA2dp address : " + addr);
                     //mBtMusicHandler.removeMessages(MSG_A2DP_CONNECT_CHANGED);
                     mBtMusicHandler.sendMessageDelayed(mBtMusicHandler.obtainMessage(MSG_A2DP_CONNECT_CHANGED, state, state, addr), 100);
                 } catch (RemoteException e) {
@@ -99,14 +100,15 @@ public class Service extends android.app.Service implements
 
                 try {
                     mCommandAvrcp.registerAvrcpCallback(mCallbackAvrcp);
-                    int state = 0;
                     String addr = null;
+                    int state = mCommandAvrcp.getAvrcpConnectionState();
                     if(mCommandAvrcp.isAvrcpConnected()) {
-                    	state = 1;
+                    	//state = 1;
                     	addr = mCommandAvrcp.getAvrcpConnectedAddress();
                     } else {
-                    	state = 0;
+                    	//state = 0;
                     }
+                    Log.d(TAG, "onServiceConnected mCommandAvrcp address : " + addr + " state : " + state);
                     mBtMusicHandler.removeMessages(MSG_AVRCP_CONNECT_CHANGED);
                     mBtMusicHandler.sendMessageDelayed(mBtMusicHandler.obtainMessage(MSG_AVRCP_CONNECT_CHANGED, state, 0, addr), 1000);
                 } catch (RemoteException e) {
@@ -1114,8 +1116,8 @@ public class Service extends android.app.Service implements
 	};
 
 	private void onConnectChanged(boolean a2dpstate, boolean avrcpstate) {
+		Log.e(TAG,"onConnectChanged a2dpstate " + a2dpstate + " avrcpstate " + avrcpstate);
 		if ((a2dpstate && avrcpstate) != (mA2dpConnected && mAvrcpConnected)) {
-			Log.e(TAG,"onConnectChanged a2dpstate " + a2dpstate + " avrcpstate " + avrcpstate);
 			mA2dpConnected = a2dpstate;
 			mAvrcpConnected = avrcpstate;
 			if(mA2dpConnected && mAvrcpConnected) {
@@ -1142,6 +1144,23 @@ public class Service extends android.app.Service implements
 			mA2dpConnected = a2dpstate;
 			mAvrcpConnected = avrcpstate;
 		}
+		
+		
+		//增加重连avrcp操作
+		if(mA2dpConnected) {
+			if(mAvrcpConnected) {
+				cancelReconnectAvrcp();
+			} else {
+				if(mCommandA2dp != null) {
+					try {
+						reqReconnectAvrcp(mCommandA2dp.getA2dpConnectedAddress());
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		
 	}
 
 	private void onNowPlayingUpdate() {
@@ -1220,6 +1239,7 @@ public class Service extends android.app.Service implements
 	
     private static final int MSG_A2DP_CONNECT_CHANGED = 1;
     private static final int MSG_AVRCP_CONNECT_CHANGED = 2;
+    private static final int MSG_REQ_AVRCP_RECONNECT = 3;
 
 	private final Handler mBtMusicHandler = new Handler() {
 		@Override
@@ -1255,9 +1275,41 @@ public class Service extends android.app.Service implements
 					e.printStackTrace();
 				}
 				onConnectChanged(mA2dpConnected, avrcpstate);
+			
+			// 如果a2dp连接上，但是avrcp没有连接上，再连一次avrcp
+			} else if(msg.what == MSG_REQ_AVRCP_RECONNECT) {
+				Log.d(TAG,"MSG_AVRCP_CONNECT_CHANGED mA2dpConnected : " + mA2dpConnected + " mAvrcpConnected : " + mAvrcpConnected + " addr : " + msg.obj);
+				if(mCommandAvrcp != null && mA2dpConnected && !mAvrcpConnected) {
+					try {
+						mCommandAvrcp.reqAvrcpConnect((String) msg.obj);
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 	};
+	
+	
+	/**
+	 * 5s后判断avrcp状态，没有连接上再连上
+	 * @param addr
+	 */
+	private void reqReconnectAvrcp(String addr) {
+		Log.d(TAG, "reqReconnectAvrcp addr : " + addr);
+ 		mBtMusicHandler.removeMessages(MSG_REQ_AVRCP_RECONNECT);
+		mBtMusicHandler.sendMessageDelayed(mBtMusicHandler.obtainMessage(MSG_REQ_AVRCP_RECONNECT, 0, 0, addr), 5000);
+	}
+	
+	/**
+	 * 取消重连avrcp
+	 */
+	private void cancelReconnectAvrcp() {
+		Log.d(TAG, "cancelReconnectAvrcp!");
+		mBtMusicHandler.removeMessages(MSG_REQ_AVRCP_RECONNECT);
+	}
+	
+	
     static int mapState(int state) {
         int ret = BtDef.BT_STATE_INVALID;
         switch(state) {
