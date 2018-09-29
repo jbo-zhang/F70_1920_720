@@ -463,8 +463,9 @@ public class PlatformAdapterClient implements PlatformClientListener {
         // "{'name':'科大讯飞信息科技股份有限公司','address':'黄山路616','city':'合肥市','longitude':'117.143269','latitude':'31.834399'}";
         
         L.d(TAG,"location result : " +  locationJson);
+        L.d(TAG,"location result : return null");
         
-        return locationJson;
+        return null;
     }
 
     @Override
