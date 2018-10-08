@@ -340,7 +340,7 @@ public class CallLogActivity extends BaseActivity {
 //			}
 			
 			if(mCallLogMap.get(type).size() == 0) {
-				showTextDialog(R.string.update_failed);
+				showTextDialog(R.string.update_failed_logs);
 			} else {
 				showTextDialog(R.string.dialog_updated);
 			}

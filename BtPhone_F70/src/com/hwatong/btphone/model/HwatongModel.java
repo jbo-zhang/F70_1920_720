@@ -613,7 +613,7 @@ public class HwatongModel implements IBTPhoneModel {
 									L.d(thiz,"load in post delayed!");
 									loadBooks();
 								}
-							}, 5000);
+							}, 6000);
 						}
 						
 						getAllLogsList();
@@ -762,7 +762,7 @@ public class HwatongModel implements IBTPhoneModel {
 					L.d(thiz,"load in post delayed!");
 					loadBooks();
 				}
-			}, 5000);
+			}, 6000);
 			
 			iView.showConnected();
 		}

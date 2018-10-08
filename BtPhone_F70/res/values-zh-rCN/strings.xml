@@ -72,6 +72,6 @@
     
     <string name="reject_updating">更新被拒绝</string>
     <string name="update_timeout">更新超时</string>
-    <string name="update_failed">更新失败</string>
-
+    <string name="update_failed">更新失败,请查看手机侧是否允许同步通讯录</string>
+	<string name="update_failed_logs">更新失败,请查看手机侧是否允许同步通话记录.</string>
 </resources>

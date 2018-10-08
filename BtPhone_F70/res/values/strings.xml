@@ -72,7 +72,8 @@
     
     <string name="reject_updating">Reject updating</string>
     <string name="update_timeout">Update timeout</string>
-    <string name="update_failed">Update failed</string>
+    <string name="update_failed">Update failed, make sure your phone allows to update.</string>
+    <string name="update_failed_logs">Update failed, make sure your phone allows to update.</string>
     
     <string name="key_1">1</string>
     <string name="key_2">2</string>
