@@ -6,6 +6,7 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
 import android.content.Context;
+import android.os.Handler;
 
 import com.hwatong.btphone.CallLog;
 import com.hwatong.btphone.Contact;
@@ -30,6 +31,8 @@ public class ServicePresenter implements IUIView, IBTPhoneModel{
 	public ServicePresenter(IServiceView iServiceView) {
 		this.iServiceView = iServiceView;
 	}
+	
+	private Handler handler = new Handler();
 	
 	//---------------------------------华丽的分割线----------------------------------------
 	
@@ -68,15 +71,22 @@ public class ServicePresenter implements IUIView, IBTPhoneModel{
 
 
 	@Override
-	public void showCalling(UICallLog callLog) {
+	public void showCalling(final UICallLog callLog) {
 		if(callLog == null) {
 			return;
 		}
-		if(!isDialForground()) {
-			iServiceView.gotoDialActivity(callLog);
-		} else {
-			BtPhoneApplication.getInstance().notifyMsg(Constant.MSG_SHOW_CALLING, callLog);
-		}
+		handler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				if(!isDialForground()) {
+					iServiceView.gotoDialActivity(callLog);
+				} else {
+					BtPhoneApplication.getInstance().notifyMsg(Constant.MSG_SHOW_CALLING, callLog);
+				}
+				
+			}
+		});
 	}
 
 

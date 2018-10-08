@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
@@ -143,6 +144,7 @@ public class DialActivity extends BaseActivity {
 	private boolean voiceFromOutside = false;
 	
 	private static final  int FROM_VOICE_TO_FALSE = 1;
+	
 	
 	/**
 	 * 防止跳转后回到拨号界面，showIdel的时候退出界面
@@ -597,6 +599,7 @@ public class DialActivity extends BaseActivity {
 
 	@Override
 	public void showCalling(UICallLog callLog) {
+		L.d(thiz, "showCalling!");
 		onStateChange(PhoneState.OUTGOING);
 		setNameAndNumber(callLog.name, callLog.number);
 		//拨打后就删掉输入文字
@@ -633,6 +636,7 @@ public class DialActivity extends BaseActivity {
 			} 
 			fromOutside = mCallOverExit = false;
 		}
+	
 	}
 
 	@Override
@@ -662,27 +666,26 @@ public class DialActivity extends BaseActivity {
 				onStateChange(PhoneState.IDEL);
 				
 				setNameAndNumber("", "");
-				
-				if(fromOutside) {
-					BtPhoneApplication.getInstance().exit();
-					return;
-				}
-				
-				
-				if (mCallOverExit) {
-					if(from == 1) {
-						goCalllogFromDial();
-						from = 0;
-					} else if(from == 2) {
-						goContactsFromDial();
-						from = 0;
-					} else {
-						finish();
-					}
-				} 
-				fromOutside = mCallOverExit = false;
 			}
 		}, 500);
+		
+		if(fromOutside) {
+			BtPhoneApplication.getInstance().exit();
+			return;
+		}
+		
+		if (mCallOverExit) {
+			if(from == 1) {
+				goCalllogFromDial();
+				from = 0;
+			} else if(from == 2) {
+				goContactsFromDial();
+				from = 0;
+			} else {
+				finish();
+			}
+		} 
+		fromOutside = mCallOverExit = false;
 	}
 	
 	
