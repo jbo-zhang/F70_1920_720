@@ -363,8 +363,7 @@
             
         </activity>
         <activity
-            android:name="com.hwatong.f70.commonsetting.BaseCommonSettingActivity"
-            android:configChanges="locale" >
+            android:name="com.hwatong.f70.commonsetting.BaseCommonSettingActivity" >
         </activity>
         <activity
             android:name="com.hwatong.f70.soundsetting.BaseSoundSettingActivity" >

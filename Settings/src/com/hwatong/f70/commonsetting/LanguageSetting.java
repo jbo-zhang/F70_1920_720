@@ -2,17 +2,10 @@ package com.hwatong.f70.commonsetting;
 
 import java.util.Locale;
 
-import com.android.internal.app.LocalePicker;
-import com.hwatong.f70.baseview.BaseFragment;
-import com.hwatong.f70.carsetting.F70CarSettingCommand;
-import com.hwatong.f70.main.F70CanbusUtils;
-import com.hwatong.f70.main.LogUtils;
-import com.hwatong.settings.R;
-
-import android.app.Fragment;
 import android.canbus.ICanbusService;
 import android.os.Bundle;
 import android.os.ServiceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +13,13 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+
+import com.android.internal.app.LocalePicker;
+import com.hwatong.f70.baseview.BaseFragment;
+import com.hwatong.f70.carsetting.F70CarSettingCommand;
+import com.hwatong.f70.main.F70CanbusUtils;
+import com.hwatong.f70.main.LogUtils;
+import com.hwatong.settings.R;
 
 public class LanguageSetting extends BaseFragment implements
 		OnCheckedChangeListener, OnClickListener {
@@ -109,12 +109,14 @@ public class LanguageSetting extends BaseFragment implements
 	public void onCheckedChanged(RadioGroup group, int resId) {
 		switch (resId) {
 		case R.id.chinese:
+			Log.d("LanguageSetting", "onCheckedChanged Chinese!");
 			F70CanbusUtils.getInstance().writeCarConfig(iCanbusService,
 					F70CarSettingCommand.TYPE_LANGUAGE,
 					F70CarSettingCommand.CHINESE);
 			LocalePicker.updateLocale(Locale.CHINA);
 			break;
 		case R.id.english:
+			Log.d("LanguageSetting", "onCheckedChanged English!");
 			F70CanbusUtils.getInstance().writeCarConfig(iCanbusService,
 					F70CarSettingCommand.TYPE_LANGUAGE,
 					F70CarSettingCommand.ENGLISH);
