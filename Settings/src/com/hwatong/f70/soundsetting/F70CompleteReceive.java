@@ -120,27 +120,6 @@ public class F70CompleteReceive extends BroadcastReceiver {
 				context.startActivity(intent1);
 			}
 		} else if (intent.getAction().equals("com.ljw.testwifi")) {
-		} else if(intent.getAction().equals("com.btphoneservice.changedeffect")) {
-			LogUtils.d("receive btphoneservice changedeffect");
-			int status = intent.getIntExtra("status", -1);
-			LogUtils.d("get talking status: " + status);
-			if(!ConfigrationVersion.getInstance().isHight()) {		
-				if(status == 0) {
-					LogUtils.d("now is idle");
-					EffectUtils.setBassValue(EffectUtils.getCurrentBass());
-					EffectUtils.setMidValue(EffectUtils.getCurrentMid());
-					EffectUtils.setTrebleValue(EffectUtils.getCurrentTreble());
-					EffectUtils.setLoudnessValue(Integer.parseInt(Utils.getCarSettingsString(
-							context.getContentResolver(),
-							SettingsProvider.LOUDNESS_ENABLED)));
-				} else {
-					LogUtils.d("now is talking");
-					EffectUtils.setBassValue(0);
-					EffectUtils.setMidValue(0);
-					EffectUtils.setTrebleValue(0);
-					EffectUtils.setLoudnessValue(0);
-				}
-			}
 		}
 	}
 
