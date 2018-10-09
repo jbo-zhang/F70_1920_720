@@ -7,6 +7,7 @@ import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.os.Handler;
+import android.os.SystemClock;
 
 import com.hwatong.btphone.CallLog;
 import com.hwatong.btphone.Contact;
@@ -75,18 +76,23 @@ public class ServicePresenter implements IUIView, IBTPhoneModel{
 		if(callLog == null) {
 			return;
 		}
-		handler.post(new Runnable() {
-			
-			@Override
-			public void run() {
-				if(!isDialForground()) {
-					iServiceView.gotoDialActivity(callLog);
-				} else {
-					BtPhoneApplication.getInstance().notifyMsg(Constant.MSG_SHOW_CALLING, callLog);
+		if(!isDialForground()) {
+			iServiceView.gotoDialActivity(callLog);
+		} else {
+			BtPhoneApplication.getInstance().notifyMsg(Constant.MSG_SHOW_CALLING, callLog);
+			//拨打电话挂断后快速拨打下一个，finish执行了，但是界面没有立即退出，此时判断前台Activity仍然是dialActivity，会造成showCalling不再跳转界面问题
+			//这里做法是延时再判断一次前台activity，如果不是dialActivity，再跳转一次
+			handler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					if(!isDialForground()) {
+						L.d(thiz, "again not in DialActivity!");
+						iServiceView.gotoDialActivity(callLog);
+					}
 				}
-				
-			}
-		});
+			}, 1000);
+			
+		}
 	}
 
 
@@ -95,6 +101,7 @@ public class ServicePresenter implements IUIView, IBTPhoneModel{
 		if(callLog == null) {
 			return;
 		}
+		handler.removeCallbacksAndMessages(null);
 		if(!isDialForground()) {
 			iServiceView.showTalking(callLog);
 		} else {
@@ -108,6 +115,8 @@ public class ServicePresenter implements IUIView, IBTPhoneModel{
 		if(callLog == null) {
 			return;
 		}
+		//这里需要取消handler，不然会造成挂断之后仍然跳一次界面的问题
+		handler.removeCallbacksAndMessages(null);
 		BtPhoneApplication.getInstance().notifyMsg(Constant.MSG_SHOW_HANG_UP, callLog);
 	}
 
