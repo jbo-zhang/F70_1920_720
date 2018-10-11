@@ -191,44 +191,57 @@ public class DialActivity extends BaseActivity {
 
 		mIvKey1 = (TextView) findViewById(R.id.key_1);
 		mIvKey1.setOnClickListener(this);
+		mIvKey1.setSoundEffectsEnabled(false);
 
 		mIvKey2 = (TextView) findViewById(R.id.key_2);
 		mIvKey2.setOnClickListener(this);
+		mIvKey2.setSoundEffectsEnabled(false);
 
 		mIvKey3 = (TextView) findViewById(R.id.key_3);
 		mIvKey3.setOnClickListener(this);
+		mIvKey3.setSoundEffectsEnabled(false);
 
 		mIvKey4 = (TextView) findViewById(R.id.key_4);
 		mIvKey4.setOnClickListener(this);
+		mIvKey4.setSoundEffectsEnabled(false);
 
 		mIvKey5 = (TextView) findViewById(R.id.key_5);
 		mIvKey5.setOnClickListener(this);
+		mIvKey5.setSoundEffectsEnabled(false);
 
 		mIvKey6 = (TextView) findViewById(R.id.key_6);
 		mIvKey6.setOnClickListener(this);
+		mIvKey6.setSoundEffectsEnabled(false);
 
 		mIvKey7 = (TextView) findViewById(R.id.key_7);
 		mIvKey7.setOnClickListener(this);
+		mIvKey7.setSoundEffectsEnabled(false);
 
 		mIvKey8 = (TextView) findViewById(R.id.key_8);
 		mIvKey8.setOnClickListener(this);
+		mIvKey8.setSoundEffectsEnabled(false);
 
 		mIvKey9 = (TextView) findViewById(R.id.key_9);
 		mIvKey9.setOnClickListener(this);
+		mIvKey9.setSoundEffectsEnabled(false);
 
 		mIvKeyStar = (TextView) findViewById(R.id.key_star);
 		mIvKeyStar.setOnClickListener(this);
+		mIvKeyStar.setSoundEffectsEnabled(false);
 
 		mIvKeyPound = (TextView) findViewById(R.id.key_pound);
 		mIvKeyPound.setOnClickListener(this);
+		mIvKeyPound.setSoundEffectsEnabled(false);
 
 		mIvKey0 = (TextView) findViewById(R.id.key_0);
 		mIvKey0.setOnClickListener(this);
 		mIvKey0.setOnLongClickListener(this);
+		mIvKey0.setSoundEffectsEnabled(false);
 
 		mIvDelete = (ImageButton) findViewById(R.id.key_delete);
 		mIvDelete.setOnClickListener(this);
 		mIvDelete.setOnLongClickListener(this);
+		
 
 		mIvMute = (DrawableTextView) findViewById(R.id.key_mute);
 		mIvMute.setOnClickListener(this);

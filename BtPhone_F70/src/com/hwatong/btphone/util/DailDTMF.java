@@ -58,34 +58,29 @@ public class DailDTMF {
 	}
 
 	public void playTone(final Character c) {
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				if(!mDTMFToneEnabled)
-					return;
-				
-				if(mToneMap.get(c) == null)
-					return;
-				
-				int ringerMode = audioManager.getRingerMode();
-				if ((ringerMode == AudioManager.RINGER_MODE_SILENT)
-						|| (ringerMode == AudioManager.RINGER_MODE_VIBRATE)) {
-					return;
-				}
-				
-				synchronized (mToneGeneratorLock) {
-					if (mToneGenerator == null) {
-						return;
-					}
-					
-					int tone = mToneMap.get(c);
-					L.d(thiz, "startTone() tone 2 : " + tone);
-					mToneGenerator.startTone(tone, DTMF_DURATION_MS);
-				}
-				
+		
+		if(!mDTMFToneEnabled)
+			return;
+		
+		if(mToneMap.get(c) == null)
+			return;
+		
+		int ringerMode = audioManager.getRingerMode();
+		if ((ringerMode == AudioManager.RINGER_MODE_SILENT)
+				|| (ringerMode == AudioManager.RINGER_MODE_VIBRATE)) {
+			return;
+		}
+		
+		synchronized (mToneGeneratorLock) {
+			if (mToneGenerator == null) {
+				return;
 			}
-		}).start();
+			
+			int tone = mToneMap.get(c);
+			L.d(thiz, "startTone() tone 2 : " + tone);
+			mToneGenerator.startTone(tone, DTMF_DURATION_MS);
+		}
+		
 	}
 
 	public void destory() {

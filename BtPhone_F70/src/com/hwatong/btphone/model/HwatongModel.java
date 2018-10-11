@@ -459,8 +459,10 @@ public class HwatongModel implements IBTPhoneModel {
 		mCallLogMap.get(UICallLog.TYPE_CALL_OUT).clear();
 		mCallLogMap.get(UICallLog.TYPE_CALL_IN).clear();
 		mCallLogMap.get(UICallLog.TYPE_CALL_MISS).clear();
-		mAllCallLogList.clear();
-		callLogTotalCount = 0;
+		synchronized (mAllCallLogList) {
+			mAllCallLogList.clear();
+			callLogTotalCount = 0;
+		}
 	}
 	
 	private void clearLogsByType(int type) {
@@ -1157,7 +1159,7 @@ public class HwatongModel implements IBTPhoneModel {
 		}
 	}
 	
-	private synchronized void getAllLogsList() {
+	private void getAllLogsList() {
 		//更新通话记录
 		try {
 			
@@ -1167,13 +1169,14 @@ public class HwatongModel implements IBTPhoneModel {
 			mCallLogMap.get(UICallLog.TYPE_CALL_OUT).addAll(iService.getCalllogList(CallLog.TYPE_CALL_OUT));
 			mCallLogMap.get(UICallLog.TYPE_CALL_IN).addAll(iService.getCalllogList(CallLog.TYPE_CALL_IN));
 			
-			
-			//更新通话记录
-			for (int i = 0; i < mCallLogMap.size(); i++) {
-				mAllCallLogList.addAll(mCallLogMap.get(mCallLogMap.keyAt(i)));
+			synchronized (mAllCallLogList) {
+				//更新通话记录
+				for (int i = 0; i < mCallLogMap.size(); i++) {
+					mAllCallLogList.addAll(mCallLogMap.get(mCallLogMap.keyAt(i)));
+				}
+				
+				Collections.sort(mAllCallLogList, new UICallLog.CallLogComparator());
 			}
-			
-			Collections.sort(mAllCallLogList, new UICallLog.CallLogComparator());
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -1250,9 +1253,11 @@ public class HwatongModel implements IBTPhoneModel {
 			return;
 		}
 		
-		if(callLog != null) {
-			mCallLogMap.get(log.type).add(0,callLog);
-			mAllCallLogList.add(0,callLog);
+		synchronized (mAllCallLogList) {
+			if(callLog != null) {
+				mCallLogMap.get(log.type).add(0,callLog);
+				mAllCallLogList.add(0,callLog);
+			}
 		}
 	}
 	
