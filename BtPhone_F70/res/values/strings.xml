@@ -4,14 +4,14 @@
     <string name="app_name">Phone</string>
     <string name="tab_dail">Dail</string>
     <string name="tab_contacts">Contacts</string>
-    <string name="tab_call_log">Call log</string>
+    <string name="tab_call_log">Recents</string>
     <string name="update">Update</string>
     <string name="letter_search">Search</string>
     <string name="log_in">Received calls</string>
     <string name="log_miss">Missed calls</string>
     <string name="log_out">Dialed calls</string>
     <string name="dialog_update_contact">After update your contacts,you can see the phone number</string>
-    <string name="dialog_update_callog">After update your call logs,you can see the phone number</string>
+    <string name="dialog_update_callog">After update your recents,you can see the phone number</string>
     <string name="dialog_updating">Updating,Please wait…</string>
     <string name="dialog_updated">Updated</string>
     <string name="call">Call</string>
