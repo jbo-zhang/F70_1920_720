@@ -109,6 +109,21 @@ public class PlatformAdapterClient implements PlatformClientListener {
                 mCanbusService.addCarStatusListener(new ICarStatusListener.Stub() {
                     @Override
                     public void onReceived(CarStatus carStatus) throws RemoteException {
+//                    	if(carStatus == null) {
+//                    		return;
+//                    	}
+//                    	
+//                    	int status1 = carStatus.getStatus1();
+//                    	
+//                    	if(status1 != 0 && status1 != 2) {
+//                    		mHandler.post(new Runnable() {
+//                    			@Override
+//                    			public void run() {
+//                    				notifySystemStateChange();
+//                    			}
+//                    		});
+//                    	}
+                    	
 //                    	if(acc_status != carStatus.getStatus1()) {
 //                    		mHandler.post(new Runnable() {
 //                    			@Override

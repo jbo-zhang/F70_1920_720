@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.canbus.ICanbusService;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -349,7 +350,7 @@ public class HandleAppControl {
                         		toHome();
                         	}
                         }  else if("com.xiaoma.launcher".equals(pkgName)) {
-                        	if(isActivityForgroundByContians("com.xiaoma")) {
+                        	if(isActivityForground("com.xiaoma")) {
                         		toHome();
                         	}
                         } else {
@@ -412,44 +413,69 @@ public class HandleAppControl {
 	}
 	
 	
-	
 	protected boolean isVLinkForground() {
-		boolean isForground = isActivityForground("com.eryanet.vlink.ConnectActivity") || isActivityForground("com.live555.activity.MirrorActivity");
-		L.d(thiz, "isVLinkForground : " + isForground);
-		return isForground;
+		boolean isTop = isActivityForground("com.eryanet.vlink") || isActivityForground("com.live555.activity.MirrorActivity");
+		L.d(thiz, "isVLinkForground : " + isTop);
+		return isTop;
+		
 	}
 	
+	/**
+	 * 需要过滤掉讯飞的界面
+	 * @param activityName
+	 * @return
+	 */
 	protected boolean isActivityForground(String activityName) {
 		if(TextUtils.isEmpty(activityName)) {
 			return false;
 		}
+		
 		ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
-		List<RunningTaskInfo> cn = am.getRunningTasks(1);
-		RunningTaskInfo taskInfo = cn.get(0);
-		ComponentName name = taskInfo.topActivity;
-		L.d(thiz, "which activity is top : " + name);
-		if (activityName.equals(name.getClassName())) {
-			return true;
-		}
-		return false;
-	}
-	
-	
-	protected boolean isActivityForgroundByContians(String activityName) {
-		if(TextUtils.isEmpty(activityName)) {
+		List<RunningTaskInfo> cn = am.getRunningTasks(5);
+		if(cn == null) {
+			L.d(thiz, "cn is null");
 			return false;
 		}
-		ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
-		List<RunningTaskInfo> cn = am.getRunningTasks(1);
-		RunningTaskInfo taskInfo = cn.get(0);
-		ComponentName name = taskInfo.topActivity;
-		L.d(thiz, "which activity is top : " + name);
-		if (name != null && name.getClassName() != null && name.getClassName().contains(activityName)) {
-			return true;
+		
+		for(int i = 0; i < cn.size(); i++) {
+			RunningTaskInfo runningTaskInfo = cn.get(i);
+			if(runningTaskInfo == null) {
+				continue;
+			}
+			
+			ComponentName topActivity = runningTaskInfo.topActivity;
+			ComponentName baseActivity = runningTaskInfo.baseActivity;
+			int numActivities = runningTaskInfo.numActivities;
+			
+			if(topActivity == null) {
+				continue;
+			}
+
+			String topName = topActivity.getClassName();
+			String baseName = baseActivity.getClassName();
+			
+			L.d(thiz, "topActivity : " + topName + " numActivities : " + numActivities + " baseActivity: " + baseName);
+			
+			if(topName == null) {
+				continue;
+			}
+					
+			//过滤掉讯飞前台activity
+			if(topName.contains("com.iflytek.autofly.activity")) {
+				continue;
+			
+			//判断是否是指定的activity
+			} else if(topName.contains(activityName)) {
+				L.d(thiz, "isActivityForground : true");
+				return true;
+			} else {
+				L.d(thiz, "isActivityForground : false");
+				return false;
+			}
 		}
+		L.d(thiz, "isActivityForground : false");
 		return false;
 	}
-	
 	
 	/**
 	 * to home!
