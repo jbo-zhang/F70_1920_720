@@ -147,7 +147,7 @@ public class BaseSoundSettingActivity extends Activity implements
 		@Override
 		public void onChange(boolean selfChange) {
 			super.onChange(selfChange);
-			LogUtils.d("内容改变");
+			LogUtils.d("鍐呭鏀瑰彉");
 		}
 	}
 
@@ -311,7 +311,7 @@ public class BaseSoundSettingActivity extends Activity implements
 	}
 	
 	/**
-	 * 为了保证按钮与fragment同步
+	 * 涓轰簡淇濊瘉鎸夐挳涓巉ragment鍚屾
 	 */
 	private void syncLabel() {
 		if(CURRENTSOUNDSETTINGFLAG.equals(currentFragment)) {
@@ -335,6 +335,7 @@ public class BaseSoundSettingActivity extends Activity implements
 		switch (resId) {
 		case R.id.setting_main_back:
 			finish();
+			overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_close_exit);
 			break;
 		case R.id.sound_up:
 			touchBt.setAddY(false);

@@ -75,6 +75,7 @@ public class BaseCarSettingActivity extends Activity implements
 		warnRb.setOnClickListener(this);
 		keepfitRb.setOnClickListener(this);
 
+		keepfitRb.setVisibility(View.VISIBLE);
 		
 		if (ConfigrationVersion.getInstance().isHight()
 				|| ConfigrationVersion.getInstance().isMiddleLuxury()) {
@@ -82,7 +83,6 @@ public class BaseCarSettingActivity extends Activity implements
 			speedwarnIntervel = (ImageView) findViewById(R.id.speedwarn_intervel);
 			speedwarnIntervel.setVisibility(View.VISIBLE);
 			warnRb.setVisibility(View.VISIBLE);
-			keepfitRb.setVisibility(View.VISIBLE);
 		}
 		
 		
@@ -178,6 +178,7 @@ public class BaseCarSettingActivity extends Activity implements
 		switch (resId) {
 		case R.id.setting_main_back:
 			finish();
+			overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_close_exit);
 			break;
 
 		default:

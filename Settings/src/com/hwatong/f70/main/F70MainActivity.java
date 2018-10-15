@@ -160,6 +160,7 @@ public class F70MainActivity extends Activity implements OnClickListener {
 	public void onBackPressed() {
 //		super.onBackPressed();
 		finish();
+		overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_close_exit);
 	}
 
 	

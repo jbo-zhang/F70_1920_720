@@ -387,7 +387,7 @@ public class BaseBluetoothSettingActivity extends Activity implements
 				break;
 			}
 			LogUtils.d("searchdevice_rb click");
-			//Èôµ±Ç°ÎŞÉè±¸Á¬½ÓÇÒÀ¶ÑÀ¿ªÆô£¬ÔòÏÈÈÃÌáÊ¾¿òÏûÊ§£¬²¢ÇÒ¿ªÊ¼ËÑË÷£¬Èôµ±Ç°²»ÔÚËÑË÷½çÃæ£¬Ôò½øÈëËÑË÷½çÃæ
+			//è‹¥å½“å‰æ— è®¾å¤‡è¿æ¥ä¸”è“ç‰™å¼€å¯ï¼Œåˆ™å…ˆè®©æç¤ºæ¡†æ¶ˆå¤±ï¼Œå¹¶ä¸”å¼€å§‹æœç´¢ï¼Œè‹¥å½“å‰ä¸åœ¨æœç´¢ç•Œé¢ï¼Œåˆ™è¿›å…¥æœç´¢ç•Œé¢
 			deviceListRb.setChecked(false);
 			deviceListRb.setEnabled(false);
 			handler.sendEmptyMessageDelayed(LIMIT_PARIED_BUTTON, LIMIT_BUTTON_DALAY_TIME);
@@ -453,6 +453,7 @@ public class BaseBluetoothSettingActivity extends Activity implements
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
+		overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_close_exit);
 	}
 
 	@Override

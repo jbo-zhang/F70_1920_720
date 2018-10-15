@@ -4671,8 +4671,8 @@
     <string name="wholecar_default">0</string>
     <string name="media_default">0</string>
     <string name="dashboard_default">0</string>
-    <string name="switch_button_off">off</string>
-    <string name="switch_button_on">on</string>
+    <string name="switch_button_off">OFF</string>
+    <string name="switch_button_on">ON</string>
     <string name="show_pro_on">"You are now a programer!"</string>
     <string name="plzdisconnectfst">"Please disconnect bluetooth"</string>
     <string name="select_wifi">"Wi-Fi"</string>

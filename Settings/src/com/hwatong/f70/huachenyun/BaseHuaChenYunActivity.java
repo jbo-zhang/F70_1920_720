@@ -145,6 +145,7 @@ public class BaseHuaChenYunActivity extends Activity implements
 		switch (resId) {
 		case R.id.setting_main_back:
 			finish();
+			overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_close_exit);
 			break;
 
 		default:
