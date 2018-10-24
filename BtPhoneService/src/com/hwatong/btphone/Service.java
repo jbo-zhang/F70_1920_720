@@ -55,6 +55,7 @@ import com.nforetek.bt.aidl.NfPbapContact;
 import com.nforetek.bt.res.NfDef;
 import android.canbus.ICanbusService;
 import android.canbus.ICarStatusListener;
+import android.canbus.ICallInfoTransportListener;
 import android.canbus.CarStatus;
 import android.os.ServiceManager;
 import java.io.UnsupportedEncodingException;
@@ -69,7 +70,7 @@ public class Service extends android.app.Service implements
 	private static final boolean DBG = false;
 
 	private AudioManager mAudioManager;
-    private static ICanbusService sService;
+    private ICanbusService mCanbusService;
 
 	private boolean mHfpConnected;
 	private final static String RESET_EFFECT = "com.btphoneservice.changedeffect";
@@ -218,15 +219,12 @@ public class Service extends android.app.Service implements
         @Override
 	    public void handleMessage(Message msg) {
             int val;
-            final ICanbusService canbus = getCanbusService();
-            if(canbus == null) {
-                return;
-            }
+
             try {
                 switch(msg.what) {
                 case MSG_CAN_PAIRED:
                     Log.d(TAG, "MSG_CAN_PAIRED");
-        			canbus.writeIPCPhone(0x0F /*TEL:Invalid*/, 
+        			mCanbusService.writeIPCPhone(0x0F /*TEL:Invalid*/, 
                                          msg.arg1 /*BTPairing:paired or not*/, 
                                          0x03 /*Phone:Invalid*/, 
                                          0x03 /*BTWarnPage:Invalid*/, 
@@ -241,7 +239,7 @@ public class Service extends android.app.Service implements
                 case MSG_CAN_PHONE:
                     Log.d(TAG, "MSG_CAN_PHONE");
                     calling_type = msg.arg1;
-                    canbus.writeIPCPhone(0x0F /*TEL:Invalid*/, 
+                    mCanbusService.writeIPCPhone(0x0F /*TEL:Invalid*/, 
                                          (msg.arg2 > 0x03)?0x01:0x03 /*BTPairing:Invalid*/, 
                                          msg.arg1 /*Phone:x*/, 
                                          0x03 /*BTWarnPage:Invalid*/, 
@@ -254,7 +252,7 @@ public class Service extends android.app.Service implements
                     break;
                 case MSG_CAN_TEL:
                     Log.d(TAG, "MSG_CAN_TEL");
-       				canbus.writeIPCPhone(msg.arg1 /*TEL:x*/, 
+       				mCanbusService.writeIPCPhone(msg.arg1 /*TEL:x*/, 
                                          (msg.arg2 > 0x03)?0x01:0x03 /*BTPairing:Invalid*/, 
                                          0x03 /*Phone:Invalid*/, 
                                          0x03 /*BTWarnPage:Invalid*/, 
@@ -661,12 +659,20 @@ public class Service extends android.app.Service implements
         bindService(new Intent(NfDef.CLASS_SERVICE_PBAP), this.mConnection, BIND_AUTO_CREATE);
         Log.v(TAG,"bindBluetoothService");
 		bindService(new Intent("com.hwatong.bt.service"), mServiceConnection, BIND_AUTO_CREATE);
-        ICanbusService canbus = getCanbusService();
+
+		mCanbusService = ICanbusService.Stub.asInterface(ServiceManager.getService("canbus"));
+
         try {
-            canbus.addCarStatusListener(mICarStatusListener);
+            mCanbusService.addCarStatusListener(mICarStatusListener);
         } catch(Exception e) {
             e.printStackTrace();
         }
+        try {
+            mCanbusService.addCallInfoListener(mCallInfoTransportListener);
+        } catch (RemoteException e) {
+	        e.printStackTrace();
+        }
+
         mPhoneBookThread = new HandlerThread("PhoneBookThread");
         mPhoneBookThread.start();
         mPhoneBookHandler = new PhoneBookHandler(mPhoneBookThread.getLooper());
@@ -678,6 +684,16 @@ public class Service extends android.app.Service implements
 
 	@Override
 	public void onDestroy() {
+        try {
+            mCanbusService.removeCallInfoListener(mCallInfoTransportListener);
+            mCanbusService.removeCarStatusListener(mICarStatusListener);
+        } catch (RemoteException e) {
+	        e.printStackTrace();
+        }
+        mSendHandler.removeMessages(MSG_SLICE_SEND);
+        mSendHandler.removeMessages(MSG_SLICE_ACKED);
+        mSendHandler.removeMessages(MSG_SLICE_TIMEOUT);
+
 		unbindService(mServiceConnection);
 
 		try {
@@ -2622,15 +2638,6 @@ public class Service extends android.app.Service implements
         }        
     }
 
-    private static ICanbusService getCanbusService() {
-        if (sService != null) {
-            return sService;
-        }
-        IBinder b = ServiceManager.getService("canbus");
-        sService = ICanbusService.Stub.asInterface(b);
-        return sService;
-    }
-
     void reqHfpAnswerCall() {
 		if (mCommandHfp != null) {
 			try {
@@ -2702,6 +2709,112 @@ public class Service extends android.app.Service implements
         return sb.toString();
     }
 
+	private final ICallInfoTransportListener mCallInfoTransportListener = new ICallInfoTransportListener.Stub() {
+		@Override
+		public void onReceived(int ack) {
+			Message m = Message.obtain(mSendHandler, MSG_SLICE_ACKED, ack, 0);
+			mSendHandler.sendMessage(m);
+		}
+	};
+
+    private static final int MSG_SLICE_SEND = 1;
+    private static final int MSG_SLICE_ACKED = 2;
+    private static final int MSG_SLICE_TIMEOUT = 3;
+
+    private final Handler mSendHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+		    if (msg.what == MSG_SLICE_SEND) {
+                Log.d(TAG, "MSG_SLICE_SEND");
+
+                if (mCallInfoData == null) {
+                    Log.d(TAG, "    mCallInfoData is null!");
+
+    		    } else if (mCallInfoData.position == mCallInfoData.slice.length) {
+                    Log.e(TAG, "    end of queue!");
+
+                } else {
+                    Log.d(TAG, "    total " + mCallInfoData.slice.length + ", position " + mCallInfoData.position);
+
+        		    mSendHandler.sendEmptyMessageDelayed(MSG_SLICE_TIMEOUT, mSendTimeout);
+
+                    CallInfoSlice slice = mCallInfoData.slice[mCallInfoData.position];
+
+                    try {
+                        mCanbusService.writeCallInfo(mCallInfoData.slice.length, mCallInfoData.position, 
+                                mCallInfoData.CallLogNum, mCallInfoData.CallLog, mCallInfoData.PhoneAuth, slice.data);
+                    } catch (RemoteException e) {
+    	                e.printStackTrace();
+    		        }
+    		    }
+		    } else if (msg.what == MSG_SLICE_ACKED) {
+                Log.d(TAG, "MSG_SLICE_ACKED: ack " + msg.arg1);
+
+		        mSendHandler.removeMessages(MSG_SLICE_TIMEOUT);
+		        mSendHandler.removeMessages(MSG_SLICE_SEND);
+
+                if (mCallInfoData == null) {
+                    Log.e(TAG, "    mCallInfoData is null!");
+
+                } else {
+                    mCallInfoData.position = msg.arg1;
+
+    		        if (mCallInfoData.position < 0 || mCallInfoData.position >= mCallInfoData.slice.length) {
+    		            Log.d(TAG, "    send completed!");
+    		            mCallInfoData = null;
+    		        } else {
+    		            mSendRetryCount = 0;
+        		        mSendHandler.sendEmptyMessage(MSG_SLICE_SEND);
+    		        }
+    		    }
+
+
+		    } else if (msg.what == MSG_SLICE_TIMEOUT) {
+                Log.e(TAG, "MSG_SLICE_TIMEOUT: mSendTimeout " + mSendTimeout);
+
+                if (mCallInfoData == null) {
+                    Log.d(TAG, "    mCallInfoData is null!");
+
+    		    } else if (mCallInfoData.position == mCallInfoData.slice.length) {
+                    Log.e(TAG, "    end of queue!");
+
+                } else {
+                    Log.d(TAG, "    total " + mCallInfoData.slice.length + ", position " + mCallInfoData.position + ", retry after 500ms");
+
+    		        if (mSendTimeout < 5000)
+    		            mSendTimeout += 500;
+
+	                if (mSendRetryCount < 5) {
+	                    mSendRetryCount ++;
+		                Log.e(TAG, "    mSendRetryCount " + mSendRetryCount + ", retry after 500ms");
+        		        mSendHandler.sendEmptyMessageDelayed(MSG_SLICE_SEND, 500);
+    		        } else {
+		                Log.e(TAG, "    mSendRetryCount " + mSendRetryCount + ", send abort");
+    		            mCallInfoData = null;
+        		    }
+    		    }
+		    }
+		}
+    };
+
+    private int mSendTimeout = 1000;
+    private int mSendRetryCount;
+
+    public static class CallInfoSlice {
+        byte[] data;
+    }
+
+    private static class CallInfoData {
+        int CallLogNum;
+        int CallLog;
+        int PhoneAuth;
+
+        int position;
+        CallInfoSlice[] slice;
+    }
+
+    private CallInfoData mCallInfoData;
+
     void syncIPCCallInfo() {
         String number = null;
         String name = "";
@@ -2756,10 +2869,7 @@ public class Service extends android.app.Service implements
         if((name_buf == null || name_buf.length == 0) && (number_buf == null || number_buf.length == 0)) {
             return;
         }
-        ICanbusService canbus = getCanbusService();
-        if(canbus == null) {
-            return;
-        }
+
         if(name_buf != null) {
             name_len = name_buf.length;
         }
@@ -2779,7 +2889,32 @@ public class Service extends android.app.Service implements
         }
 
         int total = data.length/6 + ((data.length%6 > 0)?1:0);
-        if(total > 0) {
+
+        if (total > 14) {
+            Log.e(TAG, "total " + total + ", too large media data!");
+            total = 14;
+        }
+
+        mCallInfoData = new CallInfoData();
+
+        mCallInfoData.CallLogNum = 0x0E /*CallLogNum*/;
+        mCallInfoData.CallLog = calling_type /*CallLog*/; //0:in; 1:out
+        mCallInfoData.PhoneAuth = 0x00 /*PhoneAuth*/;
+
+        mCallInfoData.position = 0;
+
+        if (total == 0) {
+            Log.d(TAG, "empty call info!");
+
+            mCallInfoData.slice = new CallInfoSlice[1];
+
+            mCallInfoData.slice[0] = new CallInfoSlice();
+            mCallInfoData.slice[0].data = null;
+
+        } else {
+
+            mCallInfoData.slice = new CallInfoSlice[total];
+
             for(int j = 0;j < total;j++) {
                 int start = 6*j;
                 int end = 6*(j+1);
@@ -2788,29 +2923,21 @@ public class Service extends android.app.Service implements
                 byte once[] = new byte[end-start];
                 System.arraycopy(data, start, once, 0, once.length);
                 Log.d(TAG, "start " + start + " end " + end + " once " + once.length);
-                try {
-                    canbus.writeCallInfo(total /*Total_Messages*/, 
-                                                 j /*MessageNumber*/, 
-                                                 0x0E /*CallLogNum*/, 
-                                                 calling_type /*CallLog*/, //0:in; 1:out
-                                                 0x00 /*PhoneAuth*/, 
-                                                 once /*Characters*/
-                                                 );
-                } catch (RemoteException e) {
-			        e.printStackTrace();
-		        }
-                try {
-                    Thread.sleep(100);
-                } catch(Exception e) {
-                }
+
+                mCallInfoData.slice[j] = new CallInfoSlice();
+                mCallInfoData.slice[j].data = once;
             }
         }
+
+        mSendRetryCount = 0;
+        mSendHandler.sendEmptyMessage(MSG_SLICE_SEND);
     }
     
     //modify LJW delay after accoff tranfer bt to carkit
     private static final int BT_VOICE_ACCOFF_CHANGED_DELAY = 0x88;
     private static final int BT_VOICE_ACCOFF_CHANGED_DELAY_TIME = 1000;
     private Handler btVoiceDelayHandler  = new Handler() {
+
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
