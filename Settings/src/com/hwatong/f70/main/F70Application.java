@@ -37,7 +37,7 @@ public class F70Application extends Application {
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			iStatusBarInfo = IStatusBarInfo.Stub.asInterface(service);
-			sendCurrentPageName("setting_main");
+			//sendCurrentPageName("setting_main");
 		}
 	};
 

@@ -1,15 +1,15 @@
 package com.hwatong.f70.carsetting;
 
 import com.hwatong.f70.baseview.BaseFragment;
-import com.hwatong.f70.main.F70CanbusUtils;
 import com.hwatong.f70.main.LogUtils;
 import com.hwatong.settings.R;
 import com.hwatong.settings.widget.SwitchButton;
 
 import android.app.Fragment;
-import android.canbus.CarConfig;
-import android.canbus.ICanbusService;
-import android.canbus.ICarConfigListener;
+import android.net.Uri;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -42,8 +42,6 @@ public class SpeedWarn extends BaseFragment implements OnClickListener,
 	private static final int BUTTON_RESTORE = 0X08;//按钮恢复可用
 	private static final int BUTTON_LIMIT_SPEED = 300;//UI限制操作1000毫秒
 
-	private ICanbusService iCanbusService;
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -51,53 +49,21 @@ public class SpeedWarn extends BaseFragment implements OnClickListener,
 				false);
 
 		initWidget(rootView);
-		initService();
+
 		return rootView;
 	}
 
 	@Override
 	public void onResume() {
-		initSpeedWarn();
 		super.onResume();
 		changedActivityImage(this.getClass().getName());
-	}
-	
-	private void initService() {
-		iCanbusService = ICanbusService.Stub.asInterface(ServiceManager
-				.getService("canbus"));
-		try {
-			iCanbusService.addCarConfigListener(iCarConfigListener);
-		} catch (RemoteException e) {
-			LogUtils.d(e.toString());
-			e.printStackTrace();
-		}
-	}
-	
-	
-	private void initSpeedWarn() {
-		try {
-			CarConfig carConfig = iCanbusService.getLastCarConfig(getActivity()
-					.getPackageName());
-			if (carConfig != null)
-				handleCarConfigChanged(carConfig);
-			else
-				LogUtils.d("carConfig is null");
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
-		try {
-			iCanbusService.removeCarConfigListener(iCarConfigListener);
-		} catch (RemoteException e) {
-			LogUtils.d(e.toString());
-			e.printStackTrace();
-		}
-
 		handler.removeCallbacks(null);
+
+		super.onDestroy();
 	}
 
 	private void initWidget(View rootView) {
@@ -106,14 +72,20 @@ public class SpeedWarn extends BaseFragment implements OnClickListener,
 		speedAdd.setOnClickListener(this);
 		speedDecre.setOnClickListener(this);
 
-		speedWarnValue = (TextView) rootView
-				.findViewById(R.id.speed_warn_value);
+		speedWarnValue = (TextView) rootView.findViewById(R.id.speed_warn_value);
 		speedWarnUnit = (TextView) rootView.findViewById(R.id.speed_warn_unit);
 
-		speedWarnSwitch = (SwitchButton) rootView
-				.findViewById(R.id.switch_speed_warn);
+        String v1 = getCarSettingsString(this.getActivity().getContentResolver(), "overspeed_warning", "0");
+        int v2 = getCarSettingsInt(this.getActivity().getContentResolver(), "limitative_vehicle", 0);
+
+		speedWarnSwitch = (SwitchButton) rootView.findViewById(R.id.switch_speed_warn);
 //		speedWarnSwitch.setNoNeedAutoFeedback(true);
+		speedWarnSwitch.setChecked("1".equals(v1));
 		speedWarnSwitch.setOnCheckedChangeListener(this);
+
+		setButtonEnabled("1".equals(v1));
+
+		speedWarnValue.setText(String.valueOf(v2 * SPEED_STEP + DEFAULT_SPEED_VALUE));
 		
 	}
 
@@ -124,12 +96,12 @@ public class SpeedWarn extends BaseFragment implements OnClickListener,
 		switch (resId) {
 		case R.id.speed_add:
 			value = getChangeSpeedWarnValue(true);
-			setSpeedWarnValue(value);
+			value = setSpeedWarnValue(value);
 			speedWarnValue.setText(String.valueOf(value));
 			break;
 		case R.id.speed_decre:
 			value = getChangeSpeedWarnValue(false);
-			setSpeedWarnValue(value);
+			value = setSpeedWarnValue(value);
 			speedWarnValue.setText(String.valueOf(value));
 			break;
 		default:
@@ -137,46 +109,15 @@ public class SpeedWarn extends BaseFragment implements OnClickListener,
 		}
 	}
 
-	private static final int MSG_SPEED_WARN = 0x09;
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			if(msg.what == BUTTON_RESTORE) {
 				((CompoundButton) msg.obj).setEnabled(true);
-			} else if(msg.what == MSG_SPEED_WARN) {
-				F70CanbusUtils.getInstance().writeCarConfig(
-						iCanbusService,
-						F70CarSettingCommand.TYPE_SPEEDWARN,
-						(Boolean) msg.obj ? F70CarSettingCommand.OPEN
-								: F70CarSettingCommand.CLOSE);
-			} else
-				handleCarConfigChanged((CarConfig) msg.obj);
+			}
 		}
 	};
-
-	/**
-	 *
-	 */
-	private void handleCarConfigChanged(CarConfig carConfig) {
-		LogUtils.d("getSpeedWarn open: " + carConfig.getStatus15() + ", speedvalue: " + carConfig.getStatus16());
-		
-//		speedWarnSwitch.setOnCheckedChangeListener(null);
-		updateSpeedWarnStatus(carConfig.getStatus15());
-		updateSpeedWarnValue(carConfig.getStatus16());
-//		speedWarnSwitch.setOnCheckedChangeListener(this);
-	}
-
-	private void updateSpeedWarnStatus(int status) {
-		speedWarnSwitch.setChecked(status == F70CarSettingCommand.OPEN ? true
-				: false);
-		setButtonEnabled(status == F70CarSettingCommand.OPEN);
-	}
-	
-	private void updateSpeedWarnValue(int status) {
-		String displaySpeedWarnValue = String.valueOf(status * SPEED_STEP + DEFAULT_SPEED_VALUE);
-		speedWarnValue.setText(displaySpeedWarnValue);
-	}
 
 	private int getChangeSpeedWarnValue(boolean isAdd) {
 		int changeValue = 0;
@@ -199,23 +140,13 @@ public class SpeedWarn extends BaseFragment implements OnClickListener,
 	}
 
 	
-	private void setSpeedWarnValue(int value) {
+	private int setSpeedWarnValue(int value) {
 		value = (value - 30) / SPEED_STEP;
-		F70CanbusUtils.getInstance().writeCarConfig(iCanbusService,
-				F70CarSettingCommand.TYPE_SPEEDWARNVALUE, value);
-			LogUtils.d("speed set value: " + value);
+
+        putCarSettingsString(this.getActivity().getContentResolver(), "limitative_vehicle", String.valueOf(value));
+
+        return value * SPEED_STEP + 30;
 	}
-
-	ICarConfigListener iCarConfigListener = new ICarConfigListener.Stub() {
-
-		@Override
-		public void onReceived(CarConfig carConfig) throws RemoteException {
-				LogUtils.d("updateSpeedWarnStatus:" + carConfig.getStatus2());
-			Message configMessage = Message.obtain();
-			configMessage.obj = carConfig;
-			handler.sendMessage(configMessage);
-		}
-	};
 
 	private void setButtonEnabled(boolean isEnabled) {
 		LogUtils.d("setButtonEnabled: " + isEnabled);
@@ -227,7 +158,8 @@ public class SpeedWarn extends BaseFragment implements OnClickListener,
 	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		Message.obtain(handler, MSG_SPEED_WARN, 0, 0, isChecked).sendToTarget();
+        putCarSettingsString(this.getActivity().getContentResolver(), "overspeed_warning", isChecked ? "1" : "0");
+
 		LogUtils.d("speed set status: ");
 		setButtonEnabled(isChecked);
 
@@ -237,6 +169,65 @@ public class SpeedWarn extends BaseFragment implements OnClickListener,
 		buttonMessage.what = BUTTON_RESTORE;
 		buttonMessage.obj = buttonView;
 		handler.sendMessageDelayed(buttonMessage, BUTTON_LIMIT_SPEED);
+	}
+
+	public static final Uri CONTENT_URI = Uri.parse("content://car_settings/content");
+
+    public static int getCarSettingsInt(ContentResolver cr, String name, int def) {
+        String v = getCarSettingsString(cr, name);
+        if (v != null) {
+            try {
+                return Integer.parseInt(v);
+            } catch (NumberFormatException e) {
+            }
+        }
+        return def;
+    }
+
+	public static String getCarSettingsString(ContentResolver cr, String name) {
+		String[] select = new String[] { "value" };
+		Cursor cursor = cr.query(CONTENT_URI, select, "name=?", new String[]{ name }, null);
+		if (cursor == null)
+			return null;
+		String value = null;
+		if (cursor.moveToFirst()) {
+			value = cursor.getString(0);
+		}
+		cursor.close();
+		return value;
+	}
+
+	public static String getCarSettingsString(ContentResolver cr, String name, String defaultValue) {
+		String[] select = new String[] { "value" };
+		Cursor cursor = cr.query(CONTENT_URI, select, "name=?", new String[]{ name }, null);
+		String value = defaultValue;
+		if (cursor != null) {
+			if (cursor.moveToFirst()) {
+				value = cursor.getString(0);
+			}
+			cursor.close();
+		}
+		return value;
+	}
+
+	private static boolean putCarSettingsString(ContentResolver cr, String name, String value) {
+		String[] select = new String[] { "value" };
+		Cursor cursor = cr.query(CONTENT_URI, select, "name=?", new String[]{ name }, null);
+		if (cursor != null && cursor.moveToFirst()) {
+			if (cursor != null)
+				cursor.close();
+			ContentValues values = new ContentValues();
+			values.put("value", value);
+			cr.update(CONTENT_URI, values, "name=?", new String[]{ name });
+		} else {
+			if (cursor != null)
+				cursor.close();
+			ContentValues values = new ContentValues();
+			values.put("name", name);
+			values.put("value", value);
+			cr.insert(CONTENT_URI, values);
+		}
+		return true;
 	}
 
 }

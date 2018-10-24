@@ -67,14 +67,15 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/setting_titletext" />
 
-        <TextView
+         <TextView
             android:id="@+id/warn_contact_name"
-            android:layout_width="@dimen/setting_title"
+            android:layout_width="@dimen/setting_title_emergency"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/title_interval_text"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:gravity="center"
+            android:singleLine="true"
+            android:gravity="right|center_vertical"
             android:textColor="@android:color/white"
             android:textSize="@dimen/setting_titletext" />
     </RelativeLayout>

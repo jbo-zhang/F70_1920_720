@@ -9,9 +9,9 @@ import com.hwatong.settings.R;
 import com.hwatong.settings.widget.SwitchButton;
 
 import android.app.Fragment;
-import android.canbus.CarConfig;
+import android.canbus.ServiceStatus;
 import android.canbus.ICanbusService;
-import android.canbus.ICarConfigListener;
+import android.canbus.IServiceStatusListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,6 +28,10 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
+import android.net.Uri;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.database.Cursor;
 
 /**
  * 
@@ -55,7 +59,6 @@ public class KeepFitTips extends BaseFragment implements OnCheckedChangeListener
 
 	@Override
 	public void onResume() {
-		initKeepFitStatus();
 		super.onResume();
 		
 		changedActivityImage(this.getClass().getName());
@@ -65,7 +68,7 @@ public class KeepFitTips extends BaseFragment implements OnCheckedChangeListener
 	public void onDestroy() {
 		super.onDestroy();
 		try {
-			iCanbusService.removeCarConfigListener(mICarConfigListener);
+			iCanbusService.removeServiceStatusListener(mIServiceStatusListener);
 		} catch (RemoteException e) {
 			LogUtils.d(e.toString());
 			e.printStackTrace();
@@ -78,25 +81,14 @@ public class KeepFitTips extends BaseFragment implements OnCheckedChangeListener
 		iCanbusService = ICanbusService.Stub.asInterface(ServiceManager
 				.getService("canbus"));
 		try {
-			iCanbusService.addCarConfigListener(mICarConfigListener);
+			iCanbusService.addServiceStatusListener(mIServiceStatusListener);
 		} catch (RemoteException e) {
 			LogUtils.d(e.toString());
 			e.printStackTrace();
 		}
-	}
-	
 
-	private void initKeepFitStatus() {
-		try {
-			CarConfig carConfig = iCanbusService.getLastCarConfig(getActivity()
-					.getPackageName());
-			if (carConfig != null)
-				handleCarConfigChanged(carConfig);
-			else
-				LogUtils.d("carConfig is null");
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+		Message m = Message.obtain(handler, 0);
+		handler.sendMessage(m);
 	}
 
 	private void initWidget(View rootView) {
@@ -128,39 +120,23 @@ public class KeepFitTips extends BaseFragment implements OnCheckedChangeListener
 	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		Message.obtain(handler, MSG_KEEPFIT, 0, 0, isChecked).sendToTarget();
+        putCarSettingsString(this.getActivity().getContentResolver(), "maintenance_remind", isChecked ? "1" : "0");
 		setTextEnabled(isChecked);
 	}
-
-	private static final int MSG_KEEPFIT = 0x08;
-	private Handler handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			if(msg.what == MSG_KEEPFIT) {
-				F70CanbusUtils.getInstance().writeCarConfig(
-						iCanbusService,
-						F70CarSettingCommand.TYPE_KEEPFIT,
-						(Boolean) msg.obj ? F70CarSettingCommand.OPEN
-								: F70CarSettingCommand.CLOSE);
-			} else
-				handleCarConfigChanged((CarConfig) msg.obj);
-		}
-	};
 
 	/**
 	 *
 	 */
-	private void handleCarConfigChanged(CarConfig carConfig) {
-		LogUtils.d("KeepFitSwitchStatus: " + carConfig.getStatus17() + ", KeepFitDistance: " + carConfig.getStatus20() + ", NextCheck: " + carConfig.getNextCheck());
+	private void handleServiceStatusChanged(ServiceStatus status) {
+		LogUtils.d("KeepFitSwitchStatus: " + status.getStatus3() + ", KeepFitDistance: " + status.getStatus1() + ", NextCheck: " + status.getStatus2());
 		
-		updateNextDistanceStatus(carConfig.getStatus20());
+		updateNextDistanceStatus(status.getStatus1());
 		
-		updateKeepFitDistance2Status(carConfig.getNextCheck());
+		updateKeepFitDistance2Status(status.getStatus2());
 		
 		keepFitSwitch.setOnCheckedChangeListener(null);
 		
-//		updateKeepFitSwitchStstaus(carConfig.getStatus17());
+//		updateKeepFitSwitchStstaus(carConfig.getStatus1());
 //		keepFitSwitch.setOnCheckedChangeListener(this);
 		
 	}
@@ -203,9 +179,6 @@ public class KeepFitTips extends BaseFragment implements OnCheckedChangeListener
 
 			@Override
 			public void onClick(View arg0) {
-				F70CanbusUtils.getInstance().writeCarConfig(
-						iCanbusService,
-						F70CarSettingCommand.TYPE_KEEPFIT_RESET,F70CarSettingCommand.OPEN);
 				dialog.dismiss();
 			}
 		});
@@ -213,6 +186,11 @@ public class KeepFitTips extends BaseFragment implements OnCheckedChangeListener
 
 			@Override
 			public void onClick(View arg0) {
+				try{
+					iCanbusService.writeCarConfig(F70CarSettingCommand.TYPE_KEEPFIT_RESET,F70CarSettingCommand.OPEN);
+				}catch(Exception e){
+					e.printStackTrace();	
+				}
 				dialog.dismiss();
 			}
 		});
@@ -220,14 +198,53 @@ public class KeepFitTips extends BaseFragment implements OnCheckedChangeListener
 		dialog.show();
 	}
 
-	ICarConfigListener mICarConfigListener = new ICarConfigListener.Stub() {
-
+	private final Handler handler = new Handler() {
 		@Override
-		public void onReceived(CarConfig carConfig) throws RemoteException {
-			Message configMessage = Message.obtain();
-			configMessage.obj = carConfig;
-			handler.sendMessage(configMessage);
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+
+    		ServiceStatus status = null;
+
+    		try {
+    			status = iCanbusService.getLastServiceStatus(KeepFitTips.this.getActivity().getPackageName());
+    		} catch (RemoteException e) {
+    			e.printStackTrace();
+    			status = null;
+    		}
+
+            if (status != null)
+			    handleServiceStatusChanged(status);
 		}
 	};
+
+	private final IServiceStatusListener mIServiceStatusListener = new IServiceStatusListener.Stub() {
+		@Override
+		public void onReceived(ServiceStatus status) {
+			Message m = Message.obtain(handler, 0);
+			handler.sendMessage(m);
+		}
+	};
+
+	public static final Uri CONTENT_URI = Uri.parse("content://car_settings/content");
+
+	private static boolean putCarSettingsString(ContentResolver cr, String name, String value) {
+		String[] select = new String[] { "value" };
+		Cursor cursor = cr.query(CONTENT_URI, select, "name=?", new String[]{ name }, null);
+		if (cursor != null && cursor.moveToFirst()) {
+			if (cursor != null)
+				cursor.close();
+			ContentValues values = new ContentValues();
+			values.put("value", value);
+			cr.update(CONTENT_URI, values, "name=?", new String[]{ name });
+		} else {
+			if (cursor != null)
+				cursor.close();
+			ContentValues values = new ContentValues();
+			values.put("name", name);
+			values.put("value", value);
+			cr.insert(CONTENT_URI, values);
+		}
+		return true;
+	}
 
 }

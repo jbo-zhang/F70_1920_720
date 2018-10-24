@@ -33,7 +33,7 @@ public class F70CarSettingCommand {
 	
 	public static final int TYPE_SPEEDWARNVALUE = 14;
 	public static final int TYPE_KEEPFIT = 15;
-	public static final int TYPE_KEEPFIT_RESET = 15;
+	public static final int TYPE_KEEPFIT_RESET = 16;
 	
 	public static final int TYPE_FAULTREMIND = 0x14;
 	public static final int TYPE_ARRIVETRACK = 0x15;

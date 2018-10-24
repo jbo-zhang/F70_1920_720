@@ -79,6 +79,7 @@
     <dimen name="setting_titletext">19sp</dimen>
     <dimen name="timeset_text">22sp</dimen>
     <dimen name="setting_title">200dip</dimen>
+	<dimen name="setting_title_emergency">500dip</dimen>
     <dimen name="setting_title_checkbox">680dip</dimen>
     
     <!-- bluetooth setting -->

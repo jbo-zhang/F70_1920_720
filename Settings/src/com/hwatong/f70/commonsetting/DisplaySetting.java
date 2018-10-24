@@ -4,21 +4,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import com.hwatong.f70.baseview.BaseFragment;
-import com.hwatong.f70.carsetting.F70CarSettingCommand;
-import com.hwatong.f70.main.ConfigrationVersion;
-import com.hwatong.f70.main.F70CanbusUtils;
-import com.hwatong.f70.main.LogUtils;
-import com.hwatong.providers.carsettings.SettingsProvider;
-import com.hwatong.settings.R;
-import com.hwatong.settings.Utils;
-
-import android.app.Fragment;
 import android.canbus.CarConfig;
 import android.canbus.CarStatus;
 import android.canbus.ICanbusService;
 import android.canbus.ICarConfigListener;
 import android.canbus.ICarStatusListener;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -30,18 +24,28 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
+import com.hwatong.f70.baseview.BaseFragment;
+import com.hwatong.f70.carsetting.F70CarSettingCommand;
+import com.hwatong.f70.main.ConfigrationVersion;
+import com.hwatong.f70.main.F70CanbusUtils;
+import com.hwatong.f70.main.LogUtils;
+import com.hwatong.providers.carsettings.SettingsProvider;
+import com.hwatong.settings.R;
+import com.hwatong.settings.Utils;
 
 public class DisplaySetting extends BaseFragment implements OnTouchListener,
 		OnClickListener {
 
+	/**
+	 * ’˚≥µ¡¡∂»£®“—∑œ∆˙£©£¨√ΩÃÂ¡¡∂»£®º¥∆¡ƒª¡¡∂»£©£¨“«±Ì¡¡∂»
+	 */
 	private SeekBar wholeCarLight, mediaLight, dashboardLight;
 	private RelativeLayout mediaLightAdd, mediaLightDrcre, dashboardLightAdd,
 			dashboardLightDecre;
@@ -455,14 +459,14 @@ public class DisplaySetting extends BaseFragment implements OnTouchListener,
 		mediaLightText.setText("" + value);
 	}
 	
-	private String getCurrentMediaType() {
-		int type = 0;
+	private int getLightStatus(){
+		int status = 0;
 		if(iCanbusService != null) {
 			try {
 				CarStatus carStatus = iCanbusService.getLastCarStatus(getActivity().getPackageName());
 				if(carStatus != null) {
-					type = carStatus.getStatus3();
-					LogUtils.d("get iCanbusService type:" + type);
+					status = carStatus.getStatus3();
+					LogUtils.d("get iCanbusService light status :" + status);
 				}
 				else
 					LogUtils.d("carStatus is null");
@@ -470,6 +474,11 @@ public class DisplaySetting extends BaseFragment implements OnTouchListener,
 				e.printStackTrace();
 			}
 		}
+		return status;
+	}
+	
+	private String getCurrentMediaType() {
+		int type = getLightStatus();
 		return type == 0 ? SettingsProvider.SCREEN_BRIGHTNESS : SettingsProvider.DIMMING_BRIGHTNESS;
 	}
 
@@ -519,6 +528,11 @@ public class DisplaySetting extends BaseFragment implements OnTouchListener,
 	private void setDashboardLight(int value) {
 //		value += 3;
 		LogUtils.d("setDashboardLight: " + value);
+		if(getLightStatus() == 0){ //light off
+			putCarSettingsString(getActivity().getContentResolver(), "ipc_brightness", value+"");
+		}else{//light on
+			putCarSettingsString(getActivity().getContentResolver(), "ipc_dimming_brightness", value+"");
+		}
 			if (iCanbusService != null)
 //				iCanbusService.writeMHU12(
 //						F70CarSettingCommand.TYPE_DASHBOARDLIGHT, value);
@@ -591,7 +605,7 @@ public class DisplaySetting extends BaseFragment implements OnTouchListener,
 			LogUtils.d("iCarConfigListener wholecarlight:"
 					+ carConfig.getStatus8() + " 14: " + carConfig.getStatus14() + dashboardLight.getProgress());
 			
-			//ÂæóÂà∞ÂèçÈ¶à‰∏çÂ§ÑÁêÜÔºåÂ¶ÇÊûú‰∏éÁïåÈù¢‰∏çÁ¨¶ÔºåÈªòÈªòÂêéÂè∞ÂÜçÂèë‰∏ÄÊ¨°(ÈúÄË¶ÅÊ≥®ÊÑèÈ°∫Â∫èÔºåÂÖàÂà†Èô§)
+			//µ√µΩ∑¥¿°≤ª¥¶¿Ì£¨»Áπ˚”ÎΩÁ√Ê≤ª∑˚£¨ƒ¨ƒ¨∫ÛÃ®‘Ÿ∑¢“ª¥Œ(–Ë“™◊¢“‚À≥–Ú£¨œ»…æ≥˝)
 //			int dashboardLightValue = carConfig.getStatus14();
 //			if(dashboardLightValue != dashboardLight.getProgress()) {
 //				//setDashboardLight(dashboardLight.getProgress());
@@ -615,5 +629,72 @@ public class DisplaySetting extends BaseFragment implements OnTouchListener,
 			wholeCarLightHandler.sendMessage(msg);
 		}
 	};
+	
+	
+	public static final Uri CONTENT_URI = Uri.parse("content://car_settings/content");
+
+    public static int getCarSettingsInt(ContentResolver cr, String name, int def) {
+        String v = getCarSettingsString(cr, name);
+        if (v != null) {
+            try {
+                return Integer.parseInt(v);
+            } catch (NumberFormatException e) {
+            }
+        }
+        return def;
+    }
+
+	public static String getCarSettingsString(ContentResolver cr, String name) {
+		String[] select = new String[] { "value" };
+		Cursor cursor = cr.query(CONTENT_URI, select, "name=?", new String[]{ name }, null);
+		if (cursor == null)
+			return null;
+		String value = null;
+		if (cursor.moveToFirst()) {
+			value = cursor.getString(0);
+		}
+		cursor.close();
+		return value;
+	}
+
+	public static String getCarSettingsString(ContentResolver cr, String name, String defaultValue) {
+		String[] select = new String[] { "value" };
+		Cursor cursor = cr.query(CONTENT_URI, select, "name=?", new String[]{ name }, null);
+		String value = defaultValue;
+		if (cursor != null) {
+			if (cursor.moveToFirst()) {
+				value = cursor.getString(0);
+			}
+			cursor.close();
+		}
+		return value;
+	}
+
+	private static boolean putCarSettingsString(ContentResolver cr, String name, String value) {
+		String[] select = new String[] { "value" };
+		Cursor cursor = cr.query(CONTENT_URI, select, "name=?", new String[]{ name }, null);
+		if (cursor != null && cursor.moveToFirst()) {
+			if (cursor != null)
+				cursor.close();
+			ContentValues values = new ContentValues();
+			values.put("value", value);
+			cr.update(CONTENT_URI, values, "name=?", new String[]{ name });
+		} else {
+			if (cursor != null)
+				cursor.close();
+			ContentValues values = new ContentValues();
+			values.put("name", name);
+			values.put("value", value);
+			cr.insert(CONTENT_URI, values);
+		}
+		return true;
+	}
+
+	
+	
+	
+	
+	
+	
 
 }

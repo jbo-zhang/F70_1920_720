@@ -128,7 +128,7 @@ public class SefetySetting extends BaseFragment {
 			LogUtils.d("onContacts name : " + name + ", phone: " + phone);
 			Message msg = Message.obtain();
 			msg.what = UPDATE_CONTACT;
-			msg.obj = name;
+			msg.obj = name + " : " + phone;
 			handler.sendMessage(msg);
 		}
 

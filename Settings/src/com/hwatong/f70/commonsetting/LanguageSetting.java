@@ -5,6 +5,7 @@ import java.util.Locale;
 import android.canbus.ICanbusService;
 import android.os.Bundle;
 import android.os.ServiceManager;
+import android.os.FileUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,6 +111,12 @@ public class LanguageSetting extends BaseFragment implements
 		switch (resId) {
 		case R.id.chinese:
 			Log.d("LanguageSetting", "onCheckedChanged Chinese!");
+		    try{
+			    FileUtils.stringToFile("/device/local", String.valueOf(F70CarSettingCommand.CHINESE));//save language
+                FileUtils.setPermissions("/device/local", 0666, -1, -1); // -rw-rw-rw-
+		    }catch(Exception e){
+		        Log.e("LanguageSetting","Faild to savd local:"+e.getMessage());
+		    }
 			F70CanbusUtils.getInstance().writeCarConfig(iCanbusService,
 					F70CarSettingCommand.TYPE_LANGUAGE,
 					F70CarSettingCommand.CHINESE);
@@ -117,6 +124,12 @@ public class LanguageSetting extends BaseFragment implements
 			break;
 		case R.id.english:
 			Log.d("LanguageSetting", "onCheckedChanged English!");
+		    try{
+			    FileUtils.stringToFile("/device/local", String.valueOf(F70CarSettingCommand.ENGLISH));//save language
+                FileUtils.setPermissions("/device/local", 0666, -1, -1); // -rw-rw-rw-
+		    }catch(Exception e){
+		        Log.e("LanguageSetting","Faild to savd local:"+e.getMessage());
+		    }
 			F70CanbusUtils.getInstance().writeCarConfig(iCanbusService,
 					F70CarSettingCommand.TYPE_LANGUAGE,
 					F70CarSettingCommand.ENGLISH);
