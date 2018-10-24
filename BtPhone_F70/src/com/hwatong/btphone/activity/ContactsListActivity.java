@@ -459,7 +459,7 @@ public class ContactsListActivity extends BaseActivity {
 //			showKeyBoard();
 			
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);  
-			imm.showSoftInput(etSearch,InputMethodManager.SHOW_FORCED); 
+			imm.showSoftInput(etSearch,0); 
 			
 			break;
 		default:
